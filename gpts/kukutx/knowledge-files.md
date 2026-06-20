@@ -12,38 +12,26 @@ gpts/kukutx/knowledge-pack.md
 
 This is the fastest setup and should be enough for routing and common workflows.
 
-## Recommended setup: 10 files
-
-Upload these files to the Private GPT or `kukutx` Project:
+## Recommended setup
 
 ```txt
 README.md
 skills/README.md
 docs/personal-defaults.md
-docs/western-market-guidelines.md
 docs/workflow-recipes.md
 skills/meta/skill-router/skill.md
 skills/meta/prompt-optimizer/skill.md
 skills/meta/skill-builder/skill.md
 skills/creative/image-prompt-director/skill.md
 skills/design/image-review-refiner/skill.md
-```
-
-## Full practical setup: up to 20 files
-
-Add these high-frequency skill files:
-
-```txt
 skills/creative/xtool-f1-engraving/skill.md
-skills/creative/ip-safe-creative-adapter/skill.md
 skills/product/prd-builder/skill.md
 skills/development/technical-design/skill.md
 skills/development/implementation-plan/skill.md
-skills/development/code-review/skill.md
-skills/development/bug-diagnosis/skill.md
 skills/ecommerce/shopify-dev/skill.md
 skills/writing/app-store-copy/skill.md
 skills/design/app-store-assets/skill.md
+skills/marketing/product-positioning/skill.md
 ```
 
 ## What not to upload initially
