@@ -27,6 +27,7 @@ superskills/
     ├── research/
     ├── product/
     ├── development/
+    │   └── game-dev-spritesheet-slicer/
     ├── creative/
     │   ├── xtool-f1-engraving/
     │   └── image-prompt-director/
@@ -51,6 +52,7 @@ superskills/
 | `development/bug-diagnosis` | Bug 诊断 |
 | `development/technical-design` | 技术方案设计 |
 | `development/implementation-plan` | 实施计划 |
+| `development/game-dev-spritesheet-slicer` | 像素风游戏角色资产与 spritesheet 切图工作流 |
 | `creative/xtool-f1-engraving` | xTool F1 雕刻图案方案 |
 | `creative/image-prompt-director` | 图片生成提示词 |
 | `design/app-store-assets` | App Store / Google Play 素材方向 |
