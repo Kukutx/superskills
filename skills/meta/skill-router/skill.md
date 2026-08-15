@@ -20,20 +20,20 @@ Choose one primary skill first. Add a secondary skill only when it contributes a
 | Intent | Skill |
 | --- | --- |
 | prompt/template itself | `meta/prompt-optimizer` |
-| create/audit a skill | `meta/skill-builder` |
-| project roadmap | `planning/project-planner` |
-| research/comparison | `research/research-brief` |
-| PRD/MVP | `product/prd-builder` |
-| general bug | `development/bug-diagnosis` |
-| general code/diff review | `development/code-review` |
-| general technical design | `development/technical-design` |
-| general implementation plan | `development/implementation-plan` |
+| create/audit/simplify a skill | `meta/skill-builder` |
+| cross-workstream project roadmap | `planning/project-planner` |
+| research/comparison/current evidence | `research/research-brief` |
+| PRD/MVP/product behavior | `product/prd-builder` |
+| general observed software bug | `development/bug-diagnosis` |
+| general code/diff/PR review | `development/code-review` |
+| unresolved software architecture/interfaces | `development/technical-design` |
+| decided software direction -> file/task breakdown | `development/implementation-plan` |
 | Godot 2D / pixel game | `development/godot-2d-game-development` |
-| spritesheet/animation-strip production | `development/game-dev-spritesheet-slicer` |
+| spritesheet/animation-strip generation or packaging | `development/game-dev-spritesheet-slicer` |
 | image-generation direction/prompt | `creative/image-prompt-director` |
 | xTool F1 | `creative/xtool-f1-engraving` |
 | App Store / Play visuals | `design/app-store-assets` |
-| image refinement | `design/image-review-refiner` |
+| existing image refinement | `design/image-review-refiner` |
 | Shopify | `ecommerce/shopify-dev` |
 | positioning/messaging | `marketing/product-positioning` |
 | business email | `writing/business-email` |
@@ -41,12 +41,44 @@ Choose one primary skill first. Add a secondary skill only when it contributes a
 | generic release readiness | `operations/release-checklist` |
 | SOP/repeated process | `operations/sop-builder` |
 
+## Important boundaries
+
+### Project planner vs technical design vs implementation plan
+
+```text
+broad goal + several workstreams + sequencing
+-> project-planner
+
+software ownership/data/interface/architecture still undecided
+-> technical-design
+
+behavior + architecture already decided, need files/tasks/tests
+-> implementation-plan
+```
+
+Do not load all three for a normal software task.
+
+### Bug diagnosis vs code review
+
+```text
+observed failure: "why is this broken?"
+-> bug-diagnosis
+
+inspect code/diff for defects/risks
+-> code-review
+```
+
+A bug may later need code review, but review is not a substitute for reproduction/diagnosis.
+
 ## Precedence examples
 
 - Godot UI bug -> Godot skill, not generic bug + generic design.
-- Shopify theme bug -> Shopify skill; use bug-diagnosis only if general debugging methodology is additionally useful.
+- Shopify theme bug -> Shopify skill; generic bug-diagnosis only if its debugging method adds distinct value.
 - Godot gameplay + spritesheet -> Godot primary, slicer only for the asset subtask.
 - App Store screenshot artwork + copy -> app-store-assets primary, app-store-copy secondary.
+- “Design the data model/API ownership” -> technical-design.
+- “Architecture is approved; tell me exactly which files/tasks to change” -> implementation-plan.
+- “Plan the whole app from validation through launch” -> project-planner.
 - User asks “do X” -> execute X; do not route through prompt-optimizer unless they asked for a prompt.
 
 ## Restraint
