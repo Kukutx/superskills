@@ -162,7 +162,8 @@ def main() -> int:
                 errors.append(f"{md.relative_to(ROOT)}: maintenance route references missing skill {route}")
 
     # Check explicit Markdown paths written in runtime skill/reference files.
-    runtime_files = list(skill_files) + list(SKILLS.glob("*/*/references/*.md"))
+    reference_files = list(SKILLS.glob("*/*/references/*.md"))
+    runtime_files = list(skill_files) + reference_files
     for md in runtime_files:
         text = md.read_text(encoding="utf-8")
         for raw in MD_PATH_RE.findall(text):
@@ -178,6 +179,15 @@ def main() -> int:
                 continue
             if not target.exists():
                 errors.append(f"{md.relative_to(ROOT)}: broken Markdown path {raw}")
+
+    # A bare `foo.md` inside a runtime reference means a sibling reference file.
+    # Validate it so ownership moves cannot leave silent semantic dead links.
+    for md in reference_files:
+        text = md.read_text(encoding="utf-8")
+        for raw in BARE_MD_RE.findall(text):
+            target = md.parent / raw
+            if not target.exists():
+                errors.append(f"{md.relative_to(ROOT)}: broken sibling Markdown reference {raw}")
 
     if warnings:
         print("superskills validation advisories:\n")
