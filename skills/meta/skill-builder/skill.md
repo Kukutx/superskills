@@ -20,7 +20,7 @@ Do not create one for a one-off prompt, generic global behavior, a renamed dupli
 5. Add `references/` only for task-dependent depth with a clear decision boundary.
 6. When splitting, **move ownership rather than copy it**.
 7. Ensure every runtime reference is discoverable from `skill.md` and keep references one directory level deep.
-8. Use `maintenance/behavioral-evals.md` for real routing/ownership regressions and `sources.md` only for substantial source inventories.
+8. Use `behavioral-evals.md` under maintenance/ for real routing/ownership regressions and `sources.md` only for substantial source inventories.
 9. Do not create changelog files; Git stores history. Use `decisions.md` only when current design rationale is genuinely needed.
 10. Update the global Router only when task selection changes.
 11. Run `python tools/validate_repo.py` and fix structural/orphan/stale-route failures.
