@@ -2,7 +2,7 @@
 
 用于 Godot export presets、clean build、CI、toolchain pinning、artifacts、platform credentials 与发布前 smoke validation。
 
-普通 runtime bug/test 见 `verification-testing.md`；性能问题见 `performance.md`。
+普通 runtime bug/test 见 `verification-testing.md`。性能诊断属于匹配的维度 owner：2D 见 `../../godot-2d-game-development/references/performance.md`；3D 见 `../../godot-3d-game-development/references/rendering-lighting-world.md`。Release 只负责把需要的性能门槛纳入发布验证，不重复维护性能规则。
 
 ## Pin the toolchain
 
