@@ -1,6 +1,6 @@
 ---
 name: godot-2d-game-development
-description: Godot 4.x 2D/pixel-game production router. Use for architecture, movement/physics/camera, input, TileMapLayer worlds, animation, combat, game feel, VFX, UI, audio, AI, save/dialogue, assets, verification, performance and export. Load only the focused references needed.
+description: Godot 4.x 2D/pixel-game production router. Use for architecture, movement/physics/camera, input, TileMapLayer worlds, runtime animation, combat, game feel, VFX, UI, audio, AI, save/dialogue, assets, verification, performance and export. Load only the focused references needed.
 ---
 
 # Godot 2D Game Development
@@ -41,7 +41,9 @@ Examples:
 
 - one swing deals damage three times -> `combat-system.md`
 - damage is correct but hit feels weak -> `game-feel.md`
-- attack pose and active window disagree -> `combat-system.md` + `animation-pixel.md`
+- existing attack frames play at wrong timing / active window disagrees -> `animation-pixel.md` + `combat-system.md`
+- need to generate/slice/package a new attack strip -> `../game-dev-spritesheet-slicer/skill.md`
+- authored `.aseprite` metadata must survive Godot import -> `asset-pipeline.md` + slicer packaging only if geometry/export work is needed
 - gamepad cannot navigate pause menu -> `ui-ux.md` + input reference if needed
 - particles cause frame drops -> profile first, then `performance.md` + rendering/VFX if needed
 
@@ -53,7 +55,7 @@ Examples:
 | CharacterBody2D, movement, physics, jump/dash, Camera2D | `references/movement-physics-camera.md` |
 | InputMap, keyboard/gamepad/touch, remap, device switching, accessibility | `references/input-controls-accessibility.md` |
 | TileMapLayer, terrain/world layout, y-sort, collision, level design | `references/world-tilemap-level-design.md` |
-| AnimatedSprite2D, AnimationPlayer/Tree, pixel timing | `references/animation-pixel.md` |
+| Godot runtime animation, AnimationPlayer/Tree, Tween, pixel timing | `references/animation-pixel.md` |
 | hitbox/hurtbox, damage, i-frame, combo/cancel | `references/combat-system.md` |
 | hit-stop, shake, flash, recoil, squash, impact feedback | `references/game-feel.md` |
 | particles, CanvasItem shaders, 2D lighting/effects | `references/rendering-vfx-shaders.md` |
@@ -62,11 +64,11 @@ Examples:
 | enemy AI, NavigationAgent2D, behavior complexity, procedural generation | `references/ai-navigation-procedural.md` |
 | inventory, stable IDs, save/load, migration, progression/settings | `references/save-inventory-progression.md` |
 | branching dialogue, conditions/effects, localization | `references/dialogue-localization.md` |
-| sprite/FX/map/tiles/UI production and Godot handoff | `references/asset-pipeline.md` |
+| editable asset source, import, FX/map/tiles/UI handoff | `references/asset-pipeline.md` |
 | reproduce/debug/test/runtime evidence | `references/verification-testing.md` |
 | profiling, frame-time, memory and measured optimization | `references/performance.md` |
 | export presets, clean CI, toolchain pinning, artifacts | `references/release-export-ci.md` |
-| exact spritesheet geometry/slicing/naming | `../game-dev-spritesheet-slicer/skill.md` |
+| sprite-strip generation, exact frame geometry, slicing, timing metadata, naming/packing | `../game-dev-spritesheet-slicer/skill.md` |
 
 Maintenance-only material lives in `maintenance/` and should not be loaded for normal game tasks.
 
@@ -98,11 +100,22 @@ Avoid two systems writing the same truth.
 
 When timing must match, share an explicit event/timeline rather than independent timers guessing the same moment. Animation can author visual timing; combat/state still owns whether damage/action is valid.
 
-### 4. Polish after correctness
+### 4. Keep asset production and runtime integration separate
+
+```text
+editable/generated source
+-> deterministic asset production/package
+-> Godot import
+-> runtime animation/gameplay integration
+```
+
+Do not patch bad spritesheet geometry with runtime magic offsets when the production asset contract itself is wrong.
+
+### 5. Polish after correctness
 
 Do not use hit-stop/shake/VFX to hide bad combat timing or unreadable telegraphs.
 
-### 5. Validate the claim
+### 6. Validate the claim
 
 ```text
 inspect
