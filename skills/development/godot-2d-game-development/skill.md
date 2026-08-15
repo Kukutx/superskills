@@ -7,7 +7,7 @@ description: Godot 4.x 2D game-development router and execution guide. Use for 2
 
 ## Status
 
-- Version: v0.3
+- Version: v0.4
 - Category: `development`
 - Maturity: `production-oriented`
 - Owner: `Kukutx`
@@ -28,19 +28,64 @@ description: Godot 4.x 2D game-development router and execution guide. Use for 2
 
 不要为了“专业”提前堆框架；不要把表现层当玩法真源。
 
+## Scope boundary
+
+这个 Skill 主要负责 **Godot 2D 实现与生产工作流**。
+
+优先使用它：
+
+- Godot 2D / pixel-art gameplay；
+- CharacterBody2D / Area2D / TileMapLayer / Camera2D；
+- 2D animation、combat、UI、VFX、audio、AI、save、assets；
+- 2D runtime debugging、testing、export。
+
+不要强行使用它：
+
+- Godot 3D / third-person / 3D rendering；
+- networking / multiplayer protocol / authoritative server architecture 作为主要问题；
+- 与 Godot 无关的通用 backend/frontend 工程；
+- 纯插画、纯叙事写作、纯游戏策划且没有实现任务。
+
+如果任务同时包含这些领域，只让本 Skill 处理 **Godot 2D 那一部分**。
+
 ## First rule: inspect before changing
 
 现有项目先确认：
 
-- `project.godot` 与实际 Godot 版本。
-- GDScript / C#；不要擅自换语言。
-- scene tree、autoload、Resource、signal 使用方式。
-- Input Map、collision layers/masks。
-- animation、sprites、tiles、Theme、audio buses、shaders。
-- 已安装 addons / MCP / test framework。
+- `project.godot` 与实际 Godot 版本；
+- GDScript / C#；不要擅自换语言；
+- scene tree、autoload、Resource、signal 使用方式；
+- Input Map、collision layers/masks；
+- animation、sprites、tiles、Theme、audio buses、shaders；
+- 已安装 addons / MCP / test framework；
 - 当前任务最小修改范围。
 
 沿用合理结构。只有现状确实阻碍当前任务时才建议调整。
+
+## Routing precedence
+
+跨多个领域时，不要把所有匹配 reference 一次加载。
+
+先判断用户真正的问题属于哪一层：
+
+```text
+1. correctness / gameplay truth
+2. control / input / interaction
+3. presentation synchronization
+4. feel / polish
+5. measured performance
+6. release / CI
+```
+
+例子：
+
+- “一刀扣三次血” -> `combat-system`，不是 `game-feel`。
+- “伤害正确但没重量” -> `game-feel`，不重写 combat。
+- “攻击动画第 4 帧和 hitbox 不同步” -> `combat-system` + `animation-pixel`。
+- “菜单手柄无法操作” -> `ui-ux` + 必要时 `input-controls-accessibility`。
+- “粒子很多掉帧” -> 先 `performance-testing-debugging`，再按 profile 加 `rendering-vfx-shaders`。
+
+规则：**先加载一个 primary reference；只有 primary 无法完整处理时，再增加 1–2 个 secondary references。**
 
 ## Progressive disclosure
 
@@ -70,7 +115,7 @@ description: Godot 4.x 2D game-development router and execution guide. Use for 2
 | routing regression tests | `references/quality-tests.md` |
 | spritesheet geometry/slicing/naming | `../game-dev-spritesheet-slicer/skill.md` |
 
-Compatibility indexes remain for older prompts:
+Compatibility indexes exist only for older prompts and should not be auto-loaded:
 
 - `references/movement-input-camera.md`
 - `references/combat-game-feel.md`
@@ -84,19 +129,19 @@ Compatibility indexes remain for older prompts:
 ```text
 movement-physics-camera
 + input-controls-accessibility   # only when controls/device/remap matter
-+ animation-pixel               # when presentation is included
++ animation-pixel               # only when presentation is included
 ```
 
-### Combat bug
+### Combat correctness
 
 ```text
 combat-system
-+ animation-pixel                # if timing/window related
++ animation-pixel                # only if timing/window sync is involved
 ```
 
-Do **not** load game-feel just because the task contains the word “attack”.
+Do **not** load `game-feel` just because the task contains the word “attack”.
 
-### “Combat works but feels weak”
+### Combat works but feels weak
 
 ```text
 game-feel
@@ -110,22 +155,22 @@ Do not rewrite damage architecture unless evidence shows it is wrong.
 
 ```text
 asset-pipeline
-+ animation-pixel
-+ game-dev-spritesheet-slicer when exact sheet geometry is needed
++ animation-pixel                # animated asset only
++ game-dev-spritesheet-slicer    # exact sheet geometry only
 ```
 
 ### HUD / menus / controls
 
 ```text
 ui-ux
-+ input-controls-accessibility when keyboard/gamepad/touch/remap matters
++ input-controls-accessibility   # keyboard/gamepad/touch/remap only
 ```
 
 ### Enemy AI
 
 ```text
 ai-navigation-procedural
-+ core-architecture only if state ownership needs work
++ core-architecture              # only if state ownership needs work
 ```
 
 ### Save / inventory
@@ -134,20 +179,20 @@ ai-navigation-procedural
 save-inventory-progression
 ```
 
-Add `dialogue-localization` only if dialogue/translated content depends on those flags/items.
+Add `dialogue-localization` only if dialogue/translated content actually depends on those flags/items.
 
 ### Release / CI
 
 ```text
 release-export-ci
-+ performance-testing-debugging if tests/smoke checks are part of the pipeline
++ performance-testing-debugging  # only if tests/smoke checks are part of the pipeline
 ```
 
-### Agentic visual/runtime iteration
+### Agentic runtime iteration
 
 ```text
 runtime-agent-validation
-+ the domain reference being changed
++ the one domain reference being changed
 ```
 
 ## Core execution workflow
@@ -191,13 +236,13 @@ input/event
 
 需要同步的东西共用明确事件或时间线：
 
-- animation/frame event
-- hitbox active window
-- projectile spawn
-- SFX
-- particles/shader
-- camera feedback
-- HUD feedback
+- animation/frame event；
+- hitbox active window；
+- projectile spawn；
+- SFX；
+- particles/shader；
+- camera feedback；
+- HUD feedback。
 
 不要多个独立 timer 猜同一个时刻。
 
@@ -222,7 +267,8 @@ sound/readability
 inspect
 -> edit
 -> run
--> observe errors + behavior + screenshot/input where available
+-> exercise the changed behavior
+-> observe errors + behavior + screenshot/input where useful
 -> fix
 -> repeat
 ```
@@ -233,15 +279,15 @@ inspect
 
 默认选择，不是强制框架：
 
-- `CharacterBody2D`: 主动角色运动。
-- `Area2D`: hitbox/hurtbox/trigger/pickup/detection。
-- `Resource`: definitions/config/content data。
-- `AnimatedSprite2D`: 纯逐帧动画。
-- `AnimationPlayer`: property/method/SFX/hitbox timeline。
-- `AnimationTree`: blending/transition 复杂度真正需要时。
-- `Tween`: 短暂、动态、可中断的视觉/UI反馈。
-- `Control` + `Container` + `Theme`: UI。
-- signal: one event -> multiple listeners 或需要解耦时。
+- `CharacterBody2D`: 主动角色运动；
+- `Area2D`: hitbox/hurtbox/trigger/pickup/detection；
+- `Resource`: definitions/config/content data；
+- `AnimatedSprite2D`: 纯逐帧动画；
+- `AnimationPlayer`: property/method/SFX/hitbox timeline；
+- `AnimationTree`: 需要 animation blending/复杂 transition 时，配合 AnimationPlayer 使用；
+- `Tween`: 短暂、动态、可中断的视觉/UI反馈；
+- `Control` + `Container` + `Theme`: UI；
+- signal: one event -> multiple listeners 或需要解耦时；
 - direct call: 简单明确依赖通常更清楚。
 
 ## Dependency rule
@@ -252,7 +298,7 @@ inspect
 2. 项目 Godot 版本兼容；
 3. addon 解决的是明确问题，而不是“看起来更专业”；
 4. 用户允许新增依赖；
-5. 能说明迁移/维护成本。
+5. 能说明迁移、升级和移除成本。
 
 已有项目优先复用现有依赖，不并行引入两个重叠工具。
 
@@ -291,6 +337,7 @@ inspect
 - ownership 清楚；
 - project convention 被尊重；
 - API 与项目 Godot 版本匹配；
+- 只加载了当前任务需要的 references；
 - input responsiveness 没被 polish 破坏；
 - visuals/audio/UI 与 gameplay event 对齐；
 - save/import/export 不是只在开发机偶然工作；
@@ -299,4 +346,6 @@ inspect
 
 ## Maintenance rule
 
-本 SuperSkill **synthesizes decisions, not bulk copies**。新增内容必须改变 Agent 的实际决策、避免真实错误或明显提升验证质量。来源与许可证见 `references/sources.md`；路由改动后运行 `references/quality-tests.md` 的压力测试。
+本 SuperSkill **synthesizes decisions, not bulk copies**。新增内容必须改变 Agent 的实际决策、避免真实错误或明显提升验证质量。
+
+来源与许可证见 `references/sources.md`；路由改动后用 `references/quality-tests.md` 做压力测试；版本变化记录在 `changelog.md`。
