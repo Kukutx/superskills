@@ -1,250 +1,222 @@
 # Combat and Game Feel Reference
 
-Use this reference when the mechanic already exists or is being implemented and the task involves combat, impact, responsiveness, hit-stop, knockback, camera shake, flash, particles or other feedback.
+用于 hitbox/hurtbox、damage、combo、i-frame、stagger、knockback、hit-stop、camera shake、impact FX 与 action responsiveness。
 
-## 1. Separate combat truth from feedback
+## 1. Combat truth vs feedback
 
-Combat logic decides:
+Combat truth owns：
 
-- whether an attack is allowed;
-- when the hitbox is active;
-- what was hit;
-- damage / armor / resistance / crit rules;
-- knockback intent;
-- i-frames;
-- death / stagger / combo state.
+- can attack；
+- active hit window；
+- target filtering；
+- damage/resistance/crit；
+- i-frame；
+- stagger/knockback intent；
+- death/combo state。
 
-Feedback reacts to the result:
+Presentation reacts：
 
-- hit sound;
-- flash;
-- particles;
-- screen shake;
-- hit-stop;
-- damage popup;
-- squash/stretch;
-- recoil animation.
+- SFX；
+- flash；
+- particles；
+- camera shake；
+- hit-stop；
+- damage number；
+- visual recoil/squash。
 
-Do not make particles, animation or camera shake the source of combat truth.
+不要让 particle/flash/camera 决定有没有造成伤害。
 
 ## 2. Hitbox / hurtbox baseline
 
-For typical 2D action combat:
+典型 2D：
 
-- use `Area2D` for attack hitboxes and hurtboxes;
-- use collision layers/masks for filtering;
-- activate a hitbox only during the intended attack window;
-- deactivate it immediately afterward;
-- pass a structured attack/damage payload instead of directly editing a target field from the attacker;
-- let health/damage handling own i-frames and death decisions;
-- disable or retire collision on dead entities cleanly.
+```text
+Hitbox(Area2D)
+-> Hurtbox(Area2D)
+-> structured Attack/Damage payload
+-> Health/Combat receiver
+-> result/event
+```
 
-Avoid:
+Physics filtering 用 layers/masks。
+
+不要：
 
 ```text
 target.health -= 10
 ```
 
-Prefer a clear boundary such as:
+因为会绕过 armor/i-frame/source/type/knockback 等规则。
 
-```text
-Hitbox -> Hurtbox -> take_damage(attack_data) -> health_changed / died
-```
+## 3. Attack phases
 
-The exact class names do not matter; ownership does.
-
-## 3. Synchronize attack windows
-
-An attack should have explicit phases:
+明确：
 
 ```text
 startup -> active -> recovery
 ```
 
-The hitbox is active only during `active`.
+Hitbox 只在 active window 有效。
 
-Prefer AnimationPlayer method/property tracks or a single authoritative attack timeline when frame timing matters. Avoid several unrelated timers trying to approximate the same moment.
+Frame-critical action 优先共享 AnimationPlayer method/property track 或明确 attack timeline；不要几个独立 timer 猜同一时刻。
 
-For pixel/cel animation, a frame event can activate the hitbox and trigger SFX/VFX on the exact impact frame.
+## 4. One hit policy
 
-## 4. I-frames and repeated overlap
+一个 visual swing overlap 多个 physics ticks 时，需要明确：
 
-A hurtbox can overlap a hitbox for several physics frames. Without a gate, one visual swing may deal damage repeatedly.
+- one hit per attack instance；
+- target i-frame；
+- per-target multi-hit cooldown；
+- intentional DOT ticks。
 
-Use one of these explicit policies:
+不要让 repeated overlap 的结果靠运气。
 
-- one hit per attack instance;
-- short target i-frame window;
-- per-target cooldown for multi-hit attacks;
-- intentionally repeated ticks for damage-over-time areas.
+## 5. Combo / cancel
 
-Do not leave the policy implicit.
+明确：
 
-## 5. Knockback and recoil
+- input buffer window；
+- next attack queue；
+- cancel allowed states；
+- recovery skip rules；
+- hit-confirm-only branch if any；
+- animation/hitbox timeline alignment。
 
-Knockback is gameplay; visual recoil is presentation.
+Combo 系统不要靠 `if animation_name == ...` 四处分支。
 
-Keep them distinct:
+## 6. Knockback
 
-- gameplay knockback changes target motion/state;
-- sprite recoil can briefly offset or squash the visual child;
-- weapon recoil can animate the weapon/hand without moving the collision body.
+Gameplay knockback 与 visual recoil 分开。
 
-Scale knockback by event type and game design. Do not add physics impulses blindly if the character controller is velocity/state driven.
+如果 CharacterBody2D controller 每 physics tick 重写 velocity，外部 impulse 可能立刻被覆盖。让 controller/state 明确处理 knockback window 或 external velocity。
 
-## 6. Hit-stop
+## 7. Hit-stop
 
-Hit-stop is a very short slowdown/freeze that emphasizes a confirmed impact.
+Hit-stop 只强调 meaningful confirmed impact。
 
 Rules:
 
-- trigger once per meaningful impact, not every process frame;
-- keep duration short;
-- recovery timer must ignore the slowed game clock if global `time_scale` is used;
-- always restore the previous/global time state safely;
-- do not use blocking sleep/delay;
-- preserve or buffer important player input when the game design expects responsiveness.
+- once per impact；
+- very short；
+- restore previous/global time state；
+- recovery delay 必须能在 slowed/frozen time 下结束；
+- no blocking sleep；
+- important input 可按设计 buffer。
 
-Suggested starting ranges are only tuning references, not rules:
-
-```text
-light hit:  ~20–40 ms
-medium hit: ~40–70 ms
-heavy hit:  ~70–120 ms
-```
-
-Tune by playtesting. Frequent combat usually needs shorter values.
-
-## 7. Camera shake
-
-Use shake for impact, not as constant noise.
-
-Good model:
+Starting points only:
 
 ```text
-impact event -> add bounded trauma/intensity -> camera samples smooth offset -> intensity decays to zero
+light  ~20–40 ms
+medium ~40–70 ms
+heavy  ~70–120 ms
 ```
 
-Prefer smooth noise or controlled oscillation over a brand-new random offset each frame.
+高频战斗通常更短。
 
-Scale shake by importance:
+## 8. Camera shake
 
-- small: tiny positional shake or none;
-- medium: short positional shake;
-- large: stronger position + optional slight rotation/zoom punch.
-
-Never shake the actual physics body.
-
-Provide a reduced-screen-shake option when the game uses strong or frequent camera motion.
-
-## 8. Flash and hit material
-
-A short white/bright flash is one of the cheapest readable hit confirmations.
-
-Preferred pattern:
+推荐：
 
 ```text
-confirmed hit -> set shader/material parameter -> short unscaled/normal-time recovery -> reset
+hit -> add bounded trauma/intensity
+-> smooth/noise offset
+-> decay to zero
 ```
 
-Keep it brief. On repeated hits, replace/restart the existing effect cleanly instead of stacking material Tweens indefinitely.
+避免每帧新 random offset 的“电视雪花感”。
 
-For pixel art, preserve sharp edges and avoid glow/blur that destroys the sprite silhouette unless the art direction intentionally uses it.
+只改 Camera2D visual offset/rotation/zoom，不改 physics body。
 
-## 9. Particles and impact FX
+## 9. Impact hierarchy
 
-Impact FX should answer at least one question:
+按事件强度分 tier：
 
-- where did the hit happen?
-- what direction did force travel?
-- what kind of damage occurred?
-- how important was the event?
-
-Useful layers:
-
-- small spark/slash burst at contact point;
-- directional debris/blood/magic particles;
-- weapon trail during active frames;
-- landing dust;
-- death burst.
-
-Do not cover the target so completely that the player cannot read its pose or next attack.
-
-## 10. Sound
-
-A convincing hit often depends more on sound than on extra particles.
-
-For attacks, separate when useful:
-
-```text
-wind-up / whoosh -> contact impact -> enemy hurt -> environment response
-```
-
-Avoid one identical sample at exactly the same pitch for very frequent events. Small controlled variations can reduce repetition.
-
-## 11. Layer feedback deliberately
-
-A satisfying hit often uses several tiny responses in a very short window, but do not enable all of them by default.
-
-Start with:
-
-```text
-impact sound + contact FX + knockback
-```
-
-Then add, only if needed:
-
-```text
-flash -> short hit-stop -> camera shake -> popup -> extra secondary FX
-```
-
-Use importance tiers:
-
-| Tier | Typical feedback |
+| Tier | Typical bundle |
 | --- | --- |
-| Small | sound + tiny FX |
+| Small | sound + tiny contact FX |
 | Medium | sound + FX + recoil/knockback + small shake |
-| Heavy | strong sound + FX + short hit-stop + stronger shake + flash |
-| Boss/critical | authored bundle; stronger but still readable |
+| Heavy | stronger sound + flash + short hit-stop + shake |
+| Boss/critical | authored bundle, still readable |
 
-## 12. Movement feel beyond combat
+不要每个小怪 hit 都 max juice。
 
-The same principles apply to non-combat events:
+## 10. Flash / shader hit feedback
 
-- jump: immediate launch pose + small stretch;
-- land: squash + dust + optional tiny camera response;
-- dash: trail + short stretch + directional sound;
-- pickup: pop/ease + sparkle + audio;
-- button press: scale/color tween + click sound.
+Confirmed hit：
 
-Feedback must return to rest. Permanent exaggeration stops feeling like feedback.
+```text
+set flash parameter
+-> brief hold/tween
+-> reset
+```
 
-## 13. Common failure modes
+Repeated hit 时 restart/replace old effect，不要无限 stack Tween。
 
-- Hit-stop is so long that controls feel broken.
-- Shake is random static instead of decaying motion.
-- Every small hit uses maximum effects.
-- A Tween is started on the same property every hit without cancelling the previous one.
-- Hitbox stays active for the whole animation.
-- Attack animation ends but character state never exits recovery.
-- UI damage popups create unlimited nodes and are never freed/reused.
-- Feedback is added before the underlying hit detection is reliable.
+Pixel art 用 hard/clean flash，谨慎 blur/glow。
 
-## 14. Validation
+## 11. Particles / slash FX
 
-Test repeated real gameplay, not a single staged hit.
+FX 应表达：
 
-Verify:
+- impact position；
+- direction；
+- damage type；
+- importance。
 
-- one intended attack produces the intended number of damage events;
-- fast repeated hits cannot permanently freeze time;
-- hit-stop always restores normal speed;
-- shake decays fully to neutral;
-- flash/tween state returns to default;
-- input is still accepted as designed;
-- effects remain readable when several enemies are hit together;
-- low-value actions do not visually overpower high-value actions.
+Character attack animation 与大范围 slash/impact FX 最好可独立控制：body animation 不需要承担所有外部特效画面。
 
-## Upstream inspiration
+## 12. Audio layers
 
-Condensed from `godot-combat-system` in `thedivergentai/GD-Agentic-Skills` and `game-feel` in `gamedev-skills/awesome-gamedev-agent-skills`. The main retained ideas are explicit hit windows, structured damage handling, i-frame policy, layered event feedback, decaying camera trauma, short real-time-safe hit-stop and proportional feedback intensity.
+常见 attack：
+
+```text
+wind-up/whoosh
+-> impact
+-> target hurt
+-> optional environment response
+```
+
+高频 sample 允许轻微 controlled variation，避免 machine-gun sameness。
+
+## 13. Movement game feel
+
+同原则也用于：
+
+- jump launch stretch；
+- landing squash + dust；
+- dash trail/impact；
+- pickup pop；
+- interact feedback。
+
+Feedback 必须回到 rest state。
+
+## 14. Accessibility/readability
+
+强反馈项目考虑：
+
+- reduce screen shake；
+- reduce flashes；
+- damage feedback 不能只靠颜色；
+- VFX 不盖住 enemy telegraph。
+
+降低反馈不能移除必要 gameplay information。
+
+## 15. Combat QA
+
+重复真实操作：
+
+- one swing -> intended hit count；
+- hitbox active only intended frames；
+- multi-hit policy correct；
+- combo queue/cancel correct；
+- hit-stop always restores；
+- shake returns zero；
+- flash resets；
+- repeated hit does not stack runaway tweens；
+- input remains responsive；
+- crowded combat still readable；
+- death disables further combat interaction as intended。
+
+## Source synthesis
+
+主要吸收 GD-Agentic-Skills `godot-combat-system`、awesome-gamedev `game-feel`、Godot animation/tween/camera patterns。核心原则是：combat truth first, feedback layered second。

@@ -1,223 +1,203 @@
 # Game UI / UX Reference
 
-Use this reference for Godot 2D HUDs, menus, overlays, responsive layout, input navigation and UI feedback.
+用于 Godot 2D HUD、menus、overlays、Control/Container/Theme、responsive layout、controller focus、safe area 与 UI feedback。
 
-## 1. UI architecture
+## 1. Control owns UI
 
-Use Godot `Control` nodes for UI.
+正常游戏 UI 用 `Control` hierarchy。
 
-Prefer:
+Prefer：
 
-- anchors for screen-relative placement;
-- `Container` nodes for flow/layout;
-- `MarginContainer` for consistent insets;
-- `Theme` / theme overrides for visual consistency;
-- signals/events for UI updates;
-- explicit screen/menu flow.
+- anchors；
+- Containers；
+- MarginContainer；
+- Theme/theme overrides；
+- signals/events；
+- explicit screen flow。
 
-Avoid building normal UI with Node2D coordinates or hundreds of hardcoded pixel positions.
+不要用 Node2D coordinates 假装 UI layout。
 
-## 2. Layout first, decoration second
+## 2. Layout before styling
 
-Before styling, make sure the UI works at multiple window sizes.
+顺序：
 
-Recommended order:
+1. root anchors；
+2. container hierarchy；
+3. min size/spacing；
+4. stretch/reference policy；
+5. aspect-ratio checks；
+6. theme/art；
+7. motion/polish。
 
-1. establish root anchors;
-2. choose container hierarchy;
-3. set minimum sizes and spacing;
-4. define reference/stretch behavior;
-5. verify different aspect ratios;
-6. then add theme, art, transitions and polish.
+16:9 看起来漂亮但其他比例炸掉，不算完成。
 
-A beautiful 16:9-only layout that breaks elsewhere is not finished UI.
+## 3. Anchor vs container
 
-## 3. Anchors and containers
+Anchor 表达“这个区域属于屏幕哪里”。
+Container 表达“children 怎么排列”。
 
-Use anchors to express **where the UI belongs** and containers to express **how children flow**.
+Examples：
 
-Examples:
+```text
+health/status -> top-left + VBox/HBox
+currency/objective -> top-right
+hotbar -> bottom-center + HBox
+pause -> centered PanelContainer + VBox
+inventory -> outer margin + grid/list
+```
 
-- health/score cluster: anchored top-left + VBox/HBox;
-- currency/objectives: top-right;
-- hotbar: bottom-center + HBox;
-- centered pause dialog: center anchor + PanelContainer/VBox;
-- inventory: responsive outer margin + grid/list container.
+不要手摆每一颗 heart/item。
 
-Do not manually position every heart, item or menu row.
+## 4. Scaling/aspect
 
-## 4. Resolution and aspect ratio
+明确一个项目级策略：
 
-Define one clear scaling policy for the project.
+- base/reference resolution；
+- stretch mode；
+- aspect behavior；
+- pixel UI sampling；
+- extra width/height use。
 
-Check at minimum:
+至少检查 target-relevant：
 
-- project reference resolution;
-- narrow window/mobile-like ratio if relevant;
-- 16:9;
-- ultrawide or wider desktop ratio if relevant.
-
-Extra width/height should be handled intentionally: expand layout, preserve a content region, or letterbox according to the game design.
-
-For pixel-art UI, verify the scaling strategy does not blur icons/textures unexpectedly.
+- narrow/mobile-like；
+- 16:9；
+- wide/ultrawide。
 
 ## 5. Safe area
 
-Critical UI must not sit under phone notches, rounded corners or TV overscan.
+Mobile notch/rounded corner/TV overscan 需要时：
 
-When targeting devices that need it, use the platform/display safe area to drive an outer margin/inset container.
+- 读取 platform safe area；
+- 在 screen root 附近统一 inset；
+- critical UI stay inside safe region。
 
-Do not apply safe-area offsets independently to every control. Centralize the inset near the screen root when possible.
+不要每个 button 自己算一套 safe offset。
 
-## 6. Keyboard and gamepad focus
+## 6. Controller/keyboard focus
 
-Every non-trivial menu should work without a mouse.
+每个 screen：
 
-For each screen:
+- open 时有 default focused control；
+- directional navigation 可预测；
+- visible focus state；
+- confirm/cancel/back；
+- child screen 返回时恢复合理 focus；
+- mouse/touch/controller switching 不 strand user。
 
-- set one sensible default focused control when opened;
-- ensure directional focus order is predictable;
-- show a visible focus state;
-- support confirm/cancel/back actions;
-- restore focus sensibly when returning from a child screen;
-- ensure mouse/touch use does not permanently break controller navigation.
-
-Never open a controller-driven menu with nothing focused.
+手柄 menu 打开后 nothing focused = broken UI。
 
 ## 7. Screen flow
 
-For multiple menus/overlays, use a clear screen-flow model instead of boolean soup.
-
-Typical behavior:
+简单项目可以一个 small controller。
+多个 overlay 推荐 stack 思维：
 
 ```text
 Game
-  -> push Pause
-      -> push Settings
-      -> pop Settings
-  -> pop Pause
+-> push Pause
+-> push Settings
+-> pop Settings
+-> pop Pause
 ```
 
-Only the active/top screen should own relevant UI input.
+Top screen owns relevant input。
 
-A small explicit screen stack or state controller is often enough; do not build a framework if the game only has two simple screens.
+不要用十几个 `is_pause/is_settings/...` bool 互相打架。
 
 ## 8. Event-driven HUD
 
-Gameplay owns state. HUD displays it.
-
-Prefer:
+Gameplay owns truth，HUD displays：
 
 ```text
-HealthComponent emits health_changed
--> HUD updates health bar
+health_changed -> update bar
+ammo_changed -> update count
+cooldown_changed -> update fill
+objective_changed -> update text
 ```
 
-instead of:
+避免 `_process()` 每帧读所有 state。
 
-```text
-HUD._process()
--> read player.hp every frame
-```
+## 9. HUD hierarchy
 
-Common events:
+优先级：
 
-```text
-health_changed
-ammo_changed
-score_changed
-currency_changed
-objective_changed
-cooldown_changed
-boss_phase_changed
-```
+1. survival/current action；
+2. objective/critical resource；
+3. secondary info；
+4. decoration。
 
-Do not let a health bar mutate player health.
+所有 widget 都高亮/跳动 = 没有 hierarchy。
 
-## 9. UI feedback
+## 10. UI feedback
 
-UI should respond immediately but not distract from gameplay.
+适合：
 
-Useful feedback:
+- hover/focus；
+- press pop；
+- short fade/slide；
+- HP loss flash；
+- cooldown fill；
+- damage number；
+- currency increment；
+- confirm/cancel SFX。
 
-- button hover/focus state;
-- press scale/pop;
-- short panel fade/slide;
-- health loss flash;
-- cooldown radial/fill movement;
-- damage number rise/fade;
-- pickup/currency increment pop;
-- confirm/cancel SFX.
+快速 retrigger 的 property Tween 要 replace/restart，不要叠。
 
-Use short Tweens with clear easing. If an element can retrigger rapidly, replace/restart the old Tween instead of piling up effects.
+## 11. Pixel UI
 
-## 10. HUD readability
+- consistent icon resolution；
+- crisp sampling；
+- 9-slice/stylebox corners 不变形；
+- arbitrary fractional scale 先看实际 blur；
+- text readability > 强行低像素化。
 
-Prioritize information hierarchy:
+## 12. Localization-ready layout
 
-1. immediate survival/action state;
-2. current objective / critical resource;
-3. secondary information;
-4. decorative detail.
+- normal text 不烤进 button image；
+- containers allow longer strings；
+- gameplay ID != displayed label；
+- avoid English-only fixed width。
 
-Do not make every widget equally bright or animated.
+## 13. Accessibility
 
-For combat HUD:
+按项目需要：
 
-- player HP must remain readable during VFX-heavy moments;
-- boss HP should not compete with menus or damage popups;
-- temporary alerts should disappear when no longer relevant;
-- damage numbers should not cover enemy telegraphs.
+- text size；
+- contrast；
+- focus indicator；
+- remappable controls；
+- reduced shake；
+- reduced flashes；
+- non-color-only cues。
 
-## 11. Pixel-art UI
+核心 gameplay info 不应依赖唯一视觉通道。
 
-For pixel UI assets:
+## 14. Touch
 
-- keep icon source resolution consistent;
-- use crisp sampling where appropriate;
-- avoid arbitrary non-integer scaling when it visibly blurs the art;
-- design borders/panels so 9-slice or equivalent scaling does not distort corners;
-- validate text alongside pixel graphics; do not sacrifice legibility to mimic low resolution.
+Mobile/touch 目标时：
 
-UI can be pixel-styled without forcing every font or control into unreadably tiny dimensions.
+- tap targets 足够；
+- edge controls respect safe area；
+- avoid tiny hover-only interactions；
+- joystick/action buttons 不遮最关键 gameplay；
+- orientation/aspect changes tested。
 
-## 12. Localization readiness
+## 15. UI QA
 
-Even if localization is not implemented yet:
+测试：
 
-- avoid baking normal text into button images;
-- let containers expand for longer labels;
-- avoid fixed-width controls sized only for one English word;
-- separate displayed strings from gameplay IDs.
+- supported aspect ratios；
+- keyboard-only；
+- gamepad-only；
+- mouse/touch if target；
+- open/close/back；
+- focus restore；
+- localization-length string；
+- rapid health/currency/cooldown updates；
+- bright/dark gameplay background；
+- pause/time-scale；
+- no stale HUD after scene reload。
 
-## 13. Accessibility basics
+## Source synthesis
 
-When relevant to the game/platform, consider:
-
-- readable text size;
-- sufficient contrast;
-- reduced screen shake;
-- reduced flashes;
-- remappable controls;
-- clear focus indicator;
-- non-color-only status cues.
-
-Do not bury core accessibility options behind visual polish.
-
-## 14. UI QA
-
-Verify:
-
-- resize/aspect changes do not overlap or clip important elements;
-- safe-area handling works on supported targets;
-- every menu can be completed with keyboard/gamepad only;
-- opening a screen gives sensible focus;
-- back/cancel returns to the correct previous screen;
-- HUD reacts to events without per-frame polling where avoidable;
-- rapid updates do not create overlapping Tweens or stale labels;
-- UI remains readable over bright/dark gameplay backgrounds;
-- mouse, touch and controller states do not strand the user.
-
-## Upstream inspiration
-
-Condensed from `game-ui-ux` in `gamedev-skills/awesome-gamedev-agent-skills` and Godot UI/container/theming practices from `thedivergentai/GD-Agentic-Skills`. The retained core is anchors + containers, explicit scaling/safe-area policy, controller focus, screen-flow discipline and event-driven HUD updates.
+主要吸收 awesome-gamedev `game-ui-ux`、Godot UI container/theme practices 与 GodotPrompter responsive UI/HUD patterns。

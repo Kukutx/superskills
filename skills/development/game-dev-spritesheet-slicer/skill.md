@@ -1,272 +1,305 @@
+---
+name: game-dev-spritesheet-slicer
+description: Production workflow for planning, generating, normalizing, slicing and naming 2D/pixel-art animation strips and spritesheets for Godot or other 2D engines. Use when exact frame geometry, action/direction layout, anchor consistency, timing metadata, export or slicing is the main task.
+---
+
 # Game Dev Spritesheet Slicer Skill
 
 ## Status
 
-- Version: v0.1
+- Version: v0.2
 - Category: `development`
-- Maturity: `usable`
+- Maturity: `production-oriented`
 - Owner: `Kukutx`
-- Last updated: 2026-06-25
-- Source: `https://github.com/Kukutx/pixel-spritesheet-slicer`
-
-## One-line purpose
-
-帮助用户生成、整理和切分像素风游戏角色 spritesheet，让角色资产更容易直接用于 2D 游戏开发。
+- Last updated: 2026-08-15
 
 ## Purpose
 
-这个 skill 用于把像素风角色想法转成可执行的游戏资产生成方案，包括角色设定、动作列表、画布规格、帧结构、spritesheet 排布、切图命名、导出检查和迭代 prompt。
+把角色/动作素材变成 **可切、可预览、可导入游戏** 的 spritesheet/animation strip。
 
-它适合配合 `pixel-spritesheet-slicer` 或类似工具使用，目标不是单纯生成好看的像素图，而是产出可落地到游戏项目里的角色素材。
+重点不是“一张很酷的大图”，而是：
 
-## Role
-
-你是一个像素风游戏资产导演和 2D 游戏开发助手。
-
-你的任务是帮助用户把角色设定转成结构化 spritesheet 生产方案，并给出清晰的生成 prompt、切图规则、命名规范和导入游戏引擎前的检查清单。
+```text
+consistent character
++ exact frame contract
++ stable scale/anchor
++ predictable timing
++ deterministic slicing
++ engine-ready output
+```
 
 ## When to use
 
-Use this skill when the user wants to:
+- sprite / animation strip；
+- idle/walk/run/attack/hurt/death；
+- 4/8-direction character；
+- exact frame size；
+- sheet row/column；
+- slicing/naming；
+- Aseprite tags/timing；
+- Godot SpriteFrames import contract。
 
-- 生成像素风游戏角色。
-- 生成可切分的 spritesheet。
-- 设计 idle / walk / run / attack / jump / hurt / death 等角色动作。
-- 把一张角色图扩展成多动作、多方向动画资产。
-- 为 Godot、Unity、Phaser、Construct、RPG Maker 或自研 2D 引擎准备角色素材。
-- 规范 spritesheet 的行列、帧数、尺寸、透明背景和文件命名。
-- 根据已有图片、设定或游戏类型生成角色资产 prompt。
+如果任务还包含 Godot gameplay/animation/combat implementation，以 `development/godot-2d-game-development` 为主。
 
-## When not to use
+## Core principle: approve one frame first
 
-Do not use this skill when:
+AI/generative workflow 优先：
 
-- 用户只需要普通插画、头像、海报或 UI 图。
-- 用户需要 3D 模型、骨骼绑定、Spine 动画或 Live2D，而不是 2D spritesheet。
-- 用户只需要代码层面的动画系统实现，此时优先使用 `development/technical-design` 或 `development/implementation-plan`。
-- 用户要做品牌、App Store 或营销视觉素材，此时优先使用 design / marketing 相关 skill。
+1. approve one in-game seed frame；
+2. lock identity/proportions/palette/outfit/weapon；
+3. generate **one action strip at a time** when possible；
+4. normalize all frames；
+5. package sheets only after strips are stable。
 
-## Required input
+不要默认一次生成“所有动作 × 所有方向”的巨型表。
+巨型表更容易出现 identity drift、错格和 frame inconsistency。
 
-Ask for these only when they materially change the result.
+## Required contract
 
-| Field | Description | Default |
+只在缺失会明显影响结果时询问；否则合理默认继续。
+
+| Field | Default |
+| --- | --- |
+| perspective | side-view |
+| frame size | 64x64 |
+| anchor | bottom-center / feet |
+| background | transparent |
+| actions | idle, walk/run, attack, hurt, death |
+| direction | 1 |
+| output | PNG strips + optional packed sheet |
+| filtering | pixel project -> nearest/point |
+
+Frame count **按动作决定**，不要所有动作固定 6 帧。
+
+## Action planning
+
+Typical ranges are starting points only:
+
+| Action | Typical frames | Timing idea |
 | --- | --- | --- |
-| Game type | 游戏类型，比如 platformer、RPG、top-down、roguelike | Inferred |
-| Character concept | 角色身份、外观、职业、阵营、情绪 | Required |
-| Perspective | side-view、top-down、isometric、front-view | side-view |
-| Pixel size | 单帧尺寸，比如 32x32、48x48、64x64、96x96 | 64x64 |
-| Actions | 需要的动作列表 | idle, walk, attack, hurt, death |
-| Frame count | 每个动作几帧 | 4-8 frames per action |
-| Direction count | 单方向、4 方向或 8 方向 | 1 direction |
-| Style reference | 参考风格、配色、已有角色图 | Empty |
-| Export target | Godot / Unity / Phaser / Web / generic PNG | generic PNG |
-| Constraints | 透明背景、无阴影、低色数、不能超出格子等 | Transparent background |
+| idle | 2–4 | slow / variable |
+| walk | 4–8 | even rhythm |
+| run | 4–8 | faster, larger poses |
+| attack | 3–8 | anticipation -> impact -> recovery |
+| hurt | 2–5 | fast impact + recover |
+| death | 4–10 | readable one-shot |
+| dash | 2–6 | strong direction/readability |
 
-## Default assumptions
+Quality depends more on strong key poses + timing than raw frame count.
 
-- 默认产出 2D pixel art game asset，而不是插画。
-- 默认透明背景，角色居中，完整身体不裁切。
-- 默认每一帧大小一致，动作帧按网格严格对齐。
-- 默认 spritesheet 使用「每行动作、每列帧」结构。
-- 默认优先保证可切图、可导入、可循环播放，而不是复杂光影和插画细节。
-- 如果用户没有说明引擎，输出通用 PNG spritesheet 规范。
-- 如果用户没有说明动作数量，优先给最小可用动作集：idle、walk、attack、hurt、death。
-- 如果用户要快速做 MVP，优先推荐 32x32 或 48x48；如果要更精细，推荐 64x64 或 96x96。
+## Direction policy
 
-## Workflow
+For top-down:
 
-1. **Clarify asset spec**
-   - 明确游戏视角、角色设定、单帧尺寸、动作列表、帧数、方向数和导出目标。
-   - 缺少信息时直接使用默认值，不要阻塞。
+- define 4 or 8 directions；
+- state which directions may be mirrored；
+- asymmetric weapon/outfit may require unique art；
+- keep anchor/apparent scale consistent across directions；
+- naming includes direction。
 
-2. **Design character sheet plan**
-   - 定义角色外观关键词。
-   - 定义动作行：每个动作一行。
-   - 定义帧列：每个动作 4-8 帧。
-   - 定义每帧尺寸和整张图尺寸。
+Example:
 
-3. **Generate image prompt**
-   - 输出可直接复制到图片生成工具的 prompt。
-   - 强调 pixel art、transparent background、strict grid、consistent character、same canvas size、no extra props outside cells。
+```text
+player_run_n_00.png
+player_run_e_00.png
+player_run_s_00.png
+player_run_w_00.png
+```
 
-4. **Slice and naming plan**
-   - 给出切图规则：frame width、frame height、rows、columns、action order。
-   - 给出命名规则：`character_action_frame.png`。
+## Generation prompt contract
 
-5. **Engine import notes**
-   - 根据目标引擎给出导入建议。
-   - Godot：SpriteFrames / AnimatedSprite2D。
-   - Unity：Sprite Mode Multiple、Pixels Per Unit、Filter Mode Point、Compression None。
-   - Phaser/Web：JSON atlas 或手写 frame config。
+Every prompt must state:
 
-6. **QA checklist**
-   - 检查透明背景。
-   - 检查每帧尺寸一致。
-   - 检查角色脚底基线一致。
-   - 检查动作循环是否跳帧。
-   - 检查没有多余边框、阴影、文字、水印。
-   - 检查切图后文件名和动作顺序正确。
+- same character；
+- same proportions；
+- same outfit/equipment；
+- same palette；
+- same facing direction for this strip；
+- transparent background；
+- exact number of frames；
+- fixed slots/frame size target；
+- no labels/scenery/watermark；
+- readable silhouette；
+- crisp pixel clusters for pixel art；
+- production game asset, not concept sheet。
+
+## Whole-strip workflow
+
+```text
+approved seed
+-> reference canvas/layout guide if needed
+-> one full action strip generation
+-> cleanup alpha
+-> split frames
+-> normalize shared scale
+-> align shared anchor
+-> optionally lock frame 1 to seed
+-> preview GIF/sheet
+-> approve
+-> package/import
+```
+
+Independent frame-by-frame generation is fallback only.
+
+## Normalization
+
+All frames of one character set should share:
+
+- frame canvas size；
+- scale；
+- anchor；
+- baseline；
+- direction convention；
+- transparent padding policy。
+
+Do not crop every frame tightly to different bounds and then expect stable animation.
+
+## Timing metadata
+
+Spritesheet geometry 与 timing 是两件事。
+
+记录：
+
+- frame duration；
+- loop/ping-pong/one-shot；
+- hold frames；
+- animation tag/range。
+
+如果工具支持 Aseprite tags/JSON，保留 metadata。
+Godot import 时不要靠手工记忆 action range。
+
+## Sheet packaging
+
+当 individual strips 已批准后，再决定：
+
+### Per-action strips
+
+Best when:
+
+- pipeline likes simple imports；
+- actions have different frame counts；
+- iteration frequent。
+
+### Combined grid
+
+Best when:
+
+- engine/tooling expects one atlas；
+- layout is stable；
+- exact metadata exists。
+
+Combined sheet must define:
+
+```text
+frameWidth
+frameHeight
+rows
+columns
+row/action order
+direction order
+frames valid per row
+padding
+spacing
+anchor
+```
+
+不要用 blank/duplicate frame 隐藏未知 layout。
+
+## Naming
+
+Prefer:
+
+```text
+{character}_{action}_{direction?}_{frame:02}.png
+```
+
+Examples:
+
+```text
+hero_idle_00.png
+hero_attack_light_03.png
+slime_hurt_01.png
+knight_run_n_05.png
+```
+
+## Godot handoff
+
+确认：
+
+- import filter/mipmap policy；
+- SpriteFrames animation names；
+- loop policy；
+- per-frame speed/duration；
+- anchor/pivot；
+- animation state names match gameplay convention；
+- attack frame event/hitbox timing separately configured when needed。
+
+Art sheet 不应该自己决定 combat damage timing；它提供可对齐的 frames/tags。
+
+## QA
+
+检查：
+
+- identity stable；
+- proportions stable；
+- same ground anchor；
+- no foot sliding caused by crop；
+- weapon does not morph；
+- correct direction；
+- correct frame count；
+- clean transparency；
+- no text/watermark；
+- action reads at actual game size；
+- loop seam clean；
+- impact pose clear；
+- deterministic slicer produces expected files；
+- preview looks correct before engine import。
 
 ## Output contract
 
-The answer must follow this structure unless the user asks for another format:
+默认：
 
-1. **Asset spec**
-2. **Spritesheet layout**
-3. **Generation prompt**
-4. **Slice config**
-5. **File naming**
-6. **Engine import notes**
-7. **QA checklist**
+1. Asset spec
+2. Action/direction plan
+3. Generation prompt
+4. Strip/sheet layout
+5. Timing/loop metadata
+6. Slice config
+7. Naming
+8. Godot/engine import notes
+9. QA
 
-## Prompt template
-
-```text
-Create a 2D pixel art spritesheet for a game character.
-
-Character:
-[角色设定]
-
-Game style:
-[游戏类型 / 世界观 / 氛围]
-
-Canvas and layout:
-- Transparent background
-- Strict grid layout
-- Each frame: [宽]x[高] pixels
-- Columns: [每个动作帧数]
-- Rows: [动作数量]
-- One animation action per row
-- Same character, same proportions, same outfit across all frames
-- Character centered in each cell
-- Feet aligned to the same baseline
-
-Actions, row order:
-1. idle - [帧数] frames
-2. walk - [帧数] frames
-3. attack - [帧数] frames
-4. hurt - [帧数] frames
-5. death - [帧数] frames
-
-Pixel art constraints:
-- crisp pixel edges
-- limited color palette
-- no anti-aliasing blur
-- no text
-- no watermark
-- no background scene
-- no extra objects outside the cell boundaries
-- readable silhouette at small size
-
-Export goal:
-A clean spritesheet PNG that can be sliced into individual animation frames for [Godot / Unity / Phaser / generic 2D engine].
-```
-
-## Slice config template
+## Example slice config
 
 ```json
 {
   "frameWidth": 64,
   "frameHeight": 64,
-  "columns": 6,
-  "rows": 5,
-  "actions": ["idle", "walk", "attack", "hurt", "death"],
-  "naming": "{character}_{action}_{frame}.png",
+  "anchor": "bottom-center",
   "background": "transparent",
   "padding": 0,
-  "spacing": 0
+  "spacing": 0,
+  "actions": {
+    "idle": {"frames": 4, "loop": true},
+    "run": {"frames": 6, "loop": true},
+    "attack_light": {"frames": 6, "loop": false},
+    "hurt": {"frames": 3, "loop": false}
+  },
+  "naming": "{character}_{action}_{frame:02}.png"
 }
-```
-
-## Example output
-
-### Asset spec
-
-- Character: cyberpunk fox rogue
-- Perspective: side-view
-- Frame size: 64x64
-- Actions: idle, walk, attack, hurt, death
-- Frames per action: 6
-- Output: transparent PNG spritesheet
-
-### Spritesheet layout
-
-| Row | Action | Frames | Notes |
-| --- | --- | --- | --- |
-| 1 | idle | 6 | subtle breathing loop |
-| 2 | walk | 6 | clear leg movement |
-| 3 | attack | 6 | short dagger slash |
-| 4 | hurt | 6 | recoil animation |
-| 5 | death | 6 | fall and fade pose |
-
-### File naming
-
-```text
-fox_rogue_idle_000.png
-fox_rogue_idle_001.png
-fox_rogue_walk_000.png
-fox_rogue_attack_000.png
 ```
 
 ## Hard constraints
 
-- 不要只输出审美描述，必须给出可执行的 spritesheet 规格。
-- 不要混用不同角色比例、服装或武器。
-- 不要让角色跨出单帧格子。
-- 不要在 spritesheet 里加入文字、水印、背景场景或复杂 UI。
-- 不要忽略导入游戏引擎前的检查项。
-- 不要输出无法切分的自由排版角色图。
+- 不输出无法切分的自由排版角色图当作 spritesheet。
+- 不默认每个动作相同帧数。
+- 不默认巨型多动作 sheet 是最佳生成方式。
+- 不逐帧独立生成同一 action，除非接受 drift。
+- 不让不同 frame 使用不同 scale/anchor。
+- 不把 dynamic labels/background scene 混入 sheet。
+- 不在未预览动画前直接覆盖 production asset。
+- 不把 tool-specific capability 当作所有环境都存在。
 
-## Quality checklist
+## Source synthesis
 
-Before answering, verify:
-
-- 是否明确了单帧尺寸。
-- 是否明确了 rows / columns。
-- 是否明确了动作顺序。
-- 是否明确了每个动作帧数。
-- 是否要求透明背景。
-- 是否要求角色在所有帧中保持一致。
-- 是否给出切图 config 或等效参数。
-- 是否给出命名规范。
-- 是否给出引擎导入注意事项。
-
-## Anti-patterns
-
-Avoid:
-
-```text
-生成一个很酷的像素角色，多做几个动作。
-```
-
-Prefer:
-
-```text
-生成 64x64 单帧、5 行 x 6 列 spritesheet；每行动作分别是 idle、walk、attack、hurt、death；透明背景；角色在每格居中；脚底基线一致；输出可切图 PNG。
-```
-
-Avoid:
-
-```text
-先告诉我你要什么游戏、什么尺寸、什么动作、什么引擎。
-```
-
-Prefer:
-
-```text
-我先按 side-view platformer、64x64、5 个动作、每动作 6 帧处理；如果你用 top-down 或 Godot/Unity 有特殊规格，我再给你替换版。
-```
-
-## System Prompt
-
-```text
-You are a pixel art game asset director and 2D game development assistant.
-Your task is to help the user create practical spritesheet-ready character assets.
-Prioritize usable game asset specs over generic visual descriptions.
-Always define frame size, rows, columns, action order, frame count, transparent background, slicing config, file naming, and QA checks.
-If information is missing, make reasonable assumptions and continue.
-Ask at most one clarifying question only when the missing detail would materially change the asset.
-Do not output freeform illustration prompts when the user needs a spritesheet.
-Do not invent unsupported tool behavior.
-```
+核心吸收 OpenAI `sprite-pipeline` 的 seed/whole-strip/normalize/preview、Aseprite pixel animation 的 timing/tag concepts，以及 Agent Sprite Forge 的 deterministic cleanup/game-ready handoff。
