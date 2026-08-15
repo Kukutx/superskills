@@ -29,6 +29,7 @@ Choose one primary Skill first. Add a secondary Skill only for a genuinely disti
 | unresolved software architecture/interfaces | `development/technical-design` |
 | decided software direction -> file/task breakdown | `development/implementation-plan` |
 | Godot 2D / pixel game runtime | `development/godot-2d-game-development` |
+| Godot 3D / spatial game runtime | `development/godot-3d-game-development` |
 | sprite animation generation/slicing/packaging | `development/sprite-animation-pipeline` |
 | image-generation direction/prompt | `creative/image-prompt-director` |
 | xTool F1 | `creative/xtool-f1-engraving` |
@@ -89,23 +90,38 @@ visual sequence/composition is the main deliverable
 -> app-store-assets
 ```
 
+### Godot 2D vs 3D
+
+Route by the dimension that materially changes runtime behavior:
+
+```text
+Node2D / CharacterBody2D / Camera2D / TileMapLayer / 2D physics-rendering
+-> godot-2d-game-development
+
+Node3D / CharacterBody3D / Camera3D / 3D physics-rendering-import-navigation
+-> godot-3d-game-development
+```
+
+Do not merge both Skills for ordinary dimension-neutral Godot concerns. If a task genuinely spans 2D and 3D (for example a migration or mixed-world tool), select the owner of the primary implementation and add the other only for the distinct dimensional subproblem.
+
 ### Domain runtime vs asset production
 
 ```text
-Godot gameplay/state/combat/runtime animation
--> godot-2d-game-development
+Godot 2D/3D gameplay/runtime integration
+-> matching Godot domain skill
 
 sprite frames/strips/geometry/slicing/packing
 -> sprite-animation-pipeline
 ```
 
-Use both only when a task genuinely spans runtime integration and asset production.
+Use both only when a task genuinely spans runtime integration and sprite asset production.
 
 ## Precedence examples
 
-- Godot UI/combat/architecture bug -> Godot Skill before generic development methods.
+- Godot 2D bug -> Godot 2D Skill before generic development methods.
+- Godot 3D camera/physics/import bug -> Godot 3D Skill before generic development methods.
 - Shopify theme/store issue -> Shopify Skill before generic frontend/debugging.
-- Godot gameplay + new attack strip -> Godot primary; sprite pipeline owns the asset subtask.
+- Godot 2D gameplay + new attack strip -> Godot 2D primary; sprite pipeline owns the asset subtask.
 - New sprite strip without engine work -> sprite pipeline only.
 - App Store screenshot artwork + short captions -> app-store-assets primary; app-store-copy only for substantial wording work.
 - Existing App Store screenshot critique -> app-store-assets primary; image-review-refiner only if its visual-review method adds value.

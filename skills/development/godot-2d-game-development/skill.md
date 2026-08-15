@@ -7,7 +7,7 @@ description: Godot 4.x 2D/pixel-game production router for architecture, movemen
 
 ## Scope
 
-Use for Godot 4.x **2D-first** implementation and production. Route elsewhere when the main task is Godot 3D, networking/server architecture, unrelated backend/frontend, or pure game design/writing without implementation concerns.
+Use for Godot 4.x **2D-first** implementation and production. Route materially 3D work to `development/godot-3d-game-development`; route elsewhere for networking/server architecture, unrelated backend/frontend, or pure game design/writing without implementation concerns.
 
 ## Core invariants
 

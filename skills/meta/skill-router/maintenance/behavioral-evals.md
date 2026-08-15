@@ -24,14 +24,16 @@ Maintenance-only. Test **task ownership**, not keyword matching. A pass selects 
 | User task | Expected primary | Secondary only when | Must avoid |
 | --- | --- | --- | --- |
 | “Godot 2D 攻击偶尔重复扣血” | `development/godot-2d-game-development` | generic debug method adds distinct value | replacing domain combat ownership |
-| “Godot 里设计 scene ownership/state architecture” | `development/godot-2d-game-development` | technical-design only for a distinct cross-system method | generic architecture replacing Godot conventions |
-| “架构已定，直接改 Godot 现有项目里的文件” | `development/godot-2d-game-development` | implementation-plan only when a plan artifact is explicitly useful | generic file planning replacing domain implementation |
+| “Godot 2D scene ownership/state architecture” | `development/godot-2d-game-development` | technical-design only for a distinct cross-system method | generic architecture replacing Godot conventions |
+| “架构已定，直接改 Godot 2D 现有项目里的文件” | `development/godot-2d-game-development` | implementation-plan only when a plan artifact is explicitly useful | generic file planning replacing domain implementation |
+| “Godot 3D 第三人称移动和 Camera3D 穿墙” | `development/godot-3d-game-development` | generic debug method adds distinct value | forcing 2D camera/movement references |
+| “Godot 3D Blender 模型导入后骨骼和动画异常” | `development/godot-3d-game-development` | research only if a current importer/version fact is material | generic asset advice replacing Godot import semantics |
 | “生成 6 帧像素 attack strip” | `development/sprite-animation-pipeline` | Godot only if engine import/runtime is also requested | loading full Godot runtime for asset generation |
 | “把已有 64x64 sheet 切成稳定命名并打包” | `development/sprite-animation-pipeline` | engine Skill for actual handoff | image-generation Skill |
-| “Godot 已有 sprite，配置 runtime attack timing” | `development/godot-2d-game-development` | sprite pipeline only if source geometry must change | regenerating art unnecessarily |
+| “Godot 2D 已有 sprite，配置 runtime attack timing” | `development/godot-2d-game-development` | sprite pipeline only if source geometry must change | regenerating art unnecessarily |
 | “Shopify 产品页按钮坏了” | `ecommerce/shopify-dev` | bug-diagnosis for distinct methodology | generic frontend rewrite first |
 | “Shopify theme release 前检查” | `ecommerce/shopify-dev` | release-checklist for broader org gates | generic release ceremony replacing platform rules |
-| “Godot export 到 CI 前检查” | `development/godot-2d-game-development` | release-checklist for broader release gates | replacing export rules with generic checklist |
+| “Godot export 到 CI 前检查” | matching Godot 2D/3D Skill | release-checklist for broader release gates | replacing Godot export rules with generic checklist |
 
 ## Creative / store boundaries
 
@@ -51,7 +53,13 @@ Maintenance-only. Test **task ownership**, not keyword matching. A pass selects 
 
 Prompt: `做 Godot 2D sword attack，同时生成对应 6 帧 attack strip。`
 
-Pass: Godot owns gameplay/combat/runtime animation; sprite pipeline owns strip generation/geometry/packaging; do not add a third image Skill unless visual direction is genuinely unresolved.
+Pass: Godot 2D owns gameplay/combat/runtime animation; sprite pipeline owns strip generation/geometry/packaging; do not add a third image Skill unless visual direction is genuinely unresolved.
+
+### Godot dimension boundary
+
+Prompt: `这是 Godot 3D 项目，但只是改 pause menu 的 Control focus。`
+
+Pass: choose the 3D domain owner/project conventions if domain context matters, but do not load 2D runtime references merely because they contain generic UI knowledge. The dimension-neutral subproblem must not trigger a fake 2D dependency.
 
 ### Architecture then implementation
 
@@ -77,7 +85,8 @@ Pass: actual domain/task owner; never prompt-optimizer as preprocessing.
 2. Secondary Skills handle separable subtasks only.
 3. Domain ownership beats generic methods.
 4. “compare”, “plan”, “review” and “prompt” words do not route by themselves.
-5. Asset production and engine runtime remain separate owners.
-6. Maintenance content is not loaded during normal execution.
+5. Godot 2D and 3D stay separate when dimension changes implementation.
+6. Asset production and engine runtime remain separate owners.
+7. Maintenance content is not loaded during normal execution.
 
 When a real task fails, fix the smallest ownership rule first. Do not add a new Skill unless existing owners cannot cleanly represent the missing decision.

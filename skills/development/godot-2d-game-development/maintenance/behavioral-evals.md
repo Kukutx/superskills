@@ -27,7 +27,7 @@ Maintenance-only. Verify the Agent chooses the **smallest useful reference set**
 | “Agent 改暂停菜单，验证手柄真的能操作” | `verification-testing.md` + `ui-ux.md` + optional input | static inspection only |
 | “某场景 FPS 掉” | `performance.md` | optimization without profiler evidence |
 | “GitHub Actions clean export” | `release-export-ci.md` | local cache dependence |
-| “Godot 3D 第三人称” | outside this Skill | forcing 2D references |
+| “Godot 3D 第三人称” | `development/godot-3d-game-development` | forcing 2D references |
 | “Godot 2D rollback netcode” | Godot owns local gameplay only; networking architecture elsewhere | pretending current refs cover netcode |
 
 ## Pressure cases
