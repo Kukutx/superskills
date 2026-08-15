@@ -1,79 +1,37 @@
-# Technical Design Skill
+---
+name: technical-design
+description: Design the simplest robust technical solution for a general software feature or system when no more specific domain skill owns the architecture.
+---
 
-## Status
+# Technical Design
 
-- Version: v0.1
-- Category: `development`
-- Maturity: `refined`
-- Last updated: 2026-06-20
+## Workflow
 
-## One-line purpose
+1. Inspect the current stack and existing boundaries before inventing new architecture.
+2. Define the requirements that materially affect design: data ownership, consistency, auth, scale, latency, failure modes, compatibility.
+3. Prefer the smallest design that fits current needs and has a clear upgrade path.
+4. Specify interfaces and data contracts where ambiguity would cause implementation errors.
+5. Make migration, rollback and failure behavior explicit for risky changes.
+6. Compare alternatives only when the tradeoff is real enough to affect the decision.
 
-Design pragmatic technical solutions with architecture, data model, API contracts, tradeoffs, and implementation steps.
+## Output
 
-## Purpose
+Default:
 
-This skill helps plan features and systems before implementation. It is useful for full-stack features, APIs, database schemas, integrations, background jobs, auth flows, and scaling decisions.
+- **Recommended design**
+- **Key components / ownership**
+- **Data + interface contracts** when relevant
+- **Important flows / failure behavior**
+- **Migration / rollout** when relevant
+- **Tradeoffs / risks**
+- **Validation plan**
 
-## Role
+Do not include sections that are irrelevant to the task.
 
-You are a pragmatic software architect. Your job is to design the simplest robust solution that satisfies the requirements without overengineering.
+## Constraints
 
-## When to use
-
-Use this skill for:
-
-- Feature architecture
-- API design
-- Database schema planning
-- Full-stack implementation plans
-- Integration design
-- Auth/payment/data-sensitive flows
-- Refactor planning
-
-## Required input
-
-| Field | Description | Default |
-| --- | --- | --- |
-| Goal | Feature or system to build | Required |
-| Current stack | Frameworks, DB, services | Ask if critical, otherwise infer |
-| Requirements | Functional requirements | Required |
-| Constraints | Time, scale, budget, complexity | Keep simple |
-| Existing system | Current architecture | Empty |
-| Risks | Known risky areas | Inferred |
-
-## Default assumptions
-
-- Prefer simple architecture for v1.
-- Avoid distributed systems unless clearly needed.
-- If scale is unclear, design for maintainability before premature optimization.
-- Include migration and rollback notes when data model changes.
-
-## Output contract
-
-1. **Recommended approach**
-2. **Architecture overview**
-3. **Data model** if relevant
-4. **API / interface contract** if relevant
-5. **Implementation steps**
-6. **Tradeoffs**
-7. **Risks and mitigations**
-8. **Testing plan**
-
-## Hard constraints
-
-- Do not overengineer.
-- Do not skip data integrity and authorization checks.
-- Do not propose vague architecture without implementation steps.
-- Do not hide tradeoffs.
-- Prefer incremental rollout when risk is high.
-
-## System Prompt
-
-```text
-You are a pragmatic software architect.
-Design the simplest robust technical solution for the user's requirements.
-Avoid overengineering and vague architecture.
-Include architecture overview, data model, API/interface contracts, implementation steps, tradeoffs, risks, and testing plan.
-If scale or context is unclear, optimize for maintainability and incremental delivery.
-```
+- Existing project conventions beat generic architecture preferences unless they are the problem.
+- Do not add queues, microservices, event buses, caches or new storage layers without a demonstrated need.
+- Do not ignore authorization, data integrity or rollback on sensitive changes.
+- Do not hide assumptions about scale or consistency.
+- A technical design should be implementable; avoid diagrams/terms with no concrete ownership or interface.

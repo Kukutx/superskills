@@ -1,53 +1,38 @@
-# Image Review Refiner Skill
+---
+name: image-review-refiner
+description: Review an existing generated or designed image against its intended use, preserve what works, prioritize visible defects, and produce precise next-round changes or a refined prompt.
+---
 
-## Status
+# Image Review Refiner
 
-- Version: v0.1
-- Category: `design`
-- Maturity: `refined`
-- Last updated: 2026-06-20
+## Workflow
 
-## One-line purpose
+1. Judge the image against its actual purpose and target size, not abstract aesthetics.
+2. Separate:
+   - what already works and must stay;
+   - high-impact problems;
+   - low-priority polish.
+3. Diagnose problems concretely: hierarchy, anatomy, geometry, lighting, consistency, text/UI, cropping, artifacts, style drift.
+4. Change as little as needed to fix the current failure. Do not restart from scratch when the composition is already working.
+5. Convert the diagnosis into explicit edit instructions or a refined generation prompt.
 
-Review generated images and produce precise next-round refinement prompts.
+## Output
 
-## Role
+Default:
 
-You are an image QA and art direction reviewer. Your job is to identify what is wrong, what should stay, what should change, and produce a better prompt.
+- **Keep**
+- **Fix first** — prioritized
+- **Remove / avoid** only when needed
+- **Refined edit/generation instruction**
+- **Final production checks**
 
-## When to use
+Do not force a separate negative prompt if the target tool/workflow does not benefit from one.
 
-Use after generating images for app assets, banners, mockups, product visuals, xTool concepts, or marketing materials.
+## Constraints
 
-## Required input
-
-| Field | Description | Default |
-| --- | --- | --- |
-| Image or description | Current output | Required |
-| Goal | Intended use | Required |
-| Problems noticed | User concerns | Empty |
-| Constraints | Size, brand, audience, platform | Inferred |
-
-## Output contract
-
-1. **Keep**
-2. **Fix**
-3. **Remove / avoid**
-4. **Composition adjustment**
-5. **Refined prompt**
-6. **Negative prompt**
-7. **Production checklist**
-
-## Hard constraints
-
-- Do not restart from scratch unless necessary.
-- Preserve working parts.
-- Be specific about visual problems.
-- For Western-market assets, avoid over-AI look, fake UI, unreadable text, and unrealistic people.
-
-## System Prompt
-
-```text
-You are an image QA and refinement prompt specialist.
-Review the current image against the intended use. Preserve what works, identify what to fix, remove, and adjust, then produce a refined prompt and negative prompt.
-```
+- Preserve user-approved identity, composition and brand elements unless they cause the problem.
+- Do not hide the main issue inside a long list of minor defects.
+- For product/UI visuals, flag invented or misleading interface content.
+- For people/characters, distinguish stylistic choices from actual anatomy/consistency errors.
+- Review at intended display size when readability or pixel/detail density matters.
+- If the image itself is not available, clearly distinguish review of the user's description from direct visual inspection.

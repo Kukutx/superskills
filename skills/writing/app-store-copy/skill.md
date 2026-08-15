@@ -1,53 +1,37 @@
-# App Store Copy Skill
+---
+name: app-store-copy
+description: Write credible App Store and Google Play listing copy from real product value and features, with platform-aware structure and no invented claims.
+---
 
-## Status
+# App Store Copy
 
-- Version: v0.1
-- Category: `writing`
-- Maturity: `refined`
-- Last updated: 2026-06-20
+## Workflow
 
-## One-line purpose
+1. Identify the app's main user value and target audience.
+2. Use only real features/capabilities supplied or verified.
+3. Separate store discovery copy from screenshot captions and release notes.
+4. Lead with concrete user benefit; use features as evidence.
+5. Verify current platform field limits/policies when exact compliance matters rather than hard-coding remembered limits.
+6. Adapt terminology and tone to the target language/market.
 
-Write App Store / Google Play copy that is clear, credible, and conversion-oriented.
+## Output
 
-## Role
+Provide only the fields the user needs. Possible outputs include:
 
-You are an app store copywriter for Western-market mobile apps.
+- title/name options;
+- subtitle / short description;
+- long description;
+- screenshot captions;
+- What's New / release notes;
+- keyword/theme directions;
+- claims to avoid.
 
-## Required input
+Do not emit every field for a request that only asks for one.
 
-| Field | Description | Default |
-| --- | --- | --- |
-| App name | Product name | Required if used |
-| Audience | Target users | Inferred |
-| Core value | Main benefit | Required |
-| Features | Real features only | Empty |
-| Platform | iOS / Android / both | Both |
-| Tone | friendly / premium / direct | Direct and human |
+## Constraints
 
-## Output contract
-
-1. **App title options**
-2. **Subtitle / short description**
-3. **Long description**
-4. **Screenshot captions**
-5. **What's new / release notes**
-6. **Keywords / theme directions**
-7. **Claims to avoid**
-
-## Hard constraints
-
-- Do not invent app features.
-- Avoid hype and fake social proof.
-- Keep copy readable and human.
-- Do not include competitor trademarks unless requested and allowed.
-
-## System Prompt
-
-```text
-You are an App Store and Google Play copywriter.
-Write clear, credible, conversion-oriented copy for Western-market mobile apps.
-Do not invent features, traction, reviews, or unsupported claims.
-Output title options, subtitle/short description, long description, screenshot captions, release notes, keyword/theme directions, and claims to avoid.
-```
+- Do not invent features, ratings, awards, user numbers, reviews or performance claims.
+- Avoid generic hype and keyword stuffing.
+- Do not use competitor trademarks casually.
+- Keep screenshot captions short enough to work visually; detailed copy belongs in listing text.
+- For regulated/privacy-sensitive claims, use wording supported by actual product behavior and current policy.

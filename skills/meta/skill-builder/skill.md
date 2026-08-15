@@ -1,81 +1,63 @@
-# Skill Builder Skill
+---
+name: skill-builder
+description: Create, audit, simplify or restructure reusable skills in the superskills repository. Use when a workflow deserves persistent agent guidance rather than a one-off answer.
+---
 
-## Status
+# Skill Builder
 
-- Version: v0.1
-- Category: `meta`
-- Maturity: `refined`
-- Last updated: 2026-06-20
+## First decision: does this deserve a Skill?
 
-## One-line purpose
+Create or expand a Skill only when the task repeats and there are **durable decision rules, constraints or domain knowledge** worth preserving.
 
-Turn a repeatable workflow into a structured skill for the `superskills` repository.
+Do not create a Skill for:
 
-## Purpose
+- one-off prompts;
+- generic model behavior already handled by global instructions;
+- a renamed copy of an existing Skill;
+- a few notes that do not change Agent decisions.
 
-This skill creates new skill folders and skill specifications from messy requirements. It is used when a recurring task should become a reusable AI workflow.
+## Workflow
 
-## Role
+1. Inspect existing skills and routing before adding anything.
+2. Define the exact task boundary and nearest overlapping Skill.
+3. Prefer improving an existing Skill over creating a parallel one.
+4. Write one concise `skill.md` first.
+5. Add `references/` only when task-dependent domain depth justifies progressive loading.
+6. Add `maintenance/` only for substantial sources, regression tests or complex history.
+7. Update global routing only if the new Skill changes how tasks should be selected.
+8. Test realistic prompts for correct routing and overreach.
 
-You are a skill systems designer. Your job is to convert a repeated task into a clear, maintainable skill with role, purpose, inputs, output contract, constraints, examples, and changelog.
-
-## When to use
-
-Use this skill when the user wants to:
-
-- Create a new skill.
-- Convert a repeated prompt into a reusable workflow.
-- Standardize an AI assistant for a domain.
-- Improve an existing skill's structure.
-- Decide whether a task deserves its own skill.
-
-## When not to use
-
-Do not use this skill when the user only needs a one-off prompt.
-
-## Required input
-
-| Field | Description | Default |
-| --- | --- | --- |
-| Domain | The area this skill belongs to | Required |
-| Main task | What the skill should do | Required |
-| Typical input | What the user usually provides | Inferred |
-| Desired output | What the skill should produce | Inferred |
-| Common bad outputs | What to prevent | Empty |
-| Quality bar | What makes the skill good | Practical and reusable |
-
-## Default assumptions
-
-- If category is unclear, propose the best category from `docs/skill-taxonomy.md`.
-- If the skill is too broad, split it into smaller skills.
-- If the workflow is one-off, recommend using a prompt instead of creating a skill.
-
-## Output contract
-
-1. **Recommended skill path**
-2. **Maturity target**
-3. **skill.md draft**
-4. **prompt-template.md draft**
-5. **examples.md draft**
-6. **changelog.md draft**
-7. **Reasoning for structure**
-
-## Hard constraints
-
-- Do not create vague skills like `general-helper`.
-- Prefer domain + task names.
-- Avoid overlapping with existing skills.
-- Every skill must have an output contract and hard constraints.
-- Every stable skill should include examples and anti-patterns.
-
-## System Prompt
+## Default file shape
 
 ```text
-You are a skill systems designer for a personal AI skills repository.
-Your job is to convert repeatable workflows into structured skills.
-Each skill must include purpose, role, use cases, required input, default assumptions, output contract, hard constraints, quality checklist, and system prompt.
-Recommend a repository path using skills/<category>/<domain-task>/.
-If the requested skill is too broad, split it into smaller skills.
-If it is one-off, recommend a prompt instead of a skill.
-Output: Recommended skill path, maturity target, skill.md draft, prompt-template.md draft, examples.md draft, changelog.md draft, reasoning.
+skills/<category>/<skill>/
+└── skill.md
 ```
+
+Do **not** create `prompt-template.md`, `examples.md` or `changelog.md` by default. Git already stores history, and small examples/templates belong in `skill.md` when they add value.
+
+## skill.md quality bar
+
+Keep only content that changes behavior:
+
+- `name` + `description` frontmatter;
+- when to use / not use;
+- workflow or decision rules;
+- output contract when useful;
+- hard constraints / anti-patterns;
+- validation.
+
+Avoid repeating the same instruction as Purpose + Role + System Prompt.
+
+## Output
+
+When asked to design a Skill, provide or implement:
+
+1. recommended path;
+2. overlap decision: create / merge / keep existing;
+3. `skill.md`;
+4. optional reference/maintenance file plan only if justified;
+5. routing changes only if needed;
+6. tests that would catch wrong routing or overengineering.
+
+Repository-wide authoring rules live in `docs/authoring-guide.md`.

@@ -1,57 +1,35 @@
-# Implementation Plan Skill
+---
+name: implementation-plan
+description: Convert an approved technical direction or feature requirement into concrete implementation tasks, file-level changes, tests and rollout steps.
+---
 
-## Status
+# Implementation Plan
 
-- Version: v0.1
-- Category: `development`
-- Maturity: `refined`
-- Last updated: 2026-06-20
+## Workflow
 
-## One-line purpose
+1. Inspect the actual repository/file structure when available.
+2. Identify the smallest coherent implementation sequence.
+3. Separate schema/data migrations from application changes.
+4. Order tasks so contracts and risky assumptions are validated early.
+5. Include tests with the task that creates the behavior, not as an afterthought.
+6. Include rollout/rollback only when the change has deployment or data risk.
 
-Turn a technical design or feature requirement into concrete implementation tasks.
+## Output
 
-## Role
-
-You are a senior full-stack implementation planner. Your job is to convert a feature into file-level tasks, API changes, data changes, tests, and rollout steps.
-
-## When to use
-
-Use after `technical-design` or `prd-builder`, before coding.
-
-## Required input
-
-| Field | Description | Default |
-| --- | --- | --- |
-| Feature | What to build | Required |
-| Stack | Tech stack | Inferred if possible |
-| Existing files | Known structure | Empty |
-| Data/API needs | Models and endpoints | Inferred |
-| Constraints | Time, risk, compatibility | Keep incremental |
-
-## Output contract
+Default:
 
 1. **Implementation summary**
-2. **Files to create/change**
-3. **Data model changes**
-4. **API / interface changes**
-5. **Step-by-step tasks**
-6. **Tests / validation**
-7. **Rollback plan**
-8. **Open questions**
+2. **Files/components to change**
+3. **Ordered tasks**
+4. **Data/API/interface changes** when relevant
+5. **Tests / validation**
+6. **Migration / rollback** when relevant
+7. **Open blockers** only when unresolved
 
-## Hard constraints
+## Constraints
 
-- Do not give vague coding advice.
-- Do not skip tests.
-- Do not ignore data migration risk.
-- Prefer incremental changes.
-- Mention exact file placement when possible.
-
-## System Prompt
-
-```text
-You are a senior full-stack implementation planner.
-Convert a feature or technical design into concrete file-level tasks, data/API changes, tests, validation steps, and rollback plan.
-Avoid vague advice. Prefer incremental implementation.
-```
+- Do not invent exact file paths when the repository has not been inspected; label suggested paths as suggestions.
+- Do not repeat the PRD or technical design in full.
+- Avoid vague tasks such as “implement backend” or “add tests”.
+- Prefer incremental, reversible changes.
+- Domain-specific implementation should follow the relevant domain Skill rather than generic patterns.

@@ -1,53 +1,36 @@
-# Product Positioning Skill
+---
+name: product-positioning
+description: Define credible product positioning, audience, problem, differentiated value and messaging. Adapt language to the specified market instead of assuming a universal Western style.
+---
 
-## Status
+# Product Positioning
 
-- Version: v0.1
-- Category: `marketing`
-- Maturity: `refined`
-- Last updated: 2026-06-20
+## Workflow
 
-## One-line purpose
+1. Define the product category in plain language.
+2. Identify the specific audience and problem worth solving.
+3. Separate **benefits** from features.
+4. Identify differentiators that are actually defensible; do not invent proof.
+5. Choose the smallest set of messaging pillars that can stay consistent across product, store and marketing surfaces.
+6. Adapt tone and terminology to the requested market/audience.
 
-Define product positioning, audience, benefits, differentiation, and Western-market messaging.
+## Output
 
-## Role
+Default:
 
-You are a product positioning strategist for Europe/US-facing apps, SaaS, ecommerce, and creator products.
+- **Positioning statement**
+- **Target audience + core problem**
+- **Primary benefits**
+- **Differentiators / proof needed**
+- **Messaging pillars**
+- **Short headline/slogan options** when useful
+- **Claims to avoid**
 
-## Required input
+## Constraints
 
-| Field | Description | Default |
-| --- | --- | --- |
-| Product | What it is | Required |
-| Audience | Who it is for | Inferred |
-| Problem | User pain | Inferred |
-| Differentiator | Why this product | Inferred |
-| Market | EU / US / UK / global | Western market |
-
-## Output contract
-
-1. **Positioning statement**
-2. **Target audience**
-3. **Core problem**
-4. **Main benefits**
-5. **Differentiators**
-6. **Messaging pillars**
-7. **Slogan options**
-8. **Claims to avoid**
-
-## Hard constraints
-
-- Avoid hype-heavy copy.
-- Avoid vague benefits.
-- Do not invent traction or proof.
-- Keep claims credible.
-- Use plain English for Western-market copy.
-
-## System Prompt
-
-```text
-You are a product positioning strategist for Western-market products.
-Create clear positioning, audience definition, benefits, differentiators, messaging pillars, slogan options, and claims to avoid.
-Avoid hype, vague claims, and fake proof.
-```
+- Avoid hype words that add no meaning.
+- Do not invent traction, reviews, customer proof, performance or scientific/legal claims.
+- Do not force Europe/US conventions when the user targets another market.
+- Prefer one strong position over many vague audience segments.
+- If differentiation is weak, say what evidence/product decision is missing instead of fabricating uniqueness.
+- Copy should use language customers can understand without internal product jargon.

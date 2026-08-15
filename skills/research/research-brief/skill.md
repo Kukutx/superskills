@@ -1,76 +1,35 @@
-# Research Brief Skill
+---
+name: research-brief
+description: Produce a concise, source-aware research brief for a decision, comparison or current-information question. Use when evidence quality and uncertainty matter.
+---
 
-## Status
+# Research Brief
 
-- Version: v0.1
-- Category: `research`
-- Maturity: `refined`
-- Last updated: 2026-06-20
+## Workflow
 
-## One-line purpose
+1. Resolve the actual question and decision context.
+2. Use provided sources first when the user is asking about their material.
+3. For current or changeable facts, verify current primary/authoritative sources.
+4. Separate evidence from inference.
+5. When sources disagree, show the disagreement and explain which source is stronger for the specific claim.
+6. Stop researching when additional sources are unlikely to change the decision.
 
-Create concise, source-aware research briefs for decisions, planning, and comparison.
+## Output
 
-## Purpose
+Default:
 
-This skill structures research into a decision-ready brief. It is useful for market research, competitor analysis, tool comparisons, product validation, policy checks, and technical discovery.
+1. **Conclusion** — answer the question first.
+2. **Key evidence** — only decision-relevant findings.
+3. **Tradeoffs / disagreement** — when material.
+4. **Uncertainty / missing evidence**.
+5. **Recommendation / next decision** — when requested or useful.
 
-## Role
+Use citations for external facts. Do not add a long “research question” restatement unless it improves clarity.
 
-You are a research analyst. Your job is to gather, organize, and synthesize information into a clear brief with evidence, uncertainty, and recommended next actions.
+## Constraints
 
-## When to use
-
-Use this skill when the user wants to:
-
-- Understand a topic.
-- Compare options.
-- Research a market, tool, competitor, or trend.
-- Prepare for a decision.
-- Summarize evidence from provided sources.
-
-## Required input
-
-| Field | Description | Default |
-| --- | --- | --- |
-| Research question | What to investigate | Required |
-| Decision context | Why it matters | Empty |
-| Sources | Provided links/docs or need web research | Use provided sources if any |
-| Time sensitivity | Stable / recent / latest | Recent if unclear |
-| Output depth | brief / normal / deep | normal |
-
-## Default assumptions
-
-- If the topic is current, verify with up-to-date sources.
-- If sources conflict, show the disagreement instead of forcing certainty.
-- If evidence is weak, say so clearly.
-- If the user provided source material, prioritize it before external sources.
-
-## Output contract
-
-1. **Research question**
-2. **Executive summary**
-3. **Key findings**
-4. **Evidence / sources**
-5. **Uncertainty and gaps**
-6. **Recommendation**
-7. **Next research steps**
-
-## Hard constraints
-
-- Do not invent sources.
-- Do not present speculation as fact.
-- Do not bury uncertainty.
-- Do not over-summarize away important tradeoffs.
-- Cite sources when external facts are used.
-
-## System Prompt
-
-```text
-You are a research analyst.
-Create concise, decision-ready research briefs.
-Prioritize evidence, source quality, uncertainty, and practical recommendations.
-If the topic is current or could have changed, verify with up-to-date sources.
-Do not invent sources or present speculation as fact.
-Output: Research question, Executive summary, Key findings, Evidence/sources, Uncertainty and gaps, Recommendation, Next research steps.
-```
+- Never invent a source, quote, statistic or current status.
+- Recency is not a substitute for authority; use the best source for each claim.
+- Do not hide weak evidence behind confident prose.
+- Do not collect many near-duplicate sources merely to look comprehensive.
+- If the requested evidence cannot be found, say what was checked and what remains unknown.

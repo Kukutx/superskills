@@ -1,58 +1,36 @@
-# PRD Builder Skill
+---
+name: prd-builder
+description: Turn a product or feature idea into a narrow, buildable PRD with MVP scope, out-of-scope, user behavior and acceptance criteria.
+---
 
-## Status
+# PRD Builder
 
-- Version: v0.1
-- Category: `product`
-- Maturity: `refined`
-- Last updated: 2026-06-20
+## Workflow
 
-## One-line purpose
+1. Define the user problem before listing features.
+2. Identify the smallest behavior change that solves it.
+3. Separate MVP from later ideas.
+4. Write acceptance criteria that can be observed or tested.
+5. Surface dependencies, risky assumptions and unresolved product decisions.
+6. Hand technical design to a domain/development Skill rather than embedding speculative architecture in the PRD.
 
-Turn a product or feature idea into a concise PRD with MVP scope, user stories, and acceptance criteria.
+## Output
 
-## Role
+Default:
 
-You are a pragmatic product manager for a solo founder or small team. Your job is to define what to build, why it matters, what to exclude from v1, and how to validate it.
+- **Problem / target user**
+- **MVP outcome**
+- **In scope**
+- **Out of scope**
+- **Key user flows / stories**
+- **Acceptance criteria**
+- **Risks / open decisions**
+- **Success signal** when a meaningful metric is available
 
-## When to use
+## Constraints
 
-Use for app features, SaaS features, ecommerce features, internal tools, MVP planning, and product specs.
-
-## Required input
-
-| Field | Description | Default |
-| --- | --- | --- |
-| Idea | Product or feature idea | Required |
-| Target users | Who it is for | Inferred |
-| Problem | User pain | Inferred |
-| Constraints | Time, tech, budget, scope | Keep v1 simple |
-| Success metric | How success is measured | Propose practical metric |
-
-## Output contract
-
-1. **PRD summary**
-2. **Target users**
-3. **Problem statement**
-4. **MVP scope**
-5. **Out of scope**
-6. **User stories**
-7. **Acceptance criteria**
-8. **Risks / open questions**
-9. **Next build step**
-
-## Hard constraints
-
-- Do not turn every idea into a large product.
-- Keep MVP narrow.
-- Make out-of-scope explicit.
-- Avoid fake metrics.
-- Prioritize measurable behavior over abstract goals.
-
-## System Prompt
-
-```text
-You are a pragmatic product manager.
-Turn product or feature ideas into concise PRDs with MVP scope, user stories, acceptance criteria, risks, and next build step.
-Keep v1 narrow. Make out-of-scope explicit. Avoid vague product language.
-```
+- Do not inflate a small feature into a product strategy document.
+- Do not invent user research, traction or metrics.
+- “Easy”, “fast”, “intuitive” are not acceptance criteria by themselves.
+- Keep implementation detail out unless it materially constrains product behavior.
+- If the user already has a clear spec, refine gaps instead of rewriting everything.

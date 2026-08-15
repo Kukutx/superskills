@@ -1,92 +1,85 @@
 # superskills
 
-`superskills` 是个人 AI Skills 仓库，用来沉淀可复用的提示词、工作流、输出规范和领域知识。
+个人 AI Skills 仓库。目标是把**真正可复用的决策规则、工作流和领域知识**沉淀下来，而不是积累 prompt 文档。
 
-目标：让 ChatGPT、Claude、Cursor 等 AI 工具更稳定地处理产品、开发、图片生成、xTool F1、Shopify、App Store 素材、营销、写作、研究和运营任务。
+## Runtime model
 
-## 设计原则
+```text
+user task
+-> choose one primary skill
+-> read its skill.md
+-> load only needed references
+-> execute
+-> validate
+```
 
-- **可复用**：每个 skill 都能复制到 AI 工具中使用。
-- **可执行**：输出格式明确，避免泛泛而谈。
-- **可迭代**：通过 examples、changelog 和版本记录持续优化。
-- **领域化**：按照任务场景分类。
-- **少废话**：让 AI 更专注，不输出无用内容。
-- **创作自由**：图片、角色、主题、雕刻和视觉任务默认按用户要求执行，不额外添加限制性说明。
-- **生产可用**：面向真实项目时保留尺寸、格式、质量、导出和验证检查。
+核心原则：
 
-## 当前目录结构
+- **specific before generic**：有领域 Skill 时优先领域 Skill。
+- **one primary skill**：不要因为多个关键词同时加载多个 Skill。
+- **progressive disclosure**：默认只读 `skill.md`；深层知识按需读 `references/`。
+- **no boilerplate files**：普通 Skill 不再强制 `prompt-template.md`、`examples.md`、`changelog.md`。
+- **maintenance is not runtime context**：来源、回归测试、历史放 `maintenance/`，不默认加载。
+- **evidence before claims**：生产、运行、视觉或发布任务需要与结论匹配的验证。
 
-```txt
+## Repository structure
+
+```text
 superskills/
 ├── README.md
 ├── docs/
-├── templates/
-└── skills/
-    ├── meta/
-    ├── planning/
-    ├── research/
-    ├── product/
-    ├── development/
-    │   ├── game-dev-spritesheet-slicer/
-    │   └── godot-2d-game-development/
-    ├── creative/
-    │   ├── xtool-f1-engraving/
-    │   └── image-prompt-director/
-    ├── design/
-    ├── marketing/
-    ├── ecommerce/
-    ├── writing/
-    └── operations/
+│   └── authoring-guide.md
+├── gpts/kukutx/
+│   ├── README.md
+│   ├── project-instructions.md
+│   ├── knowledge-pack.md
+│   ├── knowledge-files.md
+│   └── conversation-starters.md
+├── skills/
+│   └── <category>/<skill>/
+│       ├── skill.md
+│       ├── references/      # optional: runtime domain depth
+│       └── maintenance/     # optional: sources/tests/history
+└── templates/
+    └── skill-template.md
 ```
 
-## 当前核心 skills
+## Active skills
 
-| Skill | 用途 |
+| Skill | Purpose |
 | --- | --- |
-| `meta/prompt-optimizer` | 把粗糙想法优化成可复制提示词 |
-| `meta/skill-builder` | 把重复工作流变成结构化 skill |
-| `meta/skill-router` | 根据任务自动选择合适 skill 或组合流程 |
-| `planning/project-planner` | 项目规划和任务拆解 |
-| `research/research-brief` | 研究简报和资料分析 |
-| `product/prd-builder` | PRD、MVP、用户故事和验收标准 |
-| `development/code-review` | 代码审查 |
-| `development/bug-diagnosis` | Bug 诊断 |
-| `development/technical-design` | 技术方案设计 |
-| `development/implementation-plan` | 实施计划 |
-| `development/game-dev-spritesheet-slicer` | 像素动画 strip/spritesheet：生成规划、统一锚点/比例、切图、timing、命名和 Godot handoff |
-| `development/godot-2d-game-development` | Godot 2D 生产开发路由：架构、移动/物理/镜头、输入/手柄/重映射、TileMap、像素动画、战斗与打击感、VFX、UI、音频、AI、存档/对话、资产、运行验证、测试与导出/CI |
-| `creative/xtool-f1-engraving` | xTool F1 雕刻图案方案 |
-| `creative/image-prompt-director` | 图片生成提示词 |
-| `design/app-store-assets` | App Store / Google Play 素材方向 |
-| `design/image-review-refiner` | 图片评审和下一轮优化 prompt |
-| `marketing/product-positioning` | 产品定位和欧美市场表达 |
-| `ecommerce/shopify-dev` | Shopify 开发和实施 |
-| `writing/business-email` | 商务邮件 |
+| `meta/prompt-optimizer` | 用户明确需要 prompt/template 时优化提示词 |
+| `meta/skill-builder` | 创建、审计或重构可复用 Skill |
+| `meta/skill-router` | 不确定任务归属时选择最小 Skill 集合 |
+| `planning/project-planner` | 项目阶段、依赖、风险和下一步 |
+| `research/research-brief` | 有来源、有不确定性的决策型研究 |
+| `product/prd-builder` | MVP、用户故事、验收标准、out-of-scope |
+| `development/bug-diagnosis` | 通用软件故障诊断 |
+| `development/code-review` | 通用代码 / diff / PR 审查 |
+| `development/technical-design` | 通用技术方案与系统边界 |
+| `development/implementation-plan` | 文件级实施步骤与验证计划 |
+| `development/godot-2d-game-development` | Godot 4.x 2D / pixel game production router |
+| `development/game-dev-spritesheet-slicer` | animation strip / spritesheet 生产与切分 |
+| `creative/image-prompt-director` | 图像生成方向与 production-ready prompt |
+| `creative/xtool-f1-engraving` | xTool F1 雕刻设计与生产约束 |
+| `design/app-store-assets` | App Store / Google Play 视觉素材 |
+| `design/image-review-refiner` | 图像评审与下一轮修改指令 |
+| `ecommerce/shopify-dev` | Shopify 开发与实施 |
+| `marketing/product-positioning` | 产品定位与可信 messaging |
+| `writing/business-email` | 简洁专业商务邮件 |
 | `writing/app-store-copy` | App Store / Google Play 文案 |
-| `operations/sop-builder` | SOP |
-| `operations/release-checklist` | 发布检查清单 |
+| `operations/release-checklist` | 通用发布 gate / rollback / monitoring |
+| `operations/sop-builder` | 可执行 SOP |
 
-## 推荐使用方式
+## Growth rule
 
-```txt
-先帮我选 skill，再执行：
-[你的任务]
-```
+新增或拆分 Skill 前先问：
 
-或者：
+1. 这个任务是否会重复？
+2. 是否存在值得长期保留的**独特决策规则**？
+3. 现有 Skill 是否已经能处理？
+4. 新文件是否会改变 Agent 行为，而不是重复说明？
 
-```txt
-用 superskills 处理这个任务：
-[你的任务]
-```
+如果答案不明确，就不要新增 Skill 或 reference。
 
-## 维护规则
-
-- 新增高频任务时，先用 `meta/prompt-optimizer` 优化提示词。
-- 如果同一类任务重复 3 次以上，用 `meta/skill-builder` 沉淀成 skill。
-- 生成图片、视觉、雕刻、角色、主题作品时，优先使用 `creative/image-prompt-director` 或 `creative/xtool-f1-engraving`。
-- Godot 2D 任务优先进入 `development/godot-2d-game-development`，再按任务只加载 1–3 个专项 reference；单纯 spritesheet/animation-strip 规格、切图和打包使用 `development/game-dev-spritesheet-slicer`。
-- Godot 2D 的输入、战斗、打击感、存档、对话、运行验证、导出/CI 已拆成独立 reference；不要因为一个关键词加载整个游戏开发知识树。
-- Godot 外部 MCP、测试框架、AI/state、dialogue、camera、input helper、asset importer 或 template 都是可选 companion；先用原生/现有方案，只有明确降低复杂度时才增加依赖。
-- 需要精确 Godot-native pattern 时优先项目实际版本 + Godot 官方文档/官方 demo，再参考第三方 Skill/addon。
-- 面向上线或发布的任务，补充 clean import、测试、export artifact 和 runtime/smoke 验证。
+详细维护规范见 `docs/authoring-guide.md`。

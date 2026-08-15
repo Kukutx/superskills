@@ -1,85 +1,57 @@
-# Skill Router Skill
+---
+name: skill-router
+description: Select the smallest useful Superskills route when task ownership is ambiguous. Prefer specific domain skills over generic methods and avoid loading skills by keyword alone.
+---
 
-Routes tasks to the best available skill.
+# Skill Router
 
-## Routing principle
-
-Choose the **most specific domain skill first**. Generic engineering skills supplement a domain skill only when needed.
-
-Do not load multiple skills merely because several keywords match.
-
-## Skills
-
-- `meta/prompt-optimizer`
-- `meta/skill-builder`
-- `product/prd-builder`
-- `development/technical-design`
-- `development/implementation-plan`
-- `development/code-review`
-- `development/bug-diagnosis`
-- `development/game-dev-spritesheet-slicer`
-- `development/godot-2d-game-development`
-- `creative/image-prompt-director`
-- `creative/xtool-f1-engraving`
-- `design/image-review-refiner`
-- `design/app-store-assets`
-- `writing/app-store-copy`
-- `ecommerce/shopify-dev`
-- `marketing/product-positioning`
-- `operations/release-checklist`
-- `operations/sop-builder`
-
-## Game development routing
-
-### Godot 2D
-
-以下任一情况优先 `development/godot-2d-game-development`：
-
-- `project.godot`
-- Godot 2D / pixel art
-- CharacterBody2D / Area2D / TileMapLayer / Camera2D
-- animation / combat / hitbox / game feel
-- HUD/menu/gamepad UI
-- AI/navigation/save/dialogue
-- particles/shader/audio
-- Godot performance/testing/export
-
-即使用户说的是“debug”“review”“优化”“实现”，只要核心问题是 Godot 2D，仍先进入 Godot domain skill。
-
-进入后由它自己的 routing table 只读取当前任务需要的 1–3 个 reference。
-
-### Spritesheet specialist
-
-以下任务优先 `development/game-dev-spritesheet-slicer`：
-
-- frame size / rows / columns
-- action/direction strips
-- spritesheet slicing
-- frame timing/tags
-- anchor/scale normalization
-- naming/export/import contract
-
-如果同一任务既有 Godot gameplay 又有 spritesheet：
+## Rule
 
 ```text
-godot-2d-game-development = primary
-game-dev-spritesheet-slicer = asset subtask only
+specific domain skill
+> generic method skill
+> meta helper
 ```
 
-### General engineering
+Choose one primary skill first. Add a secondary skill only when it contributes a distinct subtask.
 
-只有没有更具体 domain skill 时，才优先使用：
+## Catalog
 
-- Pure/general bug diagnosis -> `development/bug-diagnosis`
-- General code review -> `development/code-review`
-- General architecture -> `development/technical-design`
-- General implementation planning -> `development/implementation-plan`
+| Intent | Skill |
+| --- | --- |
+| prompt/template itself | `meta/prompt-optimizer` |
+| create/audit a skill | `meta/skill-builder` |
+| project roadmap | `planning/project-planner` |
+| research/comparison | `research/research-brief` |
+| PRD/MVP | `product/prd-builder` |
+| general bug | `development/bug-diagnosis` |
+| general code/diff review | `development/code-review` |
+| general technical design | `development/technical-design` |
+| general implementation plan | `development/implementation-plan` |
+| Godot 2D / pixel game | `development/godot-2d-game-development` |
+| spritesheet/animation-strip production | `development/game-dev-spritesheet-slicer` |
+| image-generation direction/prompt | `creative/image-prompt-director` |
+| xTool F1 | `creative/xtool-f1-engraving` |
+| App Store / Play visuals | `design/app-store-assets` |
+| image refinement | `design/image-review-refiner` |
+| Shopify | `ecommerce/shopify-dev` |
+| positioning/messaging | `marketing/product-positioning` |
+| business email | `writing/business-email` |
+| App Store / Play copy | `writing/app-store-copy` |
+| generic release readiness | `operations/release-checklist` |
+| SOP/repeated process | `operations/sop-builder` |
 
-在 Godot 2D 任务中，这些可以作为补充方法论，但不要替代 Godot-specific routing。
+## Precedence examples
 
-## Routing restraint
+- Godot UI bug -> Godot skill, not generic bug + generic design.
+- Shopify theme bug -> Shopify skill; use bug-diagnosis only if general debugging methodology is additionally useful.
+- Godot gameplay + spritesheet -> Godot primary, slicer only for the asset subtask.
+- App Store screenshot artwork + copy -> app-store-assets primary, app-store-copy secondary.
+- User asks “do X” -> execute X; do not route through prompt-optimizer unless they asked for a prompt.
 
-- 不因为是游戏项目就加载所有 game references。
-- 不因为一句话同时出现 `attack + animation + VFX` 就自动加载三套；先判断真正的问题是 correctness、timing 还是 feel。
-- 不在已经进入明确 reference 后反复重新路由，除非任务关注点发生变化。
-- 如果用户只需要直接执行，完成路由后直接做，不先输出长篇“我选择了哪些 skill”的说明。
+## Restraint
+
+- Do not load every skill whose keywords appear in the prompt.
+- Do not announce a long routing analysis before doing the task.
+- Once a focused domain/reference is selected, stay there unless the actual task changes.
+- If no Skill adds meaningful value, answer directly rather than forcing a route.

@@ -1,53 +1,29 @@
-# kukutx GPT Setup
+# Kukutx setup
 
-This folder contains the ready-to-use configuration for the user's private ChatGPT setup.
+`superskills` 在 ChatGPT Project 和 Private GPT 中使用同一套核心配置，避免维护两份几乎相同的 instructions。
 
-Use it for two related but different things:
+## ChatGPT Project
 
-1. **ChatGPT Project: `kukutx`**
-   - Best for long-running work, files, project memory, and ongoing chats.
-   - Use `project-instructions.md` as the Project Instructions.
-   - Upload `knowledge-pack.md` or selected files from `knowledge-files.md` as Project files.
+1. 将 `project-instructions.md` 用作 Project Instructions。
+2. 先加入 `knowledge-pack.md`。
+3. 高频领域再按 `knowledge-files.md` 加对应 `skill.md` / `references/`。
 
-2. **Private Custom GPT: `Kukutx Superskills`**
-   - Best as a one-click assistant entry point.
-   - Use `private-gpt-instructions.md` as the GPT Instructions.
-   - Use `conversation-starters.md` as starter prompts.
-   - Use `knowledge-files.md` to choose knowledge files.
+## Private GPT
 
-## Recommended first setup
+同样使用：
 
-For the current `kukutx` Project:
+- Instructions: `project-instructions.md`
+- Knowledge first: `knowledge-pack.md`
+- Additional knowledge: 按 `knowledge-files.md` 选择
+- Starter ideas: `conversation-starters.md`
 
-1. Open the project settings.
-2. Paste `project-instructions.md` into Project Instructions.
-3. Upload `knowledge-pack.md` first.
-4. Start a new chat with:
+不要把整个仓库一次性塞进 Knowledge。复杂 Skill 只加入当前项目真正需要的 references。
 
-```text
-用 skill-router 帮我判断这个任务该用哪个 skill，并直接执行：
-[你的任务]
-```
+## Maintenance
 
-## Recommended later setup
+仓库更新后：
 
-Create a Private Custom GPT named:
-
-```text
-Kukutx Superskills
-```
-
-Use:
-
-- `private-gpt-instructions.md` for Instructions.
-- `knowledge-pack.md` as the first Knowledge file.
-- Add more skill files from `knowledge-files.md` if needed.
-
-## Maintenance rule
-
-When `superskills` changes meaningfully:
-
-1. Update the relevant skill files.
-2. Update `knowledge-pack.md` if routing or defaults changed.
-3. Update the GPT Knowledge files.
-4. Test with the prompts in `conversation-starters.md`.
+1. routing/defaults 变化 -> 更新 `knowledge-pack.md`；
+2. domain behavior 变化 -> 更新对应 `skill.md` / reference；
+3. 重新同步发生变化的 Knowledge 文件；
+4. 用真实任务验证，不靠继续增加文件解决弱路由。

@@ -1,83 +1,36 @@
-# SOP Builder Skill
+---
+name: sop-builder
+description: Turn a genuinely repeated process into a short, executable SOP with trigger, inputs, decisions, quality checks and definition of done.
+---
 
-## Status
+# SOP Builder
 
-- Version: v0.1
-- Category: `operations`
-- Maturity: `refined`
-- Last updated: 2026-06-20
+## Workflow
 
-## One-line purpose
+1. Define the trigger and desired done state.
+2. Identify required inputs/tools and the owner of each decision.
+3. Write only repeatable actions in execution order.
+4. Expose decision points and failure handling instead of hiding them in prose.
+5. Put checks next to the step they validate when possible.
+6. Remove steps that are merely commentary or optional optimization.
 
-Turn repeated work into a clear SOP with steps, inputs, outputs, checks, and ownership.
+## Output
 
-## Purpose
+Default:
 
-This skill creates standard operating procedures for recurring workflows. It is useful for business processes, content publishing, customer support, development releases, QA, design production, and personal operations.
+- **Trigger / goal**
+- **Required inputs**
+- **Steps**
+- **Decision / exception rules** where needed
+- **Quality checks**
+- **Definition of done**
 
-## Role
+Add roles, timing or escalation only when the process actually needs them.
 
-You are an operations designer. Your job is to convert messy repeated work into a simple, maintainable SOP that someone can follow without guessing.
+## Constraints
 
-## When to use
-
-Use this skill for:
-
-- Repeated manual workflows
-- Internal process documentation
-- QA checklists
-- Publishing workflows
-- Customer support processes
-- Release processes
-- Design export procedures
-- AI-assisted workflows that need repeatability
-
-## Required input
-
-| Field | Description | Default |
-| --- | --- | --- |
-| Process name | Name of workflow | Required |
-| Goal | Desired outcome | Required |
-| Trigger | When the SOP starts | Inferred |
-| Inputs | Required materials/tools | Empty |
-| Steps | Current rough process | Empty |
-| Owner | Who performs it | User / operator |
-| Risks | Common mistakes | Empty |
-| Output | Final deliverable | Inferred |
-
-## Default assumptions
-
-- Keep the SOP short enough to follow.
-- Separate required steps from optional improvements.
-- Include quality checks and failure handling.
-- If the process is unclear, create a v0 SOP with assumptions.
-
-## Output contract
-
-1. **SOP name**
-2. **Goal**
-3. **When to use**
-4. **Inputs**
-5. **Step-by-step process**
-6. **Quality checklist**
-7. **Common mistakes**
-8. **Definition of done**
-9. **Improvement notes**
-
-## Hard constraints
-
-- Do not create vague process descriptions.
-- Do not hide decision points.
-- Do not skip quality checks.
-- Do not make the process longer than necessary.
-- Use action verbs and clear ownership.
-
-## System Prompt
-
-```text
-You are an operations designer.
-Turn repeated work into clear SOPs with triggers, inputs, steps, checks, mistakes, and definition of done.
-Keep the SOP practical and short enough to follow.
-If the process is incomplete, create a v0 SOP with assumptions.
-Output: SOP name, Goal, When to use, Inputs, Step-by-step process, Quality checklist, Common mistakes, Definition of done, Improvement notes.
-```
+- Use action verbs and concrete outputs.
+- Do not turn obvious one-time work into an SOP.
+- Do not create nested procedures for every minor choice.
+- Keep required vs optional work visibly separate.
+- A good SOP should be shorter after refinement, not longer merely because it is documented.

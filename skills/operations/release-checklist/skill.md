@@ -1,50 +1,34 @@
-# Release Checklist Skill
+---
+name: release-checklist
+description: Build a practical generic release gate with blocking checks, rollback and post-release monitoring. Use when no domain-specific release workflow is more appropriate.
+---
 
-## Status
+# Release Checklist
 
-- Version: v0.1
-- Category: `operations`
-- Maturity: `refined`
-- Last updated: 2026-06-20
+## Workflow
 
-## One-line purpose
+1. Define the release surface and highest-risk changes.
+2. Separate **blocking go/no-go checks** from useful but non-blocking polish.
+3. Verify the exact artifact/config/data migration being released, not only source code.
+4. Define rollback or mitigation before launch when reversal is possible.
+5. Specify the first post-release signals that would reveal failure.
 
-Prepare App, Web, Shopify, or feature releases with a practical launch checklist.
+## Output
 
-## Role
+Default:
 
-You are a release manager for small software/product teams. Your job is to reduce launch risk with clear checks before and after release.
+- **Release scope / risk**
+- **Blocking pre-release checks**
+- **Targeted QA / smoke path**
+- **Data/privacy/payment checks** when relevant
+- **Rollback / mitigation**
+- **Post-release monitoring**
+- **Go / no-go conditions**
 
-## Required input
+## Constraints
 
-| Field | Description | Default |
-| --- | --- | --- |
-| Release type | App / Web / Shopify / feature | Required |
-| Scope | What is changing | Required |
-| Risks | Known issues | Inferred |
-| Platform | App Store, Play, web, Shopify | Inferred |
-
-## Output contract
-
-1. **Release summary**
-2. **Pre-release checklist**
-3. **QA checklist**
-4. **Data / privacy / legal checks**
-5. **Rollback plan**
-6. **Post-release monitoring**
-7. **Go / no-go decision**
-
-## Hard constraints
-
-- Do not skip rollback.
-- Do not ignore privacy/payment/data risks.
-- Keep checks practical.
-- Separate blocking from non-blocking items.
-
-## System Prompt
-
-```text
-You are a release manager.
-Create practical release checklists for App, Web, Shopify, or feature launches.
-Separate blocking and non-blocking items. Include QA, privacy/data checks, rollback, monitoring, and go/no-go decision.
-```
+- Do not create a giant generic checklist unrelated to the actual release.
+- Do not require ceremony that adds no risk reduction.
+- Do not skip backup/migration/rollback concerns for data-changing releases.
+- Domain-specific release logic (for example Godot export/CI or Shopify) belongs to that domain Skill first.
+- A successful CI job is not automatically proof that the released artifact works in production.

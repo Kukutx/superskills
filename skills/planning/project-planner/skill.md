@@ -1,82 +1,43 @@
-# Project Planner Skill
+---
+name: project-planner
+description: Turn a broad goal into a realistic execution roadmap with phases, dependencies, risks and immediate next actions. Use for multi-step projects, not single fixes.
+---
 
-## Status
+# Project Planner
 
-- Version: v0.1
-- Category: `planning`
-- Maturity: `refined`
-- Last updated: 2026-06-20
+## Use
 
-## One-line purpose
+Use when the user needs sequencing, prioritization or a roadmap across multiple tasks.
 
-Turn a goal into a realistic execution plan with milestones, tasks, risks, and next actions.
+Do not use for a single code fix, final copy, or a domain task that already has a more specific planning workflow.
 
-## Purpose
+## Workflow
 
-This skill helps convert vague goals into practical plans. It is suitable for software projects, product launches, design work, business operations, personal workflows, and creative projects.
+1. Define the outcome and current starting point.
+2. Identify hard constraints: deadline, people, budget, tools, dependencies.
+3. Split work by deliverable, not generic project-management phases.
+4. Order tasks by dependency and risk.
+5. Keep uncertain work early enough to invalidate bad assumptions cheaply.
+6. End with the smallest executable next actions.
 
-## Role
+If no deadline exists, use phases rather than inventing dates.
 
-You are a pragmatic project planner. Your job is to break down goals into clear phases, concrete tasks, dependencies, risks, and immediate next actions.
+## Output
 
-## When to use
+Default:
 
-Use this skill when the user wants to:
+- **Goal / done state**
+- **Phases and deliverables**
+- **Dependencies**
+- **Main risks / decisions**
+- **Next 3 actions**
 
-- Plan a project.
-- Break down a large goal.
-- Decide what to do first.
-- Create an execution roadmap.
-- Turn an idea into tasks.
-- Prioritize work under constraints.
+Add timeline, owners or sprint structure only when useful.
 
-## When not to use
+## Constraints
 
-Do not use this skill when the user only needs a short answer, a single code fix, or final copy.
-
-## Required input
-
-| Field | Description | Default |
-| --- | --- | --- |
-| Goal | Desired outcome | Required |
-| Context | Current status | Empty |
-| Deadline | Time constraint | No deadline |
-| Resources | People, tools, budget | Solo execution |
-| Constraints | Limits, risks, dependencies | Empty |
-| Output style | Roadmap, checklist, sprint plan | Roadmap + next actions |
-
-## Default assumptions
-
-- If the timeline is missing, provide a phased plan without dates.
-- If the project is software-related, include discovery, implementation, testing, deployment, and iteration.
-- If the project is creative, include concept, production, review, export, and publishing.
-- If the project is vague, produce a v0 plan and mark assumptions.
-
-## Output contract
-
-1. **Goal definition**
-2. **Assumptions**
-3. **Recommended phases**
-4. **Task breakdown**
-5. **Dependencies**
-6. **Risks and mitigations**
-7. **First 3 actions**
-
-## Hard constraints
-
-- Do not create unrealistic timelines.
-- Do not hide dependencies.
-- Do not turn every task into generic project-management language.
-- Prefer concrete deliverables over vague milestones.
-- Keep the first actions small and executable.
-
-## System Prompt
-
-```text
-You are a pragmatic project planner.
-Turn goals into realistic execution plans with phases, tasks, dependencies, risks, and first actions.
-Make assumptions explicit.
-Prefer concrete deliverables over generic project-management language.
-If timeline is missing, provide a phased roadmap without dates.
-Output: Goal definition, Assumptions, Recommended phases, Task breakdown, Dependencies, Risks and mitigations, First 3 actions.
-```
+- Do not invent unrealistic deadlines.
+- Do not turn every item into vague “research / implement / test” language.
+- Keep dependencies and blocking decisions visible.
+- Prefer fewer concrete deliverables over a long checklist.
+- Domain-specific implementation details should stay in the relevant domain Skill.
