@@ -13,7 +13,7 @@ specific domain skill
 > meta helper
 ```
 
-Choose one primary skill first. Add a secondary skill only when it contributes a distinct subtask.
+Choose one primary Skill first. Add a secondary Skill only when it contributes a distinct subtask.
 
 ## Catalog
 
@@ -22,7 +22,7 @@ Choose one primary skill first. Add a secondary skill only when it contributes a
 | prompt/template itself | `meta/prompt-optimizer` |
 | create/audit/simplify a skill | `meta/skill-builder` |
 | cross-workstream project roadmap | `planning/project-planner` |
-| research/comparison/current evidence | `research/research-brief` |
+| external evidence / current factual comparison | `research/research-brief` |
 | PRD/MVP/product behavior | `product/prd-builder` |
 | general observed software bug | `development/bug-diagnosis` |
 | general code/diff/PR review | `development/code-review` |
@@ -58,6 +58,12 @@ behavior + architecture already decided, need files/tasks/tests
 
 Do not load all three for a normal software task.
 
+### Research brief vs technical/product decision
+
+Use `research-brief` when the answer materially depends on **external evidence, current facts, source quality or uncertainty**.
+
+If the user is comparing options inside an already-known project and the real question is ownership/interfaces/architecture, `technical-design` remains primary. Comparison wording alone is not a research task.
+
 ### Bug diagnosis vs code review
 
 ```text
@@ -70,20 +76,37 @@ inspect code/diff for defects/risks
 
 A bug may later need code review, but review is not a substitute for reproduction/diagnosis.
 
+### Positioning vs store copy/assets
+
+```text
+audience/value/differentiation unresolved
+-> product-positioning
+
+words are the main deliverable
+-> app-store-copy
+
+visual sequence/composition is the main deliverable
+-> app-store-assets
+```
+
+Use another one only for a distinct downstream subtask.
+
 ## Precedence examples
 
-- Godot UI bug -> Godot skill, not generic bug + generic design.
-- Shopify theme bug -> Shopify skill; generic bug-diagnosis only if its debugging method adds distinct value.
+- Godot UI bug -> Godot Skill, not generic bug + generic design.
+- Shopify theme bug -> Shopify Skill; generic bug-diagnosis only if its method adds distinct value.
 - Godot gameplay + spritesheet -> Godot primary, slicer only for the asset subtask.
+- Godot export/CI -> Godot Skill before generic release-checklist.
 - App Store screenshot artwork + copy -> app-store-assets primary, app-store-copy secondary.
-- “Design the data model/API ownership” -> technical-design.
+- “Compare current maintenance/security of three libraries” -> research-brief.
+- “In this architecture, which component owns this state?” -> technical-design even if alternatives are compared.
 - “Architecture is approved; tell me exactly which files/tasks to change” -> implementation-plan.
 - “Plan the whole app from validation through launch” -> project-planner.
 - User asks “do X” -> execute X; do not route through prompt-optimizer unless they asked for a prompt.
 
 ## Restraint
 
-- Do not load every skill whose keywords appear in the prompt.
+- Do not load every Skill whose keywords appear in the prompt.
 - Do not announce a long routing analysis before doing the task.
 - Once a focused domain/reference is selected, stay there unless the actual task changes.
 - If no Skill adds meaningful value, answer directly rather than forcing a route.
