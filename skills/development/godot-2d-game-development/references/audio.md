@@ -133,7 +133,3 @@ Ducking 必须有 attack/release；不要突然把 BGM 砍到 0。
 - music transition no repeated restart；
 - volume settings affect correct buses；
 - missing optional audio 不破 gameplay。
-
-## Source synthesis
-
-主要吸收 awesome-gamedev `audio-design`、GD-Agentic-Skills Godot audio patterns 与 game-feel layered feedback。
