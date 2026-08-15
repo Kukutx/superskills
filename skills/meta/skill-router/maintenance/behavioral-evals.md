@@ -19,6 +19,16 @@ Maintenance-only. Test **task ownership**, not keyword matching. A pass selects 
 | “每天重复发布这批内容，整理 SOP” | `operations/sop-builder` | domain Skill for domain steps | project-planner for a stable process |
 | “这一次发布前做 go/no-go 检查” | `operations/release-checklist` | domain release Skill where available | turning one release into an SOP |
 
+## Personal-analysis boundaries
+
+| User task | Expected primary | Secondary only when | Must avoid |
+| --- | --- | --- | --- |
+| “1992 年生，按八字看事业和近三年运势” | `personal/divination-reading` | research only for a genuinely external calendrical/current fact | presenting symbolic interpretation as empirical evidence |
+| “我没指定方法，只想占一下这个 offer 值不值得接” | `personal/divination-reading` | none by default; choose one focused method | stacking every divination system |
+| “1992 年生，在中国长大，结合互联网和就业环境分析成长背景，不要占星” | `personal/generational-context-analysis` | `research/research-brief` only for a distinct formal evidence brief | divination because a birth date appears |
+| “出生在 1995 年的人是不是都回避型依恋？” | `personal/generational-context-analysis` | research for cohort evidence | claiming attachment style from birth year |
+| “先给我做八字，再单独用历史数据分析我这一代” | divination and generational Skills as two explicit subproblems | research for evidence-heavy cohort section | blending symbolic and empirical claims into one confidence score |
+
 ## Domain precedence
 
 | User task | Expected primary | Secondary only when | Must avoid |
@@ -48,6 +58,12 @@ Maintenance-only. Test **task ownership**, not keyword matching. A pass selects 
 | “给 xTool F1 做可实际雕刻的小徽章” | `creative/xtool-f1-engraving` | image-prompt-director for a distinct generation subtask | generic illustration overriding engraving constraints |
 
 ## Mixed-task pressure cases
+
+### Divination + evidence-led cohort analysis
+
+Prompt: `我 1990 年出生。先按八字看职业，再用中国 90 年代到互联网时代的真实历史环境分析这一代的职业观。`
+
+Pass: treat these as two separate epistemic sections. Divination owns the symbolic reading; generational context owns evidence-led cohort exposure. Do not use one to “validate” the other.
 
 ### Godot gameplay + sprite asset
 
@@ -84,9 +100,10 @@ Pass: actual domain/task owner; never prompt-optimizer as preprocessing.
 1. One primary Skill owns the task.
 2. Secondary Skills handle separable subtasks only.
 3. Domain ownership beats generic methods.
-4. “compare”, “plan”, “review” and “prompt” words do not route by themselves.
-5. Godot 2D and 3D stay separate when dimension changes implementation.
-6. Asset production and engine runtime remain separate owners.
-7. Maintenance content is not loaded during normal execution.
+4. “compare”, “plan”, “review”, “prompt” and “birth date” words do not route by themselves.
+5. Evidence-led cohort analysis and symbolic divination remain epistemically separate.
+6. Godot 2D and 3D stay separate when dimension changes implementation.
+7. Asset production and engine runtime remain separate owners.
+8. Maintenance content is not loaded during normal execution.
 
 When a real task fails, fix the smallest ownership rule first. Do not add a new Skill unless existing owners cannot cleanly represent the missing decision.
