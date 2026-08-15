@@ -10,6 +10,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 SKILLS = ROOT / "skills"
 ROUTER = SKILLS / "meta" / "skill-router" / "skill.md"
+ROUTER_MAINTENANCE = ROUTER.parent / "maintenance"
 ALLOWED_SKILL_ENTRIES = {"skill.md", "references", "maintenance"}
 ROOT_PREFIXES = ("docs/", "gpts/", "skills/", "templates/", "tools/", ".github/")
 MAINTENANCE_HEADINGS = ("## Source synthesis", "## Upstream inspiration")
@@ -81,8 +82,6 @@ def main() -> int:
                                 f"{p.relative_to(ROOT)}: maintenance source note '{heading}' is in runtime reference"
                             )
                     # Every runtime reference must be discoverable from its Skill entrypoint.
-                    # A filename mention is sufficient because some routers intentionally use
-                    # concise labels such as `combat-system.md` rather than a full relative path.
                     if p.name not in skill_text:
                         errors.append(
                             f"{p.relative_to(ROOT)}: orphan runtime reference; not mentioned by {rel}"
@@ -98,6 +97,16 @@ def main() -> int:
         errors.append(f"skill-router catalog missing: {missing}")
     if stale:
         errors.append(f"skill-router catalog references missing skills: {stale}")
+
+    # Router behavioral/regression cases may evolve separately from runtime text;
+    # keep their explicit Skill routes from becoming stale.
+    if ROUTER_MAINTENANCE.exists():
+        for md in ROUTER_MAINTENANCE.glob("*.md"):
+            for route in PATH_RE.findall(md.read_text(encoding="utf-8")):
+                if route not in skill_paths:
+                    errors.append(
+                        f"{md.relative_to(ROOT)}: behavioral route references missing skill {route}"
+                    )
 
     # Check explicit Markdown paths written in runtime skill/reference files.
     runtime_files = list(skill_files)
