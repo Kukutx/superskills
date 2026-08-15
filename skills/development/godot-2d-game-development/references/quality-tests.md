@@ -9,6 +9,7 @@
 - 主路由正确；
 - 通常只加载 1–3 个 reference；
 - gameplay truth ownership 清楚；
+- correctness 优先于 polish；
 - 不自动安装 addon/MCP/template/test framework；
 - 不引入无关 3D；
 - 版本敏感内容先确认 Godot version；
@@ -26,7 +27,8 @@
 | “一个挥砍扣了三次血” | `combat-system` | 先调 screen shake |
 | “攻击第 4 帧才激活 hitbox” | `combat-system` + `animation-pixel` | 独立 Timer 猜 timing |
 | “伤害都对，但砍起来很软” | `game-feel` + optional `audio`/`rendering-vfx-shaders` | 重写 damage architecture |
-| “大量 hit particles FPS 掉” | `performance-testing-debugging` + `rendering-vfx-shaders` | 未 profile 就 ECS/MultiMesh |
+| “有时一刀扣两次血，而且打击感也很软” | `combat-system` first; `game-feel` only after correctness | 一开始同时改伤害和全部 polish |
+| “大量 hit particles FPS 掉” | `performance-testing-debugging` + `rendering-vfx-shaders` after profile | 未 profile 就 ECS/MultiMesh |
 | “Aseprite 已有 tags/timing，要进 Godot” | `animation-pixel` + `asset-pipeline` + optional `companion-tools` | 当 AI strip 重生成 |
 | “AI 生成 attack strip 并导入 Godot” | `animation-pixel` + `asset-pipeline` + slicer | 默认装 Aseprite importer |
 | “Godot 原生 terrain 已经能画地图” | `world-tilemap-level-design` | 因为发现 Better Terrain 就替换 |
@@ -46,6 +48,7 @@
 | “新项目要 menu/options/pause/credits” | `ui-ux` + optional `companion-tools` | 成熟项目硬套完整 template |
 | “只切 64x64 sprite sheet” | spritesheet slicer | 主 Godot 全域 refs |
 | “Godot 3D 第三人称” | route outside this skill | 套 2D reference |
+| “Godot 2D 联机权威服务器和 rollback netcode” | Godot skill handles 2D gameplay only; networking architecture routes outside | 假装现有 references 覆盖 netcode |
 
 ## Behavioral pressure tests
 
@@ -80,9 +83,15 @@ Pass:
 
 ### Combat vs game feel
 
-A: `一刀有时命中两次。` -> combat-system。
+A: `一刀有时命中两次。` -> `combat-system`。
 
-B: `命中和伤害都对，但没重量。` -> game-feel；不重构 damage。
+B: `命中和伤害都对，但没重量。` -> `game-feel`；不重构 damage。
+
+C: `一刀偶尔两次伤害，而且也没重量。`
+- 先修 combat correctness；
+- 用固定 reproduction 证明一击一次；
+- 再进入 game-feel；
+- 不同时改判定、hit-stop、shake、audio 后再猜哪项有效。
 
 ### Authored vs generated pixel assets
 
@@ -184,6 +193,43 @@ Pass:
 - 检查实际采用、维护、独特价值、与现有 source overlap；
 - 宣称“支持最新版本”不是收录理由；
 - 无新 decision value 就拒绝纳入 primary sources。
+
+## Distribution integration tests
+
+这些测试用于确保 Skill 不只“文件存在”，而是能从 Kukutx 的入口被选中。
+
+### Project instructions precedence
+
+Prompt: `这个 Godot 2D 项目攻击会重复扣血，帮我 debug。`
+
+Pass:
+- `godot-2d-game-development` primary；
+- `combat-system` primary reference；
+- generic `bug-diagnosis` 最多作为补充，不抢 domain route。
+
+### Knowledge pack routing
+
+Prompt: `帮我做 Godot 像素角色攻击和 hit-stop。`
+
+Pass:
+- Godot 2D skill primary；
+- animation/combat/game-feel 按实际问题渐进加载；
+- 不因为 compact knowledge pack 缺全部 reference 就退回 generic implementation plan。
+
+### Spritesheet-only routing
+
+Prompt: `把这个 64x64、6 帧一行的 PNG 切成 attack_00..05。`
+
+Pass:
+- `game-dev-spritesheet-slicer` primary；
+- 不加载完整 Godot 2D runtime knowledge。
+
+### Runtime knowledge hygiene
+
+Pass:
+- `sources.md` / `quality-tests.md` / changelog 不作为普通 runtime knowledge 必选文件；
+- compatibility indexes 不主动上传/加载；
+- routing 不靠“把所有文件塞进上下文”解决。
 
 ## Maintenance regression rule
 
