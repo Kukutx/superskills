@@ -31,6 +31,8 @@ Choose one primary Skill first. Add a secondary Skill only for a genuinely disti
 | Godot 2D / pixel game runtime | `development/godot-2d-game-development` |
 | Godot 3D / spatial game runtime | `development/godot-3d-game-development` |
 | sprite animation generation/slicing/packaging | `development/sprite-animation-pipeline` |
+| explicit divination / astrology / fortune-telling reading | `personal/divination-reading` |
+| evidence-led birth-cohort / historical life context | `personal/generational-context-analysis` |
 | image-generation direction/prompt | `creative/image-prompt-director` |
 | xTool F1 | `creative/xtool-f1-engraving` |
 | App Store / Play visuals | `design/app-store-assets` |
@@ -64,6 +66,20 @@ Do not load all three for a normal software task.
 Use `research-brief` when the answer materially depends on external evidence, current facts, source quality or uncertainty.
 
 If the real question is architecture/ownership inside an already-known project, `technical-design` remains primary even when alternatives are compared.
+
+### Divination vs generational context
+
+A birth date is not itself a routing signal. Route by the user's **epistemic intent**:
+
+```text
+八字 / 紫微 / 六爻 / 奇门 / Tarot / Jyotiṣa / astrology / symbolic fortune reading
+-> personal/divination-reading
+
+historical events / economy / technology / cohort psychology / "完全不要占星"
+-> personal/generational-context-analysis
+```
+
+Do not mix the two into one answer unless the user explicitly asks for both. In the evidence-led route, birth date anchors timing/exposure rather than causing personality. In the divination route, symbolic interpretation must not be presented as empirical fact.
 
 ### Bug diagnosis vs code review
 
@@ -102,7 +118,7 @@ Node3D / CharacterBody3D / Camera3D / 3D physics-rendering-import-navigation
 -> godot-3d-game-development
 ```
 
-Do not merge both Skills for ordinary dimension-neutral Godot concerns. If a task genuinely spans 2D and 3D (for example a migration or mixed-world tool), select the owner of the primary implementation and add the other only for the distinct dimensional subproblem.
+Do not merge both Skills for ordinary dimension-neutral Godot concerns. If a task genuinely spans 2D and 3D, select the owner of the primary implementation and add the other only for the distinct dimensional subproblem.
 
 ### Domain runtime vs asset production
 
@@ -118,6 +134,9 @@ Use both only when a task genuinely spans runtime integration and sprite asset p
 
 ## Precedence examples
 
+- “1990 年出生，按八字看事业” -> divination-reading.
+- “1990 年出生，结合中国经济和互联网发展分析职业环境，不要占星” -> generational-context-analysis.
+- “出生日期相同的人是否都有焦虑型依恋？” -> generational-context-analysis should reject the unsupported individual inference; do not route to divination unless requested.
 - Godot 2D bug -> Godot 2D Skill before generic development methods.
 - Godot 3D camera/physics/import bug -> Godot 3D Skill before generic development methods.
 - Shopify theme/store issue -> Shopify Skill before generic frontend/debugging.
