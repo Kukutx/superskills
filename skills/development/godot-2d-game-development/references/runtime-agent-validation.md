@@ -2,7 +2,7 @@
 
 用于 Agent 修改 Godot 后的 **evidence-driven verification**：scene inspection、run/stop、runtime input、screenshots、errors/output、UI flow、visual regression 与可重复 smoke tests。
 
-它不是 MCP 安装指南。没有 live tooling 时仍然给出 editor/CLI/manual fallback。
+它不是 MCP 安装指南。具体工具候选只在 `companion-tools.md` 维护；这里定义验证方法。
 
 ## 1. Core loop
 
@@ -16,9 +16,10 @@ inspect actual project
 -> capture errors/output + visible result
 -> compare with expected behavior
 -> fix
+-> repeat
 ```
 
-不要“代码编译/parse 通过”就宣布视觉或交互任务完成。
+不要“代码 parse/compile 通过”就宣布视觉或交互任务完成。
 
 ## 2. Match evidence to the claim
 
@@ -26,11 +27,12 @@ inspect actual project
 | --- | --- |
 | scene/resource loads | no parse/resource errors |
 | button works | focus/click/input causes expected transition |
-| animation looks correct | runtime observation/screenshot sequence/preview |
+| animation looks correct | runtime observation / frame preview / screenshot sequence |
 | collision fixed | controlled gameplay reproduction |
-| shader/VFX correct | screenshot/video-like observation + no shader errors |
+| shader/VFX correct | runtime visual observation + no shader errors |
 | save fixed | write -> restart/load -> compare state |
 | performance fixed | profiler/frame-time evidence |
+| export fixed | clean export + artifact smoke check |
 
 证据要能验证用户实际关心的结果。
 
@@ -41,34 +43,34 @@ inspect actual project
 - isolated test scene；
 - affected level；
 - focused UI screen；
-- small reproduction；
+- minimal reproduction。
 
 只有必须经过完整 game flow 时才从主菜单走全流程。
 
 ## 4. Runtime input
 
-如果工具支持 input simulation：
+如果环境支持 input simulation：
 
-- 用 project actions/expected player input；
-- 不依赖脆弱 screen coordinates when semantic controls are available；
-- 测试 press/release，而不是只发一个“click-like”抽象；
-- gamepad/UI focus 要验证方向导航和 confirm/back；
-- repeated/held input only when behavior needs it。
+- 优先使用 project actions / expected player input；
+- semantic input 可用时不要依赖脆弱 screen coordinates；
+- 需要时区分 press / hold / release；
+- gamepad UI 要验证方向导航、confirm、back；
+- repeated input 只在行为本身需要时测试。
 
-自动化 input 不应改写 gameplay logic 只为了测试方便。
+不要改 gameplay logic 只为了让自动化工具更容易点到。
 
-## 5. Screenshots
+## 5. Screenshots and visual evidence
 
 Screenshot 适合验证：
 
 - UI alignment；
 - visible state；
-- sprite/animation pose；
+- sprite pose；
 - shader/lighting；
 - camera framing；
-- generated/imported asset handoff。
+- imported asset handoff。
 
-截图不是 physics correctness 的充分证据。需要 interaction 时配合 runtime action/output。
+单张截图不是 physics/combat correctness 的充分证据；需要 interaction 时必须配合 runtime action、state 或 output。
 
 ## 6. Error capture
 
@@ -78,73 +80,79 @@ Screenshot 适合验证：
 - invalid get/set/call；
 - missing node/resource；
 - shader compile errors；
-- repeated runtime warnings if relevant；
-- addon/import failures。
+- addon/import failures；
+- 新出现且与任务相关的 runtime warnings。
 
-不要因为画面看起来正确就忽略新错误。
+画面看起来正确也不能忽略新增错误。
 
-## 7. Visual iteration
+## 7. Visual iteration discipline
 
 对 UI/VFX/game-feel：
 
 ```text
-run baseline if useful
--> change one dimension
--> replay same event
+establish baseline when useful
+-> change one meaningful dimension
+-> replay the same event
 -> compare
 ```
 
-一次同时改 shake、hit-stop、particles、audio、scale、camera 会让原因不可判断。
+一次同时改 shake、hit-stop、particles、audio、scale、camera，会让因果不可判断。
 
 ## 8. State reset
 
-自动重复测试前确保场景能回到可预测状态：
+重复测试前回到可预测状态：
 
 - reload isolated scene；
 - restart game；
-- explicit debug reset if project already has one；
-- controlled save fixture。
+- use existing debug reset；
+- use controlled save fixture。
 
-不要靠手工残留 state 得出结论。
+不要依赖上一次手工运行残留的 runtime state。
 
-## 9. Godot MCP selection
+## 9. Live-tool selection
 
-如果环境已有 live Godot bridge，优先复用。
+如果环境已有 Godot live bridge / MCP / editor automation，优先复用已有工具。
 
-当前可选生态大致分三类：
+只在当前任务确实需要以下能力时才考虑额外 tooling：
 
-- editor/project/run/debug oriented MCP；
-- rich editor + live bridge MCP；
-- runtime-focused zero-footprint input/screenshot bridge。
+- runtime input；
+- screenshot；
+- scene inspection；
+- run/stop automation；
+- errors/output capture。
 
-具体候选见 `companion-tools.md`。
+具体候选与选择边界见 `companion-tools.md`。
 
-不要为了一个简单 code change 自动安装 MCP；也不要同时连接多个功能高度重叠的 MCP。
+不要为了一个简单 code change 自动安装 MCP，也不要同时连接多个高度重叠的 bridge。
 
-## 10. Erodenn/godot-mcp-runtime
-
-这是可选的 runtime-focused 方案，适合 Agent 需要在 Godot 4.x 中做实际 runtime interaction/validation 且不想长期把 plugin 留在项目时评估。
-
-它是较新的工具，采用前必须先检查当前 feature set、版本、security model 和项目允许的 tooling policy；不要仅凭“zero-footprint”自动选择。
-
-## 11. Fallback without MCP
+## 10. Fallback without live tooling
 
 没有 live bridge 时：
 
 ```text
 Godot editor/CLI parse/run
 + existing tests
-+ targeted manual reproduction instructions
-+ screenshots/logs supplied by user when needed
++ targeted manual reproduction steps
++ user-provided screenshot/log when visual evidence is required
 ```
 
-Agent 应明确说明“已静态验证”与“已实际运行验证”的区别。
+Agent 必须区分：
 
-## 12. Runtime QA by domain
+```text
+implemented
+static checks passed
+runtime checks passed
+visual checks passed
+not verified: <specific reason>
+```
+
+不能执行的 runtime test 不得描述成已经通过。
+
+## 11. Runtime QA by domain
 
 ### Player movement
 
-- movement starts/stops as intended；
+- starts/stops as intended；
 - diagonal/edge/corner；
 - dash/jump/state exit；
 - camera bounds。
@@ -154,7 +162,7 @@ Agent 应明确说明“已静态验证”与“已实际运行验证”的区�
 - expected hit count；
 - active window；
 - repeated hits；
-- death/interruption；
+- interruption/death；
 - feedback returns to rest。
 
 ### UI
@@ -167,7 +175,7 @@ Agent 应明确说明“已静态验证”与“已实际运行验证”的区�
 
 ### Assets
 
-- correct imported production file；
+- production file actually referenced；
 - scale/anchor；
 - filtering；
 - animation timing；
@@ -180,20 +188,23 @@ Agent 应明确说明“已静态验证”与“已实际运行验证”的区�
 - load；
 - migration fixture。
 
-## 13. Completion rule
+### Release
 
-回答完成状态时区分：
+- clean project import；
+- exact export preset；
+- artifact exists/launches when feasible。
 
-```text
-implemented
-static checks passed
-runtime checks passed
-visual checks passed
-not verified: <specific reason>
-```
+## 12. Completion rule
 
-不要把无法执行的 runtime test 描述成已经通过。
+完成声明必须与证据等级一致：
+
+- 只改了文件 -> `implemented`；
+- 只做 parser/linter -> `static checks passed`；
+- 实际运行并重现 -> `runtime checks passed`；
+- 实际观察视觉结果 -> `visual checks passed`。
+
+不要用模糊的“应该好了”代替验证状态。
 
 ## Source synthesis
 
-基于 agentic game playtesting workflows、Godot MCP/runtime bridge patterns 与传统 Godot editor/CLI validation。目标是让 Agent 用最低成本获得与声明相匹配的真实证据。
+基于 agentic game playtesting、Godot editor/CLI validation 与 runtime bridge workflows。目标不是绑定某个 MCP，而是让 Agent 用最低成本获得与声明相匹配的真实证据。
