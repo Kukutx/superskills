@@ -211,7 +211,3 @@ Before approval, inspect the animation as a loop and as gameplay:
 - attack event and hitbox timing match;
 - hurt/death one-shots exit or stop correctly;
 - repeated state changes do not cause visible one-frame flashes.
-
-## Upstream inspiration
-
-Condensed from Godot-specific 2D animation practices and the approved-seed / whole-strip / shared-scale-anchor workflow used by modern sprite-generation pipelines. The goal is stable production behavior, not allegiance to one animation tool.
