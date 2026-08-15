@@ -37,7 +37,10 @@ Default to the smallest useful structure for this domain. Do not emit empty sect
 State what was actually checked. Distinguish static confidence from runtime, visual, external, or production verification when relevant.
 
 <!--
-Add references/ only when domain depth is genuinely task-dependent.
-Add maintenance/ only for sources, regression tests, or substantial history.
-Do not create prompt-template.md, examples.md, or changelog.md by default.
+Add one-level references/ only when domain depth is genuinely task-dependent.
+If a real ownership/routing boundary needs regression coverage, add maintenance/behavioral-evals.md.
+Use maintenance/sources.md only for substantial source inventories; use decisions.md rarely.
+Move ownership when splitting content; do not duplicate rules across files.
+Do not create prompt-template.md, examples.md, changelog.md, or compatibility stubs by default.
+Run python tools/validate_repo.py before completion.
 -->
