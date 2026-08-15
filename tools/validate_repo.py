@@ -53,6 +53,7 @@ def main() -> int:
     warnings: list[str] = []
     skill_files = sorted(SKILLS.glob("*/*/skill.md"))
     skill_paths = {f"{p.parent.parent.name}/{p.parent.name}" for p in skill_files}
+    skill_categories = {path.split("/", 1)[0] for path in skill_paths}
     skill_names: dict[str, list[str]] = defaultdict(list)
 
     if not skill_files:
@@ -132,11 +133,13 @@ def main() -> int:
     if stale:
         errors.append(f"skill-router catalog references missing skills: {stale}")
 
-    # Maintenance evals may evolve independently; explicit Skill routes must stay valid.
+    # Maintenance files may mention local Skill routes or external owner/repo names.
+    # Only prefixes that match a local Skill category are validated as local routes.
     for md in SKILLS.glob("*/*/maintenance/*.md"):
         text = md.read_text(encoding="utf-8")
         for route in PATH_RE.findall(text):
-            if route not in skill_paths:
+            category = route.split("/", 1)[0]
+            if category in skill_categories and route not in skill_paths:
                 errors.append(f"{md.relative_to(ROOT)}: maintenance route references missing skill {route}")
 
     # Check explicit Markdown paths written in runtime skill/reference files.
