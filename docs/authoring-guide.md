@@ -26,9 +26,10 @@ maintenance/   # sources/tests/history；runtime 不加载
 1. YAML `name` + `description`
 2. **Scope / Use**：什么时候属于它
 3. **Workflow / decision rules**：真正影响决策的规则
-4. **Output**：默认交付物
-5. **Constraints**：高概率错误
-6. **Validation**：怎样证明完成
+4. **Reference routing**：什么时候才读哪个深层文件
+5. **Output**：默认交付物
+6. **Constraints**：高概率错误
+7. **Validation**：怎样证明完成
 
 不要用 `Purpose + Role + One-line purpose + System Prompt` 重复表达同一件事。
 
@@ -66,7 +67,15 @@ Reference 至少应满足一项：
 - 内容足够独立且可复用；
 - 合并后会让主 Skill 路由/职责不清。
 
-如果删除 reference 几乎不会改变 Agent 决策，就不要单独存在。
+拆分时遵守：
+
+```text
+move ownership, do not duplicate ownership
+skill.md keeps routing/summary
+reference keeps the detailed rule
+```
+
+每个 runtime reference 都必须从所属 `skill.md` 可发现，并能解释**什么时候加载、什么时候不要加载**。如果删除 reference 几乎不会改变 Agent 决策，就不要单独存在。
 
 ## Runtime vs maintenance
 
@@ -118,6 +127,7 @@ CI 也会运行相同检查。目前 validator 负责：
 - Skill frontmatter / folder naming;
 - Skill 目录只允许 `skill.md`, `references/`, `maintenance/`;
 - maintenance material 不进入 runtime references;
+- 每个 runtime reference 都能从所属 `skill.md` 被发现;
 - Router catalog 不漏 Skill、没有 stale Skill;
 - runtime 中显式 Markdown 路径不存在 dead link。
 
