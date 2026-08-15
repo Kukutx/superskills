@@ -1,6 +1,6 @@
 ---
 name: godot-2d-game-development
-description: Godot 4.x 2D/pixel-game production router. Use for architecture, movement/physics/camera, input, TileMapLayer worlds, animation, combat, game feel, VFX, UI, audio, AI, save/dialogue, assets, runtime validation, performance/testing and export. Load only the focused references needed.
+description: Godot 4.x 2D/pixel-game production router. Use for architecture, movement/physics/camera, input, TileMapLayer worlds, animation, combat, game feel, VFX, UI, audio, AI, save/dialogue, assets, verification, performance and export. Load only the focused references needed.
 ---
 
 # Godot 2D Game Development
@@ -28,8 +28,6 @@ If a mixed task contains Godot 2D work, this Skill owns only that part.
 
 ## Routing precedence
 
-When a request spans layers, locate the actual failure first:
-
 ```text
 correctness / gameplay truth
 -> input / interaction
@@ -45,7 +43,7 @@ Examples:
 - damage is correct but hit feels weak -> `game-feel.md`
 - attack pose and active window disagree -> `combat-system.md` + `animation-pixel.md`
 - gamepad cannot navigate pause menu -> `ui-ux.md` + input reference if needed
-- particles cause frame drops -> profile first, then rendering/VFX
+- particles cause frame drops -> profile first, then `performance.md` + rendering/VFX if needed
 
 ## Runtime references
 
@@ -65,10 +63,9 @@ Examples:
 | inventory, stable IDs, save/load, migration, progression/settings | `references/save-inventory-progression.md` |
 | branching dialogue, conditions/effects, localization | `references/dialogue-localization.md` |
 | sprite/FX/map/tiles/UI production and Godot handoff | `references/asset-pipeline.md` |
-| profiler, runtime debugging, automated tests | `references/performance-testing-debugging.md` |
-| inspect -> edit -> run -> input/screenshot/errors -> verify | `references/runtime-agent-validation.md` |
+| reproduce/debug/test/runtime evidence | `references/verification-testing.md` |
+| profiling, frame-time, memory and measured optimization | `references/performance.md` |
 | export presets, clean CI, toolchain pinning, artifacts | `references/release-export-ci.md` |
-| optional MCP/addons/importers/templates | `references/companion-tools.md` |
 | exact spritesheet geometry/slicing/naming | `../game-dev-spritesheet-slicer/skill.md` |
 
 Maintenance-only material lives in `maintenance/` and should not be loaded for normal game tasks.
@@ -87,8 +84,6 @@ not manager/class names.
 
 ### 2. Establish ownership
 
-Typical direction:
-
 ```text
 physical input -> action intent
 state/controller -> action allowed + gameplay state
@@ -105,11 +100,9 @@ When timing must match, share an explicit event/timeline rather than independent
 
 ### 4. Polish after correctness
 
-Add feedback proportionally. Do not use strong hit-stop/shake/VFX to hide bad combat timing or unreadable telegraphs.
+Do not use hit-stop/shake/VFX to hide bad combat timing or unreadable telegraphs.
 
 ### 5. Validate the claim
-
-Prefer the smallest executable surface:
 
 ```text
 inspect
@@ -124,16 +117,17 @@ Without live tooling, clearly state what is static vs actually runtime-verified.
 
 ## Dependency rule
 
-Consider an addon/tool only when:
+Add an addon/tool only when the native/current project solution is demonstrably cumbersome and the user/project allows a dependency.
 
-- native/current project solution is demonstrably cumbersome;
-- it supports the project's exact Godot version/language;
-- it solves a named problem rather than adding architecture prestige;
-- overlap with existing addons is understood;
-- source-of-truth, upgrade and removal costs are acceptable;
-- the user/project allows a new dependency.
+Before adopting one, verify current primary sources for:
 
-`companion-tools.md` is a candidate index, not an install list.
+- exact Godot/language compatibility;
+- maintenance state and license;
+- overlap with existing addons;
+- source-of-truth impact;
+- upgrade/removal cost.
+
+Do **not** keep a static runtime catalog of third-party tools; that information ages quickly. Candidate history belongs in `maintenance/sources.md`, and current selection should be re-verified when needed.
 
 ## Output
 
@@ -149,7 +143,7 @@ If the user asks for direct implementation, implement first rather than producin
 
 ## Completion bar
 
-Before saying done, check the relevant subset:
+Check the relevant subset before saying done:
 
 - existing project conventions preserved;
 - API matches actual Godot version;
