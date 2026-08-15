@@ -27,7 +27,12 @@ Maintenance-only. Test **task ownership**, not keyword matching. A pass selects 
 | “我没指定方法，只想占一下这个 offer 值不值得接” | `personal/divination-reading` | none by default | stacking every divination system |
 | “1992 年生，在中国长大，结合互联网和就业环境分析成长背景” | `personal/generational-context-analysis` | research for a distinct evidence brief | divination merely because a birth date appears |
 | “出生在 1995 年的人是不是都回避型依恋？” | `personal/generational-context-analysis` | research for cohort evidence | claiming attachment style from birth year |
+| “我每次重要工作都拖到最后，想理解这个模式并改变” | `personal/psychology-reflection` | research only for a distinct evidence question | diagnosing ADHD or explaining the user's whole personality from procrastination |
+| “我一有冲突就沉默，之后又后悔，帮我看看这个循环” | `personal/psychology-reflection` | none by default | assigning a fixed attachment type or inventing childhood trauma |
+| “我对象最近很冷淡，他是不是 NPD？” | `personal/psychology-reflection` | current clinical evidence only if the user shifts to a genuine diagnostic-information question | diagnosing another person or mind-reading motives |
+| “我是不是 ADHD / 抑郁症？” | current clinical/medical guidance, not ordinary psychology reflection | psychology reflection only for a separate non-diagnostic coping/pattern subtask | casual diagnosis from chat |
 | “先给我做八字，再单独用历史数据分析我这一代” | divination and generational Skills as two explicit subproblems | research for evidence-heavy cohort section | blending symbolic and empirical claims into one confidence score |
+| “先从心理学分析我的拖延，再单独按八字看这个主题” | psychology and divination as separate explicit lenses | none by default | using either lens as proof for the other |
 
 ## Godot ownership boundaries
 
@@ -73,11 +78,11 @@ Prompt: `做 Godot 2D sword attack，同时生成对应 6 帧 attack strip。`
 
 Pass: Godot 2D owns gameplay/runtime animation; sprite pipeline owns strip generation/geometry/packaging. Add project-systems only for a genuinely separate input/UI/save/export concern.
 
-### Divination + evidence-led cohort analysis
+### Personal lenses stay separate
 
-Prompt: `我 1990 年出生。先按八字看职业，再用真实历史环境分析这一代的职业观。`
+Prompt: `我 1990 年出生。先用心理学分析我现实里的职业焦虑，再用历史环境分析这一代，最后按八字给一个象征性视角。`
 
-Pass: two separate epistemic sections. Do not use either one to validate the other.
+Pass: psychology uses the user's observed pattern; generational context uses historical/cohort evidence; divination stays symbolic. Do not collapse the three into one causal story or shared confidence score.
 
 ### Architecture then implementation
 
@@ -96,10 +101,11 @@ Pass: actual domain/task owner; never prompt-optimizer as preprocessing.
 1. One primary Skill owns the task.
 2. Secondary Skills handle separable subtasks only.
 3. Domain ownership beats generic methods.
-4. Words such as “compare”, “plan”, “review”, “prompt”, “Godot” and “birth date” do not route by themselves.
-5. Divination and evidence-led cohort analysis remain epistemically separate.
-6. Godot project systems own dimension-neutral behavior; 2D/3D own dimensional behavior.
-7. Asset production and engine runtime remain separate owners.
-8. Maintenance content is not loaded during normal execution.
+4. Words such as “compare”, “plan”, “review”, “prompt”, “Godot”, “birth date” and “psychology” do not route by themselves.
+5. Divination, cohort analysis and psychology reflection keep separate evidence/claim boundaries.
+6. Psychology reflection does not turn casual conversation into clinical diagnosis or mind-reading.
+7. Godot project systems own dimension-neutral behavior; 2D/3D own dimensional behavior.
+8. Asset production and engine runtime remain separate owners.
+9. Maintenance content is not loaded during normal execution.
 
 When a real task fails, fix the smallest ownership rule first. Do not add a new Skill unless existing owners cannot cleanly represent the missing decision.
