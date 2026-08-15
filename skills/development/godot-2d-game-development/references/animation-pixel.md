@@ -1,213 +1,175 @@
-# Pixel Animation Reference
+# Pixel Animation Runtime Reference
 
-Use this reference for 2D sprite animation, pixel-art consistency, AnimatedSprite2D, AnimationPlayer, AnimationTree and animation-to-gameplay synchronization.
+用于 Godot 2D runtime animation：`AnimatedSprite2D`、`SpriteFrames`、`AnimationPlayer`、`AnimationTree`、Tween、状态同步、事件 timing 和 pixel rendering。
 
-## 1. Choose one animation authority per property/timeline
+**不负责生成/切分 spritesheet。** 新动作 strip、frame geometry、shared anchor、切图、naming 请用 `development/game-dev-spritesheet-slicer`；source/import pipeline 读 `asset-pipeline.md`。
 
-Pick the simplest tool that fits the job:
+## 1. One authority per property or timeline
+
+按需求选最简单的工具：
 
 | Need | Prefer |
 | --- | --- |
-| Pure frame-by-frame sprite animation | `AnimatedSprite2D` + `SpriteFrames` |
-| Animate properties, audio, hitbox-window events, method calls, shader values | `AnimationPlayer` |
-| Complex locomotion/state blending | `AnimationTree` using animations provided by `AnimationPlayer` |
-| Dynamic one-shot scale/position/color effects | `Tween` |
+| pure frame-by-frame sprite animation | `AnimatedSprite2D` + `SpriteFrames` |
+| property/audio/method/event tracks | `AnimationPlayer` |
+| locomotion/state blending | `AnimationTree` backed by animations |
+| dynamic one-shot scale/position/color effect | `Tween` |
 
-Do not let code, AnimatedSprite2D, AnimationPlayer and Tween all fight over the same property.
+不要让 code、AnimationPlayer、AnimationTree 和 Tween 同时写同一个 property。
 
-## 2. Gameplay state owns intent
+## 2. Gameplay owns intent
 
-Animation should represent gameplay state:
-
-```text
-idle
-run
-jump
-fall
-attack
-hurt
-dash
-death
-```
-
-Do not use a pile of animation-name checks as the only gameplay state machine.
-
-A useful flow is:
+Animation 表现 gameplay state，不替代它：
 
 ```text
-input/gameplay state
--> select animation
--> authoritative timing/event when needed
--> presentation + combat/physics listeners
+input / AI intent
+-> gameplay state decides action
+-> animation selected
+-> explicit timeline event when needed
+-> combat/physics/presentation reacts according to ownership
 ```
 
-Animation may provide timing, but the owning gameplay system still decides what that timing means.
+不要用大量 `animation == "attack"` 判断来充当唯一 state machine。
 
-## 3. Frame-perfect events
+## 3. Timeline events and gameplay boundaries
 
-Use explicit animation events when gameplay and visuals must align closely:
+当视觉和玩法必须精确同步时，使用一个 authoritative timeline/event，而不是多个 Timer 猜同一时刻。
 
-- request/mark hitbox window changes;
-- spawn projectile at a designed release frame;
-- play whoosh/impact SFX;
+适合 animation event/track 的内容：
+
+- request hitbox active/inactive window;
+- projectile release moment;
 - footstep;
-- spawn particles;
-- change weapon trail;
-- trigger shader feedback.
+- whoosh/impact SFX trigger;
+- particles/trail toggle;
+- visual property changes.
 
-Prefer one authoritative timeline over several independent timers.
-
-For combat, keep the boundary clear:
+边界仍然是：
 
 ```text
-animation/timeline says "active window now"
--> combat system applies hitbox / repeated-hit / damage rules
+animation says "timing event now"
+-> combat/state system decides whether/how gameplay truth changes
 ```
 
-The animation track should not bypass combat ownership and directly mutate target health.
+Animation track 不直接绕过 combat receiver 修改目标 HP。
 
-For looping animations, use loop-aware signals/events; do not assume a non-looping completion signal will fire for loops.
+## 4. Attack animation timing
 
-When changing animation and another sprite property in the same frame, engine update timing can create a one-frame mismatch. If exact same-frame synchronization matters, use the API appropriate to the project Godot version to apply/advance the pose deterministically, then verify in runtime.
-
-## 4. Tween lifecycle
-
-Procedural animation such as squash/stretch is useful for:
-
-- landing;
-- jump launch;
-- pickup pop;
-- recoil recovery;
-- UI response.
-
-If the same effect can trigger again before the previous Tween finishes:
-
-```text
-store tween -> kill/replace old tween -> start new tween
-```
-
-Do not stack multiple Tweens on one property.
-
-## 5. Pixel-art asset consistency
-
-For AI-generated or manually assembled animation, preserve these invariants across all frames:
-
-- same character identity;
-- same proportions;
-- same facing direction per strip;
-- same outfit / weapon design;
-- same palette family;
-- stable silhouette;
-- stable scale;
-- stable anchor, usually bottom-center/feet;
-- transparent background;
-- exact frame count and slot layout.
-
-The animation must read at **actual in-game scale**, not only when zoomed in.
-
-## 6. Approved seed frame workflow
-
-For generated animation, prefer this production sequence:
-
-1. Create or choose one approved in-game seed frame.
-2. Lock its silhouette, palette, outfit, proportions and facing direction.
-3. Generate the **whole animation strip in one pass** when possible.
-4. Normalize all frames to one frame size.
-5. Apply one shared scale across the strip.
-6. Align all frames to one shared anchor.
-7. Optionally replace frame 1 with the exact approved seed if continuity requires it.
-8. Preview the strip as an animation before importing it into the game.
-
-Do **not** independently generate every frame unless the user accepts higher visual drift.
-
-This is especially important for pixel art because small shape changes are obvious in motion.
-
-## 7. Animation timing
-
-Frame count alone does not determine feel. Tune frame duration and holds.
-
-Typical principles:
-
-- idle: subtle, slower loop;
-- run: clear contact/passing poses and even rhythm;
-- anticipation: often longer than the fastest action frames;
-- attack impact: strong readable key pose, sometimes held briefly;
-- hurt: fast reaction with a clear recoil silhouette;
-- death: readable progression, then stable final pose if needed.
-
-Do not force every animation to the same FPS.
-
-## 8. Attack animation structure
-
-For action games, think in gameplay phases:
+动作通常可表达为：
 
 ```text
 startup -> active -> recovery
 ```
 
-Example visual planning:
+视觉 key pose 与 active window 应一致，但 frame count/FPS 不是 gameplay rule 本身。
+
+检查：
+
+- startup 是否给足 anticipation/readability;
+- active event 是否落在真正接触帧附近;
+- recovery 是否和 cancel/input rules 一致;
+- interruption/hurt/death 时旧 active event 不会继续生效.
+
+具体 repeated-hit / i-frame / combo correctness 读 `combat-system.md`。
+
+## 5. Frame timing is not uniform by default
+
+同一 animation 可以有不同 frame durations/holds。
+
+例如：
+
+- idle 可以慢;
+- anticipation 可以 hold;
+- impact pose 可以短暂强调;
+- recovery 可以按手感调整;
+- hurt/death 通常 one-shot.
+
+不要因为 spritesheet 每格一样大，就默认每帧播放时间也一样。
+
+## 6. Loop and transition semantics
+
+明确每个 animation：
+
+- loop / one-shot;
+- exit condition;
+- interruption policy;
+- restart vs resume;
+- blend/transition rule when using AnimationTree.
+
+不要依赖一个只适用于 non-loop animation 的 finished signal 去结束 looping state。
+
+快速切换状态时检查一帧闪错 pose、旧 animation event 延迟触发和 transition 未 reset 的问题。
+
+## 7. Tween lifecycle
+
+Tween 适合 presentation-only one-shot：
+
+- squash/stretch;
+- recoil recovery;
+- pickup/UI pop;
+- short color/scale/offset response.
+
+同一个 effect 可能在前一次结束前再次触发时：
 
 ```text
-frames 1–2: anticipation/startup
-frames 3–4: active strike
-frames 5–6: follow-through/recovery
+store tween
+-> kill/replace previous tween
+-> start new tween
 ```
 
-The exact numbers depend on combat speed. The important part is that hitbox timing and visuals agree.
+不要让多个 Tween 争同一个 property，也不要让 visual Tween 偷偷改变 physics truth。
 
-## 9. Squash and stretch
+## 8. Pixel runtime policy
 
-Use subtle procedural deformation to reinforce force:
-
-- jump: brief vertical stretch;
-- landing: brief horizontal squash;
-- heavy impact: compress then recover;
-- pickup/UI: overshoot then settle.
-
-For pixel art, keep deformation small enough that pixels remain intentional. Strong subpixel scaling can cause shimmering or blurry sampling.
-
-## 10. Pixel rendering rules
-
-For crisp pixel art:
-
-- use point/nearest filtering where appropriate;
-- avoid unintended texture filtering and mip blur;
-- prefer integer display scales when the art direction requires strict pixel fidelity;
-- keep camera/subpixel movement strategy consistent with the project;
-- do not mix multiple incompatible source resolutions without a deliberate scale policy.
-
-If the game intentionally uses smooth camera motion with pixel art, validate the final look in motion rather than blindly enforcing integer-only movement everywhere.
-
-## 11. Spritesheet structure
-
-When producing a conventional sheet, define:
+项目应明确自己的 pixel rendering policy：
 
 ```text
-frame width
-frame height
-rows
-columns
-action order
-frames per action
-padding
-spacing
-anchor/baseline
+base render resolution
+filtering policy
+integer display scale yes/no
+camera/subpixel policy
+stretch policy
 ```
 
-For slicing/naming/export details, use `development/game-dev-spritesheet-slicer` rather than duplicating that workflow here.
+通常要避免意外 linear filtering、mipmap blur 和不受控 fractional scale；但不要把“所有物体必须整数坐标”当成通用规则。
 
-## 12. Animation QA
+如果 smooth camera/subpixel motion 是设计的一部分，必须看实际运动中的 shimmer/blur，而不是只看静态截图。
 
-Before approval, inspect the animation as a loop and as gameplay:
+## 9. Asset handoff boundary
 
-- identity/proportions stay stable;
-- feet/anchor do not unintentionally slide;
-- frame size does not drift;
-- weapon does not change shape or hand unexpectedly;
-- silhouette clearly communicates the action;
-- no accidental extra limbs/props;
-- action reads at game scale;
-- first/last frames loop cleanly when intended;
-- attack event and hitbox timing match;
-- hurt/death one-shots exit or stop correctly;
-- repeated state changes do not cause visible one-frame flashes.
+Runtime animation 只应依赖清楚的 asset contract：
+
+- animation/action names;
+- frames/ranges;
+- timing metadata;
+- loop policy;
+- stable anchor/pivot;
+- direction naming.
+
+如果这些信息本身还没稳定，先回到 spritesheet/asset production，而不是在 runtime code 里补大量 magic indices。
+
+## 10. Pause / hit-stop / time scale
+
+确认 animation 与 gameplay time policy 一致：
+
+- 哪些 animation/tween 随 game pause;
+- hit-stop 时 input 是否仍需要采集/缓冲;
+- UI animation 是否继续;
+- recovery timer/tween 是否使用正确的 time domain.
+
+不要让某个 animation helper 私自重置全局 time scale。
+
+## Validation
+
+实际验证 relevant cases：
+
+- idle/move/attack/hurt/death transitions;
+- rapid state switching;
+- looping animations;
+- one-shot completes/exits once;
+- attack event aligns with visible contact;
+- interrupted attack cannot leave hitbox active;
+- repeated Tween trigger returns to rest state;
+- pause/hit-stop behavior;
+- no one-frame wrong pose/flash;
+- pixel art remains crisp/readable in actual camera motion and target resolution.
