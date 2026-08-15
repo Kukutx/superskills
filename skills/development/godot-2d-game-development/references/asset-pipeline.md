@@ -194,7 +194,7 @@ editable source/reference
 raw generated/exported
 normalized production
 preview/debug
-gine-consumed derived asset
+engine-consumed derived asset
 ```
 
 不要覆盖唯一 approved source。是否 commit derived files 由项目 pipeline 决定，但必须能说明 clean checkout 如何恢复 engine-consumed assets。
