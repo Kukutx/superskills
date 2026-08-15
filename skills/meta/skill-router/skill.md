@@ -34,6 +34,7 @@ Choose one primary Skill first. Add a secondary Skill only for a genuinely disti
 | sprite animation generation/slicing/packaging | `development/sprite-animation-pipeline` |
 | explicit divination / astrology / fortune-telling reading | `personal/divination-reading` |
 | evidence-led birth-cohort / historical life context | `personal/generational-context-analysis` |
+| non-diagnostic personal psychology / behavior reflection | `personal/psychology-reflection` |
 | image-generation direction/prompt | `creative/image-prompt-director` |
 | xTool F1 | `creative/xtool-f1-engraving` |
 | App Store / Play visuals | `design/app-store-assets` |
@@ -68,19 +69,29 @@ Use `research-brief` when the answer materially depends on external evidence, cu
 
 If the real question is architecture/ownership inside an already-known project, `technical-design` remains primary even when alternatives are compared.
 
-### Divination vs generational context
+### Personal analysis boundaries
 
-A birth date is not itself a routing signal. Route by epistemic intent:
+Route by what kind of claim the user actually wants, not by words such as birth date, personality or relationship:
 
 ```text
 八字 / 紫微 / 六爻 / 奇门 / Tarot / Jyotiṣa / astrology / symbolic fortune reading
 -> personal/divination-reading
 
-historical events / economy / technology / cohort psychology / evidence-led life context
+historical events / economy / technology / cohort exposure / evidence-led life context
 -> personal/generational-context-analysis
+
+my recurring thoughts / emotions / habits / avoidance / decisions / relationship behavior
+-> personal/psychology-reflection
 ```
 
-Do not mix them unless explicitly requested. Symbolic interpretation is not empirical evidence; cohort analysis must not infer individual personality from date alone.
+Keep the epistemic boundaries explicit:
+
+- symbolic interpretation is not empirical psychological evidence;
+- cohort patterns do not establish an individual's personality;
+- psychology reflection works from observed personal patterns and tentative mechanisms, not casual clinical diagnosis;
+- diagnosis, treatment, medication, severe symptoms or acute safety concerns require current clinical/medical guidance rather than being forced into `psychology-reflection`.
+
+Use multiple Personal Skills only when the user explicitly asks for distinct lenses; keep their conclusions separate rather than using one to validate another.
 
 ### Bug diagnosis vs code review
 
