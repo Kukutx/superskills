@@ -54,7 +54,7 @@ superskills/
 | `development/technical-design` | 技术方案设计 |
 | `development/implementation-plan` | 实施计划 |
 | `development/game-dev-spritesheet-slicer` | 像素动画 strip/spritesheet：生成规划、统一锚点/比例、切图、timing、命名和 Godot handoff |
-| `development/godot-2d-game-development` | Godot 2D 生产开发路由：架构、移动/镜头、TileMap、像素动画、战斗/打击感、VFX、UI、音频、AI、存档/对话、资产、测试与性能 |
+| `development/godot-2d-game-development` | Godot 2D 生产开发路由：架构、移动/物理/镜头、输入/手柄/重映射、TileMap、像素动画、战斗与打击感、VFX、UI、音频、AI、存档/对话、资产、运行验证、测试与导出/CI |
 | `creative/xtool-f1-engraving` | xTool F1 雕刻图案方案 |
 | `creative/image-prompt-director` | 图片生成提示词 |
 | `design/app-store-assets` | App Store / Google Play 素材方向 |
@@ -86,5 +86,7 @@ superskills/
 - 如果同一类任务重复 3 次以上，用 `meta/skill-builder` 沉淀成 skill。
 - 生成图片、视觉、雕刻、角色、主题作品时，优先使用 `creative/image-prompt-director` 或 `creative/xtool-f1-engraving`。
 - Godot 2D 任务优先进入 `development/godot-2d-game-development`，再按任务只加载 1–3 个专项 reference；单纯 spritesheet/animation-strip 规格、切图和打包使用 `development/game-dev-spritesheet-slicer`。
-- Godot 外部 MCP、测试框架、AI/state、dialogue、camera 或素材工具都视为可选 companion；不要为了“完整”自动安装依赖。
-- 面向上线或发布的任务，补充 QA、导出、验证和回滚步骤。
+- Godot 2D 的输入、战斗、打击感、存档、对话、运行验证、导出/CI 已拆成独立 reference；不要因为一个关键词加载整个游戏开发知识树。
+- Godot 外部 MCP、测试框架、AI/state、dialogue、camera、input helper、asset importer 或 template 都是可选 companion；先用原生/现有方案，只有明确降低复杂度时才增加依赖。
+- 需要精确 Godot-native pattern 时优先项目实际版本 + Godot 官方文档/官方 demo，再参考第三方 Skill/addon。
+- 面向上线或发布的任务，补充 clean import、测试、export artifact 和 runtime/smoke 验证。
