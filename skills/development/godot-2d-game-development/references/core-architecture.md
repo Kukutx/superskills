@@ -175,7 +175,3 @@ Prefer:
 - shared Resource has no cross-instance mutation；
 - scene reload/new game has no stale global state；
 - presentation listeners missing时 gameplay 仍正确。
-
-## Source synthesis
-
-主要吸收 GD-Agentic-Skills 的 composition/resource/signal/state patterns、GodotPrompter 的 scene/component/resource/state 分解，以及 game-architect 的“按问题选架构而不是固定范式”原则。
