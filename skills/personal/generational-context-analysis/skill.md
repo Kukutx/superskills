@@ -1,6 +1,6 @@
 ---
 name: generational-context-analysis
-description: Evidence-led life-context analysis anchored on birth cohort, place and historical conditions. Use for childhood background, worldview, career, relationships, money and life-stage questions that explicitly avoid astrology or fortune-telling.
+description: Evidence-led analysis of how birth cohort, place, historical conditions and life stage may shape childhood context, worldview, career, relationships, money and life decisions. This route is non-divinatory unless the user separately asks for symbolic analysis.
 ---
 
 # Generational Context Analysis
@@ -49,7 +49,7 @@ If place is missing and geography would strongly change the answer, ask one comp
 Keep three effects separate:
 
 ```text
-age   -> life-stage change
+age -> life-stage change
 period -> events affecting many people at once
 cohort -> different exposure because the same event was experienced at a different age
 ```
@@ -128,7 +128,7 @@ For a broad “完整分析”, expand across the relevant modes. For a focused 
 
 ```text
 “我 1994 年出生，在中国长大，为什么我们这一代这么看重稳定？”
-“结合我成长和进入职场的时代，分析适合我的职业环境，不要占星。”
+“结合我成长和进入职场的时代，分析适合我的职业环境。”
 “我这个年代的人为什么对买房这么焦虑？区分数据和推测。”
 “根据我的年龄和现实环境做未来五年的路线图，不要命运预测。”
 ```

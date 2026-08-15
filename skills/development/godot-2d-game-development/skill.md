@@ -1,102 +1,78 @@
 ---
 name: godot-2d-game-development
-description: Godot 4.x 2D/pixel-game production router for architecture, movement/physics, camera, input, worlds, runtime animation, combat, game feel, VFX, UI, audio, AI, procedural content, persistence, inventory, dialogue, assets, verification, performance and export.
+description: Godot 4.x 2D-specific runtime and production guidance for CharacterBody2D physics, Camera2D, TileMapLayer/worlds, runtime animation, gameplay interaction, game feel, 2D VFX, AI/navigation, procedural content, 2D assets and measured performance.
 ---
 
 # Godot 2D Game Development
 
 ## Scope
 
-Use for Godot 4.x **2D-first** implementation and production. Route materially 3D work to `development/godot-3d-game-development`; route elsewhere for networking/server architecture, unrelated backend/frontend, or pure game design/writing without implementation concerns.
+Use for Godot 4.x work where **2D semantics materially change implementation**: CharacterBody2D physics, Camera2D, TileMapLayer/world layout, 2D runtime animation/interaction/VFX/navigation, procedural 2D worlds and 2D asset handoff.
 
-## Core invariants
+Use `development/godot-project-systems` for dimension-neutral Godot architecture, InputMap/remapping, Control UI, audio, save/inventory/dialogue, verification and export/CI.
 
-1. **Inspect the real project first**: Godot version, `project.godot`, language, scene tree, autoloads, Resources, signals, InputMap, collision layers, addons and existing conventions.
-2. **Gameplay truth before presentation**: physics/combat/data/state own facts; animation/VFX/audio/camera/UI react to them.
-3. **Smallest reference set**: load one primary reference first, then add only the focused neighbors required by the current subproblem.
-4. **Existing/native before dependency**: add tooling only for demonstrated recurring complexity.
-5. **Evidence before completion claims**: parse/build success is not runtime, visual, input, save or export proof.
+Use `development/godot-3d-game-development` for materially 3D/spatial work.
 
-## Routing precedence
+## Core rules
 
-```text
-correctness / gameplay truth
--> input / interaction
--> presentation synchronization
--> game feel / polish
--> measured performance
--> release / CI
-```
-
-Examples:
-
-- one swing deals damage three times -> `combat-system.md`
-- damage is correct but hit feels weak -> `game-feel.md`
-- attack active frame disagrees with hit window -> `animation-runtime.md` + `combat-system.md`
-- smooth follow/look-ahead/bounds problem -> `camera.md`
-- generate/slice/package a new attack strip -> `../sprite-animation-pipeline/skill.md`
-- authored sprite metadata must survive import -> `asset-pipeline.md` + animation runtime as needed
-- seeded dungeon/layout generation -> `procedural-generation.md` + world reference when materializing tiles/scenes
-- save migration failure -> `save-persistence.md`
-- stack/equip/transfer logic -> `inventory-progression.md`
+1. Inspect the real project first: exact Godot version, `project.godot`, language, scene tree, collision setup, renderer/import settings and existing conventions.
+2. Gameplay/state systems own facts; animation/VFX/camera present them.
+3. Load one primary 2D reference first, then only focused neighbors required by the subproblem.
+4. Do not recreate shared input/UI/save/export architecture inside a 2D reference.
+5. Prefer existing/native patterns before dependencies.
+6. Match completion claims to actual runtime/visual evidence; use the shared verification guidance when needed.
 
 ## Runtime references
 
 | Need | Reference |
 | --- | --- |
-| scenes, ownership, Resources, signals, state/FSM | `references/core-architecture.md` |
 | CharacterBody2D, movement, jump/dash, collisions, knockback | `references/movement-physics.md` |
 | Camera2D follow, bounds, look-ahead, pixel camera | `references/camera.md` |
-| InputMap, keyboard/gamepad/touch, remap, device switching, accessibility | `references/input-controls-accessibility.md` |
 | TileMapLayer, terrain/world layout, y-sort, collision/navigation, level authoring | `references/world-tilemap-level-design.md` |
 | AnimationPlayer/Tree, SpriteFrames, Tween, runtime timing/events | `references/animation-runtime.md` |
-| hitbox/hurtbox, damage, i-frame, combo/cancel | `references/combat-system.md` |
+| hitbox/hurtbox, attack resolution, repeated-contact policy, combo/cancel | `references/combat-system.md` |
 | hit-stop, shake, flash, recoil, squash, impact feedback | `references/game-feel.md` |
 | particles, CanvasItem shaders, 2D lighting/effects | `references/rendering-vfx-shaders.md` |
-| HUD/menu, Control/Container/Theme, focus, safe area | `references/ui-ux.md` |
-| SFX/music, buses, variation, ducking, positional audio | `references/audio.md` |
 | enemy behavior, perception, state complexity, NavigationAgent2D | `references/ai-navigation.md` |
 | seeded generation, waves/spawn rules, generated-layout validity | `references/procedural-generation.md` |
-| save/load, stable IDs, schema migration, settings/checkpoints | `references/save-persistence.md` |
-| item definitions, inventory/equipment transactions, progression | `references/inventory-progression.md` |
-| branching dialogue, conditions/effects, localization | `references/dialogue-localization.md` |
-| editable asset source, import, FX/map/tiles/UI handoff | `references/asset-pipeline.md` |
-| reproduce/debug/test/runtime evidence | `references/verification-testing.md` |
-| profiling, frame-time, memory and measured optimization | `references/performance.md` |
-| export presets, clean CI, toolchain pinning, artifacts | `references/release-export-ci.md` |
+| editable 2D asset source, import, FX/map/tiles handoff | `references/asset-pipeline.md` |
+| profiler, frame-time, memory and measured 2D optimization | `references/performance.md` |
+| architecture/input/UI/audio/save/inventory/dialogue/verification/export | `../godot-project-systems/skill.md` |
 | sprite-strip generation, exact frame geometry, slicing, timing metadata, naming/packing | `../sprite-animation-pipeline/skill.md` |
 
-Maintenance material lives in `maintenance/` and is not normal runtime context.
+## Routing examples
 
-## Cross-system ownership
+- CharacterBody2D movement/collision -> `movement-physics.md`
+- Camera2D framing/bounds -> `camera.md`
+- runtime animation timing -> `animation-runtime.md`
+- gameplay contact/interaction correctness -> `combat-system.md`
+- feel/feedback after correctness is established -> `game-feel.md`
+- generate/slice/package a sprite strip -> `../sprite-animation-pipeline/skill.md`
+- remapping/menu focus/save migration/export CI -> `../godot-project-systems/skill.md`
 
-```text
-physical input -> action intent
-state/controller -> action allowed + gameplay state
-physics/combat/data -> result
-explicit events -> animation/UI/audio/VFX/camera
-save system -> persistent representation
-```
+## Ownership
 
-When timing must match, share one explicit event/timeline rather than independent timers guessing the same moment. Asset production and runtime integration remain separate:
+Use the shared project-systems Skill for dimension-neutral state/data ownership. For 2D-specific physical/presentation behavior, keep movement, interaction rules and presentation synchronized through explicit state/events rather than multiple systems independently writing the same fact.
+
+Asset production and runtime integration remain separate:
 
 ```text
 editable/generated source
 -> deterministic production package
 -> Godot import
--> runtime gameplay/presentation
+-> runtime integration
 ```
 
 ## Dependency rule
 
-Only evaluate an addon/tool when the current project/native approach is demonstrably cumbersome. Before adoption, verify current compatibility, maintenance, license, overlap, source-of-truth impact and removal cost. Do not keep a static runtime plugin catalog.
+Evaluate an addon/tool only when the current project/native approach has demonstrated recurring pain. Re-check compatibility, maintenance, license, overlap and removal cost before adoption.
 
 ## Completion bar
 
-Check the relevant subset before saying done:
+Confirm the relevant subset:
 
-- project conventions and actual Godot version respected;
-- one clear owner per gameplay/presentation fact;
-- affected runtime/visual/input/save/export flow has matching evidence, or the unverified boundary is explicit;
+- project conventions and exact Godot version were respected;
+- the affected 2D runtime/visual flow has matching evidence or an explicit unverified boundary;
 - assets/derived outputs rebuild from their intended source;
-- no unrelated dependency, 3D system or architecture was introduced.
+- dimension-neutral concerns use the shared owner rather than duplicated 2D rules;
+- no unrelated dependency or 3D system was introduced.

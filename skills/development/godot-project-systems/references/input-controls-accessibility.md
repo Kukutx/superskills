@@ -2,7 +2,7 @@
 
 Use for InputMap, keyboard/mouse/gamepad/touch, remapping, active-device detection, prompts, deadzones, rumble/haptics and control-related accessibility.
 
-Movement/physics is in `movement-physics.md`; menu focus/layout pairs with `ui-ux.md`.
+2D/3D movement execution belongs to the matching dimensional Skill; menu focus/layout pairs with `ui-ux.md`.
 
 ## Gameplay consumes actions, not physical buttons
 
@@ -13,7 +13,7 @@ physical input
 -> state decides whether action is allowed
 ```
 
-Keep stable actions such as move, jump, attack, interact and pause; do not create separate gameplay logic for keyboard, gamepad and touch.
+Keep stable semantic actions such as move, jump, attack, interact and pause; do not create separate gameplay logic for keyboard, gamepad and touch.
 
 ## Binding != meaning
 
@@ -49,7 +49,7 @@ For action games, a short expiry-based buffer can preserve responsiveness:
 press -> expiry -> consume once when state becomes valid
 ```
 
-Only buffer actions the design allows; expired input must not fire later.
+Only buffer actions the design allows; expired input must not fire later. The matching gameplay/state owner decides whether buffered intent is valid.
 
 ## Touch/mobile
 

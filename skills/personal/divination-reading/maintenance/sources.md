@@ -22,7 +22,7 @@ These are **optional implementation candidates**, not runtime dependencies and n
 
 - **Swiss Ephemeris / Astrodienst** — mature high-precision planetary/lunar ephemeris used widely by astrology software. Suitable for verified planetary positions and sidereal/tropical calculations when correctly configured.
   - https://www.astro.com/swisseph/
-  - Licensing matters: GPL/open-source use and commercial licensing differ.
+  - Licensing is dual-model: **GNU Affero General Public License (AGPL)** or the **Swiss Ephemeris Professional License**. Re-check the official terms before integrating or distributing software/services that use it.
 
 ### Chinese calendar / BaZi inputs
 

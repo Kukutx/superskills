@@ -52,7 +52,11 @@ birth place
 calendar type only if not obvious
 ```
 
-The Skill should resolve timezone/DST/calendar/chart conventions itself where a reliable source/tool exists. Ask the user about a technical convention only when different choices materially change the result and cannot be inferred.
+The Skill should resolve timezone/DST/calendar/chart conventions itself where a reliable source/tool exists.
+
+After selecting the actual tradition/calculation method, ask for **additional method-specific inputs only when that method really requires them and the result would materially change**. Examples can include sex/gender when a chosen Chinese timing/chart convention uses it, a narrower birth-time range for time-sensitive placements, or another calculator-required field.
+
+When several such inputs are missing, gather them in the same compact follow-up instead of interrogating the user one technical term at a time. Do not ask a normal user to choose an ayanāṁśa, house system, true-solar-time convention, 大运 rule or similar specialist option unless competing choices materially affect the requested result and cannot be safely resolved from the chosen method/tool.
 
 If birth time is uncertain, continue with the stable parts and clearly mark what becomes unreliable instead of blocking the entire reading.
 
@@ -65,7 +69,7 @@ one concrete question
 optional time horizon
 ```
 
-Ask for cast/cards only when the selected method needs them. If a simulated draw/cast is used, label it honestly.
+Ask for cast/cards/question time/place only when the selected method requires them. If a simulated draw/cast is used, label it honestly.
 
 ## Truth boundary
 
@@ -129,6 +133,7 @@ Before saying done, confirm:
 
 - the method fits the actual question;
 - required chart/cast data is verified or uncertainty is explicit;
+- any method-specific extra input was requested only because it materially mattered;
 - the answer is understandable without specialist knowledge;
 - technical depth is proportional to the user's request;
 - symbolic interpretation is not disguised as factual certainty;

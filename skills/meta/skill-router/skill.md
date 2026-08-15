@@ -28,8 +28,9 @@ Choose one primary Skill first. Add a secondary Skill only for a genuinely disti
 | general code/diff/PR review | `development/code-review` |
 | unresolved software architecture/interfaces | `development/technical-design` |
 | decided software direction -> file/task breakdown | `development/implementation-plan` |
-| Godot 2D / pixel game runtime | `development/godot-2d-game-development` |
-| Godot 3D / spatial game runtime | `development/godot-3d-game-development` |
+| Godot dimension-neutral project systems | `development/godot-project-systems` |
+| Godot 2D / pixel runtime | `development/godot-2d-game-development` |
+| Godot 3D / spatial runtime | `development/godot-3d-game-development` |
 | sprite animation generation/slicing/packaging | `development/sprite-animation-pipeline` |
 | explicit divination / astrology / fortune-telling reading | `personal/divination-reading` |
 | evidence-led birth-cohort / historical life context | `personal/generational-context-analysis` |
@@ -69,17 +70,17 @@ If the real question is architecture/ownership inside an already-known project, 
 
 ### Divination vs generational context
 
-A birth date is not itself a routing signal. Route by the user's **epistemic intent**:
+A birth date is not itself a routing signal. Route by epistemic intent:
 
 ```text
 八字 / 紫微 / 六爻 / 奇门 / Tarot / Jyotiṣa / astrology / symbolic fortune reading
 -> personal/divination-reading
 
-historical events / economy / technology / cohort psychology / "完全不要占星"
+historical events / economy / technology / cohort psychology / evidence-led life context
 -> personal/generational-context-analysis
 ```
 
-Do not mix the two into one answer unless the user explicitly asks for both. In the evidence-led route, birth date anchors timing/exposure rather than causing personality. In the divination route, symbolic interpretation must not be presented as empirical fact.
+Do not mix them unless explicitly requested. Symbolic interpretation is not empirical evidence; cohort analysis must not infer individual personality from date alone.
 
 ### Bug diagnosis vs code review
 
@@ -90,8 +91,6 @@ observed failure: "why is this broken?"
 inspect code/diff for defects/risks
 -> code-review
 ```
-
-Review is not a substitute for reproduction/diagnosis.
 
 ### Positioning vs store copy/assets
 
@@ -106,39 +105,47 @@ visual sequence/composition is the main deliverable
 -> app-store-assets
 ```
 
-### Godot 2D vs 3D
+### Godot project systems vs 2D vs 3D
 
-Route by the dimension that materially changes runtime behavior:
+Route by what actually changes implementation, not by the project's dimensional label alone:
 
 ```text
-Node2D / CharacterBody2D / Camera2D / TileMapLayer / 2D physics-rendering
+scene/data ownership, Resources/signals/autoloads,
+InputMap/remapping, Control UI, audio,
+save/inventory/dialogue, verification, export/CI
+-> godot-project-systems
+
+CharacterBody2D / Camera2D / TileMapLayer /
+2D animation-combat-VFX-navigation
 -> godot-2d-game-development
 
-Node3D / CharacterBody3D / Camera3D / 3D physics-rendering-import-navigation
+Node3D / CharacterBody3D / Camera3D /
+3D collision-rendering-import-navigation
 -> godot-3d-game-development
 ```
 
-Do not merge both Skills for ordinary dimension-neutral Godot concerns. If a task genuinely spans 2D and 3D, select the owner of the primary implementation and add the other only for the distinct dimensional subproblem.
+For a mixed task, choose the owner of the primary behavior and add one neighboring Godot Skill only for the distinct subproblem. Do not recreate shared project-system knowledge inside both dimensional Skills.
 
 ### Domain runtime vs asset production
 
 ```text
-Godot 2D/3D gameplay/runtime integration
--> matching Godot domain skill
+Godot gameplay/runtime integration
+-> matching Godot owner
 
 sprite frames/strips/geometry/slicing/packing
 -> sprite-animation-pipeline
 ```
 
-Use both only when a task genuinely spans runtime integration and sprite asset production.
+Use both only when the task genuinely spans runtime integration and sprite asset production.
 
 ## Precedence examples
 
 - “1990 年出生，按八字看事业” -> divination-reading.
-- “1990 年出生，结合中国经济和互联网发展分析职业环境，不要占星” -> generational-context-analysis.
-- “出生日期相同的人是否都有焦虑型依恋？” -> generational-context-analysis should reject the unsupported individual inference; do not route to divination unless requested.
-- Godot 2D bug -> Godot 2D Skill before generic development methods.
+- “1990 年出生，结合中国经济和互联网发展分析职业环境” -> generational-context-analysis unless symbolic analysis is requested.
+- “出生日期相同的人是否都有焦虑型依恋？” -> generational-context-analysis should reject unsupported individual inference.
+- Godot 2D movement/combat/camera bug -> Godot 2D Skill before generic development methods.
 - Godot 3D camera/physics/import bug -> Godot 3D Skill before generic development methods.
+- Godot 2D/3D pause menu, remapping, save migration or clean export -> Godot project-systems first.
 - Shopify theme/store issue -> Shopify Skill before generic frontend/debugging.
 - Godot 2D gameplay + new attack strip -> Godot 2D primary; sprite pipeline owns the asset subtask.
 - New sprite strip without engine work -> sprite pipeline only.

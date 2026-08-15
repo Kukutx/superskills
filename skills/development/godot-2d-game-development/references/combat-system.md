@@ -1,200 +1,111 @@
 # Combat System Reference
 
-用于 **战斗正确性**：attack state、startup/active/recovery、hitbox/hurtbox、damage payload、i-frame、multi-hit policy、combo/cancel、death/stagger。
+Use for 2D combat correctness: attack state, startup/active/recovery, hitbox/hurtbox, damage payload, repeated-contact policy, combo/cancel and handoff to Health/Vitals and movement.
 
-“机制已经正确但不够爽”请读 `game-feel.md`。
+If mechanics are correct but feedback feels weak, use `game-feel.md`.
 
-## 1. Combat truth and presentation
+## Ownership
 
-Combat owns：
-
-- attack allowed or not；
-- attack phase；
-- hitbox active window；
-- hit confirmation；
-- damage/status/crit/resistance result；
-- i-frame / repeated-hit policy；
-- gameplay knockback/stagger；
-- death。
-
-Animation/VFX/audio/camera 表现这些结果，不反过来决定伤害真值。
-
-## 2. Baseline pipeline
-
-常见清晰边界：
+Keep the conceptual roles distinct even when a small project combines them in fewer nodes:
 
 ```text
-Attack/Ability definition
--> attacker state/timeline
--> Hitbox(Area2D)
--> Hurtbox(Area2D)
--> structured attack/damage payload
--> Health/Damage receiver
--> result event: hit / health_changed / died
+action/state controller -> whether an action can start/continue/cancel
+combat/attack resolver -> attack instance, contact validity, damage calculation, repeated-contact policy
+Health/Vitals -> current HP, invulnerability state, alive/dead result
+movement controller -> physical knockback/stagger movement
+animation/VFX/audio/camera/UI -> presentation
 ```
 
-类名可以不同，ownership 要清楚。
+Do not let hitboxes, animation tracks or UI directly become competing owners of HP/state truth.
 
-避免：
+## Attack phases
 
-```text
-attacker detects target
--> target.health -= 10
-```
-
-这会绕过 i-frame、resistance、source、knockback、crit 等规则。
-
-## 3. Attack phases
-
-显式区分：
+Make the relevant phases explicit:
 
 ```text
 startup -> active -> recovery
 ```
 
-- startup: 起手/anticipation；
-- active: hitbox 有效；
-- recovery: hitbox 已关闭但动作尚未完全可取消。
+The active window may be synchronized by one authoritative timeline/event. Avoid several independent timers guessing the same window.
 
-Frame-perfect 游戏可以用 AnimationPlayer method/property tracks 或单一 authoritative timeline 同步 hitbox。不要多个 Timer 猜同一攻击窗口。
+## Hitbox / hurtbox
 
-## 4. Hitbox / hurtbox
+A common 2D pattern is `Area2D` + `CollisionShape2D` with collision layers/masks for filtering. The hitbox is normally inactive outside the intended contact window.
 
-典型 2D action game：
+When changing physics state from callbacks, follow the exact Godot version's safe/deferred-change requirements rather than adding arbitrary delays.
 
-- `Area2D` + `CollisionShape2D`；
-- layer/mask 做 physics filtering；
-- hitbox 默认 inactive，仅 active window 开启；
-- physics callback 内切 shape 状态时遵循 Godot deferred-change 要求；
-- hitbox 记录 attack instance / already-hit targets when needed。
+## Repeated-contact policy
 
-不要把 groups 当主要 physics filter。
+Define what happens when one attack overlaps the same receiver across several physics frames:
 
-## 5. Repeated-hit policy
+- once per attack instance;
+- blocked while the receiver is invulnerable;
+- explicit per-target interval;
+- intentionally repeated/ticking behavior.
 
-必须明确一击重叠多个 physics frame 时如何处理：
+The rule must be explicit; accidental repeated callbacks are not a combat design.
 
-- once per attack instance；
-- target i-frame；
-- per-target tick cooldown；
-- intentionally repeated DoT ticks。
+## Damage payload
 
-Multi-hit attack 也要明确每段命中的 interval/target policy。
-
-## 6. Damage payload
-
-建议传递结构化数据，例如：
+Pass enough structured context for the receiver/resolver to make one consistent decision, for example:
 
 ```text
 source
-base_damage
-damage_type/tags
-critical info
+base value
+type/tags
+critical/status info when used
 knockback intent
-stagger/status
 attack instance id
 ```
 
-简单游戏可以更小，但不要把相关上下文拆成散落的全局变量。
+Keep the payload as small as the game needs. Do not scatter related context across unrelated globals.
 
-Definitions 可用 Resource；mutable runtime hit instance 不要误用共享 Resource 导致实例串状态。
+## Health / invulnerability handoff
 
-## 7. I-frames
+The resolver can determine a proposed/validated combat result, but Health/Vitals owns persistent runtime health state and invulnerability gates under the project's chosen architecture.
 
-I-frame 由 receiver/combat layer 统一决定，避免每个攻击方自己猜。
+If the project combines resolver and Health in one component, preserve the same conceptual boundary internally so there is still only one authoritative HP/invulnerability/death state.
 
-检查：
+## Knockback / stagger
 
-- invulnerable window 起止；
-- 哪些 damage type 可绕过；
-- overlap during i-frame；
-- visual blink/flash 只是表现；
-- hit-stop 不应意外延长/缩短规则，除非设计如此。
+Combat produces intent/result; the movement controller applies the physical strategy. If the controller rewrites velocity every tick, choose an explicit knockback model such as temporary state, external velocity channel or short controlled override.
 
-## 8. Gameplay knockback / stagger
+Presentation recoil belongs to `game-feel.md`.
 
-Combat 产生 **knockback intent/result**；character controller 执行实际移动策略。
+## Combo / cancel
 
-不要从 hitbox 直接给 CharacterBody2D 一个 impulse 然后下一帧 controller 又覆盖它。
-
-常见策略：
-
-- knockback state；
-- external velocity channel；
-- short movement override；
-- stagger state with reduced/locked control。
-
-Visual recoil 属于 `game-feel.md`。
-
-## 9. Combo / cancel
-
-Combo 系统需要显式：
+When used, define:
 
 ```text
 input buffer
 combo window
-next attack mapping
+next-action mapping
 cancel window
 resource/stamina rules
 recovery/whiff policy
 ```
 
-不要把 `animation_finished` 当唯一 combo logic。
+Animation may expose timing events, but gameplay/state decides whether transition is valid.
 
-动画可以发 timing event，但 gameplay state 决定能否 transition。
+## Projectiles
 
-## 10. Projectiles
-
-Projectile 要明确：
-
-- owner/team；
-- collision layers/masks；
-- lifetime/range；
-- piercing/bounce count；
-- one-target repeated hit policy；
-- spawn point/direction；
-- cleanup/pooling only if profiling justifies。
-
-视觉 projectile 与实际 hit shape 要保持可读一致，但不要求像素级形状完全相同。
-
-## 11. Death
-
-Death sequence 至少保证：
-
-- 不再创建新攻击；
-- hitbox 关闭；
-- body/hurtbox 是否继续碰撞按设计处理；
-- gameplay state 不再接受无效 input/AI action；
-- death signal 只触发一次；
-- animation/VFX/loot/score 监听明确事件。
+Define owner/team, collision filters, lifetime/range, repeat/pierce/bounce policy, spawn direction and cleanup. Add pooling only after measurements justify it.
 
 ## Debug order
 
-出现“攻击判定错”时按顺序：
+For incorrect combat results, check in order:
 
-1. attack state 是否进入；
-2. hitbox 是否在正确 window active；
-3. layer/mask；
-4. hitbox/hurtbox overlap callback；
-5. repeated-hit / i-frame gate；
-6. damage receiver；
-7. state exit/cancel；
-8. presentation sync。
+1. action/state entered correctly;
+2. contact window is active at the intended time;
+3. layer/mask;
+4. hitbox/hurtbox callback/query;
+5. repeated-contact / invulnerability gate;
+6. resolver -> Health/Vitals handoff;
+7. state exit/cancel;
+8. presentation synchronization.
 
-先证明 combat truth，再调视觉。
+Prove gameplay correctness before tuning feedback.
 
 ## Validation
 
-测试：
-
-- one swing -> expected hit count；
-- holding overlap；
-- rapid repeated attacks；
-- whiff；
-- multi-target；
-- target dies on hit；
-- i-frame；
-- combo timing；
-- attack interrupted by hurt/death；
-- pause/time-scale；
-- collision disabled/enabled lifecycle。
+Test the relevant cases: expected contact count, sustained overlap, rapid repeated actions, misses, multiple targets, invulnerability, combo timing, interruption, state termination and collision enable/disable lifecycle.

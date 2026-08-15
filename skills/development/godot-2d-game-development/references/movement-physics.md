@@ -1,6 +1,6 @@
 # Movement and Physics Reference
 
-Use for `CharacterBody2D`, top-down/platformer movement, jump/dash, collision response, moving platforms and knockback interaction. Camera behavior is in `camera.md`; device/remap concerns are in `input-controls-accessibility.md`.
+Use for `CharacterBody2D`, top-down/platformer movement, jump/dash, collision response, moving platforms and knockback interaction. Camera behavior is in `camera.md`; device/remap concerns belong to `development/godot-project-systems`.
 
 ## Physics owns movement truth
 
@@ -40,7 +40,7 @@ duration or distance
 speed profile
 cooldown
 collision behavior
-i-frame yes/no
+invulnerability yes/no
 cancel rules
 control lock degree
 ```
@@ -72,4 +72,4 @@ Confirm movement behavior, input buffering and timer time domains under pause/sl
 
 ## Validation
 
-Test the relevant extremes: cardinal/diagonal changes, wall/corner/slope, jump edge cases, repeated dash, attack/hurt/knockback during movement, moving platforms and pause/time-scale transitions.
+Test the relevant extremes: cardinal/diagonal changes, wall/corner/slope, jump edge cases, repeated dash, action/knockback transitions, moving platforms and pause/time-scale transitions.

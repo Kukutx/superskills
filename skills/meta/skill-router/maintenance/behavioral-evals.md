@@ -24,31 +24,33 @@ Maintenance-only. Test **task ownership**, not keyword matching. A pass selects 
 | User task | Expected primary | Secondary only when | Must avoid |
 | --- | --- | --- | --- |
 | “1992 年生，按八字看事业和近三年运势” | `personal/divination-reading` | research only for a genuinely external calendrical/current fact | presenting symbolic interpretation as empirical evidence |
-| “我没指定方法，只想占一下这个 offer 值不值得接” | `personal/divination-reading` | none by default; choose one focused method | stacking every divination system |
-| “1992 年生，在中国长大，结合互联网和就业环境分析成长背景，不要占星” | `personal/generational-context-analysis` | `research/research-brief` only for a distinct formal evidence brief | divination because a birth date appears |
+| “我没指定方法，只想占一下这个 offer 值不值得接” | `personal/divination-reading` | none by default | stacking every divination system |
+| “1992 年生，在中国长大，结合互联网和就业环境分析成长背景” | `personal/generational-context-analysis` | research for a distinct evidence brief | divination merely because a birth date appears |
 | “出生在 1995 年的人是不是都回避型依恋？” | `personal/generational-context-analysis` | research for cohort evidence | claiming attachment style from birth year |
 | “先给我做八字，再单独用历史数据分析我这一代” | divination and generational Skills as two explicit subproblems | research for evidence-heavy cohort section | blending symbolic and empirical claims into one confidence score |
 
-## Domain precedence
+## Godot ownership boundaries
 
 | User task | Expected primary | Secondary only when | Must avoid |
 | --- | --- | --- | --- |
-| “Godot 2D 攻击偶尔重复扣血” | `development/godot-2d-game-development` | generic debug method adds distinct value | replacing domain combat ownership |
-| “Godot 2D scene ownership/state architecture” | `development/godot-2d-game-development` | technical-design only for a distinct cross-system method | generic architecture replacing Godot conventions |
-| “架构已定，直接改 Godot 2D 现有项目里的文件” | `development/godot-2d-game-development` | implementation-plan only when a plan artifact is explicitly useful | generic file planning replacing domain implementation |
-| “Godot 3D 第三人称移动和 Camera3D 穿墙” | `development/godot-3d-game-development` | generic debug method adds distinct value | forcing 2D camera/movement references |
+| “Godot 2D 攻击偶尔重复结算” | `development/godot-2d-game-development` | shared systems for verification if useful | replacing 2D gameplay ownership with generic debug advice |
+| “Godot 2D CharacterBody2D movement/camera” | `development/godot-2d-game-development` | shared systems only for a distinct input/UI/verification concern | loading 3D or shared refs by default |
+| “Godot 3D 第三人称移动和 Camera3D 穿墙” | `development/godot-3d-game-development` | shared systems for input/verification if distinct | forcing 2D camera/movement references |
 | “Godot 3D Blender 模型导入后骨骼和动画异常” | `development/godot-3d-game-development` | research only if a current importer/version fact is material | generic asset advice replacing Godot import semantics |
+| “Godot 3D pause/settings 菜单手柄 focus” | `development/godot-project-systems` | 3D only if spatial/world interaction also matters | loading 3D movement/rendering for Control UI |
+| “Godot 2D 重映射按键并持久化” | `development/godot-project-systems` | 2D only if action-to-movement behavior is also changing | keeping input/save knowledge duplicated in 2D |
+| “Godot v2 存档迁移 item IDs” | `development/godot-project-systems` | dimensional Skill only if runtime world semantics also change | treating save as 2D-specific |
+| “Godot GitHub Actions clean export” | `development/godot-project-systems` | matching dimensional Skill only for a distinct runtime smoke path | routing through 2D because export used to live there |
+| “Godot 3D 音频 bus 和设置” | `development/godot-project-systems` | 3D only for a distinct spatial-audio behavior | recreating all audio architecture in the 3D Skill |
 | “生成 6 帧像素 attack strip” | `development/sprite-animation-pipeline` | Godot only if engine import/runtime is also requested | loading full Godot runtime for asset generation |
-| “把已有 64x64 sheet 切成稳定命名并打包” | `development/sprite-animation-pipeline` | engine Skill for actual handoff | image-generation Skill |
-| “Godot 2D 已有 sprite，配置 runtime attack timing” | `development/godot-2d-game-development` | sprite pipeline only if source geometry must change | regenerating art unnecessarily |
+| “Godot 2D 已有 sprite，配置 runtime timing” | `development/godot-2d-game-development` | sprite pipeline only if source geometry must change | regenerating art unnecessarily |
+
+## Other domain precedence
+
+| User task | Expected primary | Secondary only when | Must avoid |
+| --- | --- | --- | --- |
 | “Shopify 产品页按钮坏了” | `ecommerce/shopify-dev` | bug-diagnosis for distinct methodology | generic frontend rewrite first |
 | “Shopify theme release 前检查” | `ecommerce/shopify-dev` | release-checklist for broader org gates | generic release ceremony replacing platform rules |
-| “Godot export 到 CI 前检查” | matching Godot 2D/3D Skill | release-checklist for broader release gates | replacing Godot export rules with generic checklist |
-
-## Creative / store boundaries
-
-| User task | Expected primary | Secondary only when | Must avoid |
-| --- | --- | --- | --- |
 | “设计一组 App Store 截图版式和顺序” | `design/app-store-assets` | app-store-copy for substantial wording | isolated-poster thinking |
 | “已有 App Store screenshot，帮我改善” | `design/app-store-assets` | image-review-refiner for generic visual diagnosis | generic image route replacing store constraints |
 | “只重写 subtitle 和 description” | `writing/app-store-copy` | positioning if value/audience is unresolved | loading visual design |
@@ -59,35 +61,29 @@ Maintenance-only. Test **task ownership**, not keyword matching. A pass selects 
 
 ## Mixed-task pressure cases
 
-### Divination + evidence-led cohort analysis
+### Godot shared + dimensional
 
-Prompt: `我 1990 年出生。先按八字看职业，再用中国 90 年代到互联网时代的真实历史环境分析这一代的职业观。`
+Prompt: `Godot 3D pause menu 手柄 focus 修好后，再确认 Camera3D 游戏里没受影响。`
 
-Pass: treat these as two separate epistemic sections. Divination owns the symbolic reading; generational context owns evidence-led cohort exposure. Do not use one to “validate” the other.
+Pass: project-systems owns menu/input verification; 3D joins only for the distinct camera runtime check. Do not preload every 3D reference for the UI change.
 
 ### Godot gameplay + sprite asset
 
 Prompt: `做 Godot 2D sword attack，同时生成对应 6 帧 attack strip。`
 
-Pass: Godot 2D owns gameplay/combat/runtime animation; sprite pipeline owns strip generation/geometry/packaging; do not add a third image Skill unless visual direction is genuinely unresolved.
+Pass: Godot 2D owns gameplay/runtime animation; sprite pipeline owns strip generation/geometry/packaging. Add project-systems only for a genuinely separate input/UI/save/export concern.
 
-### Godot dimension boundary
+### Divination + evidence-led cohort analysis
 
-Prompt: `这是 Godot 3D 项目，但只是改 pause menu 的 Control focus。`
+Prompt: `我 1990 年出生。先按八字看职业，再用真实历史环境分析这一代的职业观。`
 
-Pass: choose the 3D domain owner/project conventions if domain context matters, but do not load 2D runtime references merely because they contain generic UI knowledge. The dimension-neutral subproblem must not trigger a fake 2D dependency.
+Pass: two separate epistemic sections. Do not use either one to validate the other.
 
 ### Architecture then implementation
 
 Prompt: `先决定 save schema 和 migration boundary，再给文件级改法。`
 
-Pass: technical-design first; implementation-plan only after decisions are fixed; keep the two outputs distinct.
-
-### Domain bug
-
-Prompt: `Shopify theme mobile menu 偶发打不开。`
-
-Pass: Shopify remains primary; generic bug-diagnosis is at most supporting methodology.
+Pass: technical-design first; implementation-plan only after decisions are fixed.
 
 ### Direct-result request
 
@@ -100,9 +96,9 @@ Pass: actual domain/task owner; never prompt-optimizer as preprocessing.
 1. One primary Skill owns the task.
 2. Secondary Skills handle separable subtasks only.
 3. Domain ownership beats generic methods.
-4. “compare”, “plan”, “review”, “prompt” and “birth date” words do not route by themselves.
-5. Evidence-led cohort analysis and symbolic divination remain epistemically separate.
-6. Godot 2D and 3D stay separate when dimension changes implementation.
+4. Words such as “compare”, “plan”, “review”, “prompt”, “Godot” and “birth date” do not route by themselves.
+5. Divination and evidence-led cohort analysis remain epistemically separate.
+6. Godot project systems own dimension-neutral behavior; 2D/3D own dimensional behavior.
 7. Asset production and engine runtime remain separate owners.
 8. Maintenance content is not loaded during normal execution.
 

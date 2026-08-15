@@ -8,15 +8,18 @@ These traditions contain multiple schools and calculation conventions. State the
 
 ### Input and chart integrity
 
-For an exact natal chart, resolve:
+For an exact natal chart, resolve the relevant subset:
 
 ```text
 birth date + calendar
 birth time + precision
 birth place
 historical timezone / DST
-whether any local/apparent-solar-time correction is being used
+whether local/apparent-solar-time correction is being used
+sex/gender only when the selected 大运/chart convention actually uses it
 ```
+
+Do not make the user choose these conventions up front unless the selected calculation path leaves a material ambiguity.
 
 A common 子平/Four-Pillars workflow uses solar-term boundaries for calendrical structure rather than treating lunar-month labels as month pillars. Near year/month/hour boundaries, small time or convention differences can change the chart, so expose the boundary instead of hiding it.
 
@@ -24,23 +27,24 @@ A common 子平/Four-Pillars workflow uses solar-term boundaries for calendrical
 
 ### Interpretation order
 
-Do not reduce 八字 to “五行缺什么就补什么”. A more coherent traditional reading considers, in order:
+Do not reduce 八字 to “五行缺什么就补什么”. A coherent traditional reading normally considers:
 
 1. verified four pillars and hidden stems;
 2. season/month command and overall qi distribution;
 3. 日主 strength/condition under the chosen school;
-4. stems/branches interactions, combinations, clashes, harms or punishments when materially relevant;
+4. stems/branches interactions when materially relevant;
 5. 十神 and structural pattern as relational language, not isolated labels;
 6. 喜用/忌 only after the chart logic is established;
-7. 大运/流年 as timing layers, using a stated calculation convention.
+7. 大运/流年 as timing layers using a stated calculation convention.
 
 Do not assign a “lucky color/industry/direction” merely from a missing element. If giving such traditional correspondences, derive them from the stated interpretation and label them as symbolic suggestions.
 
 ### 大运 / timing
 
-Direction and 起运 calculation can vary by lineage/convention. When exact timing matters:
+Direction and 起运 calculation can vary by lineage/convention, and some methods use sex/gender as part of the rule. When exact timing matters:
 
-- state the rule used;
+- state the rule actually used;
+- request any method-specific input only if that rule needs it;
 - show the resulting start age/date;
 - flag uncertainty near a boundary;
 - do not fabricate a precise 大运 table from memory.
@@ -54,7 +58,8 @@ Use when the user wants a palace/star-based natal reading and a reliable chart i
 Exact charting can depend on lunar-calendar conversion, birth hour, sex/gender rules and school-specific placement/四化 conventions. Therefore:
 
 - prefer a verified chart or charting tool;
-- state the school/convention when known;
+- ask for sex/gender only when the selected charting convention requires it;
+- state the school/convention when known and material;
 - interpret major palace structure and dominant stars first;
 - do not dump every minor star;
 - do not merge 八字 and 紫微 terminology as if they share one calculation system.
@@ -76,13 +81,13 @@ If using a coin/yarrow/randomized cast, state how it was produced. If no real ra
 
 Interpret the question before technical detail. Traditional 六爻 schools may use 纳甲、世应、六亲、用神、月日旺衰 and other layers; do not invoke all of them unless the required chart data and method are actually available.
 
-For a general Yijing reading, the hexagram/line imagery can be used as a structured reflection on change, alternatives and timing without pretending that the text supplies certain future facts.
+For a general Yijing reading, hexagram/line imagery can be used as structured reflection on change, alternatives and timing without pretending the text supplies certain future facts.
 
 ## 梅花易数
 
 Useful for quick symbolic readings derived from a stated time/number/event method.
 
-Because different derivation recipes exist, always state the algorithm or input that produced the upper trigram, lower trigram and moving line. Do not reverse-engineer a convenient hexagram after seeing the desired answer.
+Different derivation recipes exist. State the algorithm/input that produced the upper trigram, lower trigram and moving line. Do not reverse-engineer a convenient hexagram after seeing the desired answer.
 
 Keep the result proportional: main/relating trigrams, moving relation, dominant image, then practical interpretation.
 
@@ -90,7 +95,7 @@ Keep the result proportional: main/relating trigrams, moving relation, dominant 
 
 Best suited to a time-specific strategic/choice question when an actual 奇门 chart can be produced reliably.
 
-Before interpreting, resolve the charting convention/school. Different systems can vary in 局、排盘 and placement methods. Do not mix rules from several schools in one chart simply to create more signals.
+Resolve the charting convention/school only when needed for calculation. Different systems can vary in 局、排盘 and placement methods. Do not mix rules from several schools in one chart simply to create more signals.
 
 Interpret around the **specific question**: actors/positions, timing, constraints, direction/strategy where the chosen system supports them. Do not turn generic “吉门/凶门” labels into guaranteed outcomes.
 
@@ -127,4 +132,4 @@ Good interpretation should:
 - translate technical terms immediately;
 - distinguish natal tendency, current timing and the user's real-world choices;
 - describe both favorable and difficult manifestations of the same symbol;
-- avoid fatalistic claims about death, illness, marriage failure, wealth or another irreversible outcome.
+- avoid fatalistic claims about health, death, marriage failure, wealth or another irreversible outcome.

@@ -80,12 +80,15 @@ def main() -> int:
         if unexpected:
             errors.append(f"{skill_dir.relative_to(ROOT)}: unexpected entries {sorted(unexpected)}")
 
+        if len(skill_text.encode("utf-8")) > ENTRYPOINT_ADVISORY_BYTES:
+            warnings.append(
+                f"{rel}: large entrypoint; review whether it contains multiple owners or task-dependent detail"
+            )
+
         refs = skill_dir / "references"
-        if refs.exists():
-            if len(skill_text.encode("utf-8")) > ENTRYPOINT_ADVISORY_BYTES:
-                warnings.append(
-                    f"{rel}: large entrypoint with references; review whether more detail can move behind routing"
-                )
+        if refs.exists() and not refs.is_dir():
+            errors.append(f"{refs.relative_to(ROOT)}: references must be a directory")
+        elif refs.is_dir():
             for p in refs.iterdir():
                 if p.is_dir():
                     errors.append(f"{p.relative_to(ROOT)}: nested reference directories are not supported")
@@ -112,7 +115,9 @@ def main() -> int:
                     )
 
         maintenance = skill_dir / "maintenance"
-        if maintenance.exists():
+        if maintenance.exists() and not maintenance.is_dir():
+            errors.append(f"{maintenance.relative_to(ROOT)}: maintenance must be a directory")
+        elif maintenance.is_dir():
             for p in maintenance.iterdir():
                 if p.is_file() and p.name in LEGACY_MAINTENANCE_NAMES:
                     errors.append(
@@ -122,7 +127,7 @@ def main() -> int:
             eval_file = maintenance / "behavioral-evals.md"
             if eval_file.exists():
                 valid_local_md = {"skill.md"}
-                if refs.exists():
+                if refs.is_dir():
                     valid_local_md.update(p.name for p in refs.glob("*.md"))
                 valid_local_md.update(p.name for p in maintenance.glob("*.md"))
                 eval_text = eval_file.read_text(encoding="utf-8")
