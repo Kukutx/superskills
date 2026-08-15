@@ -1,88 +1,72 @@
 # Divination Method Selection
 
-Use when the user has not fixed a tradition, or when several systems could answer the same question.
+Use only when the user has not chosen a tradition and the best method is not already obvious.
 
-## Select by question, not by prestige
+## Auto-select by task
 
-| User need | Good primary choices | Avoid by default |
+| User goal | Good default | Why |
 | --- | --- | --- |
-| broad natal / long-term life themes | 八字, 紫微斗数, Jyotiṣa natal, Western natal astrology | stacking all natal systems |
-| one concrete near-term question | 六爻, Jyotiṣa praśna, Tarot | forcing a full natal chart |
-| quick symbolic reflection / brainstorming | Tarot, 梅花易数, Yijing hexagram reading | pretending it is precise forecasting |
-| strategy, timing, direction or choice | 奇门遁甲, Jyotiṣa muhūrta when electional timing is truly requested, focused Tarot decision spread | generic “lucky direction/color” without a charting convention |
-| philosophical reflection on change | Yijing / hexagram interpretation | deterministic yes/no claims |
-| highly specialized traditional technique | 大六壬, 太乙神数 | using it merely because it sounds more advanced |
+| full life/natal reading with birth data | 八字 in Chinese context; requested natal tradition otherwise | birth data is already available and natal structure is the actual question |
+| one concrete decision/question | small Tarot reading or another focused question method | avoids unnecessary full-chart complexity |
+| quick symbolic reflection | Tarot or Yijing-style reflection | low input burden, easy to explain |
+| strategy/direction/timing | 奇门 / muhūrta only with reliable chart calculation | these methods depend on exact timing conventions |
+| explicit Chinese traditional request | the named Chinese method | user preference owns the choice |
+| explicit Jyotiṣa / Western astrology request | the named astrology tradition | do not mix zodiac/house conventions |
+| advanced 大六壬 / 太乙 request | named system only if charting can be verified | complexity is not evidence of quality |
 
-If the user explicitly names a tradition, respect it unless the required information is unavailable or the method does not fit the question.
+Do not present a menu unless the choice would materially change the reading and there is no sensible default.
 
-## Information sufficiency
+## Calculation gate
 
-Before selecting a method, distinguish three levels:
+Three cases:
 
-### 1. Exact chart/cast available
+```text
+verified chart/cast already provided
+-> interpret it
 
-Best case. Interpret the actual chart, cast, cards or positions and state the convention used.
+reliable tool/source can calculate it
+-> calculate, verify inputs, then interpret
 
-### 2. Exact computation possible with a verified tool/source
+no reliable calculation path
+-> ask for a precomputed chart/cast or choose a simpler honest method
+```
 
-Compute first, verify inputs and edge cases, then interpret.
-
-### 3. No reliable calculation path
-
-Do **not** improvise exact pillars, planets, stars or moving lines. Ask for a precomputed chart/cast or switch to a method that can be honestly performed with the available data.
+Never replace missing calculation with confident-looking invented detail.
 
 ## Question quality
 
-Prefer questions that expose a decision or situation:
+Prefer one clear situation:
 
 ```text
-What should I understand about this job choice over the next six months?
-What dynamics are most important in this relationship right now?
-What is the main obstacle in this project and what response is favored?
+这个 offer 未来半年最值得注意什么？
+这段关系现在最大的矛盾和可改善点是什么？
+这个项目目前的阻力和下一步是什么？
 ```
 
-Be cautious with:
+Do not use a symbolic method as a detector of hidden crimes, diagnoses, guaranteed wealth, pregnancy, legal truth or another claim requiring evidence.
 
-```text
-Will I definitely become rich?
-Exactly when will X happen?
-Is this person secretly cheating?
-Do the cards prove I have an illness?
-```
+## Multiple methods
 
-A symbolic system should not be used to manufacture facts about third parties or high-stakes outcomes.
+Multiple systems are optional, not automatically better.
 
-## Cross-method use
+If the user explicitly wants comparison:
 
-Cross-checking is optional, not a default quality upgrade.
+1. finish one primary reading first;
+2. use the second system for one defined cross-check;
+3. compare themes and contradictions;
+4. keep calculation conventions separate;
+5. never turn agreement into a fake confidence score.
 
-If the user requests multiple systems:
+## Depth rule
 
-1. finish one primary method coherently;
-2. use a second method only for a clearly defined comparison question;
-3. report agreements and contradictions without forcing them to match;
-4. do not average unrelated traditions into a fake confidence score.
-
-Different traditions use different cosmologies, calendars and interpretive grammars. Agreement between them is not scientific validation.
-
-## Time horizon
-
-Match the method and answer depth to the requested horizon:
-
-- immediate decision -> focused question method;
-- next months / a year -> focused timing or transit/annual technique if the chosen tradition supports it;
-- long-term life pattern -> natal framework;
-- no time horizon -> ask only if it materially changes interpretation.
-
-## Reading depth
-
-Start with the smallest useful reading:
+Default:
 
 ```text
 question
--> primary method
--> strongest 3–6 signals
--> practical interpretation
+-> one method
+-> strongest 3–5 signals
+-> plain-language synthesis
+-> useful next step
 ```
 
-Only expand into secondary symbols, subcharts, extra spreads or multiple schools when the user asks or the main interpretation remains genuinely ambiguous.
+Expand into extra schools, subcharts, large spreads or secondary systems only when requested or when the first reading remains genuinely ambiguous.
