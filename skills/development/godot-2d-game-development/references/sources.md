@@ -2,18 +2,25 @@
 
 维护本 SuperSkill 时使用。普通开发任务不要加载。
 
+- Last source review: **2026-08-15**
+- Godot upstream snapshot at review time: **4.7.1-stable** was the latest stable GitHub release.
+- This snapshot is maintenance context only. **The actual project Godot version always wins.**
+
 原则：**synthesis, not bulk copy**。
 
 - 抽取 decision rules、anti-patterns、validation loops、2D-specific knowledge。
 - 精确 API 以项目实际 Godot 版本和官方文档为准。
 - 外部 addon/tool 不作为隐式 dependency。
 - 不复制外部仓库大段文本或脚本；需要代码时先检查 license。
+- 热度只是辅助信号；维护状态、版本兼容、独特价值和迁移成本更重要。
 
 ## First-party Godot sources
 
 ### Godot official documentation
 
 最高优先级的 API/version source。
+
+实施版本敏感代码前，先确认项目版本，再打开对应版本文档，不默认使用最新 stable API。
 
 ### godotengine/godot-demo-projects
 
@@ -39,29 +46,40 @@ uncertain native pattern
 ## Primary agent-skill sources
 
 ### thedivergentai/GD-Agentic-Skills
+
 - URL: `https://github.com/thedivergentai/GD-Agentic-Skills`
 - License: LGPL-3.0
 - Use: narrow Godot physics/animation/combat/camera/Tween/shader/resources/audio/performance/testing knowledge。
 
+2026-08 review 时仍活跃，内容量很大；只读取当前 domain，不 bulk preload。
+
 ### jame581/GodotPrompter
+
 - URL: `https://github.com/jame581/GodotPrompter`
 - License: MIT
 - Use: Godot 4.x domain decomposition and agent routing。
 
 ### gamedev-skills/awesome-gamedev-agent-skills
+
 - URL: `https://github.com/gamedev-skills/awesome-gamedev-agent-skills`
+- License: Apache-2.0
 - Use: engine-neutral game feel/UI/input/camera/audio/AI/level/save/dialogue/performance principles。
 
+Godot API 细节仍以 first-party source 为准。
+
 ### openai/plugins — sprite-pipeline
+
 - URL: `https://github.com/openai/plugins`
 - Use: approved seed -> whole strip -> shared scale/anchor -> normalize -> preview。
 
 ### 0x0funky/agent-sprite-forge
+
 - URL: `https://github.com/0x0funky/agent-sprite-forge`
 - License: MIT
 - Use: game-ready sprite/FX/map production and deterministic handoff。
 
 ### willibrandon/pixel-plugin
+
 - URL: `https://github.com/willibrandon/pixel-plugin`
 - License: MIT
 - Use: Aseprite timing/tags/linked cels/pixel editing/export concepts。
@@ -69,21 +87,27 @@ uncertain native pattern
 ## Runtime / MCP candidates
 
 ### Coding-Solo/godot-mcp
+
 - URL: `https://github.com/Coding-Solo/godot-mcp`
 - Use: general project/run/debug MCP; inspect current tools before claiming capabilities。
 
 ### alexmeckes/godot-mcp
+
 - URL: `https://github.com/alexmeckes/godot-mcp`
 - Use: richer editor/file + optional live bridge candidate。
 
 ### Erodenn/godot-mcp-runtime
+
 - URL: `https://github.com/Erodenn/godot-mcp-runtime`
 - License: MIT
-- Use: newer runtime-focused zero-footprint validation candidate; evaluate maturity/security/policy before use。
+- Use: newer runtime-focused validation candidate; evaluate maturity/security/policy before use。
+
+Specific MCP capabilities change quickly. Keep names/capability comparison in `companion-tools.md`, not scattered across runtime references.
 
 ## Input
 
 ### nathanhoad/godot_input_helper
+
 - URL: `https://github.com/nathanhoad/godot_input_helper`
 - License: MIT
 - Use: device detection、binding query/change、joypad differences、rumble when native plumbing becomes repetitive。
@@ -91,15 +115,18 @@ uncertain native pattern
 ## AI / state
 
 ### bitbrain/beehave
+
 - URL: `https://github.com/bitbrain/beehave`
 - License: MIT
 - Use: medium-complex reusable Behavior Trees。
 
 ### limbonaut/limboai
+
 - URL: `https://github.com/limbonaut/limboai`
 - Use: complex BT + HSM + blackboard/debugger; check Godot compatibility。
 
 ### derkork/godot-statecharts
+
 - URL: `https://github.com/derkork/godot-statecharts`
 - License: MIT
 - Use: hierarchical/parallel gameplay states。
@@ -107,11 +134,13 @@ uncertain native pattern
 ## Pixel / raster import
 
 ### viniciusgerevini/godot-aseprite-wizard
+
 - URL: `https://github.com/viniciusgerevini/godot-aseprite-wizard`
 - License: MIT
 - Use: Aseprite-centric animation import to Godot assets。
 
 ### nklbdev/godot-4-importality
+
 - URL: `https://github.com/nklbdev/godot-4-importality`
 - License: MIT
 - Use: multi-editor raster/animation importer workflow。
@@ -119,11 +148,13 @@ uncertain native pattern
 ## Level / terrain authoring
 
 ### Portponky/better-terrain
+
 - URL: `https://github.com/Portponky/better-terrain`
 - License: Unlicense
 - Use: optional Godot 4 terrain authoring when native terrain workflow is a demonstrated production bottleneck。
 
 ### heygleeson/godot-ldtk-importer
+
 - URL: `https://github.com/heygleeson/godot-ldtk-importer`
 - License: MIT
 - Use: projects that deliberately use LDtk as level source; check current Godot/LDtk compatibility and generated-file ownership。
@@ -131,6 +162,7 @@ uncertain native pattern
 ## Inventory
 
 ### peter-kish/gloot
+
 - URL: `https://github.com/peter-kish/gloot`
 - License: MIT
 - Use: larger/repetitive inventory domain; not needed for simple item lists/stacks。
@@ -138,17 +170,20 @@ uncertain native pattern
 ## Dialogue
 
 ### nathanhoad/godot_dialogue_manager
+
 - URL: `https://github.com/nathanhoad/godot_dialogue_manager`
 - License: MIT
-- Use: mature branching/conditions/mutations/translation authoring; match release to project Godot version, do not default to preview next-major。
+- Use: mature branching/conditions/mutations/translation authoring; match release to project Godot version。
 
 ### dialogic-godot/dialogic
+
 - URL: `https://github.com/dialogic-godot/dialogic`
 - Use: feature-heavier narrative/visual-novel workflow; check current compatibility。
 
 ## Camera
 
 ### ramokz/phantom-camera
+
 - URL: `https://github.com/ramokz/phantom-camera`
 - License: MIT
 - Use: authored multi-camera priority/transitions/group/path/framed follow beyond simple Camera2D。
@@ -156,11 +191,13 @@ uncertain native pattern
 ## Testing
 
 ### bitwes/Gut
+
 - URL: `https://github.com/bitwes/Gut`
 - License: MIT
 - Use: GDScript-focused tests/CLI/assertions/stubs/spies/JUnit。
 
 ### godot-gdunit-labs/gdUnit4
+
 - URL: `https://github.com/godot-gdunit-labs/gdUnit4`
 - License: MIT
 - Use: GDScript+C# tests/scenes/mocking/CI; version must match Godot。
@@ -168,6 +205,7 @@ uncertain native pattern
 ## Project shell
 
 ### Maaack/Godot-Game-Template
+
 - URL: `https://github.com/Maaack/Godot-Game-Template`
 - License: MIT
 - Use: new project standard menu/options/pause/credits/loading/settings shell; don't transplant wholesale into mature projects。
@@ -175,29 +213,36 @@ uncertain native pattern
 ## Export / CI
 
 ### firebelley/godot-export
+
 - URL: `https://github.com/firebelley/godot-export`
 - License: MIT
 - Use: GitHub Action-oriented export workflow。
 
 ### abarichello/godot-ci
+
 - URL: `https://github.com/abarichello/godot-ci`
 - Use: Docker/CI export/deploy option; direct Godot CLI is often simpler。
 
 ## Candidate rejection / restraint
 
-“包含很多 skills”或“宣称支持最新 Godot”本身不是纳入理由。低采用、信息重复、维护不明确、只包装官方文档但不改变 Agent 决策的库，可以作为临时研究材料，但不进入 primary source list。
+“包含很多 skills”“star 很多”或“宣称支持最新 Godot”都不是单独的纳入理由。
+
+低采用、信息重复、维护不明确、只包装官方文档但不改变 Agent 决策的库，可以作为临时研究材料，但不进入 primary source list。
 
 ## Maintenance policy
 
-新增 source/addon 前回答：
+每次维护：
 
-1. first-party、broadly used 或 uniquely useful 吗？
-2. 改变哪个具体 Agent decision？
-3. 现有 reference 是否已覆盖？
-4. 能否保持 optional？
-5. Godot version / license / maintenance / security 是否检查？
-6. 会不会形成双 source of truth？
-7. 是否新增 routing pressure test？
+1. 先确认当前 Godot stable release，只作为 ecosystem snapshot；
+2. 实际开发仍以项目 Godot version 为准；
+3. 检查 primary sources 是否仍维护、license 是否变化；
+4. 新增 source/addon 前回答：
+   - 它改变哪个具体 Agent decision？
+   - 现有 reference 是否已覆盖？
+   - 能否保持 optional？
+   - version/license/maintenance/security 是否可接受？
+   - 会不会形成双 source of truth？
+   - 是否新增真实 routing pressure test？
 
 答不清楚就不加入。
 
