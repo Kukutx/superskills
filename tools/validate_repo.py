@@ -49,7 +49,8 @@ def main() -> int:
     for skill_file in skill_files:
         skill_dir = skill_file.parent
         rel = skill_file.relative_to(ROOT)
-        meta = frontmatter(skill_file.read_text(encoding="utf-8"))
+        skill_text = skill_file.read_text(encoding="utf-8")
+        meta = frontmatter(skill_text)
 
         if not meta.get("name"):
             errors.append(f"{rel}: missing frontmatter name")
@@ -79,6 +80,13 @@ def main() -> int:
                             errors.append(
                                 f"{p.relative_to(ROOT)}: maintenance source note '{heading}' is in runtime reference"
                             )
+                    # Every runtime reference must be discoverable from its Skill entrypoint.
+                    # A filename mention is sufficient because some routers intentionally use
+                    # concise labels such as `combat-system.md` rather than a full relative path.
+                    if p.name not in skill_text:
+                        errors.append(
+                            f"{p.relative_to(ROOT)}: orphan runtime reference; not mentioned by {rel}"
+                        )
 
     router_text = ROUTER.read_text(encoding="utf-8")
     catalog_paths = set(PATH_RE.findall(router_text))
