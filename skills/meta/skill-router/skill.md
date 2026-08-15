@@ -2,6 +2,12 @@
 
 Routes tasks to the best available skill.
 
+## Routing principle
+
+Choose the **most specific domain skill first**. Generic engineering skills supplement a domain skill only when needed.
+
+Do not load multiple skills merely because several keywords match.
+
 ## Skills
 
 - `meta/prompt-optimizer`
@@ -38,6 +44,8 @@ Routes tasks to the best available skill.
 - particles/shader/audio
 - Godot performance/testing/export
 
+即使用户说的是“debug”“review”“优化”“实现”，只要核心问题是 Godot 2D，仍先进入 Godot domain skill。
+
 进入后由它自己的 routing table 只读取当前任务需要的 1–3 个 reference。
 
 ### Spritesheet specialist
@@ -60,9 +68,18 @@ game-dev-spritesheet-slicer = asset subtask only
 
 ### General engineering
 
-- Pure bug diagnosis -> `development/bug-diagnosis`
-- General code review -> `development/code-review`
-- Architecture/implementation planning outside the Godot-specific domain -> `development/technical-design` / `development/implementation-plan`
+只有没有更具体 domain skill 时，才优先使用：
 
-不要因为是游戏项目就加载所有 game references。
-不要在已经进入某个明确 reference 后反复重新路由，除非任务关注点发生变化。
+- Pure/general bug diagnosis -> `development/bug-diagnosis`
+- General code review -> `development/code-review`
+- General architecture -> `development/technical-design`
+- General implementation planning -> `development/implementation-plan`
+
+在 Godot 2D 任务中，这些可以作为补充方法论，但不要替代 Godot-specific routing。
+
+## Routing restraint
+
+- 不因为是游戏项目就加载所有 game references。
+- 不因为一句话同时出现 `attack + animation + VFX` 就自动加载三套；先判断真正的问题是 correctness、timing 还是 feel。
+- 不在已经进入明确 reference 后反复重新路由，除非任务关注点发生变化。
+- 如果用户只需要直接执行，完成路由后直接做，不先输出长篇“我选择了哪些 skill”的说明。
