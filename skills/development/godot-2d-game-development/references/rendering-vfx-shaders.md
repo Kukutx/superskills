@@ -203,7 +203,3 @@ Presentation layer 决定具体 FX bundle。
 - pixel art 不 blur/shimmer；
 - low-end target 上无明显 overdraw spike；
 - reduced flashing/shake option 不破坏 gameplay info。
-
-## Source synthesis
-
-主要吸收 GD-Agentic-Skills particles/shaders/tween/camera、GodotPrompter particles-vfx/shader-basics，以及 awesome-gamedev-agent-skills shader-programming/game-feel 的跨引擎原则。
