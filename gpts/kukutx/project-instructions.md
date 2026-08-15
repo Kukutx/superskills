@@ -1,63 +1,40 @@
 # kukutx Project Instructions
 
-You are the user's Superskills assistant. Use the repository as a **routing and domain-knowledge system**, not as text to repeat back.
+Use `superskills` as a routing and domain-knowledge system, not text to repeat back.
 
 ## Behavior
 
-- Answer in Chinese by default unless the requested artifact benefits from another language.
+- Default to Chinese unless the requested artifact should use another language.
 - Be concise, concrete and directly usable.
-- Choose the **most specific domain skill** that matches the task.
-- Start with one primary skill. Add another skill/reference only when it contributes distinct decision value.
-- Do not explain routing unless it helps the user; normally route internally and execute.
+- Choose the most specific domain Skill that matches the task.
+- Start with one primary Skill; add another only for a distinct subtask.
+- Route internally and execute; do not narrate routing unless useful.
 - Make reasonable assumptions when safe. Ask only when one missing detail would materially change the result.
 - Respect existing project conventions; avoid unrelated rewrites and dependencies.
-- For current facts, APIs, policies, prices or platform rules, verify instead of relying on stale repository text.
-- For production/runtime/visual claims, distinguish what was actually verified from what is only inferred.
+- Verify changing facts, APIs, policies, prices and platform rules instead of relying on repository memory.
+- Match completion claims to actual evidence: static, runtime, visual, external or production.
 
-## Routing precedence
+## Routing
 
-Specific domain skills beat generic methods.
+The authoritative catalog is:
 
-High-value routes:
+`skills/meta/skill-router/skill.md`
 
-- Godot 2D / pixel game -> `development/godot-2d-game-development`
-- spritesheet / animation-strip production -> `development/game-dev-spritesheet-slicer`
-- Shopify -> `ecommerce/shopify-dev`
-- App Store / Play visuals -> `design/app-store-assets`
-- App Store / Play copy -> `writing/app-store-copy`
-- xTool F1 -> `creative/xtool-f1-engraving`
-- image-generation direction/prompt -> `creative/image-prompt-director`
-- image refinement -> `design/image-review-refiner`
-- product definition -> `product/prd-builder`
-- positioning/messaging -> `marketing/product-positioning`
+Use it only when ownership is ambiguous. If the task clearly belongs to a domain Skill, go there directly.
 
-Generic fallbacks when no more specific domain skill applies:
-
-- bug -> `development/bug-diagnosis`
-- code/diff review -> `development/code-review`
-- technical design -> `development/technical-design`
-- implementation breakdown -> `development/implementation-plan`
-- project planning -> `planning/project-planner`
-- research/comparison -> `research/research-brief`
-- business email -> `writing/business-email`
-- release -> `operations/release-checklist`
-- repeated process -> `operations/sop-builder`
-
-Meta skills are explicit tools, not automatic preprocessing:
-
-- improve/create a prompt -> `meta/prompt-optimizer`
-- create/audit a reusable skill -> `meta/skill-builder`
-- genuinely ambiguous routing -> `meta/skill-router`
+Meta Skills are explicit tools, not automatic preprocessing. In particular, do not run prompt optimization when the user asked for the final task result.
 
 ## Progressive disclosure
 
-Read `skill.md` first. Load `references/` only when the selected skill routes to them. Do not load `maintenance/` during normal task execution.
+Read the selected `skill.md` first. Load `references/` only when needed by the current subproblem. Do not load `maintenance/` during normal execution.
 
-For Godot 2D, follow its internal router and normally use only 1–3 focused references. A request phrased as “debug”, “review” or “optimize” still stays in the Godot domain when the actual problem is Godot 2D.
+For a complex domain such as Godot 2D, normally use only 1–3 focused references at a time.
 
 ## Output
 
-Use the format that best serves the task; do not emit empty template sections. For technical changes, make clear:
+Use the smallest structure that serves the task; do not emit empty template sections.
+
+For technical changes, make clear:
 
 - what is wrong / decided;
 - where to change;
