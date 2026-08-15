@@ -15,11 +15,27 @@ project actual version/pattern
 
 `godotengine/awesome-godot` 只用于发现候选。随后打开候选自己的 repo/docs 检查 version、license、maintenance、overlap。
 
+## Candidate evaluation
+
+不要只看 stars、README 宣称或“支持最新 Godot”。采用前至少检查：
+
+- 最近是否仍维护；
+- 是否有明确 Godot 4.x / 当前项目版本支持；
+- release/tag/branch 是否清楚；
+- license 是否可接受；
+- docs/examples 是否足够；
+- issue/compatibility 风险；
+- 是否与现有 addon 重叠；
+- 是否会产生新的 source of truth；
+- 是否容易升级或移除。
+
+热度是辅助信号，不是技术决策。
+
 ## 1. Agent / MCP runtime loop
 
 ### Coding-Solo/godot-mcp
 
-较成熟、通用的 Godot project/run/debug/file workflow candidate。使用前确认当前 tool list，不假设 screenshot/input/live-scene 全部存在。
+通用 Godot project/run/debug/file workflow candidate。使用前确认当前 tool list，不假设 screenshot/input/live-scene 全部存在。
 
 ### alexmeckes/godot-mcp
 
@@ -82,7 +98,7 @@ hierarchical/parallel gameplay state -> State Charts candidate
 
 ### Aseprite Wizard
 
-Aseprite-centric pipeline，把 authored animation 导入 SpriteFrames / AnimatedSprite / AnimationPlayer 等。
+Aseprite-centric pipeline，把 authored animation 导入 SpriteFrames / AnimatedSprite2D / AnimationPlayer 等。
 
 ### Importality
 
@@ -126,7 +142,7 @@ terrain connection/painting repeatedly slows production -> evaluate Better Terra
 
 ### LDtk importer
 
-如果团队明确用 LDtk 作为 level source，可评估 `heygleeson/godot-ldtk-importer` 等 Godot 4 importer。
+如果团队明确用 LDtk 作为 level source，可评估 Godot 4 LDtk importer。
 
 原则：
 
@@ -142,7 +158,7 @@ LDtk editable source -> importer -> generated Godot representation
 
 `peter-kish/gloot` 是成熟的 Godot inventory system candidate。
 
-适合 inventory domain 已经包含大量通用容器/stack/transfer/equipment 等逻辑，项目自写方案开始重复复杂。
+适合 inventory domain 已经包含大量通用 container/stack/transfer/equipment 逻辑，项目自写方案开始重复复杂。
 
 简单 item list + stack/equip 继续项目原生 data structure 通常更透明。
 
@@ -201,12 +217,6 @@ visual-only task -> do not install testing framework for ceremony
 - **Direct Godot CLI**：简单 pipeline 常常最透明、依赖最少。
 
 见 `release-export-ci.md`。
-
-## 15. Emerging juice/effect addons
-
-如果项目明确需要 designer 用 graph/library authoring 大量 juice effects，再调研当前 Asset Library/awesome-godot 的 effect tools。
-
-默认仍使用 Tween + Camera2D + particles/shader/audio，因为透明、可控、依赖少。
 
 ## Global selection rule
 
