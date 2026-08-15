@@ -124,7 +124,7 @@ Node3D / CharacterBody3D / Camera3D /
 -> godot-3d-game-development
 ```
 
-For a mixed task, choose the owner of the primary behavior and add one neighboring Godot Skill only for the distinct subproblem. Do not recreate shared project-system knowledge inside both dimensional Skills.
+For a mixed task, choose the primary behavior owner and add one neighboring Godot Skill only for a distinct subproblem. Do not recreate shared project-system knowledge inside both dimensional Skills.
 
 ### Domain runtime vs asset production
 
@@ -140,21 +140,10 @@ Use both only when the task genuinely spans runtime integration and sprite asset
 
 ## Precedence examples
 
-- “1990 年出生，按八字看事业” -> divination-reading.
-- “1990 年出生，结合中国经济和互联网发展分析职业环境” -> generational-context-analysis unless symbolic analysis is requested.
-- “出生日期相同的人是否都有焦虑型依恋？” -> generational-context-analysis should reject unsupported individual inference.
-- Godot 2D movement/combat/camera bug -> Godot 2D Skill before generic development methods.
-- Godot 3D camera/physics/import bug -> Godot 3D Skill before generic development methods.
-- Godot 2D/3D pause menu, remapping, save migration or clean export -> Godot project-systems first.
-- Shopify theme/store issue -> Shopify Skill before generic frontend/debugging.
+- Godot 2D/3D pause menu, remapping, save migration or clean export -> Godot project-systems.
 - Godot 2D gameplay + new attack strip -> Godot 2D primary; sprite pipeline owns the asset subtask.
-- New sprite strip without engine work -> sprite pipeline only.
 - App Store screenshot artwork + short captions -> app-store-assets primary; app-store-copy only for substantial wording work.
-- Existing App Store screenshot critique -> app-store-assets primary; image-review-refiner only if its visual-review method adds value.
-- “Compare current maintenance/security of three libraries” -> research-brief.
-- “Which component owns this state?” -> technical-design.
-- “Architecture is approved; tell me which files/tasks to change” -> implementation-plan.
-- “Plan the whole app from validation through launch” -> project-planner.
+- “Compare current maintenance/security of three libraries” -> research-brief; “Which component owns this state?” -> technical-design.
 - User asks “do X” -> execute X; do not route through prompt-optimizer unless the prompt itself is requested.
 
 ## Restraint
