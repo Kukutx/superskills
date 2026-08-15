@@ -1,21 +1,31 @@
 #!/usr/bin/env python3
-"""Lightweight structural checks for the superskills repository."""
+"""Lightweight structural and routing checks for the superskills repository."""
 
 from __future__ import annotations
 
 import re
 import sys
+from collections import defaultdict
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 SKILLS = ROOT / "skills"
 ROUTER = SKILLS / "meta" / "skill-router" / "skill.md"
-ROUTER_MAINTENANCE = ROUTER.parent / "maintenance"
 ALLOWED_SKILL_ENTRIES = {"skill.md", "references", "maintenance"}
 ROOT_PREFIXES = ("docs/", "gpts/", "skills/", "templates/", "tools/", ".github/")
 MAINTENANCE_HEADINGS = ("## Source synthesis", "## Upstream inspiration")
+MAINTENANCE_ONLY_REFERENCE_NAMES = {
+    "sources.md",
+    "behavioral-evals.md",
+    "routing-tests.md",
+    "quality-tests.md",
+    "changelog.md",
+}
+LEGACY_MAINTENANCE_NAMES = {"routing-tests.md", "changelog.md"}
 PATH_RE = re.compile(r"`([a-z0-9-]+/[a-z0-9-]+)`")
 MD_PATH_RE = re.compile(r"`((?:\.\.?/)?[^`\n]+\.md)`")
+ENTRYPOINT_ADVISORY_BYTES = 6500
+REFERENCE_ADVISORY_BYTES = 8000
 
 
 def frontmatter(text: str) -> dict[str, str]:
@@ -33,7 +43,6 @@ def frontmatter(text: str) -> dict[str, str]:
 
 
 def resolve_markdown_path(md: Path, raw: str) -> Path:
-    """Resolve repository-root paths and explicit relative paths."""
     if raw.startswith(ROOT_PREFIXES):
         return (ROOT / raw).resolve()
     return (md.parent / raw).resolve()
@@ -41,8 +50,10 @@ def resolve_markdown_path(md: Path, raw: str) -> Path:
 
 def main() -> int:
     errors: list[str] = []
+    warnings: list[str] = []
     skill_files = sorted(SKILLS.glob("*/*/skill.md"))
     skill_paths = {f"{p.parent.parent.name}/{p.parent.name}" for p in skill_files}
+    skill_names: dict[str, list[str]] = defaultdict(list)
 
     if not skill_files:
         errors.append("No skills found")
@@ -53,12 +64,13 @@ def main() -> int:
         skill_text = skill_file.read_text(encoding="utf-8")
         meta = frontmatter(skill_text)
 
-        if not meta.get("name"):
+        name = meta.get("name")
+        if not name:
             errors.append(f"{rel}: missing frontmatter name")
-        elif meta["name"] != skill_dir.name:
-            errors.append(
-                f"{rel}: frontmatter name '{meta['name']}' != folder '{skill_dir.name}'"
-            )
+        else:
+            skill_names[name].append(str(rel))
+            if name != skill_dir.name:
+                errors.append(f"{rel}: frontmatter name '{name}' != folder '{skill_dir.name}'")
         if not meta.get("description"):
             errors.append(f"{rel}: missing frontmatter description")
 
@@ -68,24 +80,46 @@ def main() -> int:
 
         refs = skill_dir / "references"
         if refs.exists():
+            if len(skill_text.encode("utf-8")) > ENTRYPOINT_ADVISORY_BYTES:
+                warnings.append(
+                    f"{rel}: large entrypoint with references; review whether more detail can move behind routing"
+                )
             for p in refs.iterdir():
-                if p.is_file() and p.suffix != ".md":
+                if p.is_dir():
+                    errors.append(f"{p.relative_to(ROOT)}: nested reference directories are not supported")
+                    continue
+                if p.suffix != ".md":
                     errors.append(f"{p.relative_to(ROOT)}: runtime reference must be Markdown")
                     continue
-                if p.is_file():
-                    text = p.read_text(encoding="utf-8")
-                    if p.name in {"sources.md", "changelog.md", "routing-tests.md", "quality-tests.md"}:
-                        errors.append(f"{p.relative_to(ROOT)}: maintenance material is in references/")
-                    for heading in MAINTENANCE_HEADINGS:
-                        if heading in text:
-                            errors.append(
-                                f"{p.relative_to(ROOT)}: maintenance source note '{heading}' is in runtime reference"
-                            )
-                    # Every runtime reference must be discoverable from its Skill entrypoint.
-                    if p.name not in skill_text:
+
+                text = p.read_text(encoding="utf-8")
+                if p.name in MAINTENANCE_ONLY_REFERENCE_NAMES:
+                    errors.append(f"{p.relative_to(ROOT)}: maintenance material is in references/")
+                for heading in MAINTENANCE_HEADINGS:
+                    if heading in text:
                         errors.append(
-                            f"{p.relative_to(ROOT)}: orphan runtime reference; not mentioned by {rel}"
+                            f"{p.relative_to(ROOT)}: maintenance source note '{heading}' is in runtime reference"
                         )
+                if p.name not in skill_text:
+                    errors.append(
+                        f"{p.relative_to(ROOT)}: orphan runtime reference; not mentioned by {rel}"
+                    )
+                if p.stat().st_size > REFERENCE_ADVISORY_BYTES:
+                    warnings.append(
+                        f"{p.relative_to(ROOT)}: large runtime reference; review whether it has multiple owners"
+                    )
+
+        maintenance = skill_dir / "maintenance"
+        if maintenance.exists():
+            for p in maintenance.iterdir():
+                if p.is_file() and p.name in LEGACY_MAINTENANCE_NAMES:
+                    errors.append(
+                        f"{p.relative_to(ROOT)}: legacy maintenance filename; use behavioral-evals.md or Git history"
+                    )
+
+    for name, paths in sorted(skill_names.items()):
+        if len(paths) > 1:
+            errors.append(f"duplicate frontmatter skill name '{name}': {paths}")
 
     router_text = ROUTER.read_text(encoding="utf-8")
     catalog_paths = set(PATH_RE.findall(router_text))
@@ -98,25 +132,20 @@ def main() -> int:
     if stale:
         errors.append(f"skill-router catalog references missing skills: {stale}")
 
-    # Router behavioral/regression cases may evolve separately from runtime text;
-    # keep their explicit Skill routes from becoming stale.
-    if ROUTER_MAINTENANCE.exists():
-        for md in ROUTER_MAINTENANCE.glob("*.md"):
-            for route in PATH_RE.findall(md.read_text(encoding="utf-8")):
-                if route not in skill_paths:
-                    errors.append(
-                        f"{md.relative_to(ROOT)}: behavioral route references missing skill {route}"
-                    )
+    # Maintenance evals may evolve independently; explicit Skill routes must stay valid.
+    for md in SKILLS.glob("*/*/maintenance/*.md"):
+        text = md.read_text(encoding="utf-8")
+        for route in PATH_RE.findall(text):
+            if route not in skill_paths:
+                errors.append(f"{md.relative_to(ROOT)}: maintenance route references missing skill {route}")
 
     # Check explicit Markdown paths written in runtime skill/reference files.
-    runtime_files = list(skill_files)
-    runtime_files += list(SKILLS.glob("*/*/references/*.md"))
+    runtime_files = list(skill_files) + list(SKILLS.glob("*/*/references/*.md"))
     for md in runtime_files:
         text = md.read_text(encoding="utf-8")
         for raw in MD_PATH_RE.findall(text):
             if raw.startswith("http"):
                 continue
-            # Plain filenames such as `combat-system.md` are routing labels.
             if "/" not in raw:
                 continue
             target = resolve_markdown_path(md, raw)
@@ -127,6 +156,12 @@ def main() -> int:
                 continue
             if not target.exists():
                 errors.append(f"{md.relative_to(ROOT)}: broken Markdown path {raw}")
+
+    if warnings:
+        print("superskills validation advisories:\n")
+        for warning in warnings:
+            print(f"- {warning}")
+        print()
 
     if errors:
         print("superskills validation failed:\n")

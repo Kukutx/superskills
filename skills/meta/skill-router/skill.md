@@ -13,7 +13,7 @@ specific domain skill
 > meta helper
 ```
 
-Choose one primary Skill first. Add a secondary Skill only when it contributes a distinct subtask.
+Choose one primary Skill first. Add a secondary Skill only for a genuinely distinct subtask.
 
 ## Catalog
 
@@ -28,8 +28,8 @@ Choose one primary Skill first. Add a secondary Skill only when it contributes a
 | general code/diff/PR review | `development/code-review` |
 | unresolved software architecture/interfaces | `development/technical-design` |
 | decided software direction -> file/task breakdown | `development/implementation-plan` |
-| Godot 2D / pixel game | `development/godot-2d-game-development` |
-| spritesheet/animation-strip generation or packaging | `development/game-dev-spritesheet-slicer` |
+| Godot 2D / pixel game runtime | `development/godot-2d-game-development` |
+| sprite animation generation/slicing/packaging | `development/sprite-animation-pipeline` |
 | image-generation direction/prompt | `creative/image-prompt-director` |
 | xTool F1 | `creative/xtool-f1-engraving` |
 | App Store / Play visuals | `design/app-store-assets` |
@@ -43,7 +43,7 @@ Choose one primary Skill first. Add a secondary Skill only when it contributes a
 
 ## Important boundaries
 
-### Project planner vs technical design vs implementation plan
+### Planner vs technical design vs implementation plan
 
 ```text
 broad goal + several workstreams + sequencing
@@ -58,11 +58,11 @@ behavior + architecture already decided, need files/tasks/tests
 
 Do not load all three for a normal software task.
 
-### Research brief vs technical/product decision
+### Research vs internal decision
 
-Use `research-brief` when the answer materially depends on **external evidence, current facts, source quality or uncertainty**.
+Use `research-brief` when the answer materially depends on external evidence, current facts, source quality or uncertainty.
 
-If the user is comparing options inside an already-known project and the real question is ownership/interfaces/architecture, `technical-design` remains primary. Comparison wording alone is not a research task.
+If the real question is architecture/ownership inside an already-known project, `technical-design` remains primary even when alternatives are compared.
 
 ### Bug diagnosis vs code review
 
@@ -74,7 +74,7 @@ inspect code/diff for defects/risks
 -> code-review
 ```
 
-A bug may later need code review, but review is not a substitute for reproduction/diagnosis.
+Review is not a substitute for reproduction/diagnosis.
 
 ### Positioning vs store copy/assets
 
@@ -89,24 +89,35 @@ visual sequence/composition is the main deliverable
 -> app-store-assets
 ```
 
-Use another one only for a distinct downstream subtask.
+### Domain runtime vs asset production
+
+```text
+Godot gameplay/state/combat/runtime animation
+-> godot-2d-game-development
+
+sprite frames/strips/geometry/slicing/packing
+-> sprite-animation-pipeline
+```
+
+Use both only when a task genuinely spans runtime integration and asset production.
 
 ## Precedence examples
 
-- Godot UI bug -> Godot Skill, not generic bug + generic design.
-- Shopify theme bug -> Shopify Skill; generic bug-diagnosis only if its method adds distinct value.
-- Godot gameplay + spritesheet -> Godot primary, slicer only for the asset subtask.
-- Godot export/CI -> Godot Skill before generic release-checklist.
-- App Store screenshot artwork + copy -> app-store-assets primary, app-store-copy secondary.
+- Godot UI/combat/architecture bug -> Godot Skill before generic development methods.
+- Shopify theme/store issue -> Shopify Skill before generic frontend/debugging.
+- Godot gameplay + new attack strip -> Godot primary; sprite pipeline owns the asset subtask.
+- New sprite strip without engine work -> sprite pipeline only.
+- App Store screenshot artwork + short captions -> app-store-assets primary; app-store-copy only for substantial wording work.
+- Existing App Store screenshot critique -> app-store-assets primary; image-review-refiner only if its visual-review method adds value.
 - “Compare current maintenance/security of three libraries” -> research-brief.
-- “In this architecture, which component owns this state?” -> technical-design even if alternatives are compared.
-- “Architecture is approved; tell me exactly which files/tasks to change” -> implementation-plan.
+- “Which component owns this state?” -> technical-design.
+- “Architecture is approved; tell me which files/tasks to change” -> implementation-plan.
 - “Plan the whole app from validation through launch” -> project-planner.
-- User asks “do X” -> execute X; do not route through prompt-optimizer unless they asked for a prompt.
+- User asks “do X” -> execute X; do not route through prompt-optimizer unless the prompt itself is requested.
 
 ## Restraint
 
 - Do not load every Skill whose keywords appear in the prompt.
 - Do not announce a long routing analysis before doing the task.
-- Once a focused domain/reference is selected, stay there unless the actual task changes.
+- Stay with the focused owner unless the actual task changes.
 - If no Skill adds meaningful value, answer directly rather than forcing a route.

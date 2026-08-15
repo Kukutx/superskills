@@ -1,165 +1,72 @@
 # World, TileMap and Level Design Reference
 
-用于 TileMapLayer、TileSet、terrain、top-down depth、parallax、collision/navigation、room/level structure、external level authoring 和 2D level design。
+Use for TileMapLayer, TileSet, terrain, top-down depth, parallax, collision/navigation, room/level structure, external level authoring and 2D level implementation.
 
 ## Separate visual world from gameplay metadata
 
-地图至少区分：
-
-```text
-ground/background
-decorative tiles
-foreground/occlusion
-collision
-navigation
-interactables
-spawn points
-triggers
-exits
-```
-
-它们可以共享 authoring source，但不要让背景 PNG 成为 collision/spawn/trigger 的唯一真源。
+Keep concepts such as ground, decoration, foreground/occlusion, collision, navigation, interactables, spawn points, triggers and exits explicit. They may share an authoring source, but a baked background image should not be the only truth for gameplay metadata.
 
 ## Native Godot first
 
-优先沿用当前项目已有 `TileMapLayer` / `TileSet` workflow。
-
-Tiles 适合 repeated ground/walls、terrain、simple decoration 和 tile metadata；doors/chests/NPC/enemy/breakables/pickups/complex hazards 更适合独立 scene。
-
-不要为了 external editor/addon 重做已经可维护的 native pipeline。
+Prefer the project's existing TileMapLayer/TileSet workflow when it is adequate. Tiles are good for repeated ground/walls/terrain/simple metadata; complex doors, NPCs, enemies, pickups and hazards are often clearer as scenes.
 
 ## One authoring source of truth
 
-### Godot-native
-
-适合团队主要在 Godot 内工作且 TileMapLayer/TileSet 已满足需求。
-
-### External level editor
-
-如果项目已经明确使用外部 editor，则让它成为 layout/content truth，再 deterministic import 到 Godot：
+Godot-native authoring is appropriate when the team works primarily in Godot. If an external level editor is already the source of truth, use a deterministic import pipeline:
 
 ```text
 editable source
 -> deterministic importer
 -> generated Godot representation
--> gameplay-specific runtime integration
+-> runtime integration
 ```
 
-不要同时手改 editable source 和 generated Godot output。
+Do not hand-edit both source and generated representation.
 
-需要 importer 时，按项目实际 editor + Godot version 重新验证当前 maintained option；不要在 runtime Skill 固定某个第三方插件。
+## Terrain and tileset production
 
-## Terrain authoring
+Start with current TileSet terrain capabilities. Evaluate extra tooling only when authoring is a demonstrated recurring bottleneck.
 
-先使用当前 Godot TileSet terrain workflow。
-
-只有 terrain painting/connection 已成为持续 production bottleneck 时，才评估额外 terrain tooling。
-
-```text
-native terrain works -> keep native
-repeated authoring pain -> evaluate alternative tooling
-project already has terrain tooling -> keep one source of truth
-```
-
-## Tileset production
-
-定义：tile size、atlas grid、terrain edges/corners、collision、navigation、variants、animated tile rules、spacing/padding 和 palette/light direction。
-
-QA 必须铺真实组合：corner、T-junction、corridor、isolated tile、terrain transitions。
+Define tile size, atlas grid, terrain edges/corners, collision/navigation, variants, animated-tile rules and spacing/padding. QA real combinations: corners, T-junctions, corridors, isolated tiles and terrain transitions.
 
 ## Collision simplification
 
-Collision 服务 gameplay，不是逐像素描边。
-
-- floor/wall silhouette 稳定；
-- decorative bumps 不必全变 obstacle；
-- top-down prop 使用清楚 footprint；
-- 避免碎边造成 snag；
-- imported/generated collision 必须实际走一遍。
+Collision serves gameplay, not pixel tracing. Keep floor/wall silhouettes stable, prop footprints clear and decorative bumps from creating snaggy geometry.
 
 ## Top-down draw order
 
-明确 y-sort、floor/actor/foreground layers、prop ground anchor 和 tall-prop occlusion。
-
-ground-contact point 通常比图片中心更适合排序。
+Make y-sort/layering, prop ground anchors and tall-prop occlusion explicit. Ground-contact points are often better sort anchors than image centers.
 
 ## Parallax
 
-Parallax 只负责 presentation。检查 layer speed hierarchy、seam、camera bounds、repeat、filtering 和 motion comfort。
+Parallax is presentation. Check layer-speed hierarchy, seams, camera bounds, repeat, filtering and motion comfort.
 
-## Level design starts from gameplay
+## Level flow
 
-先 whitebox：
-
-```text
-goal
--> route
--> challenge
--> recovery
--> reward/variation
-```
-
-不要让高精美 art 过早锁死关卡结构。
-
-## Readability and pacing
-
-玩家要快速看清 walkable/blocked、hazard、interactable、exit/path、enemy telegraph 和 foreground occlusion。
-
-常见节奏：
+Whitebox gameplay before high-fidelity art:
 
 ```text
-teach -> test -> vary -> combine -> relief/reward
+goal -> route -> challenge -> recovery -> reward/variation
 ```
 
-## Combat space
-
-检查 player/enemy mobility、camera framing、projectile lanes、retreat space、obstacle readability、spawn fairness 和 telegraph visibility。
+Walkable/blocked space, hazards, interactables, exits and enemy telegraphs should remain readable.
 
 ## Navigation handoff
 
-如果使用 NavigationAgent2D：
+Keep nav geometry synchronized with level layout, agent radius compatible with corridors and dynamic obstacle strategy explicit. Enemy navigation behavior is in `ai-navigation.md`.
 
-- nav geometry 与地图同步；
-- dynamic obstacle strategy 明确；
-- spawn 不落不可达区域；
-- agent radius 适合 corridor；
-- re-import 后 nav 仍匹配。
+## Generated worlds
 
-导航细节见 `ai-navigation-procedural.md`。
-
-## Generated maps
-
-Generative art 可以做 visual concept、baked background、tileset/props source 或 reference layout。
-
-生产 handoff 仍保留 editable collision、spawn/exit markers、trigger zones、navigation、y-sort anchors 和 separated interactive props。
+For seeded/generated layouts, use `procedural-generation.md`. Materialized maps still need editable collision, spawn/exit markers, triggers, navigation, y-sort anchors and interactive props.
 
 ## Chunking / streaming
 
-只有规模真正需要时再做。先证明 active world size 或 scene load 已经是实际瓶颈。
+Only add it when world size/load measurements justify the complexity.
 
 ## Generated-file rule
 
-External importer 产生的 Godot files 要明确：
-
-- 是否 commit derived output；
-- clean checkout 是否能 regenerate；
-- CI 是否需要 importer；
-- generated file 是否允许手改。
-
-不要依赖“某台电脑之前 import 过”的隐式状态。
+For imported/generated Godot files, define whether derived output is committed, whether clean checkout can regenerate it, whether CI needs the importer and whether generated files may be hand-edited.
 
 ## Level QA
 
-实际跑：
-
-- spawn -> exit / alternate route;
-- movement extremes;
-- edge/corner collision;
-- camera limits;
-- y-sort crossings;
-- enemy paths;
-- trigger re-entry;
-- unreachable rewards;
-- foreground visibility;
-- terrain edge combinations;
-- clean re-import when external authoring is used.
+Run spawn-to-exit paths, movement extremes, collision edges, camera limits, y-sort crossings, enemy paths, trigger re-entry, unreachable rewards, foreground visibility, terrain combinations and clean re-import when external authoring is used.
