@@ -176,7 +176,3 @@ Movement 系统需要确认 global slowdown/hit-stop 时：
 - camera world bounds；
 - pixel shimmer during camera/player motion；
 - pause/time-scale transitions。
-
-## Source synthesis
-
-基于 Godot CharacterBody2D/physics/camera 官方模式、Godot official demos，以及 Godot-specific agent skills 的 movement/camera lessons。精确 API 以项目对应 Godot 版本为准。
