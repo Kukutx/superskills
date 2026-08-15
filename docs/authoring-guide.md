@@ -14,7 +14,7 @@ skills/<category>/<skill>/skill.md
 
 ```text
 references/    # runtime 按需读取
-aintenance/   # sources/tests/history；runtime 不加载
+maintenance/   # sources/tests/history；runtime 不加载
 ```
 
 不要默认创建 prompt template、examples、changelog 或 compatibility stub。
