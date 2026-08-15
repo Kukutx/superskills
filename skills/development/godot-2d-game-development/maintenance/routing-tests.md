@@ -24,8 +24,9 @@ Maintenance-only. Goal: verify the Agent selects the **smallest useful reference
 | “攻击动画 active frame 和 hitbox 不一致” | `combat-system` + `animation-pixel` | independent timers guessing timing |
 | “伤害正确，但打击感很软” | `game-feel` + optional audio/VFX | rewriting damage architecture |
 | “大量 hit particles FPS 掉” | `performance` + rendering/VFX after profiling | ECS/MultiMesh before measurement |
-| “AI 生成 6 帧 attack strip 并导入 Godot” | `asset-pipeline` + slicer + animation as needed | rebuilding each frame independently |
-| “authored animation 已有 tags/timing” | `asset-pipeline` + animation | flattening metadata and recreating manually |
+| “AI 生成 6 帧 attack strip” | spritesheet slicer -> generation + packaging as needed | routing through Godot runtime animation first |
+| “生成好的 attack strip 要进 Godot 并配置播放” | slicer packaging + `asset-pipeline` + `animation-pixel` only as needed | making runtime code repair bad sheet geometry |
+| “authored `.aseprite` 已有 tags/timing，要保留并导入 Godot” | `asset-pipeline` + slicer packaging when export geometry matters; animation only for runtime behavior | flattening metadata and recreating manually |
 | “原生 terrain 已经够用” | `world-tilemap-level-design` | migrating to third-party terrain tooling |
 | “外部 level editor 是团队唯一编辑源” | world reference | editing generated Godot map as second truth |
 | “敌人 idle/chase/attack” | `ai-navigation-procedural` | installing a behavior framework by default |
@@ -56,9 +57,9 @@ Pass: fix and reproduce single-hit correctness first; only then tune feel. Do no
 
 ### Authored vs generated assets
 
-A. Editable source already contains tags/durations -> preserve metadata and source ownership.
+A. Editable source already contains tags/durations -> preserve metadata and source ownership; use asset pipeline/import handling, and slicer packaging only when geometry/export conversion is part of the task.
 
-B. Generated transparent strip -> deterministic normalize/slice/anchor/preview; do not require an authored-source importer.
+B. Generated transparent strip -> slicer owns generation/normalize/slice/anchor/preview; asset pipeline enters only for Godot source/import handoff, runtime animation only for playback/state/timing integration.
 
 ### Level source ownership
 
