@@ -78,7 +78,7 @@ Runtime 不加载 `maintenance/`。
 推荐名称：
 
 ```text
-behavioral-evals.md   # routing/ownership regression cases
+behavioral-evals.md   # routing/ownership review fixtures
 sources.md            # substantial upstream/source inventory when truly useful
 decisions.md          # only when current design rationale cannot be inferred from code/docs
 ```
@@ -115,6 +115,8 @@ existing project pattern
 
 当新增/修改 ownership boundary 时，加**最少量**能防真实回归的例子。测试应证明“为什么这个边界存在”，而不是给每个关键词写一个例子。
 
+这些文件是轻量的人工/Agent review fixtures，**不是自动执行的 LLM 语义评测结果**。CI 只验证其中显式 Skill route 和本地 reference 没有失效；真实路由质量仍应在边界变化时用这些 prompt 做抽查。不要因为 CI 通过就声称模型行为已经被自动验证。
+
 优先测试：
 
 - 最容易混淆的相邻 Skill/reference；
@@ -139,7 +141,7 @@ Validator 负责：
 - maintenance 内容不混入 runtime；
 - 禁止旧 routing-tests/changelog maintenance 形状；
 - Router catalog 完整且无 stale route；
-- maintenance eval 中显式 Skill route 仍存在；
+- maintenance eval 中显式 Skill route 与本地 reference 仍存在；
 - runtime Markdown 路径无 dead link；
 - 对异常大的 runtime entrypoint/reference 给出非阻塞 advisory。
 

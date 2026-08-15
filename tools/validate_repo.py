@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Lightweight structural and routing checks for the superskills repository."""
+"""Lightweight structural, routing and eval-integrity checks for superskills."""
 
 from __future__ import annotations
 
@@ -24,6 +24,7 @@ MAINTENANCE_ONLY_REFERENCE_NAMES = {
 LEGACY_MAINTENANCE_NAMES = {"routing-tests.md", "changelog.md"}
 PATH_RE = re.compile(r"`([a-z0-9-]+/[a-z0-9-]+)`")
 MD_PATH_RE = re.compile(r"`((?:\.\.?/)?[^`\n]+\.md)`")
+BARE_MD_RE = re.compile(r"`([a-z0-9][a-z0-9-]*\.md)`")
 ENTRYPOINT_ADVISORY_BYTES = 6500
 REFERENCE_ADVISORY_BYTES = 8000
 
@@ -117,6 +118,19 @@ def main() -> int:
                     errors.append(
                         f"{p.relative_to(ROOT)}: legacy maintenance filename; use behavioral-evals.md or Git history"
                     )
+
+            eval_file = maintenance / "behavioral-evals.md"
+            if eval_file.exists():
+                valid_local_md = {"skill.md"}
+                if refs.exists():
+                    valid_local_md.update(p.name for p in refs.glob("*.md"))
+                valid_local_md.update(p.name for p in maintenance.glob("*.md"))
+                eval_text = eval_file.read_text(encoding="utf-8")
+                for raw in BARE_MD_RE.findall(eval_text):
+                    if raw not in valid_local_md:
+                        errors.append(
+                            f"{eval_file.relative_to(ROOT)}: behavioral eval references missing local file {raw}"
+                        )
 
     for name, paths in sorted(skill_names.items()):
         if len(paths) > 1:
