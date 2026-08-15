@@ -198,7 +198,3 @@ Death sequence 至少保证：
 - attack interrupted by hurt/death；
 - pause/time-scale；
 - collision disabled/enabled lifecycle。
-
-## Source synthesis
-
-吸收 Godot-specific combat/hitbox practices、官方 Area2D/physics/animation patterns，以及 action-game timing principles。精确 API 以项目 Godot 版本为准。
