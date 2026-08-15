@@ -53,8 +53,8 @@ superskills/
 | `development/bug-diagnosis` | Bug 诊断 |
 | `development/technical-design` | 技术方案设计 |
 | `development/implementation-plan` | 实施计划 |
-| `development/game-dev-spritesheet-slicer` | 像素风游戏角色资产与 spritesheet 切图工作流 |
-| `development/godot-2d-game-development` | Godot 2D 游戏开发：像素动画、UI、战斗、打击感、VFX、音效与资产工作流 |
+| `development/game-dev-spritesheet-slicer` | 像素动画 strip/spritesheet：生成规划、统一锚点/比例、切图、timing、命名和 Godot handoff |
+| `development/godot-2d-game-development` | Godot 2D 生产开发路由：架构、移动/镜头、TileMap、像素动画、战斗/打击感、VFX、UI、音频、AI、存档/对话、资产、测试与性能 |
 | `creative/xtool-f1-engraving` | xTool F1 雕刻图案方案 |
 | `creative/image-prompt-director` | 图片生成提示词 |
 | `design/app-store-assets` | App Store / Google Play 素材方向 |
@@ -85,5 +85,6 @@ superskills/
 - 新增高频任务时，先用 `meta/prompt-optimizer` 优化提示词。
 - 如果同一类任务重复 3 次以上，用 `meta/skill-builder` 沉淀成 skill。
 - 生成图片、视觉、雕刻、角色、主题作品时，优先使用 `creative/image-prompt-director` 或 `creative/xtool-f1-engraving`。
-- Godot 2D、pixel art、角色动画、UI、战斗、打击感或 2D 游戏 VFX 任务，优先使用 `development/godot-2d-game-development`；单纯 spritesheet 规格和切图使用 `development/game-dev-spritesheet-slicer`。
+- Godot 2D 任务优先进入 `development/godot-2d-game-development`，再按任务只加载 1–3 个专项 reference；单纯 spritesheet/animation-strip 规格、切图和打包使用 `development/game-dev-spritesheet-slicer`。
+- Godot 外部 MCP、测试框架、AI/state、dialogue、camera 或素材工具都视为可选 companion；不要为了“完整”自动安装依赖。
 - 面向上线或发布的任务，补充 QA、导出、验证和回滚步骤。
