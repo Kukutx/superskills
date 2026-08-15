@@ -12,6 +12,8 @@ Current active skills:
 - development/bug-diagnosis
 - development/technical-design
 - development/implementation-plan
+- development/game-dev-spritesheet-slicer
+- development/godot-2d-game-development
 - creative/xtool-f1-engraving
 - design/app-store-assets
 - design/image-review-refiner

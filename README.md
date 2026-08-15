@@ -27,7 +27,8 @@ superskills/
     ├── research/
     ├── product/
     ├── development/
-    │   └── game-dev-spritesheet-slicer/
+    │   ├── game-dev-spritesheet-slicer/
+    │   └── godot-2d-game-development/
     ├── creative/
     │   ├── xtool-f1-engraving/
     │   └── image-prompt-director/
@@ -53,6 +54,7 @@ superskills/
 | `development/technical-design` | 技术方案设计 |
 | `development/implementation-plan` | 实施计划 |
 | `development/game-dev-spritesheet-slicer` | 像素风游戏角色资产与 spritesheet 切图工作流 |
+| `development/godot-2d-game-development` | Godot 2D 游戏开发：像素动画、UI、战斗、打击感、VFX、音效与资产工作流 |
 | `creative/xtool-f1-engraving` | xTool F1 雕刻图案方案 |
 | `creative/image-prompt-director` | 图片生成提示词 |
 | `design/app-store-assets` | App Store / Google Play 素材方向 |
@@ -83,4 +85,5 @@ superskills/
 - 新增高频任务时，先用 `meta/prompt-optimizer` 优化提示词。
 - 如果同一类任务重复 3 次以上，用 `meta/skill-builder` 沉淀成 skill。
 - 生成图片、视觉、雕刻、角色、主题作品时，优先使用 `creative/image-prompt-director` 或 `creative/xtool-f1-engraving`。
+- Godot 2D、pixel art、角色动画、UI、战斗、打击感或 2D 游戏 VFX 任务，优先使用 `development/godot-2d-game-development`；单纯 spritesheet 规格和切图使用 `development/game-dev-spritesheet-slicer`。
 - 面向上线或发布的任务，补充 QA、导出、验证和回滚步骤。
