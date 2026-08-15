@@ -186,7 +186,3 @@ Feedback 必须回到 rest state。
 - 多敌人同时受击仍可读；
 - ordinary vs heavy hit 有明显层级；
 - reduced shake/rumble/flash settings if implemented 确实生效。
-
-## Source synthesis
-
-核心来自 `game-feel` 跨引擎原则、Godot Tween/Camera2D/particles/shader/audio 实践和 action-game feedback patterns。默认用原生 Godot 能力；外部 juice addon 只在项目明确需要 designer-authored graph/large effect library 时考虑。
