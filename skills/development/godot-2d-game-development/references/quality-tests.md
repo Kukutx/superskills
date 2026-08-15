@@ -6,14 +6,13 @@
 
 ## Pass criteria
 
-每个场景应满足：
-
 - 主路由正确；
 - 通常只加载 1–3 个 reference；
 - gameplay truth ownership 清楚；
 - 不自动安装 addon/MCP/template/test framework；
 - 不引入无关 3D；
 - 版本敏感内容先确认 Godot version；
+- 外部 authoring/importer 不产生双 source of truth；
 - 有与声明匹配的 runtime/QA 路径。
 
 ## Routing matrix
@@ -23,23 +22,28 @@
 | “8 向 top-down 移动 + 顺滑 Camera2D” | `movement-physics-camera` | input/addon/combat refs 全加载 |
 | “键鼠切手柄时提示自动换，允许重映射” | `input-controls-accessibility` + `ui-ux` | 为 movement 重写 controller |
 | “手柄 drift 导致 UI 一直切图标” | `input-controls-accessibility` | camera/game-feel |
-| “dash 在 attack recovery 后经常吞输入” | `input-controls-accessibility` + `movement-physics-camera` | 默认安装 input addon |
+| “dash 在 attack recovery 后吞输入” | `input-controls-accessibility` + `movement-physics-camera` | 默认安装 input addon |
 | “一个挥砍扣了三次血” | `combat-system` | 先调 screen shake |
 | “攻击第 4 帧才激活 hitbox” | `combat-system` + `animation-pixel` | 独立 Timer 猜 timing |
 | “伤害都对，但砍起来很软” | `game-feel` + optional `audio`/`rendering-vfx-shaders` | 重写 damage architecture |
-| “大量 hit particles FPS 掉” | `performance-testing-debugging` + `rendering-vfx-shaders` | 未 profile 就 ECS/MultiMesh 重写 |
-| “Aseprite 文件已有 tags/timing，要进 Godot” | `animation-pixel` + `asset-pipeline` + optional `companion-tools` | 当成 AI-generated strip 重新生成 |
+| “大量 hit particles FPS 掉” | `performance-testing-debugging` + `rendering-vfx-shaders` | 未 profile 就 ECS/MultiMesh |
+| “Aseprite 已有 tags/timing，要进 Godot” | `animation-pixel` + `asset-pipeline` + optional `companion-tools` | 当 AI strip 重生成 |
 | “AI 生成 attack strip 并导入 Godot” | `animation-pixel` + `asset-pipeline` + slicer | 默认装 Aseprite importer |
+| “Godot 原生 terrain 已经能画地图” | `world-tilemap-level-design` | 因为发现 Better Terrain 就替换 |
+| “terrain connection authoring 一直成为制作瓶颈” | `world-tilemap-level-design` + optional `companion-tools` | 无比较就自动迁移 addon |
+| “我们用 LDtk 做关卡，想导入 Godot” | `world-tilemap-level-design` + `companion-tools` | Godot generated map 与 LDtk 双边手改 |
 | “可编辑 top-down 森林地图，树遮挡玩家” | `world-tilemap-level-design` + `asset-pipeline` | collision/spawn 烤进 PNG |
 | “敌人巡逻、发现、追逐、攻击” | `ai-navigation-procedural` | 默认 BT addon |
-| “20 种敌人共享很多 condition/action，FSM 重复” | `ai-navigation-procedural` + optional `companion-tools` | 直接指定最重 AI framework |
-| “Boss 同时有 movement phase 和 parallel shield/attack state” | `core-architecture` + optional `ai-navigation-procedural` | bool soup；也不无条件装 State Charts |
+| “很多敌人共享 condition/action/subtree” | `ai-navigation-procedural` + optional `companion-tools` | 直接最重 AI framework |
+| “Boss parallel shield/attack + locomotion state” | `core-architecture` + optional `ai-navigation-procedural` | bool soup / 无条件插件 |
+| “简单 20 格 inventory + stack” | `save-inventory-progression` | 默认引入 GLoot |
+| “多个容器、装备、转移、stack/split 逻辑重复很多” | `save-inventory-progression` + optional `companion-tools` | plugin state 变长期 save truth |
 | “旧存档升级后 inventory 丢了” | `save-inventory-progression` | SceneTree snapshot workaround |
-| “对话有复杂条件、选择、多语言” | `dialogue-localization` | 把 story logic 塞 Button callback |
-| “对话选择给物品且永久保存” | `dialogue-localization` + `save-inventory-progression` | 插件变量成为 inventory truth |
+| “对话有复杂条件、选择、多语言” | `dialogue-localization` | story logic 塞 Button callback |
+| “对话选择给物品且永久保存” | `dialogue-localization` + `save-inventory-progression` | dialogue plugin 变 inventory truth |
 | “Godot 4.x GitHub Actions clean export” | `release-export-ci` | `latest` toolchain / local cache 依赖 |
-| “Agent 改了暂停菜单，验证手柄真的能操作” | `runtime-agent-validation` + `ui-ux` + optional `input-controls-accessibility` | 只说代码看起来正确 |
-| “新项目要 main menu/options/pause/credits” | `ui-ux` + optional `companion-tools` | 成熟项目也硬套完整 template |
+| “Agent 改暂停菜单，验证手柄真的能操作” | `runtime-agent-validation` + `ui-ux` + optional input ref | 只说代码看起来正确 |
+| “新项目要 menu/options/pause/credits” | `ui-ux` + optional `companion-tools` | 成熟项目硬套完整 template |
 | “只切 64x64 sprite sheet” | spritesheet slicer | 主 Godot 全域 refs |
 | “Godot 3D 第三人称” | route outside this skill | 套 2D reference |
 
@@ -47,14 +51,9 @@
 
 ### Existing project respect
 
-Prompt:
-
-```text
-这个项目已有简单 enum FSM，可以跑。只加 dash。
-```
+Prompt: `这个项目已有简单 enum FSM，可以跑。只加 dash。`
 
 Pass:
-
 - 沿用 enum FSM；
 - movement/input only；
 - 不引入 State Charts/LimboAI/Beehave；
@@ -62,191 +61,129 @@ Pass:
 
 ### Native-first input
 
-Prompt:
-
-```text
-我只有键盘控制，想把 jump 从 Space 改成 J。
-```
+Prompt: `我只有键盘控制，jump 从 Space 改成 J。`
 
 Pass:
-
-- 修改 InputMap/project binding 即可；
+- InputMap 即可；
 - 不建议 Input Helper；
-- 不创建新的 input abstraction layer。
+- 不造新 input abstraction。
 
 ### Input Helper justified
 
-Prompt:
-
-```text
-设置页需要运行时重映射、自动识别最近手柄/键盘、更新 prompts，还要 rumble 设置。
-```
+Prompt: `设置页需要 runtime remap、最近设备检测、prompt 更新、rumble 设置。`
 
 Pass:
-
-- `input-controls-accessibility`；
-- 先检查现有 input abstraction；
-- 没有时可以把 Input Helper 作为候选；
-- 说明 dependency/version check；
-- 不把 addon 变成 gameplay truth。
+- input reference；
+- 先检查已有 abstraction；
+- Input Helper 只能是候选；
+- 不成为 gameplay truth。
 
 ### Combat vs game feel
 
-Prompt A:
+A: `一刀有时命中两次。` -> combat-system。
 
-```text
-一刀有时命中两次。
-```
-
-Pass: `combat-system`，先检查 attack instance/i-frame/window。
-
-Prompt B:
-
-```text
-命中次数和伤害都对，但没有重量。
-```
-
-Pass: `game-feel`，从 sound/contact FX/recoil 开始，不重构 damage system。
+B: `命中和伤害都对，但没重量。` -> game-feel；不重构 damage。
 
 ### Authored vs generated pixel assets
 
-Prompt A:
-
-```text
-我的 .aseprite 已经有 idle/run/attack tags 和不同 frame durations。
-```
-
-Pass:
-
-- preserve source metadata；
-- optional Aseprite Wizard/Importality only if project benefits；
+A: `.aseprite 有 tags 和不同 frame durations。`
+- preserve metadata；
+- optional Aseprite Wizard/Importality；
 - 不重新 AI 生成。
 
-Prompt B:
-
-```text
-AI 给了我一条 6 帧透明 PNG attack strip。
-```
-
-Pass:
-
+B: `AI 给了 6 帧透明 PNG strip。`
 - deterministic normalize/slice；
 - shared anchor/scale；
-- 不默认安装 Aseprite importer。
+- 不默认装 Aseprite importer。
+
+### Level source ownership
+
+Prompt: `美术在 LDtk 改地图，程序也会在 Godot 里改 TileMap。`
+
+Pass:
+- 指出双真源风险；
+- 选一个 editable source；
+- generated side 不手改或明确生成/patch boundary；
+- clean re-import test。
+
+### Terrain addon restraint
+
+Prompt: `原生 terrain 目前够用，但网上说 Better Terrain 更好。`
+
+Pass:
+- 不迁移；
+- 只有真实 authoring pain 才评估 addon；
+- “better” 名字/热度不是 migration reason。
+
+### Inventory addon restraint
+
+A: `只有几个 stackable item。`
+- project-native data structure。
+
+B: `inventory 已有 container transfer、equipment、stack split、多个 UI，重复逻辑很多。`
+- 可评估 GLoot；
+- stable IDs/save migration 仍属项目；
+- 先比较迁移成本。
 
 ### AI complexity ladder
 
-Prompt A:
+A `idle/chase/attack` -> handwritten state。
 
-```text
-敌人只要 idle/chase/attack。
-```
+B `共享 condition/action/subtree，可视化 BT` -> Beehave candidate。
 
-Pass: handwritten state。
+C `BT + HSM + blackboard/debugger` -> LimboAI candidate。
 
-Prompt B:
-
-```text
-很多敌人共享 condition/action/subtree，想可视化 BT。
-```
-
-Pass: 可比较 Beehave；不直接升级到最重 stack。
-
-Prompt C:
-
-```text
-需要 BT + hierarchical FSM + blackboard/debugger。
-```
-
-Pass: 可以评估 LimboAI。
-
-Prompt D:
-
-```text
-玩家状态有平行 weapon mode + locomotion + status effects，手写 FSM 爆炸。
-```
-
-Pass: 可评估 State Charts；不要误当 enemy BT 问题。
+D `parallel weapon mode + locomotion + status` -> State Charts candidate, not enemy BT issue。
 
 ### Save migration
 
-Prompt:
-
-```text
-v3 把 item id 全换了，v2 存档要继续能开。
-```
+Prompt: `v3 把 item id 全换了，v2 存档继续能开。`
 
 Pass:
-
-- stable mapping/migration step；
-- old fixture test；
-- 不通过 display name 猜；
-- migration failure 不静默清空 save。
+- explicit ID mapping/migration step；
+- old fixture；
+- 不用 display name 猜；
+- failure 不清空 save。
 
 ### Dialogue addon restraint
 
-Prompt:
+5 段线性文本 -> 不推荐大型 framework。
 
-```text
-只有 5 段线性 NPC 文本。
-```
-
-Pass: 不推荐大型 dialogue framework。
-
-Prompt:
-
-```text
-几百个分支、条件、mutations、多语言、内容人员需要编辑器。
-```
-
-Pass: 可评估 Dialogue Manager/Dialogic，并根据项目需求区分；检查 Godot compatible release。
+几百分支 + conditions + mutations + 多语言 + 内容编辑器 -> 可评估 Dialogue Manager/Dialogic，并检查兼容 release。
 
 ### Clean CI
 
-Prompt:
-
-```text
-我本地 export 正常，GitHub Actions 说资源不存在。
-```
+Prompt: `本地 export 正常，GitHub Actions 说资源不存在。`
 
 Pass:
-
-- 比较 exact Godot/templates；
+- exact Godot/templates；
 - LFS/submodule/case-sensitive path/import cache；
 - clean import before export；
-- 不先“清空重装所有依赖”。
+- 不先重装所有依赖。
 
 ### Runtime evidence
 
-Prompt:
-
-```text
-我改了 HUD，确认修好了吧？
-```
+Prompt: `我改了 HUD，确认修好了吧？`
 
 Pass:
-
-- 有 live tool 时实际 run/resize/input/screenshot；
-- 无 live tool 时明确静态 vs runtime 未验证；
+- live tool 可用则 run/resize/input/screenshot；
+- 无 live tool 明确 static vs runtime；
 - 不虚构“已经看过画面”。
 
 ### MCP restraint
 
-Prompt:
+`只改一个 GDScript 常量` -> 不自动安装 MCP。
 
-```text
-只改一个 GDScript 常量。
-```
+`Agent 要自动走菜单/按按钮/截图验证 UI` -> runtime validation + optional single MCP selection。
 
-Pass: 不为了验证简单文本改动而自动安装 MCP。
+### Candidate-source restraint
 
-Prompt:
+Prompt: `这个新仓库写着支持 Godot 4.7，有一堆 AI skills，要不要全部收录？`
 
-```text
-要让 Agent 自动走菜单、按按钮、截图验证 UI。
-```
-
-Pass: `runtime-agent-validation` + optional MCP selection；优先复用已安装 bridge，只选一个重叠最少的工具。
+Pass:
+- 检查实际采用、维护、独特价值、与现有 source overlap；
+- 宣称“支持最新版本”不是收录理由；
+- 无新 decision value 就拒绝纳入 primary sources。
 
 ## Maintenance regression rule
 
@@ -254,10 +191,11 @@ Pass: `runtime-agent-validation` + optional MCP selection；优先复用已安�
 
 1. 现有 reference 处理不了的具体问题是什么？
 2. 它改变哪个 Agent 决策？
-3. 是知识 source、optional tool，还是默认 dependency？
-4. 会不会造成 routing overlap/context bloat？
-5. Godot version/license/maintenance/security 是否需要检查？
-6. 是否有真实 pressure test？
-7. 删除它后是否仍能用原生 Godot 完成基本任务？
+3. 是 knowledge source、optional tool 还是 default dependency？
+4. 会不会 routing overlap/context bloat？
+5. Godot version/license/maintenance/security 是否检查？
+6. 是否形成 source-of-truth 双写？
+7. 是否有真实 pressure test？
+8. 删除它后是否仍能用原生 Godot 做基本任务？
 
-答不清楚就不要加入。
+答不清楚就不加入。

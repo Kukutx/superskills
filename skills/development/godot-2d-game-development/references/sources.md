@@ -13,227 +13,194 @@
 
 ### Godot official documentation
 
-最高优先级的 API/version source。实施版本敏感行为前查与项目 Godot 版本匹配的文档。
+最高优先级的 API/version source。
 
 ### godotengine/godot-demo-projects
 
 - URL: `https://github.com/godotengine/godot-demo-projects`
 - License: MIT
 
-Use for canonical working examples of native Godot behavior, including 2D physics/navigation/tilemaps/animation/shaders/UI/input/saving and other engine features.
-
-Maintenance rule:
+Native 2D physics/navigation/tilemaps/animation/shaders/UI/input/save 等 working examples。
 
 ```text
 uncertain native pattern
--> official docs
+-> matching official docs
 -> matching official demo
 -> third-party pattern
 ```
-
-不要为了复制 demo architecture 而覆盖项目已有合理结构。
 
 ### godotengine/awesome-godot
 
 - URL: `https://github.com/godotengine/awesome-godot`
 - License: CC-BY-4.0 for the list
 
-这是 **candidate discovery index**，不是 addon quality/compatibility guarantee。
-
-发现候选后必须打开该 addon 自己的 repo/docs，检查 Godot version、license、maintenance、overlap。
+只作为 candidate discovery index。找到项目后打开其 primary repo/docs 检查 Godot version、license、maintenance、overlap。
 
 ## Primary agent-skill sources
 
 ### thedivergentai/GD-Agentic-Skills
-
 - URL: `https://github.com/thedivergentai/GD-Agentic-Skills`
-- License: LGPL-3.0 — importing substantial text/code requires license review
-
-Use selectively for Godot-specific physics、animation、combat、camera、Tween、shader、resources、audio、performance/testing 等窄领域实践。
-
-库很大，不 preload 全部。
+- License: LGPL-3.0
+- Use: narrow Godot physics/animation/combat/camera/Tween/shader/resources/audio/performance/testing knowledge。
 
 ### jame581/GodotPrompter
-
 - URL: `https://github.com/jame581/GodotPrompter`
 - License: MIT
-
-Use for concise Godot domain decomposition and agent routing across project/scene/resource/input/UI/save/AI/testing/export topics.
+- Use: Godot 4.x domain decomposition and agent routing。
 
 ### gamedev-skills/awesome-gamedev-agent-skills
-
 - URL: `https://github.com/gamedev-skills/awesome-gamedev-agent-skills`
-- License: check repository/current file
+- Use: engine-neutral game feel/UI/input/camera/audio/AI/level/save/dialogue/performance principles。
 
-Use for engine-neutral game feel、UI/UX、input、camera、audio、AI、level design、save/dialogue、performance principles。
-
-### openai/plugins — game-studio sprite-pipeline
-
+### openai/plugins — sprite-pipeline
 - URL: `https://github.com/openai/plugins`
-- Relevant path: `plugins/game-studio/skills/sprite-pipeline/`
-
-Use for approved seed -> whole strip -> shared scale/anchor -> normalize -> preview workflow。
+- Use: approved seed -> whole strip -> shared scale/anchor -> normalize -> preview。
 
 ### 0x0funky/agent-sprite-forge
-
 - URL: `https://github.com/0x0funky/agent-sprite-forge`
 - License: MIT
-
-Use for game-ready sprite/FX/map asset production, deterministic cleanup and engine handoff。
+- Use: game-ready sprite/FX/map production and deterministic handoff。
 
 ### willibrandon/pixel-plugin
-
 - URL: `https://github.com/willibrandon/pixel-plugin`
 - License: MIT
+- Use: Aseprite timing/tags/linked cels/pixel editing/export concepts。
 
-Use for Aseprite-oriented frame timing/tags/linked cels/pixel editing/export concepts。
-
-## Optional runtime / MCP tools
+## Runtime / MCP candidates
 
 ### Coding-Solo/godot-mcp
-
 - URL: `https://github.com/Coding-Solo/godot-mcp`
-
-General Godot project/run/debug MCP candidate. Check current tool set before claiming runtime capabilities.
+- Use: general project/run/debug MCP; inspect current tools before claiming capabilities。
 
 ### alexmeckes/godot-mcp
-
 - URL: `https://github.com/alexmeckes/godot-mcp`
-
-Candidate for richer editor/file + optional live bridge workflows.
+- Use: richer editor/file + optional live bridge candidate。
 
 ### Erodenn/godot-mcp-runtime
-
 - URL: `https://github.com/Erodenn/godot-mcp-runtime`
 - License: MIT
+- Use: newer runtime-focused zero-footprint validation candidate; evaluate maturity/security/policy before use。
 
-Newer runtime-focused zero-footprint candidate. Evaluate feature/security/tooling-policy fit before use; maturity is lower than older Godot tooling.
-
-## Optional input ecosystem
+## Input
 
 ### nathanhoad/godot_input_helper
-
 - URL: `https://github.com/nathanhoad/godot_input_helper`
 - License: MIT
+- Use: device detection、binding query/change、joypad differences、rumble when native plumbing becomes repetitive。
 
-Use when native InputMap plumbing becomes repetitive for device detection、binding queries/changes、joypads、rumble。Not a default dependency.
-
-## Optional AI / state ecosystem
+## AI / state
 
 ### bitbrain/beehave
-
 - URL: `https://github.com/bitbrain/beehave`
 - License: MIT
-
-Behavior-tree addon. Good middle step when handwritten state is too limited but a larger BT+HSM stack is unnecessary.
+- Use: medium-complex reusable Behavior Trees。
 
 ### limbonaut/limboai
-
 - URL: `https://github.com/limbonaut/limboai`
-
-Behavior Trees + HSM + blackboard/debugger for genuinely complex behavior sets. Check Godot-version compatibility.
+- Use: complex BT + HSM + blackboard/debugger; check Godot compatibility。
 
 ### derkork/godot-statecharts
-
 - URL: `https://github.com/derkork/godot-statecharts`
 - License: MIT
+- Use: hierarchical/parallel gameplay states。
 
-Hierarchical/parallel gameplay states when simple FSM state explosion becomes a real problem。
-
-## Optional pixel-source importers
+## Pixel / raster import
 
 ### viniciusgerevini/godot-aseprite-wizard
-
 - URL: `https://github.com/viniciusgerevini/godot-aseprite-wizard`
 - License: MIT
-
-Aseprite-centric Godot importer workflow for animation assets。
+- Use: Aseprite-centric animation import to Godot assets。
 
 ### nklbdev/godot-4-importality
-
 - URL: `https://github.com/nklbdev/godot-4-importality`
 - License: MIT
+- Use: multi-editor raster/animation importer workflow。
 
-Universal raster/animation importer pack across Aseprite/LibreSprite and other editors. Useful when project source formats are broader than Aseprite alone。
+## Level / terrain authoring
 
-## Optional dialogue ecosystem
+### Portponky/better-terrain
+- URL: `https://github.com/Portponky/better-terrain`
+- License: Unlicense
+- Use: optional Godot 4 terrain authoring when native terrain workflow is a demonstrated production bottleneck。
+
+### heygleeson/godot-ldtk-importer
+- URL: `https://github.com/heygleeson/godot-ldtk-importer`
+- License: MIT
+- Use: projects that deliberately use LDtk as level source; check current Godot/LDtk compatibility and generated-file ownership。
+
+## Inventory
+
+### peter-kish/gloot
+- URL: `https://github.com/peter-kish/gloot`
+- License: MIT
+- Use: larger/repetitive inventory domain; not needed for simple item lists/stacks。
+
+## Dialogue
 
 ### nathanhoad/godot_dialogue_manager
-
 - URL: `https://github.com/nathanhoad/godot_dialogue_manager`
 - License: MIT
-
-Mature dialogue authoring/runtime option. **Match release to project Godot version; do not default to an unreleased/preview major.**
+- Use: mature branching/conditions/mutations/translation authoring; match release to project Godot version, do not default to preview next-major。
 
 ### dialogic-godot/dialogic
-
 - URL: `https://github.com/dialogic-godot/dialogic`
+- Use: feature-heavier narrative/visual-novel workflow; check current compatibility。
 
-Feature-heavier narrative/visual-novel-oriented option. Check current Godot compatibility before choosing。
-
-## Optional camera ecosystem
+## Camera
 
 ### ramokz/phantom-camera
-
 - URL: `https://github.com/ramokz/phantom-camera`
 - License: MIT
+- Use: authored multi-camera priority/transitions/group/path/framed follow beyond simple Camera2D。
 
-Use when authored multi-camera priority/transitions/group/path/framed follow justify more than native Camera2D。
-
-## Optional testing ecosystem
+## Testing
 
 ### bitwes/Gut
-
 - URL: `https://github.com/bitwes/Gut`
 - License: MIT
-
-GDScript-focused tests/CLI/assertions/stubs/spies/JUnit。
+- Use: GDScript-focused tests/CLI/assertions/stubs/spies/JUnit。
 
 ### godot-gdunit-labs/gdUnit4
-
 - URL: `https://github.com/godot-gdunit-labs/gdUnit4`
 - License: MIT
+- Use: GDScript+C# tests/scenes/mocking/CI; version must match Godot。
 
-GDScript + C# tests, scenes, mocking/spying, CLI/CI. **Version must match Godot version.**
-
-## Optional project-shell/template
+## Project shell
 
 ### Maaack/Godot-Game-Template
-
 - URL: `https://github.com/Maaack/Godot-Game-Template`
 - License: MIT
+- Use: new project standard menu/options/pause/credits/loading/settings shell; don't transplant wholesale into mature projects。
 
-Useful for a new project that wants common menu/options/pause/credits/loading/settings shell. Do not transplant a whole template into a mature project just to standardize it。
-
-## Optional export / CI
+## Export / CI
 
 ### firebelley/godot-export
-
 - URL: `https://github.com/firebelley/godot-export`
 - License: MIT
-
-GitHub Action-oriented Godot export workflow。
+- Use: GitHub Action-oriented export workflow。
 
 ### abarichello/godot-ci
-
 - URL: `https://github.com/abarichello/godot-ci`
+- Use: Docker/CI export/deploy option; direct Godot CLI is often simpler。
 
-Docker/CI Godot export/deploy option. Direct Godot CLI remains valid when simpler。
+## Candidate rejection / restraint
+
+“包含很多 skills”或“宣称支持最新 Godot”本身不是纳入理由。低采用、信息重复、维护不明确、只包装官方文档但不改变 Agent 决策的库，可以作为临时研究材料，但不进入 primary source list。
 
 ## Maintenance policy
 
-Before adding a new source/addon:
+新增 source/addon 前回答：
 
-1. Is it first-party, broadly used, or uniquely useful?
-2. What concrete Agent decision changes because of it?
-3. Does an existing reference already solve the same problem?
-4. Is it optional rather than a default dependency?
-5. Is Godot-version compatibility explicit?
-6. Have license/maintenance/security implications been checked?
-7. Is there a routing pressure test for it?
+1. first-party、broadly used 或 uniquely useful 吗？
+2. 改变哪个具体 Agent decision？
+3. 现有 reference 是否已覆盖？
+4. 能否保持 optional？
+5. Godot version / license / maintenance / security 是否检查？
+6. 会不会形成双 source of truth？
+7. 是否新增 routing pressure test？
 
-If not, do not add it.
+答不清楚就不加入。
 
 ## Licensing note
 
-Do not paste substantial upstream text/code without checking and complying with its license. Prefer independently written synthesis with source attribution。
+不粘贴 substantial upstream text/code。优先独立撰写 synthesis + attribution；若未来导入代码/脚本，先遵守 upstream license。

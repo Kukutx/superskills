@@ -1,6 +1,6 @@
 # Save, Inventory and Progression Reference
 
-用于 persistent IDs、Resource definitions、runtime inventory、save/load、schema migration、settings、checkpoint/progression 与数据恢复。
+用于 persistent IDs、Resource definitions、runtime inventory、save/load、schema migration、settings、checkpoint/progression 与复杂 inventory addon selection。
 
 对话结构和本地化请读 `dialogue-localization.md`。
 
@@ -52,7 +52,7 @@ world state
 procedural seed if required
 ```
 
-不要试图序列化整个 SceneTree 作为存档。
+不要序列化整个 SceneTree 作为存档。
 
 ## 4. Schema version from day one
 
@@ -64,19 +64,19 @@ read raw data
 -> instantiate/apply runtime state
 ```
 
-不要只写一个“如果缺字段就补默认值”的永久兼容泥团。
+不要永久堆“字段不存在就补默认值”的兼容泥团。
 
 ## 5. Migration
 
-迁移函数应：
+迁移应：
 
 - deterministic；
 - stepwise；
-- idempotence/one-time behavior 明确；
-- 保留未知但可安全保留的数据 only when design requires；
-- migration failure 给出可诊断错误，而不是静默清空存档。
+- old ID mapping explicit；
+- failure 可诊断；
+- 不静默清空 save。
 
-重要升级至少保留旧版 fixture 做 migration test。
+重要升级保留旧版 fixture 做 migration test。
 
 ## 6. Safe writing
 
@@ -86,12 +86,12 @@ read raw data
 serialize
 -> write temp
 -> flush/close
--> optional validate/read-back
+-> optional read-back validate
 -> replace final
 -> optional backup/slot rotation
 ```
 
-具体原子替换能力以目标平台/Godot API 为准。
+原子替换能力以目标平台/Godot API 为准。
 
 ## 7. Autosave
 
@@ -102,7 +102,7 @@ serialize
 - inventory transaction；
 - quest/progression event；
 - timed debounce；
-- app lifecycle event if platform requires。
+- app lifecycle when needed。
 
 不要每帧保存。高频事件 coalesce/debounce。
 
@@ -124,22 +124,44 @@ inventory transaction
 - capacity；
 - unique item state；
 - equipment slots；
+- transfer/split/merge；
 - use/remove transaction；
-- item definition missing after update 的处理。
+- missing definition after game update。
 
-## 9. Settings / profile / save-game boundaries
+## 9. When an inventory addon is justified
+
+简单 inventory（几十个 item、stack + equip）通常自有 Resource/data structure 更透明。
+
+如果项目需要较多通用 inventory mechanics、反复实现容器/stack/transfer/equipment 等功能，可以评估 `peter-kish/gloot` 这类成熟 Godot inventory addon。
+
+选择规则：
+
+```text
+simple project-native inventory is clear -> keep it
+inventory domain itself is becoming large/repetitive -> evaluate GLoot
+project already uses an inventory addon -> keep one source of truth
+```
+
+即使使用 addon：
+
+- stable project item IDs 仍由项目定义；
+- save schema/migration 仍是项目责任；
+- UI 不应成为 inventory truth；
+- 不让 plugin-specific transient node path 成为长期 save contract。
+
+## 10. Settings / profile / save-game boundaries
 
 区分：
 
 - settings/preferences：volume, graphics, controls, accessibility；
-- profile/meta progression：unlocks, achievements-like meta state；
+- profile/meta progression：unlocks/meta state；
 - save slot/world state：当前 run/world。
 
 不一定必须三个文件，但概念不要混成一个无法演进的大对象。
 
-Input bindings 的具体编码/恢复与 control safety 读 `input-controls-accessibility.md`。
+Input bindings 读 `input-controls-accessibility.md`。
 
-## 10. Loading order
+## 11. Loading order
 
 常见顺序：
 
@@ -154,48 +176,49 @@ load content definitions
 
 避免 HUD 在 save 还没 apply 时读取半初始化数据。
 
-## 11. Missing/renamed content
+## 12. Missing/renamed content
 
-长期项目必须考虑：
+长期项目考虑：
 
-- item/quest ID 被删除；
-- item definition rename；
+- item/quest ID 删除或 rename；
 - scene/checkpoint 不再存在；
-- stat shape changed。
+- stat schema 改变；
+- addon version changed serialization details。
 
-优先通过 migration 显式映射旧 ID；不要依赖 display name 猜。
+优先 migration 显式映射旧 ID；不要通过 display name 猜。
 
-## 12. Save ownership and gameplay transactions
+## 13. Transactions and save timing
 
-关键 transaction（购买、装备、获得重要物品）先完成 gameplay truth，再触发 save。
+关键 transaction：
 
 ```text
-validate transaction
--> mutate runtime truth
+validate
+-> mutate gameplay truth
 -> emit domain event
 -> schedule/save persistent snapshot
 ```
 
-不要让写磁盘失败把一半 UI/一半 gameplay 状态留在奇怪中间态；错误处理策略按游戏重要性设计。
+写盘错误策略按游戏重要性设计，避免 UI/gameplay 半更新。
 
 ## Validation matrix
 
-至少覆盖：
+覆盖：
 
 - no save/new game；
-- normal current-version save；
+- current-version save；
 - previous-version save；
 - corrupted/partial file；
 - missing field；
-- removed content ID；
+- removed/renamed item ID；
 - empty/full inventory；
-- stack boundary；
-- unique item state；
+- stack split/merge boundary；
+- unique/equipment state；
 - scene reload；
-- save immediately after transaction；
-- restart and settings/control persistence；
-- procedural seed restore if used。
+- save after transaction；
+- restart/settings/control persistence；
+- procedural seed restore if used；
+- addon upgrade migration if inventory plugin is used。
 
 ## Source synthesis
 
-吸收 Godot Resource/save patterns、GodotPrompter data/save guidance、跨引擎 save-versioning practices。精确 filesystem/API behavior 必须按项目 Godot 版本和目标平台确认。
+吸收 Godot Resource/save patterns、GodotPrompter data/save guidance、跨引擎 save versioning，并将 `peter-kish/gloot` 作为复杂 inventory 的可选成熟 companion，而不是默认架构。
