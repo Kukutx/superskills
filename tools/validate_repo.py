@@ -12,6 +12,7 @@ SKILLS = ROOT / "skills"
 ROUTER = SKILLS / "meta" / "skill-router" / "skill.md"
 ALLOWED_SKILL_ENTRIES = {"skill.md", "references", "maintenance"}
 ROOT_PREFIXES = ("docs/", "gpts/", "skills/", "templates/", "tools/", ".github/")
+MAINTENANCE_HEADINGS = ("## Source synthesis", "## Upstream inspiration")
 PATH_RE = re.compile(r"`([a-z0-9-]+/[a-z0-9-]+)`")
 MD_PATH_RE = re.compile(r"`((?:\.\.?/)?[^`\n]+\.md)`")
 
@@ -68,8 +69,16 @@ def main() -> int:
             for p in refs.iterdir():
                 if p.is_file() and p.suffix != ".md":
                     errors.append(f"{p.relative_to(ROOT)}: runtime reference must be Markdown")
-                if p.name in {"sources.md", "changelog.md", "routing-tests.md", "quality-tests.md"}:
-                    errors.append(f"{p.relative_to(ROOT)}: maintenance material is in references/")
+                    continue
+                if p.is_file():
+                    text = p.read_text(encoding="utf-8")
+                    if p.name in {"sources.md", "changelog.md", "routing-tests.md", "quality-tests.md"}:
+                        errors.append(f"{p.relative_to(ROOT)}: maintenance material is in references/")
+                    for heading in MAINTENANCE_HEADINGS:
+                        if heading in text:
+                            errors.append(
+                                f"{p.relative_to(ROOT)}: maintenance source note '{heading}' is in runtime reference"
+                            )
 
     router_text = ROUTER.read_text(encoding="utf-8")
     catalog_paths = set(PATH_RE.findall(router_text))
