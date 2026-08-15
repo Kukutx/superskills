@@ -2,7 +2,7 @@
 
 ## Purpose
 
-`superskills` is a personal AI skills system for recurring workflows across product, software development, image generation, xTool F1 engraving, Shopify, App Store assets, marketing, writing, research, and operations.
+`superskills` is a personal AI skills system for recurring workflows across product, software development, game development, image generation, xTool F1 engraving, Shopify, App Store assets, marketing, writing, research, and operations.
 
 ## User defaults
 
@@ -11,7 +11,7 @@
 - Use English for prompts, code, App Store copy, marketing copy, and Western-market-facing output when useful.
 - Prefer practical output over theory.
 - Prefer concise, structured, copy-ready answers.
-- Prefer TypeScript, React, Next.js, Node.js, PostgreSQL, simple architecture, incremental rollout, and validation steps.
+- Prefer TypeScript, React, Next.js, Node.js, PostgreSQL, simple architecture, incremental rollout, and validation steps for general software work.
 
 ## Creative generation defaults
 
@@ -22,6 +22,8 @@
 
 ## Core skill routing
 
+Choose the **most specific domain skill first**. Generic engineering skills supplement domain skills rather than replacing them.
+
 | Task | Primary skill |
 | --- | --- |
 | Better prompt | `meta/prompt-optimizer` |
@@ -30,10 +32,12 @@
 | Project planning | `planning/project-planner` |
 | Research / comparison | `research/research-brief` |
 | Product idea / feature spec | `product/prd-builder` |
-| Technical architecture | `development/technical-design` |
-| Implementation tasks | `development/implementation-plan` |
-| Code review | `development/code-review` |
-| Bug diagnosis | `development/bug-diagnosis` |
+| Godot 2D / pixel-art game development | `development/godot-2d-game-development` |
+| Spritesheet / animation-strip slicing, geometry, timing, naming | `development/game-dev-spritesheet-slicer` |
+| Technical architecture outside a specific domain | `development/technical-design` |
+| Implementation tasks outside a specific domain | `development/implementation-plan` |
+| Code review outside a specific domain | `development/code-review` |
+| Bug diagnosis outside a specific domain | `development/bug-diagnosis` |
 | Image generation prompt | `creative/image-prompt-director` |
 | Image review / next prompt | `design/image-review-refiner` |
 | xTool F1 engraving | `creative/xtool-f1-engraving` |
@@ -45,6 +49,27 @@
 | SOP / repeated process | `operations/sop-builder` |
 
 ## Workflow recipes
+
+### Godot 2D workflow
+
+```text
+development/godot-2d-game-development
+-> load only 1–3 focused references for the actual problem
+-> development/game-dev-spritesheet-slicer only when exact sprite-sheet work is needed
+-> runtime evidence / QA before claiming completion
+```
+
+For a Godot 2D bug/review/implementation request, keep the Godot skill primary; generic `bug-diagnosis`, `code-review` or `implementation-plan` is optional support only.
+
+### Pixel character asset workflow
+
+```text
+approved seed / authored source
+-> asset-pipeline + animation-pixel
+-> game-dev-spritesheet-slicer when exact frame geometry is required
+-> Godot import
+-> in-engine scale/anchor/timing validation
+```
 
 ### Image generation workflow
 
@@ -63,6 +88,22 @@ creative/xtool-f1-engraving
 ```
 
 ## Skill summaries
+
+### development/godot-2d-game-development
+
+Godot 4.x 2D production router. Covers architecture, CharacterBody2D movement, InputMap/remapping, TileMapLayer worlds, pixel animation, combat correctness, game feel, VFX/shaders, UI, audio, AI/navigation, save/inventory, dialogue/localization, 2D asset pipelines, runtime validation, performance/testing and export/CI. It uses progressive disclosure: normally load only 1–3 focused references.
+
+Core rules:
+
+- inspect the actual project and Godot version before changing code;
+- gameplay truth before presentation;
+- combat correctness and game feel are separate concerns;
+- external addons are optional and must solve demonstrated complexity;
+- runtime/visual claims require matching evidence.
+
+### development/game-dev-spritesheet-slicer
+
+Production workflow for animation strips/spritesheets: approved seed, exact frame contract, shared scale/anchor, timing metadata, deterministic slicing/naming and Godot handoff. Prefer whole-action strips over independently generated frames when visual consistency matters.
 
 ### creative/image-prompt-director
 
