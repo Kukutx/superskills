@@ -1,128 +1,135 @@
 ---
 name: divination-reading
-description: Reflective divination and traditional astrology across Chinese systems, Tarot, Jyotisha and optional Western astrology. Use when the user explicitly wants a symbolic/fortune-telling reading; choose the appropriate method, verify chart conventions, and never fabricate calculations.
+description: Reflective divination across Chinese traditions, Tarot, Jyotisha and optional Western astrology. Use when the user explicitly wants fortune-telling or symbolic interpretation; choose the method automatically when possible, ask only for missing inputs that matter, and never fabricate chart calculations.
 ---
 
 # Divination Reading
 
 ## Scope
 
-Use when the user explicitly asks for 占卜、命理、八字、紫微、六爻、梅花、奇门、塔罗、Jyotiṣa/印度占星、西方占星 or a comparable symbolic reading.
+Use for explicit 占卜、算命、八字、紫微、六爻、梅花、奇门、塔罗、Jyotiṣa/印度占星、西方占星 or comparable symbolic readings.
 
-This Skill treats these as **traditional interpretive systems**, not empirically established forecasting. If the user instead wants evidence-based analysis of how birth cohort, historical events or economic conditions may shape experience, use `personal/generational-context-analysis`.
+If the user instead wants evidence-based analysis of birth cohort, history, economy or technology, use `personal/generational-context-analysis`.
+
+## Default experience
+
+The user should not need to know the technical system first.
+
+```text
+user goal
+-> infer the smallest suitable method
+-> ask at most one compact round of missing information when possible
+-> verify chart/cast/draw data
+-> answer in plain language first
+-> expose technical detail only when useful or requested
+```
+
+Do not begin by asking the user to choose among many schools, spreads or technical conventions.
+
+### Smart defaults
+
+- User explicitly names a system -> use it.
+- “算命 / 命盘 / 看一生” in a Chinese context + birth data -> default to 八字 unless the user prefers another tradition.
+- One concrete question with no preferred system -> use a focused question method rather than a full natal stack. A small Tarot reading is a practical default when an honest simulated/tool draw is available.
+- Strategy/direction/electional timing -> use 奇门 or Jyotiṣa muhūrta only when the required chart can actually be calculated; otherwise use a simpler reflective method rather than inventing precision.
+- Jyotiṣa or Western astrology -> normally use only when explicitly requested or clearly preferred.
+- Advanced systems such as 大六壬/太乙 -> use on request or when a reliable implementation is available, not because they sound more sophisticated.
+
+Use `references/method-selection.md` only when method choice is genuinely ambiguous.
+
+## Minimum input
+
+Ask only for what changes the answer.
+
+### Birth-chart reading
+
+Usually:
+
+```text
+birth date
+birth time (or approximate range)
+birth place
+calendar type only if not obvious
+```
+
+The Skill should resolve timezone/DST/calendar/chart conventions itself where a reliable source/tool exists. Ask the user about a technical convention only when different choices materially change the result and cannot be inferred.
+
+If birth time is uncertain, continue with the stable parts and clearly mark what becomes unreliable instead of blocking the entire reading.
+
+### Focused question
+
+Usually:
+
+```text
+one concrete question
+optional time horizon
+```
+
+Ask for cast/cards only when the selected method needs them. If a simulated draw/cast is used, label it honestly.
 
 ## Truth boundary
 
-Keep four layers separate:
+Keep this chain intact:
 
 ```text
-verified chart / cast / card data
--> traditional rule or symbolism
+verified chart / cast / draw
+-> traditional symbolism/rule
 -> interpretation
 -> practical reflection
 ```
 
-- Say “按此体系/传统解释” rather than presenting a prediction as certain fact.
-- Do not turn symbolic language into a diagnosis of personality, health, fertility, legal outcome, investment return or another high-stakes fact.
-- A reading may support reflection or option generation; it should not replace professional evidence for medical, legal, financial or safety decisions.
-- **Never invent a chart, pillar, planetary position, moving line or card draw.** If exact computation requires a calendar/ephemeris/charting tool that is not available or verified, ask for a precomputed chart or clearly limit the answer to method-level interpretation.
-
-## Input gate
-
-Ask only for information that changes the chosen method.
-
-### Natal / birth-chart methods
-
-Usually need:
-
-```text
-birth date
-birth time + precision/uncertainty
-birth place
-civil calendar used
-historical timezone / DST when relevant
-sex/gender only if the chosen tradition actually uses it
-```
-
-If the birth time is approximate, say which conclusions become unstable instead of silently treating it as exact.
-
-### Question-based divination
-
-Usually need:
-
-```text
-one concrete question
-time horizon if relevant
-important known constraints
-the cast/draw data, or explicit permission to generate/simulate it
-```
-
-Do not keep redrawing/recasting until the answer becomes favorable.
-
-## Choose one primary method
-
-Use `references/method-selection.md` when the user has not specified a system or when several systems could apply.
-
-Do **not** stack 八字 + 紫微 + 六爻 + 奇门 + 塔罗 + Jyotiṣa by default. One coherent method is usually clearer than a “majority vote” across unrelated traditions.
+- Never invent pillars, planetary positions, moving lines, stars or cards.
+- If exact calculation cannot be verified, ask for a precomputed chart or switch to an honestly performable method.
+- Present conclusions as traditional/symbolic interpretation, not established fact.
+- Do not use divination as sole evidence for medical, legal, financial, safety or other high-stakes decisions.
+- Do not keep recasting/redrawing until the answer becomes favorable.
 
 ## Runtime references
 
 | Need | Reference |
 | --- | --- |
-| choose a method, decide required data, cross-method discipline | `references/method-selection.md` |
-| 八字、紫微斗数、易经/六爻、梅花、奇门、大六壬、太乙 | `references/chinese-metaphysics.md` |
-| Tarot and comparable card/oracle readings | `references/tarot-oracles.md` |
-| Jyotiṣa/Indian astrology and optional Western astrology | `references/astrology-traditions.md` |
+| ambiguous method choice / fallback | `references/method-selection.md` |
+| 八字、紫微、六爻、梅花、奇门、大六壬、太乙 | `references/chinese-metaphysics.md` |
+| Tarot / card-oracle reading | `references/tarot-oracles.md` |
+| Jyotiṣa / Indian astrology / Western astrology | `references/astrology-traditions.md` |
 
 Load only the relevant reference(s).
 
-## Reading workflow
+## Reading style
 
-1. **Clarify the real question.** Separate curiosity, self-reflection, timing, compatibility, decision support and a request for a full natal reading.
-2. **Choose the method.** Respect the user's requested tradition; otherwise select the smallest method that fits the question and available data.
-3. **State the convention.** Calendar, time correction, school, spread, reversal policy, ayanāṁśa/house system or casting method matters when applicable.
-4. **Verify the base data.** Chart/cast/draw first; interpretation second.
-5. **Interpret hierarchically.** Start with the few dominant themes, then supporting details. Do not dump every symbol or technical term.
-6. **Translate into usable language.** Explain what a symbol traditionally points toward, plausible manifestations, and what would contradict that interpretation.
-7. **End with grounded reflection.** Give questions, options or practical actions that remain useful even if the divinatory interpretation is wrong.
+Default to **simple mode**:
 
-## Default output
+1. **先说重点** — one short overall reading.
+2. **3–5 个主要主题** — only the signals that drive the conclusion.
+3. **回答用户真正问的领域** — work, relationship, timing, choice, etc.
+4. **现实建议** — useful actions/questions that remain sensible even if the symbolism is wrong.
+5. **不确定项** — only when they materially affect the result.
 
-For a substantial reading:
+Do not dump technical vocabulary, every minor star, every hidden stem, every Tarot keyword or every aspect by default.
 
-1. **Method + assumptions** — tradition, chart/cast convention, uncertain inputs.
-2. **Base structure** — only verified pillars/positions/cards/hexagrams relevant to the reading.
-3. **Core themes** — 3–6 strongest signals.
-4. **Requested domains** — e.g. character, work, relationships, timing.
-5. **Tensions / alternative readings** — where the symbolism is mixed or school-dependent.
-6. **Practical reflection** — non-deterministic implications and useful next questions.
+If the user says `专业模式 / 展开排盘 / 详细技术分析`, then add the chart structure, conventions, calculation details and deeper traditional reasoning.
 
-For a focused question, answer the question first and keep the technical apparatus proportional.
+## Useful interaction patterns
 
-## Quick request patterns
-
-These are usage shortcuts, not separate prompt files.
+The user can speak naturally:
 
 ```text
-完整命盘：这是我的出生日期、时间、地点。请先判断还缺什么，再选择我指定的体系做完整解读；明确排盘约定和不确定项。
-
-单一问题：我的问题是 [...]. 时间范围是 [...]. 如果我没指定体系，请选最适合的一种，不要多体系堆叠。
-
-八字：请以子平八字为主。先核对公历/农历、时区、出生地和是否采用真太阳时，再排盘；不要用“缺什么补什么”代替格局分析。
-
-塔罗：问题是 [...]. 请选最小够用的牌阵。若没有真实抽牌工具，请明确标注模拟抽牌；不要为了得到好答案重复抽牌。
-
-印度占星：请用 Jyotiṣa。先说明使用的星历/ayanāṁśa 和出生时间精度；如果无法可靠计算命盘，不要猜行星或宫位。
+“帮我算一下事业，我的信息是……”
+“我最近纠结要不要接这个 offer，帮我占一下，方法你选。”
+“用八字看未来两三年，出生时间大概在下午三点左右。”
+“帮我抽三张塔罗看这段关系，我没有实体牌。”
+“用印度占星看婚姻，但如果时间不够精确就告诉我哪些不能判断。”
 ```
+
+The Skill should translate these into the required method internally instead of making the user rewrite a professional prompt.
 
 ## Completion check
 
-Before saying the reading is complete, check:
+Before saying done, confirm:
 
-- the chosen method actually fits the question;
-- required chart/cast data was verified or uncertainty is explicit;
-- school/convention differences are not hidden;
-- interpretation is separated from factual claims;
-- technical jargon is translated rather than piled up;
-- no high-stakes decision is being justified solely by divination;
-- the answer gives the user something useful beyond deterministic “吉/凶” labeling.
+- the method fits the actual question;
+- required chart/cast data is verified or uncertainty is explicit;
+- the answer is understandable without specialist knowledge;
+- technical depth is proportional to the user's request;
+- symbolic interpretation is not disguised as factual certainty;
+- the response ends with something useful beyond a deterministic “吉/凶”.
