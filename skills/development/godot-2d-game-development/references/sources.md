@@ -1,205 +1,239 @@
 # Upstream Sources and Maintenance Notes
 
-这个文件只用于维护 superskill。正常开发任务不需要加载。
+维护本 SuperSkill 时使用。普通开发任务不要加载。
 
-本 SuperSkill 采用 **synthesis, not bulk copy**：
+原则：**synthesis, not bulk copy**。
 
 - 抽取 decision rules、anti-patterns、validation loops、2D-specific knowledge。
-- 删除营销文案、重复教程、与 Godot 2D 无关内容。
-- 精确 API 以项目实际 Godot 版本和 Godot 官方文档为准。
-- 外部工具不作为隐式 dependency。
+- 精确 API 以项目实际 Godot 版本和官方文档为准。
+- 外部 addon/tool 不作为隐式 dependency。
+- 不复制外部仓库大段文本或脚本；需要代码时先检查 license。
 
-## Primary skill sources
+## First-party Godot sources
+
+### Godot official documentation
+
+最高优先级的 API/version source。实施版本敏感行为前查与项目 Godot 版本匹配的文档。
+
+### godotengine/godot-demo-projects
+
+- URL: `https://github.com/godotengine/godot-demo-projects`
+- License: MIT
+
+Use for canonical working examples of native Godot behavior, including 2D physics/navigation/tilemaps/animation/shaders/UI/input/saving and other engine features.
+
+Maintenance rule:
+
+```text
+uncertain native pattern
+-> official docs
+-> matching official demo
+-> third-party pattern
+```
+
+不要为了复制 demo architecture 而覆盖项目已有合理结构。
+
+### godotengine/awesome-godot
+
+- URL: `https://github.com/godotengine/awesome-godot`
+- License: CC-BY-4.0 for the list
+
+这是 **candidate discovery index**，不是 addon quality/compatibility guarantee。
+
+发现候选后必须打开该 addon 自己的 repo/docs，检查 Godot version、license、maintenance、overlap。
+
+## Primary agent-skill sources
 
 ### thedivergentai/GD-Agentic-Skills
 
 - URL: `https://github.com/thedivergentai/GD-Agentic-Skills`
-- License: LGPL-3.0 (check current upstream before importing code)
+- License: LGPL-3.0 — importing substantial text/code requires license review
 
-Use for:
+Use selectively for Godot-specific physics、animation、combat、camera、Tween、shader、resources、audio、performance/testing 等窄领域实践。
 
-- Godot-specific architecture；
-- CharacterBody2D / physics；
-- animation / Tween；
-- combat；
-- Camera2D；
-- particles / shaders；
-- Resources / signals / state；
-- audio；
-- performance/testing。
-
-Note: upstream is large; follow progressive disclosure. Do not copy the whole library into superskills.
+库很大，不 preload 全部。
 
 ### jame581/GodotPrompter
 
 - URL: `https://github.com/jame581/GodotPrompter`
 - License: MIT
 
-Use for:
-
-- concise Godot domain decomposition；
-- project/scene/component/resource patterns；
-- player/input/camera；
-- UI/responsive HUD；
-- save/dialogue/AI；
-- debugging/testing/optimization/export。
-
-Useful maintenance idea: keep the entry skill small and move depth to references.
+Use for concise Godot domain decomposition and agent routing across project/scene/resource/input/UI/save/AI/testing/export topics.
 
 ### gamedev-skills/awesome-gamedev-agent-skills
 
 - URL: `https://github.com/gamedev-skills/awesome-gamedev-agent-skills`
-- License: Apache-2.0 (check the specific file/repo state when reusing material)
+- License: check repository/current file
 
-Use for engine-neutral concepts:
-
-- game-feel；
-- game-ui-ux；
-- camera-systems；
-- input-systems；
-- audio-design；
-- level-design；
-- game-ai；
-- save/dialogue；
-- shader programming；
-- performance optimization。
-
-Godot API details must come from Godot-specific sources/docs.
+Use for engine-neutral game feel、UI/UX、input、camera、audio、AI、level design、save/dialogue、performance principles。
 
 ### openai/plugins — game-studio sprite-pipeline
 
 - URL: `https://github.com/openai/plugins`
 - Relevant path: `plugins/game-studio/skills/sprite-pipeline/`
 
-Use for:
-
-- approved seed frame；
-- whole-strip generation；
-- shared scale；
-- shared anchor；
-- normalization；
-- preview before engine import。
+Use for approved seed -> whole strip -> shared scale/anchor -> normalize -> preview workflow。
 
 ### 0x0funky/agent-sprite-forge
 
 - URL: `https://github.com/0x0funky/agent-sprite-forge`
 - License: MIT
 
-Use for:
-
-- sprites + FX；
-- editable 2D maps；
-- transparent props；
-- deterministic cleanup；
-- engine handoff。
+Use for game-ready sprite/FX/map asset production, deterministic cleanup and engine handoff。
 
 ### willibrandon/pixel-plugin
 
 - URL: `https://github.com/willibrandon/pixel-plugin`
 - License: MIT
 
-Use for Aseprite-oriented concepts:
+Use for Aseprite-oriented frame timing/tags/linked cels/pixel editing/export concepts。
 
-- frame duration；
-- animation tags；
-- linked cels；
-- pixel palette/dithering；
-- export metadata。
-
-### Yuki001/game-dev-skills — game-architect
-
-- URL: `https://github.com/Yuki001/game-dev-skills`
-
-Use selectively for:
-
-- choose architecture by problem complexity；
-- system boundaries；
-- effect/feedback；
-- scene/UI/data architecture；
-- avoid one universal paradigm。
-
-## Optional tool sources
+## Optional runtime / MCP tools
 
 ### Coding-Solo/godot-mcp
 
 - URL: `https://github.com/Coding-Solo/godot-mcp`
-- License: MIT
 
-General Godot MCP for run/editor/project/debug workflows.
+General Godot project/run/debug MCP candidate. Check current tool set before claiming runtime capabilities.
 
 ### alexmeckes/godot-mcp
 
 - URL: `https://github.com/alexmeckes/godot-mcp`
 
-Godot MCP + optional AI Bridge with live scene tree, runtime input, screenshots and errors/output.
+Candidate for richer editor/file + optional live bridge workflows.
 
-### SpriteCook/skills
+### Erodenn/godot-mcp-runtime
 
-- URL: `https://github.com/SpriteCook/skills`
-- License: MIT (check current upstream)
-
-Optional external pixel/game-asset generation and Godot handoff.
-
-
-## Optional Godot ecosystem references
-
-These are **tools/addons, not knowledge dependencies**.
-
-### bitwes/Gut
-
-- URL: `https://github.com/bitwes/Gut`
+- URL: `https://github.com/Erodenn/godot-mcp-runtime`
 - License: MIT
 
-Use when a GDScript project needs automated unit/integration tests and already uses GUT or chooses it deliberately. Match GUT release/branch to the project's Godot version.
+Newer runtime-focused zero-footprint candidate. Evaluate feature/security/tooling-policy fit before use; maturity is lower than older Godot tooling.
 
-### godot-gdunit-labs/gdUnit4
+## Optional input ecosystem
 
-- URL: `https://github.com/godot-gdunit-labs/gdUnit4`
+### nathanhoad/godot_input_helper
+
+- URL: `https://github.com/nathanhoad/godot_input_helper`
 - License: MIT
 
-Use when GDScript/C# scene-aware testing, mocking/spying, runner tooling, or CI integration is useful. Match release to Godot version.
+Use when native InputMap plumbing becomes repetitive for device detection、binding queries/changes、joypads、rumble。Not a default dependency.
 
-### nathanhoad/godot_dialogue_manager
+## Optional AI / state ecosystem
 
-- URL: `https://github.com/nathanhoad/godot_dialogue_manager`
+### bitbrain/beehave
+
+- URL: `https://github.com/bitbrain/beehave`
 - License: MIT
 
-Optional for dialogue-heavy projects; do not make it a default dependency.
+Behavior-tree addon. Good middle step when handwritten state is too limited but a larger BT+HSM stack is unnecessary.
 
 ### limbonaut/limboai
 
 - URL: `https://github.com/limbonaut/limboai`
-- License: MIT-style
 
-Optional for behavior trees + hierarchical state machines when hand-written AI becomes genuinely complex.
+Behavior Trees + HSM + blackboard/debugger for genuinely complex behavior sets. Check Godot-version compatibility.
 
 ### derkork/godot-statecharts
 
 - URL: `https://github.com/derkork/godot-statecharts`
 - License: MIT
 
-Optional for hierarchical/parallel state modeling when a simple FSM no longer remains clear.
+Hierarchical/parallel gameplay states when simple FSM state explosion becomes a real problem。
+
+## Optional pixel-source importers
+
+### viniciusgerevini/godot-aseprite-wizard
+
+- URL: `https://github.com/viniciusgerevini/godot-aseprite-wizard`
+- License: MIT
+
+Aseprite-centric Godot importer workflow for animation assets。
+
+### nklbdev/godot-4-importality
+
+- URL: `https://github.com/nklbdev/godot-4-importality`
+- License: MIT
+
+Universal raster/animation importer pack across Aseprite/LibreSprite and other editors. Useful when project source formats are broader than Aseprite alone。
+
+## Optional dialogue ecosystem
+
+### nathanhoad/godot_dialogue_manager
+
+- URL: `https://github.com/nathanhoad/godot_dialogue_manager`
+- License: MIT
+
+Mature dialogue authoring/runtime option. **Match release to project Godot version; do not default to an unreleased/preview major.**
+
+### dialogic-godot/dialogic
+
+- URL: `https://github.com/dialogic-godot/dialogic`
+
+Feature-heavier narrative/visual-novel-oriented option. Check current Godot compatibility before choosing。
+
+## Optional camera ecosystem
 
 ### ramokz/phantom-camera
 
 - URL: `https://github.com/ramokz/phantom-camera`
 - License: MIT
 
-Optional for authored multi-camera follow/framing/transition workflows; native Camera2D remains the default for simpler games.
+Use when authored multi-camera priority/transitions/group/path/framed follow justify more than native Camera2D。
+
+## Optional testing ecosystem
+
+### bitwes/Gut
+
+- URL: `https://github.com/bitwes/Gut`
+- License: MIT
+
+GDScript-focused tests/CLI/assertions/stubs/spies/JUnit。
+
+### godot-gdunit-labs/gdUnit4
+
+- URL: `https://github.com/godot-gdunit-labs/gdUnit4`
+- License: MIT
+
+GDScript + C# tests, scenes, mocking/spying, CLI/CI. **Version must match Godot version.**
+
+## Optional project-shell/template
+
+### Maaack/Godot-Game-Template
+
+- URL: `https://github.com/Maaack/Godot-Game-Template`
+- License: MIT
+
+Useful for a new project that wants common menu/options/pause/credits/loading/settings shell. Do not transplant a whole template into a mature project just to standardize it。
+
+## Optional export / CI
+
+### firebelley/godot-export
+
+- URL: `https://github.com/firebelley/godot-export`
+- License: MIT
+
+GitHub Action-oriented Godot export workflow。
+
+### abarichello/godot-ci
+
+- URL: `https://github.com/abarichello/godot-ci`
+
+Docker/CI Godot export/deploy option. Direct Godot CLI remains valid when simpler。
 
 ## Maintenance policy
 
-When updating:
+Before adding a new source/addon:
 
-1. Check current Godot stable docs/API.
-2. Check upstream skill changes only for relevant domains.
-3. Add only knowledge that changes an Agent decision or prevents a real failure.
-4. Keep examples minimal.
-5. Avoid duplicated guidance across references.
-6. Keep routing triggers explicit.
-7. Test references with realistic prompts.
-8. Prefer runtime evidence over static confidence.
+1. Is it first-party, broadly used, or uniquely useful?
+2. What concrete Agent decision changes because of it?
+3. Does an existing reference already solve the same problem?
+4. Is it optional rather than a default dependency?
+5. Is Godot-version compatibility explicit?
+6. Have license/maintenance/security implications been checked?
+7. Is there a routing pressure test for it?
+
+If not, do not add it.
 
 ## Licensing note
 
-Do not paste large upstream sections verbatim into this repository. Keep this repository's text independently written and cite upstream sources. If future maintenance imports scripts or substantial text, inspect and comply with that upstream project's license first.
+Do not paste substantial upstream text/code without checking and complying with its license. Prefer independently written synthesis with source attribution。

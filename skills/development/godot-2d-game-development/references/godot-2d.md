@@ -1,23 +1,26 @@
 # Godot 2D Compatibility Index
 
-这个文件保留给旧 prompt/reference 路径。新任务不要把它作为大而全 reference。
+旧版 broad reference 入口。新任务请按实际意图读取最小 reference：
 
-按任务读取：
+```text
+architecture/state/resources        -> core-architecture.md
+movement/physics/camera             -> movement-physics-camera.md
+input/remap/gamepad/touch           -> input-controls-accessibility.md
+world/tilemap/level                 -> world-tilemap-level-design.md
+animation/pixel timing              -> animation-pixel.md
+combat correctness                  -> combat-system.md
+game feel/juice                     -> game-feel.md
+VFX/shaders/lighting                -> rendering-vfx-shaders.md
+UI/menu/HUD                         -> ui-ux.md
+audio                               -> audio.md
+AI/navigation/procedural            -> ai-navigation-procedural.md
+save/inventory/progression          -> save-inventory-progression.md
+dialogue/localization               -> dialogue-localization.md
+asset pipeline                      -> asset-pipeline.md
+performance/tests/debugging         -> performance-testing-debugging.md
+agent runtime verification          -> runtime-agent-validation.md
+export/release/CI                   -> release-export-ci.md
+optional tools/addons               -> companion-tools.md
+```
 
-| Topic | Reference |
-| --- | --- |
-| architecture / scene / Resource / signal / state | `core-architecture.md` |
-| movement / input / CharacterBody2D / Camera2D | `movement-input-camera.md` |
-| TileMapLayer / world / level | `world-tilemap-level-design.md` |
-| animation / pixel | `animation-pixel.md` |
-| combat / game feel | `combat-game-feel.md` |
-| particles / shader / 2D rendering | `rendering-vfx-shaders.md` |
-| UI | `ui-ux.md` |
-| audio | `audio.md` |
-| AI / navigation / procedural | `ai-navigation-procedural.md` |
-| save / inventory / dialogue / localization | `data-save-dialogue.md` |
-| assets | `asset-pipeline.md` |
-| performance / tests / debug / export | `performance-testing-debugging.md` |
-| optional tools | `companion-tools.md` |
-
-原则：只加载当前任务需要的 1–3 个 reference。
+不要因为 prompt 只说“Godot 2D”就 preload 整个 reference tree。先识别玩家目标和当前问题，再读 1–3 个最相关文件。

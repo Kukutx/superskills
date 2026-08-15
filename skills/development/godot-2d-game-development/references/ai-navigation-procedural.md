@@ -1,10 +1,10 @@
 # AI, Navigation and Procedural Generation Reference
 
-用于 2D enemy AI、FSM、NavigationAgent2D、steering/perception、wave/spawn logic 和 seeded procedural content。
+用于 2D enemy AI、state decisions、NavigationAgent2D、steering/perception、wave/spawn logic 与 seeded procedural content。
 
-## 1. Start from behavior, not algorithm
+## 1. Start from behavior, not framework
 
-先定义 enemy 行为：
+先写玩家能观察到的行为：
 
 ```text
 idle/patrol
@@ -15,202 +15,219 @@ idle/patrol
 -> return
 ```
 
-再决定需要：
+再决定需要的是 simple state、navigation、steering 还是 behavior tree。不要关键词一出现就装 BT/GOAP addon。
 
-- simple state logic；
-- ray/area perception；
-- NavigationAgent2D；
-- steering；
-- behavior tree-like structure。
+## 2. Ownership
 
-不要默认上复杂 BT/GOAP。
+```text
+AI decision -> intent/state
+movement -> actual CharacterBody2D motion
+combat -> attack/damage truth
+animation/VFX -> presentation
+```
 
-## 2. State ownership
-
-AI state owner 决定 intent。
-Movement system 执行移动。
-Combat system 执行 attack。
-Animation/VFX 只表现。
-
-不要把 `AnimationPlayer` 当敌人 AI state machine。
+不要把 AnimationPlayer 当 enemy AI truth。
 
 ## 3. Perception
 
 明确：
 
-- vision range；
+- detection range；
 - line of sight；
-- hearing/noise；
-- aggro memory；
-- lose-target condition；
-- reaction delay。
+- hearing/noise if used；
+- reaction delay；
+- target memory；
+- lose-target rule；
+- fairness/cheating policy。
 
-Area2D 可做 broad detection。
-精确 LoS 用 ray/query。
-
-不要让敌人“既假装看不见又直接读取 player global position”除非设计就是作弊型 director。
+Area2D 适合 broad detection；ray/query 适合 LoS。
 
 ## 4. NavigationAgent2D
 
 使用前确认：
 
-- navigation data 已生成；
+- navigation data 存在并 ready；
 - target reachable；
-- agent radius/avoidance；
-- map change 后 nav update；
-- collision/navigation 区别。
+- agent radius/avoidance settings；
+- dynamic map update timing；
+- path target 与 actual physics movement 分离。
 
-Navigation path 给目标方向；actual body movement 仍遵循 CharacterBody2D controller。
+NavigationAgent2D 给 path/steering data；CharacterBody2D controller 仍负责实际移动。
 
-## 5. Steering and local avoidance
+## 5. Steering / crowd
 
-简单追逐不需要复杂 flocking。
-在以下情况加入 avoidance/steering：
+只有需要时加入：
 
-- crowd；
-- corridor；
+- local avoidance；
+- separation；
 - ranged spacing；
-- surround behavior。
+- surround slots；
+- corridor handling。
 
-避免所有 enemy 堆到同一点。
+简单追逐不需要 flocking system。
 
-## 6. Attack range and hysteresis
+## 6. State hysteresis
 
-不要用一个 threshold 造成状态抖动。
-
-例如：
+避免 range threshold 抖动：
 
 ```text
-enter attack at <= 48
-leave attack at >= 60
+enter attack <= 48
+leave attack >= 60
 ```
 
-或使用明确 cooldown/state gate。
+或用 cooldown/explicit transition gate。
 
-## 7. Offscreen AI
+## 7. Decision frequency
 
-先从 gameplay fairness 出发：
+AI 不需要所有 expensive decision 每 physics frame 执行。
 
-- 是否允许 offscreen movement；
-- 是否允许 offscreen attack；
+常见优化：
+
+- sensing lower frequency；
+- stagger updates；
+- path only when target/path meaningfully changes；
+- cache stable data；
+- cheap movement every physics tick, expensive decision less often。
+
+先 profile，再优化。
+
+## 8. Behavior-complexity ladder
+
+优先选择能清楚表达当前行为的最小模型：
+
+### Level 1 — handwritten state
+
+适合：
+
+```text
+idle -> chase -> attack
+patrol -> alert -> return
+```
+
+最透明、最少依赖。
+
+### Level 2 — Beehave
+
+当行为开始出现可复用 condition/action/subtree，但仍主要是 Behavior Tree 问题时，可考虑 `bitbrain/beehave`。
+
+适合：
+
+- Godot-native scene/tree authoring；
+- reusable BT nodes；
+- visual/debug workflow；
+- 中等复杂 enemy behavior。
+
+### Level 3 — LimboAI
+
+当项目同时真正需要：
+
+- larger behavior-tree library；
+- hierarchical state machines；
+- blackboard；
+- richer debugger/tooling；
+
+再考虑 LimboAI。
+
+### Parallel/hierarchical gameplay state — Godot State Charts
+
+如果难点不是“AI behavior tree”，而是 gameplay state 本身出现 hierarchical + parallel/orthogonal state explosion，可考虑 State Charts。
+
+### Rule
+
+已有项目使用其中一个就沿用。不要 Beehave + LimboAI + State Charts 一起上。
+
+## 9. Attack handoff
+
+AI state 只请求：
+
+```text
+want_attack(target)
+```
+
+Combat 系统判断 cooldown/range/state 是否允许并执行真正 attack。这样 AI 不直接修改目标 HP。
+
+## 10. Offscreen behavior
+
+从 gameplay fairness 先决定：
+
+- offscreen enemy 是否继续移动；
+- 能否 offscreen attack；
 - spawning distance；
-- simulation simplification。
+- 是否简化 sensing/update。
 
-性能确实需要时再减少 offscreen update frequency / suspend expensive sensing。
+优化 offscreen simulation 前先定义玩法规则。
 
-## 8. Wave/spawn system
+## 11. Spawn / waves
 
-定义：
+显式：
 
-- spawn budget；
+- budget；
 - max active；
-- spawn region；
-- no-spawn-on-player；
+- spawn regions；
+- no-spawn-near-player；
 - pacing；
-- elite/boss rule；
-- cleanup。
+- elite/boss rules；
+- cleanup/despawn。
 
 不要每帧随机 spawn。
 
-## 9. Procedural generation
+## 12. Procedural generation
 
-必须 seeded/reproducible when debugging matters。
-
-保存 seed 可复现：
-
-- dungeon；
-- loot；
-- level layout；
-- encounter。
-
-Random generation 仍需规则验证，不是“随机就有 replayability”。
-
-## 10. Generation pipeline
+Debug/存档需要复现时使用 seed。
 
 推荐：
 
 ```text
 seed
 -> abstract layout/data
--> validate connectivity/rules
+-> validate rules/connectivity
 -> materialize TileMap/scenes
--> spawn gameplay objects
+-> spawn gameplay content
 ```
 
-不要直接在画面上随机画完才发现地图不可达。
+不要直接把随机 tiles 画到最终 scene 后才检查可达性。
 
-## 11. Connectivity validation
+## 13. Connectivity / validity
 
-Dungeon/map 至少检查：
+至少检查：
 
 - start -> goal reachable；
 - mandatory rooms reachable；
-- no isolated critical reward；
+- critical reward not isolated；
 - spawn not inside collision；
-- nav matches layout。
+- navigation matches generated layout；
+- generated encounter respects gameplay budget。
 
-## 12. AI debug tools
+## 14. Debug visibility
 
 开发时可显示：
 
-- current state；
+- current AI state/BT node；
 - target；
-- path；
-- detection range；
-- attack range；
-- ray/LoS；
-- nav target；
-- cooldown。
+- detection/attack ranges；
+- LoS ray；
+- nav target/path；
+- cooldown；
+- procedural seed。
 
-Debug visual 必须容易关闭，不进入生产 UI。
+Debug overlay 要易于关闭，不变成 production HUD dependency。
 
-## 13. Performance
-
-AI 常见成本：
-
-- 每敌人每帧 path request；
-- 高频 raycasts；
-- large overlap scan；
-- expensive decision every frame；
-- crowd avoidance。
-
-优化优先：
-
-- lower decision frequency；
-- stagger updates；
-- cache stable data；
-- request path only when target/path meaningfully changes；
-- spatial limits。
-
-先 profile。
-
-## 14. When a plugin is justified
-
-Default to project-native state logic first.
-
-Consider an external AI/state plugin only when the problem is genuinely complex:
-
-- **LimboAI**: useful for reusable Behavior Trees + hierarchical state machines, visual debugging, blackboards, and larger enemy behavior sets.
-- **Godot State Charts**: useful when orthogonal/hierarchical states, guarded transitions, delayed transitions, or state explosion make a hand-written FSM hard to reason about.
-
-Do not install either just to implement `idle -> chase -> attack`.
-If the project already uses one, follow its model instead of creating a competing state framework.
-
-## 15. AI QA
+## Validation
 
 测试：
 
-- target on/off edge；
-- wall between player/enemy；
+- player just inside/outside detection；
+- wall blocks LoS；
 - target unreachable；
-- player escapes；
+- target escapes；
 - many enemies；
+- dead/stunned enemy；
 - pause/time-scale；
+- nav map changes；
 - scene reload；
-- spawn near bounds；
-- nav map change；
-- dead enemy stops AI。
+- deterministic generation with same seed；
+- different seed still passes connectivity rules。
 
 ## Source synthesis
 
-主要吸收 GD-Agentic-Skills navigation/state/procedural patterns、GodotPrompter `ai-navigation`/`procedural-generation`，以及 awesome-gamedev-agent-skills `game-ai`/`procedural-gen`。
+结合 Godot NavigationAgent2D/native state patterns、GodotPrompter/GD-Agentic-Skills AI guidance、`bitbrain/beehave`、LimboAI 和 Godot State Charts 的适用边界。原则是先选择最小可理解模型，再按真实复杂度升级。

@@ -1,234 +1,281 @@
 # Optional Companion Tools
 
-这是 **工具选择索引**，不是安装清单。只有环境已安装、用户要求，或当前任务明确需要时才使用/建议。
+这是 **选择索引，不是安装清单**。默认先用 Godot 原生能力 + 项目已有工具；只有当前问题明确受益时才考虑外部依赖。
 
-## 1. Godot MCP / live editor bridge
+## First choice before third-party code
 
-适合需要 Agent 真正：
+需要确认 Godot-native pattern/API 时，优先顺序：
 
-- inspect scene；
-- edit scene/resources；
-- run/stop game；
-- capture errors/output；
-- simulate input；
-- capture screenshot；
-- iterate visually。
+```text
+project's actual version/pattern
+-> matching Godot official docs
+-> matching godotengine/godot-demo-projects example
+-> focused third-party skill/addon
+```
 
-优先级：如果项目已有 live Godot toolchain，就用它做 evidence-driven loop，而不是只编辑文本后猜结果。
+`godotengine/awesome-godot` 适合发现候选，不直接作为技术真源；找到候选后再检查其自己的 repo/docs/version/license。
 
-不要自动安装 MCP 或 Godot plugin。
+## 1. Agent / MCP runtime loop
 
-## 2. Coding-Solo/godot-mcp
+### Coding-Solo/godot-mcp
 
-成熟、通用的 Godot MCP 选择之一。
+适合成熟、较通用的 Godot project/run/debug/file workflow。
 
-适合：
+选择它时仍要先看当前 tool list；不要因为项目叫 MCP 就假设支持 screenshot/input/live-scene 全部能力。
 
-- launch/run；
-- project analysis；
-- scene operations；
-- debug output；
-- basic screenshot/runtime tooling depending on installed version。
+### alexmeckes/godot-mcp
 
-使用前检查实际版本和 tool list。
+适合需要更丰富的 editor/file + optional live bridge workflow，例如 scene tree、runtime input、screenshots、errors/output 等。
 
-## 3. alexmeckes/godot-mcp + AI Bridge
+采用其 bridge 前确认项目是否允许写入/启用相应 addon。
 
-更强调：
+### Erodenn/godot-mcp-runtime
 
-- file-based Godot manipulation；
-- live scene tree；
-- runtime input automation；
-- screenshots；
-- errors/output；
-- built-in Godot docs lookup。
+较新的 runtime-focused、zero-footprint 方向，适合需要实际 runtime input/screenshot/interaction verification，又不希望长期保留 project plugin 时评估。
 
-适合 agentic inspect -> edit -> run -> verify 闭环。
+它不是默认首选：使用前检查当前版本、feature set、security model 和项目 tooling policy。
 
-不要在一个项目里盲目同时接两个功能重叠 MCP。
+### Selection
 
-## 4. GodotPrompter
+```text
+existing Godot bridge -> reuse it
+basic project/run/debug workflow -> evaluate Coding-Solo
+rich editor + live bridge -> evaluate alexmeckes
+runtime-focused temporary interaction -> evaluate Erodenn
+no runtime need -> do not install MCP
+```
 
-适合借鉴/安装完整 Godot domain skill pack：
+不要同时接两个功能高度重叠的 MCP。
 
-- project setup；
-- scene architecture；
-- state/components/resources；
-- player/input/camera；
-- animation/audio/UI；
-- save/dialogue/AI；
-- testing/optimization/export。
+## 2. Godot skill/reference ecosystems
 
-本 superskill 只吸收高价值原则，不要求用户同时安装它。
+### GD-Agentic-Skills
 
-## 5. GD-Agentic-Skills
+深 Godot 领域 reference：physics、animation、combat、camera、Tween、shader、resource、performance 等。
 
-适合需要 Godot 4.7+ 深度、窄领域 reference：
+库很大，只读当前 domain，不 preload 全部。
 
-- 2D physics；
-- animation；
-- combat；
-- camera；
-- Tween；
-- shaders；
-- resources；
-- performance/tests 等。
+### GodotPrompter
 
-它很大，**不要全部 preload**。需要时只打开具体 domain skill。
+活跃的 Godot 4.x agent skill framework，适合参考其 domain decomposition、project/scene/resource/input/UI/save/AI/testing/export patterns。
 
-## 6. awesome-gamedev-agent-skills
+本 SuperSkill 吸收有用决策，不要求同时安装。
 
-适合跨引擎概念：
+### awesome-gamedev-agent-skills
 
-- game feel；
-- UI/UX；
-- camera；
-- audio；
-- input；
-- level design；
-- AI；
-- save/dialogue；
-- performance。
+适合 engine-neutral 的 game feel、UI/UX、camera、audio、input、AI、level design、save/dialogue/performance。
 
-Godot API 仍以 Godot-specific reference/official docs 为准。
+Godot API 仍由 Godot source/docs 决定。
 
-## 7. Agent Sprite Forge
+## 3. AI / state tools
 
-适合 Codex 2D asset production：
+默认从简单 state logic 开始。
 
-- sprites；
-- action strips；
-- spell/projectile/impact FX；
-- maps；
-- props；
-- transparent cleanup；
-- Godot-editable map handoff。
+### Beehave
 
-适合“AI 生成 -> deterministic cleanup -> game-ready”。
+`bitbrain/beehave` 是成熟的 Godot behavior-tree addon，适合：
 
-## 8. OpenAI sprite-pipeline
+- 行为已经需要可复用 BT；
+- 希望 Godot scene-based authoring/debug；
+- 不需要更重的 BT + HSM all-in-one stack。
+
+### LimboAI
+
+适合更复杂：
+
+- reusable Behavior Trees；
+- hierarchical state machines；
+- blackboard/debugger；
+- 大量复杂 enemy behavior。
+
+### Godot State Charts
+
+适合 gameplay/state 本身出现：
+
+- hierarchical states；
+- parallel/orthogonal states；
+- guarded/delayed transitions；
+- hand-written FSM state explosion。
+
+### Selection
+
+```text
+idle/chase/attack -> handwritten state
+medium reusable BT -> consider Beehave
+complex BT + HSM/blackboard -> consider LimboAI
+hierarchical/parallel gameplay state -> consider State Charts
+```
+
+已有项目使用其中一个就沿用，不建第二套 state framework。
+
+## 4. Input Helper
+
+`nathanhoad/godot_input_helper` 适合需要重复处理：
+
+- active device detection；
+- action binding lookup/change；
+- joypad differences；
+- rumble；
+- GDScript/C# input helper workflow。
+
+简单项目原生 InputMap 足够就不要加。
+
+Input prompt icon addon 属于 UI convenience，不要让 glyph library 变成 gameplay input truth。
+
+## 5. Pixel / authored asset import
+
+### Aseprite Wizard
+
+`viniciusgerevini/godot-aseprite-wizard` 适合 Aseprite-centric pipeline，把 Aseprite animation 导入 SpriteFrames / AnimatedSprite / AnimationPlayer 等 Godot 资产。
+
+### Importality
+
+`nklbdev/godot-4-importality` 更适合多编辑器/多 raster-animation source，例如 Aseprite/LibreSprite、Krita、Pencil2D、Piskel、Pixelorama，并希望统一 importer workflow。
+
+### Selection
+
+```text
+AI-generated PNG strip -> deterministic normalize/slice pipeline
+Aseprite-only authored source -> consider Aseprite Wizard
+multiple raster animation source editors -> consider Importality
+```
+
+不要同时装两个重叠 importer，除非项目已有明确分工。
+
+## 6. AI sprite / map generation
+
+### Agent Sprite Forge
+
+适合 Codex 2D asset production：sprites、action strips、spell/projectile/impact FX、maps、props、cleanup 与 Godot handoff。
+
+### OpenAI sprite-pipeline
 
 适合：
 
 ```text
 approved seed
--> full strip
--> normalize
--> shared anchor/scale
+-> full action strip
+-> normalize shared scale/anchor
 -> preview
 ```
 
-尤其适合减少 AI animation drift。
+### Aseprite Pixel Plugin
 
-## 9. Aseprite Pixel Plugin
+如果 Agent 已经有 Aseprite toolchain，可用于实际 pixel edits、frame timing、tags、linked cels、palette 和 export。
 
-适合已有 Aseprite workflow 时：
+### SpriteCook
 
-- draw/edit pixels；
-- frame timing；
-- animation tags；
-- linked cels；
-- palette/dithering；
-- spritesheet/GIF export；
-- Godot metadata handoff。
+可选外部 pixel/game-asset generation companion；项目已经使用时再接。
 
-需要 Aseprite/MCP 环境，不要假设所有 Agent 都能调用。
+## 7. Deterministic image tools
 
-## 10. SpriteCook
-
-可选 AI pixel/game-asset generation companion，包含 Godot handoff guidance。
-
-适合用户已经使用 SpriteCook 服务/MCP 时，不作为默认 dependency。
-
-## 11. Deterministic image tools
-
-ImageMagick、自有 Python script 等适合：
+ImageMagick / Python / existing project tools 用于：
 
 - crop/pad；
 - alpha cleanup；
-- resize；
-- sheet split/compose；
-- GIF preview；
+- normalize scale/anchor；
+- split/compose；
+- GIF/preview；
 - naming/batch。
 
-几何和格式能 deterministic 处理时，不要让 image model 反复“猜”。
+几何/格式能 deterministic 处理时，不让 image model 反复猜。
 
+## 8. Testing
 
-## 12. GUT / GdUnit4
+### GUT
 
-可选测试框架：
+GDScript-oriented、CLI/assertion/stub/spy/JUnit workflow。
 
-- **GUT**：GDScript-focused、CLI、assertions、stubs/spies、JUnit XML。
-- **GdUnit4**：GDScript + C#、scene runner、mocking/spying、CI integration。
+### GdUnit4
 
-选择规则：
+GDScript + C#、scene tests、mocking/spying、CLI/CI workflow。
+
+选择：
 
 ```text
 project already has one -> keep it
-new project -> choose by language + Godot version + needed scene testing
-pure visual/feel task -> do not install a framework just for ceremony
+new project -> choose by language + scene-test needs + Godot version
+visual feel-only task -> do not install a framework for ceremony
 ```
 
-## 13. Dialogue Manager
+**测试框架版本必须匹配项目 Godot 版本。**
 
-适合 dialogue-heavy Godot 项目：
+## 9. Dialogue
 
-- branching dialogue；
-- conditions/mutations；
-- translations；
-- editor/runtime workflow。
+### Dialogue Manager
 
-它是可选 addon，不是所有 2D 游戏的默认 dependency。
-版本必须与项目 Godot 版本匹配。
+成熟的 branching/conditions/mutations/translation/editor/runtime workflow。
 
-## 14. LimboAI / Godot State Charts
+按 Godot 版本选择兼容 release；不要把正在开发的 next-major/preview 自动当生产默认。
 
-复杂 AI/state 才考虑：
+### Dialogic
 
-- **LimboAI**：Behavior Trees + hierarchical state machines + blackboard/debugger。
-- **Godot State Charts**：hierarchical/parallel states、guards、delayed transitions、debugging。
+更适合 visual-novel / character-heavy / timeline-oriented narrative tooling。简单对话通常不需要这么重。
 
-简单 `idle/chase/attack` 不值得因此加 dependency。
+已有 narrative framework 就沿用。
 
-## 15. Phantom Camera
+## 10. Camera
 
-当项目需要比原生 Camera2D 更复杂且可编辑的 camera workflow 时可考虑：
+### Phantom Camera
 
-- multiple virtual camera setups；
-- priorities/transitions；
-- follow/group/path/framed behavior；
-- 2D zoom；
-- editor preview。
+当原生 Camera2D 开始因以下需求变得难维护时考虑：
 
-普通 follow/smoothing/shake 用原生 `Camera2D` 足够时，不要加 addon。
+- multiple authored virtual cameras；
+- priority/transitions；
+- group/path/framed follow；
+- editor-driven camera composition。
 
-## Selection rule
+普通 follow/smoothing/shake 继续用 Camera2D。
 
-```text
-Need Godot runtime evidence?
--> Godot MCP/live tool if already available
+## 11. Game shell / bootstrap
 
-Need AI sprite/map generation?
--> Agent Sprite Forge / image generation workflow
+### Maaack/Godot-Game-Template
 
-Need precise pixel editing/timing?
--> Aseprite toolchain
+适合**新项目**想快速获得标准 game shell：
 
-Need normalize/split/package?
--> deterministic local scripts
+- main menu；
+- options；
+- pause；
+- credits；
+- scene loader/loading flow；
+- settings/common helpers。
 
-Need complex AI/state authoring?
--> LimboAI / State Charts only if project complexity justifies it
+不要把完整 template 强行移植进已经成型的项目。成熟项目只借鉴需要的 pattern/component。
 
-Need dialogue authoring?
--> Dialogue Manager only if project needs/uses it
+## 12. Export / CI
 
-Need automated logic/scene tests?
--> existing GUT/GdUnit4; match project Godot version
+### firebelley/godot-export
 
-Need complex authored camera transitions?
--> Phantom Camera only if native Camera2D becomes cumbersome
+适合 GitHub Actions 中按 Godot export presets 构建多平台 artifact。
 
-Need domain knowledge only?
--> focused Skill/reference; no tool install
-```
+### godot-ci
+
+适合 Docker/CI-based Godot export/deploy workflow。
+
+### Direct Godot CLI
+
+简单 pipeline 往往最透明，也最少 dependency。
+
+具体选择见 `release-export-ci.md`。
+
+## 13. Emerging juice/effect addons
+
+如果项目明确想让 designer 用 graph/library authoring 大量 juice effects，可以调研当前 Godot Asset Library/awesome-godot 中的 effect tools。
+
+默认仍使用 Tween + Camera2D + particles/shader/audio 组合，因为更透明、依赖更少。
+
+不要因为 addon 有很多预制效果就替代项目已有清楚的 event/feedback architecture。
+
+## Global selection rule
+
+加入任何 addon/tool 前回答：
+
+1. 当前原生/已有方案具体哪里不够？
+2. 这个工具减少什么真实复杂度？
+3. Godot 版本兼容吗？
+4. license/maintenance 状态可接受吗？
+5. 会不会与现有 addon 重叠？
+6. 删除/升级它的成本是什么？
+7. 用户明确允许新增依赖了吗？
+
+答不清楚就不要安装。
