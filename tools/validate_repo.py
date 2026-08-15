@@ -11,6 +11,7 @@ ROOT = Path(__file__).resolve().parents[1]
 SKILLS = ROOT / "skills"
 ROUTER = SKILLS / "meta" / "skill-router" / "skill.md"
 ALLOWED_SKILL_ENTRIES = {"skill.md", "references", "maintenance"}
+ROOT_PREFIXES = ("docs/", "gpts/", "skills/", "templates/", "tools/", ".github/")
 PATH_RE = re.compile(r"`([a-z0-9-]+/[a-z0-9-]+)`")
 MD_PATH_RE = re.compile(r"`((?:\.\.?/)?[^`\n]+\.md)`")
 
@@ -27,6 +28,13 @@ def frontmatter(text: str) -> dict[str, str]:
             key, value = line.split(":", 1)
             data[key.strip()] = value.strip()
     return data
+
+
+def resolve_markdown_path(md: Path, raw: str) -> Path:
+    """Resolve repository-root paths and explicit relative paths."""
+    if raw.startswith(ROOT_PREFIXES):
+        return (ROOT / raw).resolve()
+    return (md.parent / raw).resolve()
 
 
 def main() -> int:
@@ -74,7 +82,7 @@ def main() -> int:
     if stale:
         errors.append(f"skill-router catalog references missing skills: {stale}")
 
-    # Check explicit relative Markdown paths written in runtime skill/reference files.
+    # Check explicit Markdown paths written in runtime skill/reference files.
     runtime_files = list(skill_files)
     runtime_files += list(SKILLS.glob("*/*/references/*.md"))
     for md in runtime_files:
@@ -82,11 +90,10 @@ def main() -> int:
         for raw in MD_PATH_RE.findall(text):
             if raw.startswith("http"):
                 continue
-            # Plain filename mentions such as `combat-system.md` are routing labels,
-            # not necessarily relative links. Only validate paths containing '/'.
+            # Plain filenames such as `combat-system.md` are routing labels.
             if "/" not in raw:
                 continue
-            target = (md.parent / raw).resolve()
+            target = resolve_markdown_path(md, raw)
             try:
                 target.relative_to(ROOT.resolve())
             except ValueError:
