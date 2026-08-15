@@ -2,18 +2,18 @@
 
 Use this reference for 2D sprite animation, pixel-art consistency, AnimatedSprite2D, AnimationPlayer, AnimationTree and animation-to-gameplay synchronization.
 
-## 1. Choose one animation authority
+## 1. Choose one animation authority per property/timeline
 
 Pick the simplest tool that fits the job:
 
 | Need | Prefer |
 | --- | --- |
 | Pure frame-by-frame sprite animation | `AnimatedSprite2D` + `SpriteFrames` |
-| Animate properties, audio, hitbox windows, method calls, shader values | `AnimationPlayer` |
-| Complex locomotion/state blending | `AnimationTree` over `AnimationPlayer` |
+| Animate properties, audio, hitbox-window events, method calls, shader values | `AnimationPlayer` |
+| Complex locomotion/state blending | `AnimationTree` using animations provided by `AnimationPlayer` |
 | Dynamic one-shot scale/position/color effects | `Tween` |
 
-Do not let code, AnimatedSprite2D and AnimationPlayer all fight over the same sprite property.
+Do not let code, AnimatedSprite2D, AnimationPlayer and Tween all fight over the same property.
 
 ## 2. Gameplay state owns intent
 
@@ -35,26 +35,40 @@ Do not use a pile of animation-name checks as the only gameplay state machine.
 A useful flow is:
 
 ```text
-input/gameplay state -> select animation -> animation events -> presentation/hit windows
+input/gameplay state
+-> select animation
+-> authoritative timing/event when needed
+-> presentation + combat/physics listeners
 ```
+
+Animation may provide timing, but the owning gameplay system still decides what that timing means.
 
 ## 3. Frame-perfect events
 
-Use explicit animation events for things that must align visually:
+Use explicit animation events when gameplay and visuals must align closely:
 
-- enable/disable hitbox;
-- spawn projectile;
-- play impact/whoosh SFX;
+- request/mark hitbox window changes;
+- spawn projectile at a designed release frame;
+- play whoosh/impact SFX;
 - footstep;
 - spawn particles;
 - change weapon trail;
-- trigger shader flash.
+- trigger shader feedback.
 
-Prefer one authoritative animation timeline over independent timers.
+Prefer one authoritative timeline over several independent timers.
+
+For combat, keep the boundary clear:
+
+```text
+animation/timeline says "active window now"
+-> combat system applies hitbox / repeated-hit / damage rules
+```
+
+The animation track should not bypass combat ownership and directly mutate target health.
 
 For looping animations, use loop-aware signals/events; do not assume a non-looping completion signal will fire for loops.
 
-When changing animation and another sprite property in the same frame, be aware that engine update timing can create a one-frame mismatch. If exact same-frame synchronization matters, use the Godot API appropriate to the project version to advance/apply the new pose immediately.
+When changing animation and another sprite property in the same frame, engine update timing can create a one-frame mismatch. If exact same-frame synchronization matters, use the API appropriate to the project Godot version to apply/advance the pose deterministically, then verify in runtime.
 
 ## 4. Tween lifecycle
 
@@ -200,4 +214,4 @@ Before approval, inspect the animation as a loop and as gameplay:
 
 ## Upstream inspiration
 
-Condensed from `godot-2d-animation` in `thedivergentai/GD-Agentic-Skills` and `sprite-pipeline` in `openai/plugins`. The approved-seed + whole-strip + shared scale/anchor workflow is intentionally retained because independent frame generation causes visible drift.
+Condensed from Godot-specific 2D animation practices and the approved-seed / whole-strip / shared-scale-anchor workflow used by modern sprite-generation pipelines. The goal is stable production behavior, not allegiance to one animation tool.
