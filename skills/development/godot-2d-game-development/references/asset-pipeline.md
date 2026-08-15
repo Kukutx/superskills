@@ -2,34 +2,30 @@
 
 用于生成、编辑、整理、导入 2D game assets：character sprites、animation strips、FX、tiles、maps、props、UI art。
 
-核心原则：**先识别 source type，再选择 pipeline。** AI-generated PNG 与 `.aseprite`/Krita 等 authored source 不应走同一套流程。
+核心原则：**先识别 source type，再选择 pipeline。** AI-generated PNG 与 authored editable source 不应走同一套流程。
 
-## 1. Asset is a production contract
+## Asset is a production contract
 
-可用资产至少需要明确：
+至少明确：
 
-- dimensions / frame geometry；
-- alpha/background policy；
-- scale + anchor/pivot；
-- source vs derived file；
-- naming；
-- timing/tags when animated；
-- engine import settings；
-- QA at actual in-game scale。
+- dimensions / frame geometry;
+- alpha/background policy;
+- scale + anchor/pivot;
+- source vs derived file;
+- naming;
+- timing/tags when animated;
+- engine import settings;
+- QA at actual in-game scale.
 
 “看起来好看”不足以证明可用。
 
-## 2. Identify source type
+## Source types
 
-### A. AI-generated / rendered PNG
-
-典型：single sprite、transparent strip、FX sheet、map image。
-
-Pipeline：
+### AI-generated / rendered PNG
 
 ```text
 approved visual/reference
--> generate full useful unit (e.g. one action strip)
+-> generate full useful unit
 -> deterministic alpha cleanup
 -> split/crop/pad
 -> normalize shared scale/anchor
@@ -37,52 +33,34 @@ approved visual/reference
 -> Godot import
 ```
 
-### B. Authored editable source
+### Authored editable source
 
-典型：`.aseprite`、LibreSprite、Krita、Pencil2D、Pixelorama 等。
+例如 pixel/raster editor source。优先保留 layers、frame durations、animation tags、canvas/anchor conventions，并让 editable source 保持 truth。
 
-优先保留：
+不要 flatten 后再手工重建 metadata，除非项目刻意采用这种 pipeline。
 
-- layers where useful；
-- frame durations；
-- animation tags；
-- source canvas/anchor conventions；
-- source file as truth。
+### Static production image
 
-不要先 flatten 成无 metadata PNG 再手工重建所有 timing，除非项目刻意选择这种 pipeline。
+Icon、prop、portrait、background 只做当前用途需要的 cleanup/import，不强行转成 animation workflow。
 
-### C. Static production image
-
-例如 icon、prop、portrait、background。只做当前用途需要的 cleanup/import，不强行转成 sprite-animation workflow。
-
-## 3. Character animation
+## Character animation
 
 AI workflow：
 
-1. approve one in-game seed frame；
-2. lock silhouette/proportions/palette/outfit/weapon/facing；
-3. generate one action strip at a time；
-4. normalize shared frame size/scale/anchor；
-5. preview motion；
-6. import/package。
+1. approve one in-game seed frame;
+2. lock silhouette/proportions/palette/outfit/weapon/facing;
+3. generate one action strip at a time;
+4. normalize shared frame size/scale/anchor;
+5. preview motion;
+6. import/package.
 
 不要默认独立生成每帧。
 
-Authored workflow：尽量从 source tags/timing 直接生成 Godot SpriteFrames/animation metadata，减少手工重复维护。
+Authored workflow：尽量保留 source tags/timing 并 deterministic 导出，减少手工重复维护。
 
-## 4. Aseprite / raster importer choice
+如果项目需要 importer，优先沿用已有 pipeline；新增 importer 前按主 Skill dependency rule 验证当前 Godot/source-editor compatibility 和 generated-file ownership。不要同时维护两套重叠 importer。
 
-如果项目有 authored source：
-
-- Aseprite-centric -> 可评估 Aseprite Wizard；
-- 多种 raster-animation editors -> 可评估 Importality；
-- project 已有 importer -> 沿用它。
-
-不要同时引入两个重叠 importer。
-
-Importer 是 build/development pipeline dependency；升级 Godot 时要验证 importer compatibility 和 generated asset diffs。
-
-## 5. Spritesheet contract
+## Spritesheet contract
 
 需要 conventional sheet 时定义：
 
@@ -97,38 +75,36 @@ anchor/baseline
 timing metadata or sidecar source
 ```
 
-具体切图/naming 用 `../game-dev-spritesheet-slicer/skill.md`。
+具体切图/naming 使用 `../../game-dev-spritesheet-slicer/skill.md`。
 
-## 6. Pixel-art rules
+## Pixel-art rules
 
-- crisp pixel clusters；
-- consistent source resolution；
-- readable silhouette at actual size；
-- controlled palette/style；
-- avoid accidental anti-alias blur；
-- clean alpha；
-- deliberate nearest/point filtering；
-- consistent outline/lighting direction。
+- crisp pixel clusters;
+- consistent source resolution;
+- readable silhouette at actual size;
+- controlled palette/style;
+- clean alpha;
+- deliberate nearest/point filtering;
+- consistent outline/lighting direction.
 
-不要把高细节 AI illustration 伪装成低分辨率 production pixel sprite。
+不要把高细节 illustration 仅靠缩小伪装成 production pixel sprite。
 
-## 7. FX bundles
+## FX bundles
 
-按 gameplay event 规划，而不是孤立漂亮图：
+围绕 gameplay event 规划：
 
 ```text
 cast/anticipation
 projectile/trail
 contact impact
 residue/smoke if needed
-UI icon only if gameplay needs one
 ```
 
-每个 FX 有清楚 origin/anchor/direction policy。
+每个 FX 明确 origin/anchor/direction policy。
 
-## 8. Editable maps
+## Editable maps
 
-把这些分开：
+分开：
 
 ```text
 ground/base
@@ -144,65 +120,29 @@ foreground/occlusion
 
 Generated map art 可以做 base/reference，但不要把 enemies/collision/triggers 永久烤进背景 PNG。
 
-Godot 通常使用 TileMapLayer + reusable scenes/props + explicit gameplay metadata。
+## Tilesets / props / UI
 
-## 9. Tilesets
+Tileset 定义 tile size、atlas、terrain rules、variants、collision/navigation、padding/spacing 和 lighting direction，并测试真实组合。
 
-定义：
+Props 保持 transparent source、stable ground anchor、consistent world scale、simple collision 和合理 bounds。
 
-- tile size/atlas layout；
-- terrain edges/corners；
-- variants；
-- animated tiles；
-- collision/navigation policy；
-- padding/spacing；
-- lighting direction/palette。
+UI art 拆成 reusable pieces；dynamic/localized text 不烤进普通 artwork；pixel panel 需要明确 9-slice/patch margins。
 
-必须测试真实组合；showcase sheet 好看不代表 tiles 能拼。
+## Deterministic post-process
 
-## 10. Props
+模型不擅长保证 exact geometry。能程序化就程序化：
 
-- transparent PNG/source；
-- stable ground anchor；
-- consistent world scale；
-- simplified collision；
-- shadow policy；
-- y-sort baseline for top-down；
-- avoid huge empty transparent bounds。
-
-## 11. UI art
-
-拆分 reusable pieces：
-
-```text
-icons
-panels/frames
-buttons/states
-badges
-focus/cursor art
-resource symbols
-```
-
-Dynamic/localized text 不烤进普通 UI artwork。
-
-Pixel panels 考虑 9-slice/patch margins，不缩放破坏 corners。
-
-## 12. Deterministic post-process
-
-模型不擅长保证 exact geometry，能程序化就程序化：
-
-- crop/pad；
-- alpha cleanup；
-- split/combine；
-- shared scale；
-- shared anchor；
-- file naming；
-- preview GIF/sheet；
-- metadata extraction。
+- crop/pad;
+- alpha cleanup;
+- split/combine;
+- shared scale/anchor;
+- file naming;
+- preview;
+- metadata extraction.
 
 Creative generation 与 deterministic packaging 分工明确。
 
-## 13. Source / derived folders
+## Source / derived ownership
 
 至少概念上区分：
 
@@ -214,39 +154,4 @@ preview/debug
 engine-consumed asset
 ```
 
-不要覆盖唯一 approved source。
-
-Git 是否提交 derived files 取决于项目 pipeline；不要无理由同时维护两套手工真源。
-
-## 14. Godot handoff
-
-验证：
-
-- source/importer path correct；
-- filtering/repeat settings；
-- SpriteFrames/animation ranges；
-- frame durations/tags preserved；
-- scale/anchor；
-- shared material/resource behavior；
-- production scene 没引用 preview/raw temp file；
-- clean checkout 能重新 import。
-
-最后一条很重要：本机 import cache 正常不代表 CI/其他机器可重建。
-
-## Asset QA
-
-- art direction consistent；
-- silhouette readable；
-- scale/anchor stable；
-- alpha clean；
-- animation identity/timing stable；
-- tiles connect；
-- props y-sort correctly；
-- FX 不盖 gameplay telegraph；
-- UI art can scale/layout；
-- clean Godot import succeeds；
-- in-engine result matches preview。
-
-## Source synthesis
-
-结合 Agent Sprite Forge、OpenAI sprite-pipeline、Aseprite workflow、Aseprite Wizard/Importality 与 Godot import principles。关键不是绑定某个工具，而是根据 source type 走可重建、可验证的生产流程。
+不要覆盖唯一 approved source，也不要无理由维护两套手工真源。
