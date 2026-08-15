@@ -197,7 +197,3 @@ Mobile/touch 目标时：
 - bright/dark gameplay background；
 - pause/time-scale；
 - no stale HUD after scene reload。
-
-## Source synthesis
-
-主要吸收 awesome-gamedev `game-ui-ux`、Godot UI container/theme practices 与 GodotPrompter responsive UI/HUD patterns。
