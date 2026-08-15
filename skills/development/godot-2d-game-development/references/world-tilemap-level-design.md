@@ -10,6 +10,8 @@ Keep concepts such as ground, decoration, foreground/occlusion, collision, navig
 
 Prefer the project's existing TileMapLayer/TileSet workflow when it is adequate. Tiles are good for repeated ground/walls/terrain/simple metadata; complex doors, NPCs, enemies, pickups and hazards are often clearer as scenes.
 
+TileMapLayer internal updates are batched to the end of the frame. If same-frame logic depends on newly changed tile internals, account for that timing. `update_internals()` can force an immediate update, but it is computationally expensive and should be used only when the immediate result is actually required.
+
 ## One authoring source of truth
 
 Godot-native authoring is appropriate when the team works primarily in Godot. If an external level editor is already the source of truth, use a deterministic import pipeline:

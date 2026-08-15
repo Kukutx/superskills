@@ -36,6 +36,10 @@ Define detection range, line of sight, reaction delay, target memory, lose-targe
 
 Confirm navigation data readiness, target reachability, radius/avoidance vs geometry, dynamic map update timing and separation between path/steering output and actual CharacterBody2D movement.
 
+After setting `target_position`, current stable Godot docs require `get_next_path_position()` once per physics frame while navigation is active because it advances the agent's internal path state. Throttle perception, target changes and expensive reasoning when useful; do not throttle a required path-following update. Stop updating once navigation is finished to avoid jitter. Verify this contract against the project's exact Godot version.
+
+Avoidance is optional; enable and tune it only when the game actually needs local agent avoidance and the performance cost is acceptable.
+
 ## State stability
 
 Prevent threshold oscillation with hysteresis, cooldown or explicit gates when appropriate.
@@ -51,7 +55,7 @@ Keep an existing project framework when it is adequate; do not introduce overlap
 
 ## Decision frequency
 
-Cheap movement can run every physics tick; expensive perception/path/reasoning can run less often, staggered or only when inputs change materially. Profile before adding complexity.
+Cheap movement/path-following updates can run at the required physics cadence; expensive perception, target selection and higher-level reasoning can run less often, staggered or only when inputs change materially. Profile before adding complexity.
 
 ## Attack handoff
 
@@ -63,4 +67,4 @@ Development overlays may expose current state, target, ranges, LoS, nav path and
 
 ## Validation
 
-Test detection boundaries, blocked LoS, unreachable/escaped targets, many agents, dead/stunned states, pause/time-scale, nav changes and transition stability.
+Test detection boundaries, blocked LoS, unreachable/escaped targets, navigation completion, many agents, dead/stunned states, pause/time-scale, nav changes and transition stability.

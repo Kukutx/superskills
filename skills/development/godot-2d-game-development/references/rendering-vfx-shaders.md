@@ -122,7 +122,7 @@ Godot Resource 可能被共享。
 
 - palette swap；
 - hard-threshold flash；
-- 1–2 px outline；
+- small hard-edged outline sized to the project's pixel scale；
 - dither dissolve；
 - indexed-color-like ramps。
 

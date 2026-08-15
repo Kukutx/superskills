@@ -73,7 +73,7 @@ When updating the Godot Skill:
 1. inspect current runtime references for overlap before adding a file;
 2. verify version-sensitive facts from primary sources;
 3. keep source/tool inventory here, not in runtime references;
-4. add or adjust routing tests only for real decision boundaries;
+4. add or adjust behavioral evals only for real decision boundaries;
 5. run `python tools/validate_repo.py`;
 6. remove stale references rather than preserving compatibility stubs.
 

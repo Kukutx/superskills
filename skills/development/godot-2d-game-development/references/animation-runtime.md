@@ -15,6 +15,8 @@ Sprite generation/slicing/packing belongs to `development/sprite-animation-pipel
 
 Do not let code, AnimationPlayer, AnimationTree and Tween fight over the same property.
 
+When an `AnimationTree` is linked and active, let the tree and its `AnimationNode`s own playback/transitions. Use the linked `AnimationPlayer` to hold and edit the underlying animations rather than driving the same playback from both systems.
+
 ## Gameplay owns intent
 
 ```text

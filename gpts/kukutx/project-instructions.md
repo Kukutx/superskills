@@ -28,7 +28,7 @@ Meta Skills are explicit tools, not automatic preprocessing. In particular, do n
 
 Read the selected `skill.md` first. Load `references/` only when needed by the current subproblem. Do not load `maintenance/` during normal execution.
 
-For a complex domain such as Godot 2D, normally use only 1–3 focused references at a time.
+For a complex Skill, load the smallest focused reference set that solves the current subproblem; do not preload every reference.
 
 ## Output
 

@@ -13,7 +13,7 @@ Use for Godot 4.x **2D-first** implementation and production. Route elsewhere wh
 
 1. **Inspect the real project first**: Godot version, `project.godot`, language, scene tree, autoloads, Resources, signals, InputMap, collision layers, addons and existing conventions.
 2. **Gameplay truth before presentation**: physics/combat/data/state own facts; animation/VFX/audio/camera/UI react to them.
-3. **One primary reference first**: normally load 1–3 focused references, not every keyword match.
+3. **Smallest reference set**: load one primary reference first, then add only the focused neighbors required by the current subproblem.
 4. **Existing/native before dependency**: add tooling only for demonstrated recurring complexity.
 5. **Evidence before completion claims**: parse/build success is not runtime, visual, input, save or export proof.
 

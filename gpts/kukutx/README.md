@@ -1,6 +1,6 @@
 # Kukutx setup
 
-ChatGPT Project 和 Private GPT 使用同一份核心配置，避免重复维护。
+ChatGPT Project 和 GPT 使用同一份核心配置，避免重复维护。
 
 ## Setup
 
