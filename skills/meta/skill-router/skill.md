@@ -22,6 +22,7 @@ Choose one primary Skill first. Add a secondary Skill only for a genuinely disti
 | prompt/template itself | `meta/prompt-optimizer` |
 | create/audit/simplify a skill | `meta/skill-builder` |
 | cross-workstream project roadmap | `planning/project-planner` |
+| find/rank web resources, media, examples, pages or platform content | `research/web-discovery` |
 | external evidence / current factual comparison | `research/research-brief` |
 | PRD/MVP/product behavior | `product/prd-builder` |
 | general observed software bug | `development/bug-diagnosis` |
@@ -62,6 +63,22 @@ behavior + architecture already decided, need files/tasks/tests
 ```
 
 Do not load all three for a normal software task.
+
+### Web discovery vs research brief
+
+```text
+find / shortlist / rank videos, images, examples, pages, accounts,
+creators, resources or platform content
+-> web-discovery
+
+establish what is true, compare factual claims, verify current status/policy,
+weigh source quality or reconcile disagreement
+-> research-brief
+```
+
+Discovery ranks by the user's stated relevance criteria. Do not substitute evidence quality, licensing permissiveness, legal caution, free/paid status or ease of citation for the user's requested ranking criteria.
+
+If a discovery result requires one material factual verification, verify that fact without turning the whole task into a research brief. Use both Skills only when evidence synthesis is a genuinely separate subproblem.
 
 ### Research vs internal decision
 
@@ -151,6 +168,8 @@ Use both only when the task genuinely spans runtime integration and sprite asset
 
 ## Precedence examples
 
+- “Find the best TikTok/Instagram clips or web examples for this edit” -> web-discovery; use only the user's stated filters.
+- “Compare the current download/licensing policies of TikTok, Instagram and YouTube” -> research-brief.
 - Godot 2D/3D pause menu, remapping, save migration or clean export -> Godot project-systems.
 - Godot 2D gameplay + new attack strip -> Godot 2D primary; sprite pipeline owns the asset subtask.
 - App Store screenshot artwork + short captions -> app-store-assets primary; app-store-copy only for substantial wording work.
@@ -162,4 +181,5 @@ Use both only when the task genuinely spans runtime integration and sprite asset
 - Do not load every Skill whose keywords appear in the prompt.
 - Do not announce a long routing analysis before doing the task.
 - Stay with the focused owner unless the actual task changes.
+- Preserve the user's explicit scope and criteria; routing must not invent additional constraints.
 - If no Skill adds meaningful value, answer directly rather than forcing a route.
