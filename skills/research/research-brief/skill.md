@@ -9,6 +9,8 @@ description: Produce a concise, source-aware brief when a decision or comparison
 
 Use when answering well requires finding, weighing or reconciling evidence.
 
+Do not use merely because the task involves the web. If the user mainly wants to find, shortlist or rank videos, images, examples, pages, accounts, creators or other web resources, use `research/web-discovery` instead.
+
 Do not use merely because two technical/product options are being compared. If the main question is architecture, ownership or product scope inside known context, the relevant design/product Skill stays primary; research can support it when external evidence materially changes the decision.
 
 ## Workflow
@@ -39,4 +41,6 @@ Use citations for external facts. Do not add a long research-question restatemen
 - Do not hide weak evidence behind confident prose.
 - Do not collect many near-duplicate sources merely to look comprehensive.
 - Do not replace domain reasoning with popularity/ranking evidence.
+- Evidence quality is not a user selection criterion unless the task actually asks for evidence quality. Do not add licensing, copyright, commercial-use, free/paid, watermark, platform or other filters that the user did not request.
+- Do not turn a factual caveat into a recommendation constraint unless it materially affects the decision the user asked about.
 - If the requested evidence cannot be found, say what was checked and what remains unknown.
