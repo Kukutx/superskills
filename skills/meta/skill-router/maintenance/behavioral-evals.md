@@ -9,6 +9,9 @@ Maintenance-only. Test **task ownership**, not keyword matching. A pass selects 
 | “帮我优化这段 prompt” | `meta/prompt-optimizer` | domain constraints must be preserved | executing the downstream task instead |
 | “精简这个现有 Skill 并修路由” | `meta/skill-builder` | none by default | prompt-optimizer just because instructions are edited |
 | “从验证需求到上线，排整个项目” | `planning/project-planner` | domain Skill for a concrete workstream | file-level plan for the whole project |
+| “找 5 个最适合 10 秒剪辑的跳伞视频，主流平台，能下载” | `research/web-discovery` | research only for a distinct factual policy question | inventing free/commercial-use/copyright-safe filters |
+| “给我 TikTok / Instagram 上最好的滑雪素材，不要素材站” | `research/web-discovery` | none by default | substituting stock/aggregator sites or reintroducing rejected filters |
+| “比较 TikTok、Instagram、YouTube 当前的下载或授权政策” | `research/research-brief` | web-discovery only if the user separately asks for actual clips/pages | treating media relevance as the policy question |
 | “API ownership 和数据模型还没定” | `development/technical-design` | research if current external evidence changes the decision | implementation-plan before architecture is fixed |
 | “架构定了，按仓库告诉我改哪些文件” | `development/implementation-plan` | domain Skill for implementation rules | reopening architecture without a blocker |
 | “线上报错，为什么？” | `development/bug-diagnosis` | domain Skill if one owns the system | code-review as a substitute for reproduction |
@@ -96,16 +99,23 @@ Prompt: `直接帮我完成这个任务，不需要 prompt。`
 
 Pass: actual domain/task owner; never prompt-optimizer as preprocessing.
 
+### Discovery constraint fidelity
+
+Prompt: `给我最好的短视频素材。不要考虑版权或商用，优先 TikTok 和 Instagram。`
+
+Pass: web-discovery ranks TikTok/Instagram candidates by fit to the requested edit. It must not reintroduce copyright/commercial-use as filters, replace the platforms with stock sites, or add a licensing lecture.
+
 ## Pass criteria
 
 1. One primary Skill owns the task.
 2. Secondary Skills handle separable subtasks only.
 3. Domain ownership beats generic methods.
 4. Words such as “compare”, “plan”, “review”, “prompt”, “Godot”, “birth date” and “psychology” do not route by themselves.
-5. Divination, cohort analysis and psychology reflection keep separate evidence/claim boundaries.
-6. Psychology reflection does not turn casual conversation into clinical diagnosis or mind-reading.
-7. Godot project systems own dimension-neutral behavior; 2D/3D own dimensional behavior.
-8. Asset production and engine runtime remain separate owners.
-9. Maintenance content is not loaded during normal execution.
+5. Discovery preserves explicit user criteria and does not invent licensing, commercial-use, price, watermark, platform or source-type filters.
+6. Divination, cohort analysis and psychology reflection keep separate evidence/claim boundaries.
+7. Psychology reflection does not turn casual conversation into clinical diagnosis or mind-reading.
+8. Godot project systems own dimension-neutral behavior; 2D/3D own dimensional behavior.
+9. Asset production and engine runtime remain separate owners.
+10. Maintenance content is not loaded during normal execution.
 
 When a real task fails, fix the smallest ownership rule first. Do not add a new Skill unless existing owners cannot cleanly represent the missing decision.
