@@ -60,7 +60,7 @@ jobs:
           )
           print(archive)
           PY
-          sha256sum dist/superskills-resume-bundle.zip > dist/SHA256SUMS.txt
+          (cd dist && sha256sum superskills-resume-bundle.zip > SHA256SUMS.txt)
 
       - name: Write release notes
         run: |
