@@ -45,7 +45,9 @@ superskills/
 │   ├── build_bundle.py
 │   └── export_behavioral_evals.py
 ├── tests/
-└── .github/workflows/validate.yml
+└── .github/workflows/
+    ├── validate.yml
+    └── release.yml
 ```
 
 **唯一完整 Skill catalog**：`skills/meta/skill-router/skill.md` 的 `## Catalog` 表格。
@@ -81,6 +83,10 @@ python tools/build_bundle.py \
 ```
 
 输出的 `manifest.json` 记录源提交、文件哈希、字节数和粗略 Token 预算，并保证不包含 `maintenance/`。
+
+## Releases
+
+`.github/workflows/release.yml` 会在发布前重新运行测试、Validator 和 eval export，构建带 manifest 的简历 Runtime Bundle，并将 ZIP 与 SHA-256 校验文件上传到对应 GitHub Release。后续稳定版本可通过 `workflow_dispatch` 指定版本标签重新发布。
 
 ## Growth rule
 
