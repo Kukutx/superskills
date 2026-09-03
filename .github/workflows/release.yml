@@ -84,11 +84,15 @@ jobs:
       - name: Create or refresh release
         run: |
           if gh release view "$VERSION" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
-            gh release upload "$VERSION" \
-              dist/superskills-resume-bundle.zip \
-              dist/SHA256SUMS.txt \
-              --clobber \
-              --repo "$GITHUB_REPOSITORY"
+            if [ "$GITHUB_EVENT_NAME" = "workflow_dispatch" ]; then
+              gh release upload "$VERSION" \
+                dist/superskills-resume-bundle.zip \
+                dist/SHA256SUMS.txt \
+                --clobber \
+                --repo "$GITHUB_REPOSITORY"
+            else
+              echo "Release ${VERSION} already exists; automatic push keeps its tag and assets unchanged."
+            fi
           else
             gh release create "$VERSION" \
               dist/superskills-resume-bundle.zip \
@@ -104,7 +108,8 @@ jobs:
           for branch in \
             improve/reliability-resume-skill \
             chore/finalize-public-repo \
-            automation/bootstrap-release
+            automation/bootstrap-release \
+            automation/auto-delete-merged-branches
           do
             if gh api --method DELETE \
               "repos/${GITHUB_REPOSITORY}/git/refs/heads/${branch}" \

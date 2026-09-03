@@ -47,7 +47,8 @@ superskills/
 ├── tests/
 └── .github/workflows/
     ├── validate.yml
-    └── release.yml
+    ├── release.yml
+    └── delete-merged-branch.yml
 ```
 
 **唯一完整 Skill catalog**：`skills/meta/skill-router/skill.md` 的 `## Catalog` 表格。
@@ -87,6 +88,8 @@ python tools/build_bundle.py \
 ## Releases
 
 `.github/workflows/release.yml` 会在发布前重新运行测试、Validator 和 eval export，构建带 manifest 的简历 Runtime Bundle，并将 ZIP 与 SHA-256 校验文件上传到对应 GitHub Release。后续稳定版本可通过 `workflow_dispatch` 指定版本标签重新发布。
+
+同仓库 PR 合并后，`.github/workflows/delete-merged-branch.yml` 会自动删除已合并的 head branch；来自 fork、未合并或默认分支不会被删除。
 
 ## Growth rule
 
