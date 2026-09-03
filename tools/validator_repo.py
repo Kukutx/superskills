@@ -36,16 +36,9 @@ else:
 
 DEFAULT_ROOT = Path(__file__).resolve().parents[1]
 ALLOWED_SKILL_ENTRIES = {"skill.md", "references", "maintenance"}
+ALLOWED_MAINTENANCE_FILES = {"behavioral-evals.md", "sources.md", "decisions.md"}
 MAINTENANCE_HEADINGS = ("## Source synthesis", "## Upstream inspiration")
-MAINTENANCE_ONLY_REFERENCE_NAMES = {
-    "sources.md",
-    "behavioral-evals.md",
-    "routing-tests.md",
-    "quality-tests.md",
-    "changelog.md",
-    "decisions.md",
-}
-LEGACY_MAINTENANCE_NAMES = {"routing-tests.md", "changelog.md"}
+MAINTENANCE_ONLY_REFERENCE_NAMES = ALLOWED_MAINTENANCE_FILES
 ENTRYPOINT_ADVISORY_BYTES = 6500
 REFERENCE_ADVISORY_BYTES = 8000
 SLUG_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
@@ -152,10 +145,10 @@ def _validate_maintenance(
         relative = path.relative_to(root)
         if path.is_dir():
             errors.append(f"{relative}: nested maintenance directories are not supported")
-        elif path.suffix != ".md":
-            errors.append(f"{relative}: maintenance files must be Markdown")
-        elif path.name in LEGACY_MAINTENANCE_NAMES:
-            errors.append(f"{relative}: legacy maintenance filename; use behavioral-evals.md or Git history")
+        elif path.name not in ALLOWED_MAINTENANCE_FILES:
+            errors.append(
+                f"{relative}: unsupported maintenance file; allowed: {sorted(ALLOWED_MAINTENANCE_FILES)}"
+            )
 
     eval_file = maintenance / "behavioral-evals.md"
     if not eval_file.is_file():
@@ -168,7 +161,17 @@ def _validate_maintenance(
         if target and "/" not in target and target not in valid_local_md:
             errors.append(f"{eval_file.relative_to(root)}: behavioral eval references missing local file {target}")
 
-    for case in routing_cases_from_text(text):
+    cases = routing_cases_from_text(text)
+    if not cases:
+        errors.append(
+            f"{eval_file.relative_to(root)}: behavioral eval must contain a canonical "
+            "ID | Prompt | Primary | Secondary | Must avoid table"
+        )
+        return
+
+    for case in cases:
+        if not case.case_id:
+            errors.append(f"{eval_file.relative_to(root)}:{case.line}: routing case has an empty ID")
         if not case.prompt:
             errors.append(f"{eval_file.relative_to(root)}:{case.line}: routing case has an empty prompt")
         if not case.primary:
