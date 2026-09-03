@@ -1,57 +1,44 @@
 ---
 name: web-discovery
-description: Find and rank public web resources, media, examples, pages, accounts or platform content when the user wants the best usable results rather than an evidence-synthesis brief.
+description: Find and rank public web resources, media, examples, pages, accounts or platform content when the user wants the best matching results rather than an evidence-synthesis brief.
 ---
 
 # Web Discovery
 
 ## Use
 
-Use when the main task is to **find, shortlist or rank things on the web**: videos, images, examples, pages, accounts, creators, resources, tools, references or platform content.
+Use when the main task is to find, shortlist or rank actual things on the web: videos, images, examples, pages, accounts, creators, tools, references or platform content.
 
-Use `research/research-brief` instead when the main task is deciding what is true, comparing factual claims, weighing source quality, reconciling disagreement or establishing current policy/status.
+Use `research/research-brief` when the main task is deciding what is true, comparing factual claims, weighing source quality, reconciling disagreement or establishing current policy/status.
 
-Do not use this Skill for retail-product shopping or local-business discovery when a dedicated product/local tool owns the task.
+Do not use this Skill for retail shopping or local-business discovery when a dedicated product or local tool owns the task.
 
 ## Workflow
 
-1. Extract the user's explicit goal and stated filters.
-2. Preserve those filters exactly. Fill only operational gaps that do not narrow or redefine the requested result set.
-3. Search the sources and platforms that best match the request; prefer direct/original pages when the user asks for platform content.
-4. Rank primarily by fit to the user's requested outcome, not by convenience, citation ease or an unstated risk proxy.
-5. Return the smallest useful shortlist. When the user asks for the best options, do not dump a broad catalog.
-6. Verify changeable properties only when they are requested or materially determine whether a candidate satisfies an explicit requirement.
+1. Extract the user's goal, source/platform request and explicit filters.
+2. Resolve direction-changing ambiguity before searching; do not guess criteria that would change the shortlist.
+3. Search the sources that best match the request. Prefer direct/original platform pages when a named platform is part of the requirement.
+4. Rank by fit to the user's stated outcome, not by convenience, citation ease or an unstated risk proxy.
+5. Return the smallest useful shortlist rather than a broad catalog.
+6. Verify changeable properties only when they are requested or materially determine whether a candidate qualifies.
 
-## Constraint fidelity
+## Scope fidelity
 
-The user's stated requirements are the selection criteria. Do **not** silently add new filters such as:
+The global scope-fidelity rule applies. In this domain that means:
 
-- free / paid;
-- copyright or licensing status;
-- commercial-use permission;
-- watermark status;
-- account/login requirements;
-- platform policy preferences;
-- source type or stock-site preference;
-- geographic, format or quality restrictions the user did not state.
+- do not silently add filters such as price, licensing, watermark, source type, account requirement, geography or format;
+- do not substitute stock sites or aggregators for a platform the user explicitly requested;
+- do not use source authority as a replacement for relevance when the task is discovery;
+- remove a criterion from ranking when the user explicitly rejects it.
 
-A possible concern is not automatically a selection criterion. Do not convert a caveat into a filter unless the user asked for it or the requested action cannot be completed correctly without resolving it.
-
-If the user explicitly rejects a criterion, remove it from the search/ranking logic rather than repeating it as a warning.
-
-## Source behavior
-
-- If the user asks for TikTok, Instagram, YouTube or another named platform, search that platform/direct content first rather than substituting stock or aggregator sites because they are easier to verify.
-- If the user asks for mainstream sources, prefer genuinely mainstream/direct sources; do not redefine “mainstream” as “most permissively licensed”.
-- Source authority matters when making factual claims about a result. It is not a replacement for the user's relevance criteria when the task is media/resource discovery.
-- Do not introduce legal, copyright, commercial-use or licensing discussion unless the user asked for it or it is necessary to answer the specific requested action.
+A material factual concern may be verified or stated separately, but it must not quietly redefine the requested result set.
 
 ## Output
 
 Default to:
 
 1. **Best matches** — a short ranked set.
-2. **Why each fits** — only the user-relevant reason.
-3. **Direct source/link** — when available.
+2. **Why each fits** — only user-relevant reasons.
+3. **Direct source** — when available.
 
-Do not add generic caveat sections, licensing lectures or unrelated alternatives.
+Do not add generic caveat sections or unrelated alternatives.

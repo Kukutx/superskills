@@ -2,58 +2,48 @@
 
 Maintenance-only. Do not load for normal 3D tasks.
 
-## Source policy
+## Policy
 
-- The project's exact Godot version and renderer are the implementation source of truth.
-- Prefer matching official Godot class/tutorial documentation and official demos before third-party patterns.
-- Keep version-sensitive renderer/import/navigation facts out of runtime guidance unless they change a durable decision; re-verify them when exact behavior matters.
-- Third-party sources contribute useful domain decomposition and failure cases, not mandatory architecture or performance folklore.
+- The project's exact Godot version, renderer and target hardware are the implementation source of truth.
+- Prefer matching official class/tutorial documentation and official demos before third-party patterns.
+- Keep version-sensitive renderer, import and navigation facts out of durable runtime guidance unless they support a lasting decision rule.
+- Third-party sources contribute domain decomposition and failure cases, not mandatory architecture or performance folklore.
 
-## First-party areas reviewed
+## Source register
 
-Official Godot documentation used to establish the runtime boundaries includes:
-
-- `CharacterBody3D` and 3D transforms;
-- 3D collision shapes and physics-body constraints;
-- Camera3D / SpringArm3D;
-- 3D scene import and supported formats;
-- AnimationTree/root motion;
-- NavigationAgent3D and 3D navigation;
-- renderers, StandardMaterial3D, lights/environment/GI;
-- 3D performance, mesh LOD and related visibility tools.
-
-## Upstream skill sources reviewed
-
-Secondary sources inspected for coverage and routing ideas:
-
-- `thedivergentai/GD-Agentic-Skills` — dedicated 3D physics, camera, 2D↔3D adaptation and genre coverage;
-- `jame581/GodotPrompter` — 3D essentials, Camera3D and Godot subsystem decomposition;
-- `gamedev-skills/awesome-gamedev-agent-skills` — engine-neutral game-production and game-feel patterns where applicable.
-
-The Superskills 3D Skill is an independent synthesis; do not bulk-copy upstream prose/code.
+| Source | Canonical URL | Used for | Last reviewed |
+| --- | --- | --- | --- |
+| Godot documentation | https://docs.godotengine.org/ | transforms, CharacterBody3D, collision, Camera3D, import, animation, navigation and rendering behavior | 2026-09 |
+| Godot demo projects | https://github.com/godotengine/godot-demo-projects | working native 3D patterns and reproducible examples | 2026-09 |
+| GD-Agentic-Skills | https://github.com/thedivergentai/GD-Agentic-Skills | 3D physics/camera coverage and 2D↔3D boundary comparisons | 2026-09 |
+| GodotPrompter | https://github.com/jame581/GodotPrompter | Godot subsystem decomposition and 3D routing comparisons | 2026-09 |
+| awesome-gamedev-agent-skills | https://github.com/gamedev-skills/awesome-gamedev-agent-skills | engine-neutral production and game-feel patterns where applicable | 2026-09 |
 
 ## Explicitly reject as permanent runtime truth
 
-Do not import rules such as:
+Do not preserve rules such as:
 
-- fixed maximum node/light/signal counts without the exact renderer/version/context;
-- claims that one query API is universally "100x faster";
-- mandatory global event buses/component frameworks/state-machine frameworks;
-- fixed physics tick, coyote time, camera distance or shadow distance as a professional default;
-- renderer choice based only on "desktop/mobile/web" labels without the actual target/capabilities;
-- "always use MultiMesh/LOD/GI/root motion" checklists;
-- latest-version features stored as if all Godot 4.x projects support them.
+- fixed maximum node, light or signal counts without renderer/version/context;
+- claims that one query API is universally many times faster;
+- mandatory event buses, component frameworks or state-machine frameworks;
+- fixed physics tick, camera distance or shadow distance as a professional default;
+- renderer choice based only on desktop/mobile/web labels;
+- “always use MultiMesh, LOD, GI or root motion” checklists;
+- newest-version features written as if every Godot 4.x project supports them.
 
-If a rule cannot survive a different project scale/renderer/version without qualification, keep it out of durable runtime guidance.
+If a rule cannot survive a different project scale, renderer or version without material qualification, it does not belong in durable runtime guidance.
 
 ## Maintenance workflow
 
-When updating this Skill:
+1. Inspect runtime references for overlap first.
+2. Verify changed 3D APIs, renderer, import and navigation behavior from version-matched official sources.
+3. Preserve the shared/2D/3D ownership boundary.
+4. Add a reference only for a real task-dependent decision boundary.
+5. Update the source register's decision use and review month when materially rechecked.
+6. Update behavioral evals when routing or ownership changes.
+7. Run tests, `python tools/validate_repo.py` and the behavioral eval export check.
+8. Remove stale rules instead of preserving compatibility prose.
 
-1. inspect current runtime references for overlap first;
-2. verify changed 3D APIs/renderer/import behavior from official docs for the relevant version;
-3. preserve the 2D/3D ownership boundary rather than merging them for convenience;
-4. add a reference only for a real task-dependent decision boundary;
-5. update `behavioral-evals.md` when routing/ownership changes;
-6. run `python tools/validate_repo.py`;
-7. remove stale rules instead of preserving compatibility prose.
+## Licensing
+
+The Superskills 3D Skill is an independent synthesis. Do not bulk-copy upstream prose or code; verify licenses before importing code or scripts.

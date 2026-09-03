@@ -1,6 +1,6 @@
 ---
 name: skill-router
-description: Select the smallest useful Superskills route when task ownership is ambiguous. Prefer specific domain skills over generic methods and avoid loading skills by keyword alone.
+description: Select the smallest useful Superskills route when task ownership is ambiguous. Prefer a specific domain owner over generic methods and avoid keyword-based Skill stacking.
 ---
 
 # Skill Router
@@ -8,178 +8,107 @@ description: Select the smallest useful Superskills route when task ownership is
 ## Rule
 
 ```text
-specific domain skill
-> generic method skill
+specific domain Skill
+> generic method Skill
 > meta helper
 ```
 
-Choose one primary Skill first. Add a secondary Skill only for a genuinely distinct subtask.
+Choose one primary Skill. Add a secondary Skill only for a separable subtask with a different owner. If no Skill changes the answer, work directly instead of forcing a route.
 
 ## Catalog
 
 | Intent | Skill |
 | --- | --- |
-| prompt/template itself | `meta/prompt-optimizer` |
-| create/audit/simplify a skill | `meta/skill-builder` |
-| cross-workstream project roadmap | `planning/project-planner` |
-| find/rank web resources, media, examples, pages or platform content | `research/web-discovery` |
-| external evidence / current factual comparison | `research/research-brief` |
-| PRD/MVP/product behavior | `product/prd-builder` |
-| general observed software bug | `development/bug-diagnosis` |
-| general code/diff/PR review | `development/code-review` |
-| unresolved software architecture/interfaces | `development/technical-design` |
-| decided software direction -> file/task breakdown | `development/implementation-plan` |
+| prompt or reusable AI instruction is the deliverable | `meta/prompt-optimizer` |
+| create, audit, simplify or restructure a Skill | `meta/skill-builder` |
+| broad roadmap across multiple workstreams | `planning/project-planner` |
+| find or rank web resources, media, examples, pages or accounts | `research/web-discovery` |
+| establish current facts or compare external evidence | `research/research-brief` |
+| PRD, MVP scope or product behavior | `product/prd-builder` |
+| diagnose an observed software failure | `development/bug-diagnosis` |
+| review code, a diff or pull request for concrete risks | `development/code-review` |
+| decide unresolved software architecture, ownership or interfaces | `development/technical-design` |
+| turn decided architecture into file-level tasks and tests | `development/implementation-plan` |
 | Godot dimension-neutral project systems | `development/godot-project-systems` |
-| Godot 2D / pixel runtime | `development/godot-2d-game-development` |
-| Godot 3D / spatial runtime | `development/godot-3d-game-development` |
-| sprite animation generation/slicing/packaging | `development/sprite-animation-pipeline` |
-| explicit divination / astrology / fortune-telling reading | `personal/divination-reading` |
-| evidence-led birth-cohort / historical life context | `personal/generational-context-analysis` |
-| non-diagnostic personal psychology / behavior reflection | `personal/psychology-reflection` |
-| image-generation direction/prompt | `creative/image-prompt-director` |
-| xTool F1 | `creative/xtool-f1-engraving` |
-| App Store / Play visuals | `design/app-store-assets` |
-| existing image refinement | `design/image-review-refiner` |
-| Shopify | `ecommerce/shopify-dev` |
-| positioning/messaging | `marketing/product-positioning` |
-| business email | `writing/business-email` |
-| App Store / Play copy | `writing/app-store-copy` |
-| generic release readiness | `operations/release-checklist` |
-| SOP/repeated process | `operations/sop-builder` |
+| Godot 2D or pixel runtime behavior | `development/godot-2d-game-development` |
+| Godot 3D or spatial runtime behavior | `development/godot-3d-game-development` |
+| generate, slice or package sprite animation assets | `development/sprite-animation-pipeline` |
+| explicit divination, astrology or symbolic fortune reading | `personal/divination-reading` |
+| evidence-led birth-cohort or historical life context | `personal/generational-context-analysis` |
+| non-diagnostic reflection on personal thoughts and behavior | `personal/psychology-reflection` |
+| direct image-generation direction or prompt | `creative/image-prompt-director` |
+| xTool F1 engraving-ready design and production guidance | `creative/xtool-f1-engraving` |
+| App Store or Play Store visual assets | `design/app-store-assets` |
+| review and refine an existing image | `design/image-review-refiner` |
+| Shopify implementation, Liquid, theme or store integration | `ecommerce/shopify-dev` |
+| audience, value proposition and product messaging | `marketing/product-positioning` |
+| professional business email | `writing/business-email` |
+| App Store or Play Store listing copy | `writing/app-store-copy` |
+| create, tailor, rewrite or audit a resume/CV | `writing/resume-writing` |
+| generic release readiness and go/no-go gate | `operations/release-checklist` |
+| repeated process or SOP | `operations/sop-builder` |
 
 ## Important boundaries
 
-### Planner vs technical design vs implementation plan
+### Project planning vs software design vs implementation
 
 ```text
-broad goal + several workstreams + sequencing
--> project-planner
-
-software ownership/data/interface/architecture still undecided
--> technical-design
-
-behavior + architecture already decided, need files/tasks/tests
--> implementation-plan
+several workstreams + sequencing -> project-planner
+architecture/data/interface still undecided -> technical-design
+direction fixed + need files/tasks/tests -> implementation-plan
 ```
 
 Do not load all three for a normal software task.
 
-### Web discovery vs research brief
+### Web discovery vs evidence research
 
 ```text
-find / shortlist / rank videos, images, examples, pages, accounts,
-creators, resources or platform content
--> web-discovery
-
-establish what is true, compare factual claims, verify current status/policy,
-weigh source quality or reconcile disagreement
--> research-brief
+find/shortlist/rank actual resources -> web-discovery
+decide what is true or current -> research-brief
 ```
 
-Discovery ranks by the user's stated relevance criteria. Do not substitute evidence quality, licensing permissiveness, legal caution, free/paid status or ease of citation for the user's requested ranking criteria.
-
-If a discovery result requires one material factual verification, verify that fact without turning the whole task into a research brief. Use both Skills only when evidence synthesis is a genuinely separate subproblem.
-
-### Research vs internal decision
-
-Use `research-brief` when the answer materially depends on external evidence, current facts, source quality or uncertainty.
-
-If the real question is architecture/ownership inside an already-known project, `technical-design` remains primary even when alternatives are compared.
-
-### Personal analysis boundaries
-
-Route by what kind of claim the user actually wants, not by words such as birth date, personality or relationship:
-
-```text
-八字 / 紫微 / 六爻 / 奇门 / Tarot / Jyotiṣa / astrology / symbolic fortune reading
--> personal/divination-reading
-
-historical events / economy / technology / cohort exposure / evidence-led life context
--> personal/generational-context-analysis
-
-my recurring thoughts / emotions / habits / avoidance / decisions / relationship behavior
--> personal/psychology-reflection
-```
-
-Keep the epistemic boundaries explicit:
-
-- symbolic interpretation is not empirical psychological evidence;
-- cohort patterns do not establish an individual's personality;
-- psychology reflection works from observed personal patterns and tentative mechanisms, not casual clinical diagnosis;
-- diagnosis, treatment, medication, severe symptoms or acute safety concerns require current clinical/medical guidance rather than being forced into `psychology-reflection`.
-
-Use multiple Personal Skills only when the user explicitly asks for distinct lenses; keep their conclusions separate rather than using one to validate another.
+A discovery task may verify one material fact without becoming a full research brief. Use both only when evidence synthesis is a distinct deliverable.
 
 ### Bug diagnosis vs code review
 
 ```text
-observed failure: "why is this broken?"
--> bug-diagnosis
-
-inspect code/diff for defects/risks
--> code-review
+observed failure and root cause -> bug-diagnosis
+inspect visible code/change for defects -> code-review
 ```
 
-### Positioning vs store copy/assets
+A failing runtime path needs reproduction evidence, not a generic review checklist.
+
+### Godot shared vs dimensional owners
 
 ```text
-audience/value/differentiation unresolved
--> product-positioning
-
-words are the main deliverable
--> app-store-copy
-
-visual sequence/composition is the main deliverable
--> app-store-assets
+input, Control UI, audio, save, inventory, dialogue, verification, export -> project-systems
+CharacterBody2D, Camera2D, TileMapLayer, 2D combat/VFX/navigation -> Godot 2D
+Transform3D, CharacterBody3D, Camera3D, 3D rendering/import/navigation -> Godot 3D
 ```
 
-### Godot project systems vs 2D vs 3D
+Route by what changes implementation, not by the project's dimensional label alone.
 
-Route by what actually changes implementation, not by the project's dimensional label alone:
+### Asset production vs runtime integration
 
 ```text
-scene/data ownership, Resources/signals/autoloads,
-InputMap/remapping, Control UI, audio,
-save/inventory/dialogue, verification, export/CI
--> godot-project-systems
-
-CharacterBody2D / Camera2D / TileMapLayer /
-2D animation-combat-VFX-navigation
--> godot-2d-game-development
-
-Node3D / CharacterBody3D / Camera3D /
-3D collision-rendering-import-navigation
--> godot-3d-game-development
+sprite frames/strip geometry/slicing/packing -> sprite-animation-pipeline
+Godot gameplay and runtime animation behavior -> matching Godot owner
 ```
 
-For a mixed task, choose the primary behavior owner and add one neighboring Godot Skill only for a distinct subproblem. Do not recreate shared project-system knowledge inside both dimensional Skills.
+Use both only when the task genuinely spans both outputs.
 
-### Domain runtime vs asset production
+### Personal-analysis boundaries
 
-```text
-Godot gameplay/runtime integration
--> matching Godot owner
+Keep symbolic divination, historical cohort evidence and observed psychology patterns separate. Do not use one lens as proof for another, and do not force diagnosis or treatment questions into ordinary reflection.
 
-sprite frames/strips/geometry/slicing/packing
--> sprite-animation-pipeline
-```
+### Resume vs adjacent job tasks
 
-Use both only when the task genuinely spans runtime integration and sprite asset production.
-
-## Precedence examples
-
-- “Find the best TikTok/Instagram clips or web examples for this edit” -> web-discovery; use only the user's stated filters.
-- “Compare the current download/licensing policies of TikTok, Instagram and YouTube” -> research-brief.
-- Godot 2D/3D pause menu, remapping, save migration or clean export -> Godot project-systems.
-- Godot 2D gameplay + new attack strip -> Godot 2D primary; sprite pipeline owns the asset subtask.
-- App Store screenshot artwork + short captions -> app-store-assets primary; app-store-copy only for substantial wording work.
-- “Compare current maintenance/security of three libraries” -> research-brief; “Which component owns this state?” -> technical-design.
-- User asks “do X” -> execute X; do not route through prompt-optimizer unless the prompt itself is requested.
+Resume facts, structure, bullets and role tailoring belong to resume-writing. Job discovery is a research/discovery task; application or outreach email belongs to business-email. Do not invent experience or metrics to make a resume sound stronger.
 
 ## Restraint
 
-- Do not load every Skill whose keywords appear in the prompt.
-- Do not announce a long routing analysis before doing the task.
-- Stay with the focused owner unless the actual task changes.
-- Preserve the user's explicit scope and criteria; routing must not invent additional constraints.
-- If no Skill adds meaningful value, answer directly rather than forcing a route.
+- Route by the requested deliverable and decision owner, not isolated keywords.
+- Preserve the user's explicit scope and ranking criteria.
+- Do not run prompt optimization when the user requested the final task result.
+- Do not preload every neighboring Skill or reference.
+- Keep maintenance files out of normal runtime context.
