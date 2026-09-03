@@ -4,14 +4,14 @@ Maintenance-only. Protect the boundary between **generation**, **deterministic p
 
 ## Routing cases
 
-| Prompt | Expected route | Must avoid |
-| --- | --- | --- |
-| “用这个角色 seed 做 6 帧 attack strip” | `generation.md` | loading packaging/runtime details before geometry exists |
-| “已有 64x64 sheet，只切成 attack_00..05” | `packaging.md` | regenerating the artwork |
-| “生成 8 向 run，再按稳定 anchor 导出” | `generation.md` -> `packaging.md` | one giant uncontrolled all-action sheet |
-| “Aseprite 已有 tags/durations，导出到引擎” | `packaging.md` | rebuilding timing by hand as second truth |
-| “只改 Godot AnimationTree，不改 sprite source” | outside this Skill -> Godot runtime animation | changing asset geometry unnecessarily |
-| “attack frame 看起来对，但一刀扣两次血” | outside this Skill -> gameplay/combat owner | treating art timing as damage truth |
+| ID | Prompt | Primary | Secondary | Must avoid |
+| --- | --- | --- | --- | --- |
+| sprite-001 | “用这个角色 seed 做 6 帧 attack strip” | `generation.md` | none | loading packaging/runtime details before geometry exists |
+| sprite-002 | “已有 64x64 sheet，只切成 attack_00..05” | `packaging.md` | none | regenerating the artwork |
+| sprite-003 | “生成 8 向 run，再按稳定 anchor 导出” | `generation.md` | `packaging.md` | one giant uncontrolled all-action sheet |
+| sprite-004 | “Aseprite 已有 tags/durations，导出到引擎” | `packaging.md` | none | rebuilding timing by hand as second truth |
+| sprite-005 | “只改 Godot AnimationTree，不改 sprite source” | matching Godot runtime animation owner | none | changing asset geometry unnecessarily |
+| sprite-006 | “attack frame 看起来对，但一刀扣两次血” | gameplay/combat owner | none | treating art timing as damage truth |
 
 ## Pressure cases
 

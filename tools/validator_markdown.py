@@ -5,7 +5,6 @@ from __future__ import annotations
 import re
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Sequence
 
 ROOT_PREFIXES = ("docs/", "gpts/", "skills/", "templates/", "tools/", "tests/", ".github/")
 ROUTE_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*/[a-z0-9]+(?:-[a-z0-9]+)*$")
@@ -16,12 +15,7 @@ HTML_COMMENT_RE = re.compile(r"<!--.*?-->", re.DOTALL)
 CODE_SPAN_RE = re.compile(r"`([^`\n]+)`")
 MARKDOWN_LINK_RE = re.compile(r"(?<!!)\[[^\]]*\]\(([^)]+)\)")
 TABLE_SEPARATOR_CELL_RE = re.compile(r"^:?-{3,}:?$")
-
-PROMPT_HEADERS = {"prompt", "user task", "task", "input"}
-PRIMARY_HEADERS = {"primary", "expected primary", "expected route", "route"}
-SECONDARY_HEADERS = {"secondary", "secondary only when", "secondary skill", "supporting route"}
-MUST_AVOID_HEADERS = {"must avoid", "avoid", "forbidden", "must not"}
-CASE_ID_HEADERS = {"id", "case", "case id"}
+CANONICAL_ROUTING_HEADERS = ("id", "prompt", "primary", "secondary", "must avoid")
 
 
 @dataclass(frozen=True)
@@ -135,10 +129,6 @@ def parse_markdown_tables(text: str) -> list[MarkdownTable]:
     return tables
 
 
-def _header_index(headers: Sequence[str], aliases: set[str]) -> int | None:
-    return next((index for index, header in enumerate(headers) if header in aliases), None)
-
-
 def _plain_cell(value: str) -> str:
     value = value.strip()
     if len(value) >= 2 and value[0] == value[-1] and value[0] in {"`", '"', "'", "“", "”"}:
@@ -149,21 +139,16 @@ def _plain_cell(value: str) -> str:
 def routing_cases_from_text(text: str) -> list[RoutingCase]:
     cases: list[RoutingCase] = []
     for table in parse_markdown_tables(strip_html_comments(text)):
-        prompt_index = _header_index(table.headers, PROMPT_HEADERS)
-        primary_index = _header_index(table.headers, PRIMARY_HEADERS)
-        if prompt_index is None or primary_index is None:
+        if table.headers != CANONICAL_ROUTING_HEADERS:
             continue
-        secondary_index = _header_index(table.headers, SECONDARY_HEADERS)
-        avoid_index = _header_index(table.headers, MUST_AVOID_HEADERS)
-        case_id_index = _header_index(table.headers, CASE_ID_HEADERS)
         for row_offset, row in enumerate(table.rows, start=2):
             cases.append(
                 RoutingCase(
-                    prompt=_plain_cell(row[prompt_index]),
-                    primary=_plain_cell(row[primary_index]),
-                    secondary=_plain_cell(row[secondary_index]) if secondary_index is not None else "",
-                    must_avoid=_plain_cell(row[avoid_index]) if avoid_index is not None else "",
-                    case_id=_plain_cell(row[case_id_index]) if case_id_index is not None else "",
+                    prompt=_plain_cell(row[1]),
+                    primary=_plain_cell(row[2]),
+                    secondary=_plain_cell(row[3]),
+                    must_avoid=_plain_cell(row[4]),
+                    case_id=_plain_cell(row[0]),
                     line=table.start_line + row_offset,
                 )
             )

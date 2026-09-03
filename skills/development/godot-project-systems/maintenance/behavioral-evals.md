@@ -4,18 +4,18 @@ Maintenance-only. Protect the boundary between dimension-neutral Godot project s
 
 ## Routing cases
 
-| Prompt | Expected route | Must avoid |
-| --- | --- | --- |
-| “Godot 3D 项目的 pause menu 手柄 focus 断了” | `ui-ux.md` + `input-controls-accessibility.md` | loading Camera3D/physics just because the project is 3D |
-| “Godot 2D 重映射按键，重启后丢失” | input + `save-persistence.md` as needed | rewriting CharacterBody2D movement |
-| “v2 存档 item ID 改名后加载失败” | `save-persistence.md` | changing inventory transactions unless evidence points there |
-| “背包 stack/equip 逻辑本身错了” | `inventory-progression.md` | treating persistence as the runtime owner |
-| “branching dialogue 的日文按钮溢出且手柄无法选” | `dialogue-localization.md` + `ui-ux.md` + input as needed | loading 2D/3D world runtime |
-| “Godot 项目 SFX bus 和 UI 音量设置混在一起” | `audio.md` | introducing a dimensional audio architecture without need |
-| “GitHub Actions clean export” | `release-export-ci.md` | routing through Godot 2D merely because its old ref used to own export |
-| “修完菜单后怎么证明 gamepad 真能操作？” | `verification-testing.md` + UI/input | claiming success from static inspection only |
-| “CharacterBody2D dash 穿墙” | outside this Skill -> `development/godot-2d-game-development` | generic project-system advice replacing 2D physics |
-| “CharacterBody3D camera 穿墙” | outside this Skill -> `development/godot-3d-game-development` | generic project-system advice replacing 3D spatial rules |
+| ID | Prompt | Primary | Secondary | Must avoid |
+| --- | --- | --- | --- | --- |
+| godot-shared-001 | “Godot 3D 项目的 pause menu 手柄 focus 断了” | `ui-ux.md` | `input-controls-accessibility.md` | loading Camera3D/physics just because the project is 3D |
+| godot-shared-002 | “Godot 2D 重映射按键，重启后丢失” | `input-controls-accessibility.md` | `save-persistence.md` as needed | rewriting CharacterBody2D movement |
+| godot-shared-003 | “v2 存档 item ID 改名后加载失败” | `save-persistence.md` | none | changing inventory transactions unless evidence points there |
+| godot-shared-004 | “背包 stack/equip 逻辑本身错了” | `inventory-progression.md` | none | treating persistence as the runtime owner |
+| godot-shared-005 | “branching dialogue 的日文按钮溢出且手柄无法选” | `dialogue-localization.md` | `ui-ux.md` + input as needed | loading 2D/3D world runtime |
+| godot-shared-006 | “Godot 项目 SFX bus 和 UI 音量设置混在一起” | `audio.md` | none | introducing a dimensional audio architecture without need |
+| godot-shared-007 | “GitHub Actions clean export” | `release-export-ci.md` | none | routing through a dimensional Skill for export |
+| godot-shared-008 | “修完菜单后怎么证明 gamepad 真能操作？” | `verification-testing.md` | UI/input as needed | claiming success from static inspection only |
+| godot-shared-009 | “CharacterBody2D dash 穿墙” | `development/godot-2d-game-development` | none | generic project-system advice replacing 2D physics |
+| godot-shared-010 | “CharacterBody3D camera 穿墙” | `development/godot-3d-game-development` | none | generic project-system advice replacing 3D spatial rules |
 
 ## Ownership cases
 
