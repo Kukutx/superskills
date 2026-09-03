@@ -68,7 +68,6 @@ class ValidatorTestCase(unittest.TestCase):
 
     def test_orphan_reference_requires_real_discovery_path(self) -> None:
         self.write("skills/development/foo/references/details.md", "# Details\n")
-        # Plain text and comments must not satisfy discovery.
         self.add_skill("development/foo", "# Foo\n\nDetails: details.md\n<!-- `references/details.md` -->\n")
         self.assertIn("orphan runtime reference", self.error_text())
 
@@ -90,11 +89,24 @@ class ValidatorTestCase(unittest.TestCase):
     def test_behavioral_eval_missing_local_route_fails(self) -> None:
         self.write(
             "skills/development/foo/maintenance/behavioral-evals.md",
-            "# Evals\n\n| Prompt | Expected route | Must avoid |\n"
-            "| --- | --- | --- |\n"
-            "| test | `development/missing` | none |\n",
+            "# Evals\n\n| ID | Prompt | Primary | Secondary | Must avoid |\n"
+            "| --- | --- | --- | --- | --- |\n"
+            "| foo-001 | test | `development/missing` | none | none |\n",
         )
         self.assertIn("references missing local Skill development/missing", self.error_text())
+
+    def test_legacy_behavioral_eval_headers_fail(self) -> None:
+        self.write(
+            "skills/development/foo/maintenance/behavioral-evals.md",
+            "# Evals\n\n| Prompt | Expected route | Must avoid |\n"
+            "| --- | --- | --- |\n"
+            "| test | `development/foo` | none |\n",
+        )
+        self.assertIn("must contain a canonical", self.error_text())
+
+    def test_unknown_maintenance_file_fails(self) -> None:
+        self.write("skills/development/foo/maintenance/examples.md", "# Examples\n")
+        self.assertIn("unsupported maintenance file", self.error_text())
 
     def test_missing_frontmatter_is_reported(self) -> None:
         self.write("skills/development/foo/skill.md", "# No metadata\n")
