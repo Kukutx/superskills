@@ -4,14 +4,9 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: Release tag to create or refresh
+        description: Release tag to create
         required: true
-        default: v1.0.0
         type: string
-  push:
-    branches: [master]
-    paths:
-      - ".github/workflows/release.yml"
 
 permissions:
   contents: write
@@ -27,7 +22,7 @@ jobs:
     timeout-minutes: 10
     env:
       GH_TOKEN: ${{ github.token }}
-      VERSION: ${{ github.event_name == 'workflow_dispatch' && inputs.version || 'v1.0.0' }}
+      VERSION: ${{ inputs.version }}
 
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
@@ -42,6 +37,13 @@ jobs:
           python -m unittest discover -s tests -v
           python tools/validate_repo.py
           python tools/export_behavioral_evals.py --check
+
+      - name: Reject duplicate release tag
+        run: |
+          if gh release view "$VERSION" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            echo "Release $VERSION already exists. Use a new version."
+            exit 1
+          fi
 
       - name: Build release bundle
         run: |
@@ -67,7 +69,7 @@ jobs:
           cat > dist/release-notes.md <<EOF
           # Superskills ${VERSION}
 
-          First stable repository baseline with:
+          Stable Superskills release with:
 
           - confidence-aware clarification before direction-changing work;
           - truthful ATS-safe resume/CV writing;
@@ -75,48 +77,18 @@ jobs:
           - strict repository validation with regression tests;
           - machine-readable behavioral eval export;
           - reproducible runtime bundles;
-          - Python 3.11 and 3.14 CI;
+          - Python 3.14 tooling and CI;
           - MIT licensing.
 
           Included asset: a ready-to-upload writing/resume-writing runtime bundle bound to commit ${GITHUB_SHA}.
           EOF
 
-      - name: Create or refresh release
+      - name: Create release
         run: |
-          if gh release view "$VERSION" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
-            if [ "$GITHUB_EVENT_NAME" = "workflow_dispatch" ]; then
-              gh release upload "$VERSION" \
-                dist/superskills-resume-bundle.zip \
-                dist/SHA256SUMS.txt \
-                --clobber \
-                --repo "$GITHUB_REPOSITORY"
-            else
-              echo "Release ${VERSION} already exists; automatic push keeps its tag and assets unchanged."
-            fi
-          else
-            gh release create "$VERSION" \
-              dist/superskills-resume-bundle.zip \
-              dist/SHA256SUMS.txt \
-              --target "$GITHUB_SHA" \
-              --title "$VERSION" \
-              --notes-file dist/release-notes.md \
-              --repo "$GITHUB_REPOSITORY"
-          fi
-
-      - name: Remove merged bootstrap branches
-        run: |
-          for branch in \
-            improve/reliability-resume-skill \
-            chore/finalize-public-repo \
-            automation/bootstrap-release \
-            automation/auto-delete-merged-branches
-          do
-            if gh api --method DELETE \
-              "repos/${GITHUB_REPOSITORY}/git/refs/heads/${branch}" \
-              >/dev/null 2>&1
-            then
-              echo "Deleted ${branch}"
-            else
-              echo "Branch absent or could not be deleted: ${branch}"
-            fi
-          done
+          gh release create "$VERSION" \
+            dist/superskills-resume-bundle.zip \
+            dist/SHA256SUMS.txt \
+            --target "$GITHUB_SHA" \
+            --title "$VERSION" \
+            --notes-file dist/release-notes.md \
+            --repo "$GITHUB_REPOSITORY"
