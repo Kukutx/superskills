@@ -29,6 +29,7 @@ user task
 ```text
 superskills/
 ├── AGENTS.md
+├── LICENSE
 ├── README.md
 ├── docs/authoring-guide.md
 ├── gpts/kukutx/
@@ -93,6 +94,6 @@ python tools/build_bundle.py \
 
 答案不明确，就不要新增。
 
-## Use and licensing
+## License
 
-这是公开可见的个人仓库，但当前**未授予开源许可证**。公开可见不代表自动允许复制、修改或再分发；复用前请先取得仓库所有者许可。
+本仓库使用 [MIT License](LICENSE)。允许使用、复制、修改和分发，但必须保留原版权和许可证声明；软件按原样提供，不附带担保。
