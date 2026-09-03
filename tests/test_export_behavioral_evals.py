@@ -20,10 +20,10 @@ class EvalExporterTestCase(unittest.TestCase):
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(content, encoding="utf-8")
 
-    def test_exports_header_aliases_to_one_shape(self) -> None:
+    def test_exports_canonical_schema(self) -> None:
         self.write_eval(
             "meta/skill-router",
-            "# Evals\n\n| Case | User task | Expected primary | Secondary only when | Must avoid |\n"
+            "# Evals\n\n| ID | Prompt | Primary | Secondary | Must avoid |\n"
             "| --- | --- | --- | --- | --- |\n"
             "| router-001 | 帮我写简历 | `writing/resume-writing` | none | inventing facts |\n",
         )
@@ -34,6 +34,16 @@ class EvalExporterTestCase(unittest.TestCase):
         self.assertEqual("writing/resume-writing", records[0]["primary"])
         self.assertEqual("meta/skill-router", records[0]["source_skill"])
 
+    def test_legacy_header_aliases_are_not_supported(self) -> None:
+        self.write_eval(
+            "meta/skill-router",
+            "# Evals\n\n| Case | User task | Expected primary | Secondary only when | Must avoid |\n"
+            "| --- | --- | --- | --- | --- |\n"
+            "| router-001 | 帮我写简历 | `writing/resume-writing` | none | inventing facts |\n",
+        )
+        with self.assertRaisesRegex(EvalExportError, "no parseable"):
+            export_cases(self.root)
+
     def test_requires_at_least_one_parseable_case(self) -> None:
         self.write_eval("development/foo", "# Narrative only\n")
         with self.assertRaisesRegex(EvalExportError, "no parseable"):
@@ -41,10 +51,10 @@ class EvalExporterTestCase(unittest.TestCase):
 
     def test_duplicate_explicit_ids_fail(self) -> None:
         table = (
-            "# Evals\n\n| ID | Prompt | Primary |\n"
-            "| --- | --- | --- |\n"
-            "| duplicate | one | a/b |\n"
-            "| duplicate | two | a/b |\n"
+            "# Evals\n\n| ID | Prompt | Primary | Secondary | Must avoid |\n"
+            "| --- | --- | --- | --- | --- |\n"
+            "| duplicate | one | a/b | none | none |\n"
+            "| duplicate | two | a/b | none | none |\n"
         )
         self.write_eval("development/foo", table)
         with self.assertRaisesRegex(EvalExportError, "duplicate behavioral eval IDs"):
