@@ -96,15 +96,15 @@ Reference 至少应满足一项：
 
 Runtime 不加载 `maintenance/`。
 
-推荐名称：
+只使用：
 
 ```text
 behavioral-evals.md   # routing/ownership review fixtures
 sources.md            # substantial upstream/source inventory
-decisions.md         # only when current rationale cannot be inferred
+decisions.md          # only when current rationale cannot be inferred
 ```
 
-Git history 已经是 changelog；不要维护版本流水账。旧 `routing-tests.md` 统一合并为 `behavioral-evals.md`。
+Git history 已经是 changelog；不要维护版本流水账。
 
 时效性 API、插件、版本和市场快照在执行时重新验证，不写成永久 runtime truth。
 
@@ -122,7 +122,7 @@ canonical URL
 
 当新增或修改 ownership boundary 时，加**最少量**能防真实回归的例子。测试应证明“为什么这个边界存在”，而不是给每个关键词写一个例子。
 
-推荐使用 Markdown 表格：
+唯一格式：
 
 ```markdown
 | ID | Prompt | Primary | Secondary | Must avoid |
@@ -130,7 +130,7 @@ canonical URL
 | example-001 | 用户任务 | `category/skill` | 可选 | 禁止行为 |
 ```
 
-Validator 也兼容现有的 `User task`、`Expected primary`、`Expected route` 和 `Secondary only when` 列名。显式 `ID` 在整个仓库中应保持唯一。
+列名必须严格使用 `ID`、`Prompt`、`Primary`、`Secondary`、`Must avoid`。不维护旧列名兼容。显式 `ID` 在整个仓库中必须唯一。
 
 导出为机器可读 JSONL：
 
@@ -176,7 +176,7 @@ existing project pattern
 
 ## Validation
 
-修改后运行：
+仓库工具统一使用 Python 3.14。修改后运行：
 
 ```bash
 python -m unittest discover -s tests -v
@@ -190,9 +190,9 @@ Validator 负责：
 - frontmatter、folder naming、duplicate Skill names；
 - Skill 目录形状；
 - runtime reference 必须是一层 Markdown，并通过真实链接/code path 从入口可发现；
-- maintenance 内容不混入 runtime；
-- 禁止旧 routing-tests/changelog maintenance 形状；
+- maintenance 只允许当前规范文件，并且不混入 runtime；
 - 只解析 Router `## Catalog` 表格，检查完整、重复和 stale route；
+- behavioral eval 必须使用唯一 canonical 表格格式；
 - behavioral eval 中显式 Skill route 与本地 reference 仍存在；
 - 标准 Markdown 链接及 code path 无 dead link 或仓库逃逸；
 - 对异常大的 runtime entrypoint/reference 给出非阻塞 advisory。
