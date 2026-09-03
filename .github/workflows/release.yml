@@ -50,7 +50,6 @@ jobs:
             --skill writing/resume-writing \
             --output dist/superskills-resume-bundle
           python - <<'PY'
-          from pathlib import Path
           import shutil
 
           archive = shutil.make_archive(
@@ -79,7 +78,7 @@ jobs:
           - Python 3.11 and 3.14 CI;
           - MIT licensing.
 
-          Included asset: a ready-to-upload `writing/resume-writing` runtime bundle bound to commit `${GITHUB_SHA}`.
+          Included asset: a ready-to-upload writing/resume-writing runtime bundle bound to commit ${GITHUB_SHA}.
           EOF
 
       - name: Create or refresh release
