@@ -65,7 +65,7 @@ stable identity/proportions
 ### New animation
 
 ```text
-approve one seed/reference
+establish one canonical seed/reference
 -> plan one action/direction
 -> generate a coherent strip
 -> normalize shared scale/anchor
@@ -100,7 +100,7 @@ inspect real geometry
 - Do not vary apparent scale/anchor across frames of the same character set.
 - Do not mix labels, scenery or watermark into production frames.
 - Do not guess unknown layout using blank/duplicate frames.
-- Do not overwrite the only approved source before preview/validation.
+- Do not overwrite the only canonical source before preview/validation.
 
 ## Minimum QA
 
