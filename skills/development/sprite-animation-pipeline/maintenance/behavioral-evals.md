@@ -12,6 +12,7 @@ Maintenance-only. Protect the boundary between **generation**, **deterministic p
 | sprite-004 | “Aseprite 已有 tags/durations，导出到引擎” | `packaging.md` | none | rebuilding timing by hand as second truth |
 | sprite-005 | “只改 Godot AnimationTree，不改 sprite source” | matching Godot runtime animation owner | none | changing asset geometry unnecessarily |
 | sprite-006 | “attack frame 看起来对，但一刀扣两次血” | gameplay/combat owner | none | treating art timing as damage truth |
+| sprite-007 | “用这张现有角色图直接做一版 6 帧 attack strip，合理细节你自己定。” | `generation.md` | `packaging.md` when output packaging is needed | requiring seed approval or per-step confirmation before reversible generation, preview or packaging |
 
 ## Pressure cases
 
