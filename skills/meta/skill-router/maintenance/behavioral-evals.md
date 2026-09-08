@@ -32,6 +32,8 @@ Maintenance-only. Test task ownership, scope fidelity and autonomy/escalation be
 | clarify-005 | 用户明确说“先给我一个可逆的初稿，未知项标出来”。 | matching domain owner | none | refusing progress or presenting placeholders as verified facts |
 | agentic-001 | “Shopify 产品页按钮问题已定位，按现有模式修好并开 draft PR。” | `ecommerce/shopify-dev` | none by default | stopping at a plan or asking permission for reversible branch/draft-PR work already requested |
 | agentic-002 | “查清楚这个平台当前政策并给我结论。”没有提供链接。 | `research/research-brief` | none by default | asking the user to gather public source links instead of researching available evidence |
+| agentic-003 | “找 5 个最适合 10 秒剪辑的跳伞视频，来源不限，直接给结果。” | `research/web-discovery` | none by default | asking the user to choose a platform before searching or stopping at a search plan |
+| agentic-004 | “用这张现有角色图直接做一版 6 帧 attack strip，合理细节你自己定。” | `development/sprite-animation-pipeline` | none by default | requiring seed approval or per-step confirmation before reversible generation, preview or packaging |
 
 ## Domain boundary cases
 
