@@ -17,25 +17,34 @@ Use when the main deliverable is a resume/CV or a concrete resume improvement:
 
 Use `writing/business-email` for application, referral or outreach emails. Use the appropriate research/discovery workflow when the main task is finding jobs or verifying current market facts.
 
-## Confidence gate
+## Facts and escalation
 
-Inspect the user's existing resume, job description and provided context before drafting. Resolve only unknowns that can materially change factual correctness or positioning:
+Inspect the user's existing resume, job description, portfolio and prior context before asking anything.
+
+Truth-critical inputs include:
 
 ```text
 target role + market + language
 actual employers, titles, dates and responsibilities
 skills/tools the user can honestly claim
 results, scale and measurable evidence
-seniority and preferred resume length/format
+seniority and preferred resume length/format when materially relevant
 ```
 
-Ask focused questions together rather than guessing. Continue until the remaining uncertainty cannot reasonably change the resume's main direction or truthfulness.
+Handle gaps by type:
 
-Do not ask for information already present in the supplied resume, portfolio, job description or prior context. If the user explicitly requests a provisional draft before all facts are available, use clearly marked placeholders such as `[补充团队规模]`; never convert an assumption into a claim.
+- **already supplied or discoverable context** -> extract it; do not ask again;
+- **safe presentation choice** -> use the smallest conventional default and keep moving;
+- **useful but unverified detail** -> omit it or mark an explicit placeholder;
+- **core fact only the user can know** -> ask a compact grouped question when a truthful useful draft cannot proceed without it.
+
+Do not wait for perfect completeness. If enough verified material exists for a useful draft, produce the draft and clearly mark the few truth-critical gaps that remain. If almost all core career facts are absent, asking grouped factual questions is better than emitting a mostly fictional or placeholder resume.
+
+Never convert an assumption into a claim.
 
 ## Workflow
 
-1. **Define the target** — role, market, language, seniority and the resume version being produced.
+1. **Define the target** — infer it from the request/JD/context when available; ask only if the missing target would materially change positioning.
 2. **Build a fact inventory** — separate verified facts, unsupported claims and useful missing evidence.
 3. **Prioritize relevance** — lead with experience and skills that prove fit for the target role; remove unrelated detail before adding more text.
 4. **Write evidence-based bullets** — prefer `action + scope + method + result`. Use numbers only when the user can support them; truthful qualitative impact is better than fabricated precision.
@@ -46,13 +55,13 @@ Do not ask for information already present in the supplied resume, portfolio, jo
 
 ## Output
 
-When enough information exists, provide the finished resume content first. Add only what helps the user act:
+When enough verified information exists, provide the finished resume content first. Add only what helps the user act:
 
 - a short list of material changes when revising an existing resume;
-- unresolved factual placeholders that still need confirmation;
+- unresolved truth-critical placeholders or questions that still need user input;
 - role-specific alternatives only when they represent genuinely different positioning.
 
-When core facts or the target direction are still missing, ask the smallest grouped set of questions before presenting a polished final version.
+When core facts are too sparse for a truthful useful draft, ask the smallest grouped factual set. Do not produce polished fictional content merely to avoid asking.
 
 ## Constraints
 

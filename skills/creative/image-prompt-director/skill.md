@@ -50,4 +50,4 @@ When the user asks to generate the image directly, treat the prompt as internal 
 
 ## Validation
 
-Before approval, check: intended use, focal hierarchy, legibility at target size, unwanted text/logos/artifacts, consistency with references, and whether the prompt contains any instruction that does not help the final image.
+Before completion, check: intended use, focal hierarchy, legibility at target size, unwanted text/logos/artifacts, consistency with references, and whether the prompt contains any instruction that does not help the final image.

@@ -15,7 +15,7 @@ Before import, define the relevant source, size/world scale, alpha/background, a
 ### Generated/raster output
 
 ```text
-approved visual
+established visual source
 -> generate useful unit
 -> deterministic cleanup/normalize
 -> preview
@@ -42,7 +42,7 @@ editable source
 
 Do not hand-edit source and generated derivatives as competing truths.
 
-Before adding an importer, confirm project compatibility, ownership of generated files, clean-checkout reproducibility and whether it really removes recurring work.
+Before adding an importer, verify project compatibility, ownership of generated files, clean-checkout reproducibility and whether it really removes recurring work.
 
 ## Asset-specific rules
 
@@ -68,11 +68,11 @@ Prefer reusable icons/panels/states, keep dynamic/localized text out of generic 
 
 ## Deterministic post-process
 
-Automate crop/pad, alpha cleanup, explicit resize/scale, split/combine, naming, metadata conversion and preview when practical. Never overwrite the only approved source.
+Automate crop/pad, alpha cleanup, explicit resize/scale, split/combine, naming, metadata conversion and preview when practical. Never overwrite the only canonical source.
 
 ## Godot handoff
 
-Confirm import type, filtering/mipmap/compression, scale/pivot/region, atlas/subresource ownership, re-import safety, case-correct paths/names and clean import.
+Verify import type, filtering/mipmap/compression, scale/pivot/region, atlas/subresource ownership, re-import safety, case-correct paths/names and clean import.
 
 ## Validation
 

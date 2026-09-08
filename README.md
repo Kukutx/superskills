@@ -6,23 +6,26 @@
 
 ```text
 user task
+-> inspect available context and tools
 -> choose one primary Skill
--> resolve direction-changing unknowns
--> read skill.md
--> load only needed references
--> execute
--> validate at the level claimed
+-> read skill.md and only needed references
+-> execute authorized, reversible work
+-> verify and self-correct
+-> escalate only a true blocker or consequential final step
+-> report the outcome
 ```
 
 核心原则：
 
 - **specific before generic**：领域 Skill 优先于通用方法。
 - **one primary skill**：不按关键词堆叠多个 Skill。
-- **confidence before commitment**：核心方向或事实不清时先集中询问；可逆细节不做无意义盘问。
+- **action before interrogation**：先读取现有资料、使用可用工具并完成已授权的可逆工作；只把真正需要用户决定的阻塞点升级给用户。
+- **approval at the boundary**：需要批准的不可逆或高影响动作，先准备好可审查结果，再在最后边界请求批准。
+- **execution is not planning**：任务很长或步骤很多，不代表 `project-planner` 是交付物；用户要求执行时，应由领域 owner 执行并在内部规划。
 - **progressive disclosure**：默认只读 `skill.md`；深层知识按需读 `references/`。
 - **maintenance is not runtime**：behavioral eval、来源和少量设计决策只放 `maintenance/`。
 - **single source of truth**：同一规则只保留一个 owner。
-- **evidence before claims**：运行、视觉、存档、导出和发布结论必须有匹配证据。
+- **evidence before claims**：运行、视觉、存档、导出和发布结论必须有匹配证据，验证强度与改动风险相匹配。
 
 ## Structure
 
@@ -93,13 +96,14 @@ python tools/build_bundle.py \
 
 ## Growth rule
 
-新增 Skill/reference 前先问：
+新增 Skill/reference 前先检查：
 
 1. 任务是否会重复？
 2. 是否存在值得长期保留的独特决策规则？
 3. 现有 owner 是否已经覆盖？
 4. 新文件是否真的改变行为或明显减少 runtime context？
 5. 能否用一个真实 behavioral eval 证明新边界有价值？
+6. 新规则是否只是重复全局的规划、询问、批准或工具使用行为？
 
 答案不明确，就不要新增。
 

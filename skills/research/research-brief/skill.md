@@ -15,7 +15,7 @@ A technical or product comparison does not automatically belong here. When the r
 
 ## Workflow
 
-1. Resolve the actual question, decision context and any ambiguity that would change the research target.
+1. Frame the actual question and decision context from the request and supplied material. Use initial research to resolve discoverable ambiguity before asking about any remaining direction-changing user-only uncertainty.
 2. Use material supplied by the user first when they are asking about it.
 3. Verify current or changeable facts from primary or authoritative sources.
 4. Separate sourced evidence, inference and unresolved uncertainty.

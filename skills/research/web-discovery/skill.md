@@ -16,7 +16,7 @@ Do not use this Skill for retail shopping or local-business discovery when a ded
 ## Workflow
 
 1. Extract the user's goal, source/platform request and explicit filters.
-2. Resolve direction-changing ambiguity before searching; do not guess criteria that would change the shortlist.
+2. Use supplied context and initial discovery to narrow ambiguity before asking. Escalate only a remaining user-only criterion that would materially change the shortlist and cannot be inferred safely.
 3. Search the sources that best match the request. Prefer direct/original platform pages when a named platform is part of the requirement.
 4. Rank by fit to the user's stated outcome, not by convenience, citation ease or an unstated risk proxy.
 5. Return the smallest useful shortlist rather than a broad catalog.

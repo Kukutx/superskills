@@ -1,6 +1,6 @@
 # Skill Router behavioral evals
 
-Maintenance-only. Test task ownership, scope fidelity and clarification behavior rather than keyword matching.
+Maintenance-only. Test task ownership, scope fidelity and autonomy/escalation behavior rather than keyword matching.
 
 ## Core routing cases
 
@@ -21,15 +21,18 @@ Maintenance-only. Test task ownership, scope fidelity and clarification behavior
 | router-013 | “根据我的真实经历写一份后端工程师简历。” | `writing/resume-writing` | research only for a distinct current market fact | inventing employers, metrics or technologies |
 | router-014 | “根据简历写一封给招聘经理的邮件。” | `writing/business-email` | resume-writing only if the resume itself also changes | returning another resume |
 
-## Clarification and confidence cases
+## Autonomy and escalation cases
 
 | ID | Prompt | Primary | Secondary | Must avoid |
 | --- | --- | --- | --- | --- |
-| clarify-001 | “帮我做一个完整简历。”用户没有提供目标岗位、经历、公司或日期。 | `writing/resume-writing` | none | producing a polished factual resume from guesses instead of asking grouped questions |
+| clarify-001 | “帮我做一个完整简历。”用户没有提供目标岗位、经历、公司或日期。 | `writing/resume-writing` | none | producing a polished factual resume from guesses instead of asking grouped truth-critical questions |
 | clarify-002 | 用户已经上传完整简历和 JD，并要求直接定制。 | `writing/resume-writing` | none | repeating questions whose answers are already in the supplied material |
-| clarify-003 | “把这个仓库的按钮圆角从 8 改成 10。”路径和组件已明确。 | matching domain owner or direct execution | none | blocking a reversible local edit with unnecessary preference questions |
+| clarify-003 | “把这个仓库的按钮圆角从 8 改成 10。”路径和组件已明确。 | matching domain owner or direct execution | none | blocking a reversible local edit with preference questions, approval requests or a plan-only response |
 | clarify-004 | “重做整个权限系统。”当前角色、数据边界和迁移要求未知。 | `development/technical-design` | implementation-plan after decisions are fixed | guessing core ownership or silently choosing destructive migration behavior |
-| clarify-005 | 用户明确说“先给我一个可逆的初稿，未知项标出来”。 | matching domain owner | none | refusing all progress or presenting placeholders as verified facts |
+| clarify-005 | 用户明确说“先给我一个可逆的初稿，未知项标出来”。 | matching domain owner | none | refusing progress or presenting placeholders as verified facts |
+| agentic-001 | “Shopify 产品页按钮问题已定位，按现有模式修好并开 draft PR。” | `ecommerce/shopify-dev` | none by default | stopping at a plan or asking permission for reversible branch/draft-PR work already requested |
+| agentic-002 | “查清楚这个平台当前政策并给我结论。”没有提供链接。 | `research/research-brief` | none by default | asking the user to gather public source links instead of researching available evidence |
+| agentic-003 | “找 5 个最适合 10 秒剪辑的跳伞视频，来源不限，直接给结果。” | `research/web-discovery` | none by default | asking the user to choose a platform before searching or stopping at a search plan |
 
 ## Domain boundary cases
 
@@ -51,6 +54,7 @@ Maintenance-only. Test task ownership, scope fidelity and clarification behavior
 1. One primary Skill owns the requested deliverable.
 2. Secondary Skills handle genuinely separable subtasks only.
 3. Domain ownership beats generic methods.
-4. Questions are asked for direction-changing or factual unknowns, not for information already available or harmless reversible details.
-5. Explicit user criteria remain the selection criteria.
-6. Maintenance content is never loaded during normal execution.
+4. The agent completes authorized, reversible and discoverable work before escalating; questions are reserved for true user-only, truth-critical or consequential blockers.
+5. Multi-step execution is not replaced by a planning deliverable unless a plan was requested.
+6. Explicit user criteria remain the selection criteria.
+7. Maintenance content is never loaded during normal execution.

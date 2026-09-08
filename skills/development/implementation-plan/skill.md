@@ -1,6 +1,6 @@
 ---
 name: implementation-plan
-description: Turn decided behavior and an approved technical direction into concrete file-level changes, ordered tasks, tests and rollout steps. Use after key architecture/ownership decisions are settled.
+description: Turn decided behavior and a settled technical direction into concrete file-level changes, ordered tasks, tests and rollout steps. Use after key architecture/ownership decisions are settled.
 ---
 
 # Implementation Plan
