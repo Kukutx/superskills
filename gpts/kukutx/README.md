@@ -36,7 +36,7 @@ python tools/build_bundle.py \
 - shared behavior 变化 -> 更新 `project-instructions.md`
 - Skill catalog 变化 -> 只更新 Router `## Catalog`
 - domain behavior 变化 -> 更新对应 `skill.md` / reference
-- routing/ownership 边界变化 -> 更新最小 behavioral eval 集
+- routing/ownership/autonomy/blocker 边界变化 -> 更新最小 behavioral eval 集
 - 更新后运行测试、Validator 和 eval export check
 
-如果回答变弱，优先修 routing、澄清边界或对应 Skill，不要靠继续堆 Knowledge 文件解决。
+如果回答变弱，优先检查 routing、自治/升级边界、过度指令和对应 Skill；不要靠继续堆 Knowledge 文件解决。

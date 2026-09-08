@@ -15,6 +15,10 @@ specific domain Skill
 
 Choose one primary Skill. Add a secondary Skill only for a separable subtask with a different owner. If no Skill changes the answer, work directly instead of forcing a route.
 
+A task being long, multi-step or tool-heavy does **not** make planning the requested deliverable. When the user asks to perform work, route to the domain owner or direct execution and plan internally. Use `project-planner` only when a roadmap or cross-workstream plan is itself the requested output.
+
+A Skill guides decisions; it does not create a new permission gate. Global autonomy and escalation behavior comes from `gpts/kukutx/project-instructions.md`.
+
 ## Catalog
 
 | Intent | Skill |
@@ -53,12 +57,13 @@ Choose one primary Skill. Add a secondary Skill only for a separable subtask wit
 ### Project planning vs software design vs implementation
 
 ```text
-several workstreams + sequencing -> project-planner
+roadmap is the deliverable -> project-planner
 architecture/data/interface still undecided -> technical-design
-direction fixed + need files/tasks/tests -> implementation-plan
+direction fixed + file/task/test plan requested -> implementation-plan
+execution requested -> matching domain owner or direct execution; plan internally
 ```
 
-Do not load all three for a normal software task.
+Do not load all three for a normal software task. Do not replace requested execution with a planning artifact merely because the work has many steps.
 
 ### Web discovery vs evidence research
 
@@ -110,5 +115,7 @@ Resume facts, structure, bullets and role tailoring belong to resume-writing. Jo
 - Route by the requested deliverable and decision owner, not isolated keywords.
 - Preserve the user's explicit scope and ranking criteria.
 - Do not run prompt optimization when the user requested the final task result.
+- Do not route to planning merely because execution is complex.
 - Do not preload every neighboring Skill or reference.
+- Do not use Skill routing as a reason to ask for permission that the task already grants.
 - Keep maintenance files out of normal runtime context.
