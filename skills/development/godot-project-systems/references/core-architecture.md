@@ -101,7 +101,7 @@ Add abstraction only when at least one is real now:
 - duplication already exists;
 - multiple consumers need the same mechanism;
 - current coupling blocks testing/maintenance;
-- an approved roadmap requires the extension;
+- the current roadmap requires the extension;
 - bugs come from unclear ownership.
 
 Do not build layers only for hypothetical future use.
