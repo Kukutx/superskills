@@ -6,7 +6,7 @@
 
 ```text
 user task
--> inspect available context, tools and authorization
+-> inspect available context and tools
 -> choose one primary Skill
 -> read skill.md and only needed references
 -> execute authorized, reversible work
