@@ -13,7 +13,7 @@ Standard F1 working-area baseline: `115 × 115 mm`. Actual usable area depends o
 
 ## Start from the real setup
 
-Clarify only what changes production:
+Establish the setup from supplied context first. Ask only for **missing production-critical facts** that cannot be safely inferred or verified elsewhere:
 
 ```text
 machine/setup
@@ -24,7 +24,7 @@ final physical size
 text/QR readability needs
 ```
 
-Unknown capability/material facts should stay unresolved until verified from current xTool guidance or a real material test.
+Unknown machine capability or material facts should be verified from current xTool guidance or a representative material test rather than pushed back to the user when reliable evidence is available.
 
 ## Material rule
 
@@ -67,7 +67,7 @@ Do not auto-trace a complex raster into thousands of nodes unless that actually 
 
 ## Workflow
 
-1. Confirm setup, material, object and usable size.
+1. Establish setup, material, object and usable size from available context; escalate only missing production-critical facts.
 2. Simplify composition for final physical scale.
 3. Separate process layers: primary engraving/marking, optional secondary detail, cut only when verified supported.
 4. Prepare vector/raster artwork with unambiguous process ownership.
