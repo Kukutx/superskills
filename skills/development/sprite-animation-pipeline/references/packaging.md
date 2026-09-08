@@ -73,7 +73,7 @@ Automate repeatable transformations when practical:
 - metadata generation;
 - preview GIF/contact sheet.
 
-The same approved input should produce the same output.
+The same canonical input should produce the same output.
 
 ## Engine handoff
 
@@ -91,6 +91,6 @@ For Godot, these feed SpriteFrames/runtime animation, but combat/state remains t
 
 ## Packaging QA
 
-Check expected file count, layout/ranges, clean alpha, stable canvas/anchor, direction order, deterministic naming, metadata/file consistency, loop flags and preview motion. Re-running the pipeline should not unexpectedly change approved output.
+Check expected file count, layout/ranges, clean alpha, stable canvas/anchor, direction order, deterministic naming, metadata/file consistency, loop flags and preview motion. Re-running the pipeline should not unexpectedly change validated output.
 
-Never overwrite the only approved source before preview/validation.
+Never overwrite the only canonical source before preview/validation.
