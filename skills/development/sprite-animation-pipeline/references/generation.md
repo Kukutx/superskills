@@ -1,12 +1,12 @@
 # Sprite Generation Reference
 
-Use for planning/generating new 2D or pixel-art action strips from an approved character/reference. Existing sheets that only need slicing/packing should skip this reference.
+Use for planning/generating new 2D or pixel-art action strips from an established character/reference. Existing sheets that only need slicing/packing should skip this reference.
 
-## Approve one seed first
+## Establish one canonical seed
 
 Prefer:
 
-1. approve one in-game seed/reference frame;
+1. select one canonical in-game seed/reference frame from the supplied or chosen source;
 2. lock identity, proportions, palette, outfit/equipment and perspective;
 3. generate one action + one direction per strip when possible;
 4. normalize only after the strip is coherent;
@@ -62,7 +62,7 @@ If the model cannot reliably produce exact pixel geometry, separate creative gen
 ## Whole-strip workflow
 
 ```text
-approved seed
+canonical seed
 -> optional layout guide
 -> generate full action strip
 -> clean alpha
@@ -71,7 +71,7 @@ approved seed
 -> align shared anchor/baseline
 -> optional exact-seed restore
 -> preview
--> approve
+-> validate
 ```
 
 Independent frame-by-frame generation is a fallback because it increases identity and proportion drift.
