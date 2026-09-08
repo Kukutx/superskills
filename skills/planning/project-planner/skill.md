@@ -9,7 +9,7 @@ description: Turn a broad multi-step goal into a realistic cross-workstream road
 
 Use when the user needs sequencing, prioritization or a roadmap across multiple deliverables/workstreams.
 
-Do not use for a single fix, a file-level software execution plan, or a domain task that already has a more specific planning workflow. For unresolved software architecture use `development/technical-design`; for an approved software direction that needs concrete files/tasks use `development/implementation-plan`.
+Do not use for a single fix, a file-level software execution plan, or a domain task that already has a more specific planning workflow. For unresolved software architecture use `development/technical-design`; for a settled software direction that needs concrete files/tasks use `development/implementation-plan`.
 
 ## Workflow
 
