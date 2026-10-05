@@ -77,6 +77,7 @@ A Skill guides decisions; it does not create a new permission gate. On hosts tha
 | social posts, short-video scripts and posting calendar | `writing/social-content` |
 | in-app microcopy such as buttons, errors and empty states | `writing/ux-copy` |
 | production incident triage, status updates and postmortem | `operations/incident-response` |
+| public crisis statement, apology and who hears first | `operations/crisis-communications` |
 | change request, risk register, rollback and process optimization | `operations/change-management` |
 | evaluate or compare vendors and tools on cost and risk | `operations/vendor-evaluation` |
 | status report, stakeholder update or release announcement | `operations/status-report` |

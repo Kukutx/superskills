@@ -35,7 +35,9 @@ Registration status, deliverability and real opt-in data cannot be checked from 
 
 **Practices to confirm with the sending platform**, because they come from carrier and industry requirements rather than from the regulation: the opt-in disclosure usually names the programme, the expected message frequency, how to stop and get help, that message and data rates may apply, and links the terms; a "help" reply returns the brand name, how to stop and a support contact; every promotional message carries the opt-out instruction.
 
-**Keep for every subscriber**: the time of consent, where it was given and the exact wording shown.
+**Keep for every subscriber**: the time of consent, where it was given (the page), and the exact wording shown.
+
+**Consent in practice.** The disclosure sits next to the phone field and the submit button, not in a footer, and matches both the sample messages registered with the carriers and what is actually sent. A phone number given at checkout covers messages about that order; it is not consent to marketing, and a transactional message carries no promotion. When sending to several countries, apply the strictest standard, record where each consent was given, and identify the sender in every message.
 
 **Ten-digit numbers in the US (10DLC).** The Campaign Registry describes 10DLC as a channel in which brands and their messaging providers are verified before they are allowed to send, with registration done through the provider. Take the registration steps, the consequences of sending unregistered and the rule on sample messages from the provider's and the registry's current pages.
 
@@ -48,6 +50,9 @@ Registration status, deliverability and real opt-in data cannot be checked from 
 - Templates fall into marketing, utility and authentication. Plan cart reminders and promotions as marketing unless Meta's current template guidelines place them elsewhere. Marketing templates are charged per delivered message; current rates are on Meta's pricing page.
 - Every request to stop is respected.
 - Whether marketing templates are delivered to numbers in a given country is checked in Meta's current documentation before planning a WhatsApp campaign for that country.
+- A template that mixes an order update with a promotion counts as marketing, and so does a cart reminder the customer asked for. Consent for order messages and for promotions is collected separately or named as two categories in one consent. Variables in a template need realistic sample values; vague samples are a common reason for rejection.
+- Each marketing template offers a way to stop promotions; a person who uses it is marked at once and receives one confirmation and no further marketing, while order messages they separately agreed to may continue. Where blocking is the only way to stop, the sender's quality rating suffers.
+- A new number is warmed up: verify the business, send first to recent buyers and people who wrote in, raise volume over a week or two and spread large sends over hours. One or two marketing messages a month per person is a sensible ceiling.
 
 ## Channel fit and flows
 
@@ -65,12 +70,16 @@ Working timings, to be replaced by the user's own results:
 
 A discount in the first cart message teaches customers to abandon carts on purpose.
 
-Number type by list size, as a rule of thumb the provider confirms: a registered ten-digit number below about 10,000 subscribers, a toll-free number from there to about 100,000, a short code above that.
+**Every flow states who leaves it and who never enters.** A cart flow stops on purchase, on opt-out or after about two days; low-value carts and people who abandon repeatedly to collect discounts are excluded; a browse flow needs real browsing behind it and stops if the person buys something else. Someone inside a flow receives no promotional send on top of it, and a customer who just bought with a discount is left alone for a couple of weeks. A replenishment text goes out shortly before a consumable is due to run out.
+
+**Unsubscribes rising** is diagnosed in order: frequency, relevance (was the whole list sent the same message), then segment by engagement, recency of purchase and source of the subscription. Subscribers silent for two months get one soft message and then a "reply YES to stay" message; no answer means suppression. After a full win-back attempt with no response, stop sending.
+
+The number type (a registered ten-digit number, a toll-free number or a short code) follows from the throughput the list needs and the cost, which the provider quotes; a short code is for large, steady volumes. Before choosing a platform, confirm how it handles brand and campaign registration, whether sample messages must match what is sent, the description of the consent flow given to carriers, stop and help keywords, quiet hours by the recipient's time zone, the suppression list, and how long timestamped consent records are kept. Registrations are commonly rejected for samples that differ from real messages, a consent screenshot without the disclosure, and a vague campaign description.
 
 ## Writing the message
 
 - Start with the brand name, so the recipient knows who is writing.
-- One call to action and one short link carrying campaign tags.
+- One call to action and one short link carrying campaign tags. At most one emoji, and only when it is worth the extra segments; text pasted from a word processor brings curly quotes and long dashes that silently switch the whole message to the shorter encoding.
 - **Length**: a message in the basic GSM character set fits 160 characters in one segment; beyond that it is billed as more than one. A single emoji, accented letter or curly quotation mark switches the whole message to an encoding with 70 characters per segment. State the character count and the segment count of every draft, and tell the user to confirm with the platform's own counter.
 - A picture message is priced above a text; get the provider's current rate before planning one.
 

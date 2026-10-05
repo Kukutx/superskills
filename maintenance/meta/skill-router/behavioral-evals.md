@@ -82,6 +82,7 @@ Maintenance-only. Test task ownership, scope fidelity and autonomy/escalation be
 | pro-027 | “帮我审一下这个注册页截图，按钮和输入框的对比度够不够，流程顺不顺。” | `design/design-review` | none | image-review-refiner, or inventing a contrast ratio from a screenshot |
 | pro-028 | “我店里有 200 个 SKU，这是近 60 天销量和库存表，帮我看哪些该补货、补多少。” | `ecommerce/inventory-reorder` | none | shopify-dev, or a reorder for items with no sales |
 | pro-029 | “有个行业大会找我们赞助，展位费 2 万，说有 5000 人参会，值不值得去？” | `marketing/event-marketing` | none | marketing-plan, or a verdict based on headline attendance instead of the buyers actually in the room |
+| pro-030 | “我们给 300 个用户重复扣了一个月的费，已经有人在微博上骂了，我该先发什么声明、先通知谁？” | `operations/crisis-communications` | none | incident-response as a technical postmortem, or a statement that guesses the cause |
 
 ## Pass criteria
 

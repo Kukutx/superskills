@@ -28,15 +28,15 @@ Facts about a prospect come from material the user pastes or a source opened in 
 
 ## The hook
 
-One specific, recent, sourced reason for writing to this person now: a funding round, a new executive, a launch, a job posting that reveals a priority. "They are growing" is not a hook. A priority deduced from a signal is stated as an inference.
+One specific, recent, sourced reason for writing to this person now: a funding round, a new executive, a launch, a job posting that reveals a priority. "They are growing" is not a hook. A priority deduced from a signal is stated as an inference. The hook has to lead to the problem being solved: an observation with no link to it is a trick, and a template with only the name swapped is not personalization.
 
 ## The message
 
-- Body under about 120 words, in three moves: one sentence of relevance that shows the homework; one or two sentences connecting their situation to the value, with at most one proof point; one low-friction ask, such as whether a 20-minute call is worth it.
-- Subject of four to seven words that refers to the hook, not the product.
+- A first cold email is short: under about 75 words as a default and never much past 120, in three moves: one sentence of relevance that shows the homework; one or two sentences connecting their situation to the value, with at most one proof point; one low-friction ask. A reply in a warm thread may run longer.
+- Subject of two to four plain words as a default, written the way a colleague would title an internal note: it refers to the hook or the problem, not the product, and carries no name, number, urgency word or sales term.
 - No "hope this finds you well", no "I wanted to reach out", no paragraph about the sender's company.
 - Do not name a competitor first.
-- In a sequence, each touch adds something new and is a little more direct; the last one makes it easy to say no. A reply of any kind stops the sequence.
+- In a sequence, each touch adds something new and is a little more direct; the last one makes it easy to say no. A reply of any kind stops the sequence. The cadence, the phrases to avoid, the closing email, how to find the first customers of a new product, answers by kind of objection and the shape of sales materials are in [references/sequences-and-objections.md](references/sequences-and-objections.md).
 - Write the way the user writes. With no sample of their voice, write neutrally and say so. A message that reads as a template with the company name inserted is rewritten.
 
 ## Objections
@@ -55,7 +55,7 @@ Claims about the product, pricing or compliance come only from material the user
 
 ## Output
 
-For outreach: the context used (prior contact or none, the hook and its source), then subject and body. For a lead list: the table with fit evidence and tier. For an objection: the underlying concern, the response, the proof points to have ready, and what not to do.
+For outreach: the context used (prior contact or none, the hook and its source), then subject and body. For a lead list: the table with fit evidence and tier. For an objection: why they may be saying it, the response, the proof points to have ready, a follow-up question, and what not to do.
 
 ## Constraints
 

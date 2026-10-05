@@ -28,6 +28,8 @@ Thresholds below are defaults for a sales cycle of a few months. Two weeks of si
 | single-threaded | only one contact has any activity |
 | incomplete | amount empty or zero; stage with no evidence that its exit criteria were met |
 
+A stage may deserve its own silence threshold (a proposal that goes quiet is urgent sooner than a negotiation), and a close date pushed back twice calls for a forecast review now, not when it lapses. Deals pile up in a stage with no exit criteria: when that is the pattern, define what must be true to enter and to leave each stage and the longest a deal may stay, before flagging anything.
+
 Every open deal needs an owner, a next step and a date. A deal missing any of the three is the one that dies quietly. A good next step reads as date, verb, what, with whom.
 
 Sort flagged deals by amount, then by length of silence. For each, draft the next contact, referring specifically to the last interaction rather than "following up on our conversation".
@@ -46,11 +48,11 @@ Model three cases: it moves to the next period, it shrinks, it is lost. Recomput
 
 ## Win-loss review
 
-State the sample size first. Cut win rate by source, deal size, industry and new versus existing customer; show at which stage losses happen, and the median cycle and size of wins against losses. From the largest wins and losses, pull the stated loss reasons, the objections that appear only in losses, and what wins have in common. Lead with the single most important pattern in one or two sentences, with its numbers. Recommendations are of three kinds: change the process, coach a skill, or start recording something that is suspected but not yet provable.
+State the sample size first. Code each deal with one primary reason (product fit, price against value, time to value, trust or risk, relationship or process, timing or no decision), so the counts add up to the number of deals; a one-word reason from the CRM is coded and marked low confidence. Reasons entered by the seller lean towards price and timing and almost never name a product gap, so the buyer's own words win when the two differ. Keep losses to a competitor apart from "no decision", since they call for different fixes, and name the winner only when it is known. With few deals, write "6 of 9" rather than a percentage, and treat any slice of fewer than about five as a signal to watch. Cut win rate by source, deal size, industry and new versus existing customer; show at which stage losses happen, and the median cycle and size of wins against losses. From the largest wins and losses, pull the stated loss reasons, the objections that appear only in losses, and what wins have in common. Lead with the single most important pattern in one or two sentences, with its numbers. Recommendations are of three kinds: change the process, coach a skill, or start recording something that is suspected but not yet provable.
 
 ## Record hygiene
 
-For each proposed correction show current value → proposed value with its evidence (the email or note and its date), and let the user approve item by item. Stage and amount are only ever suggested: "we are moving forward" is not a won deal. Contradictory notes are resolved by adding a new note, not by editing history. Nothing is deleted.
+For each proposed correction show current value → proposed value with its evidence (the email or note and its date), and let the user approve item by item. Stage and amount are only ever suggested: "we are moving forward" is not a won deal. Contradictory notes are resolved by adding a new note, not by editing history. Nothing is deleted. Cleaning once is half the job; propose the prevention as well: required fields per stage, fixed choices instead of free text (including a short fixed list of loss reasons), a rule for merging duplicates, and a regular audit, starting with whichever problem distorts the numbers most.
 
 ## Lightweight CRM
 

@@ -9,7 +9,7 @@ description: Run a production incident from severity triage through status updat
 
 Use when a live service is broken or degraded and the work is to manage it: decide how serious it is, tell people what is happening, keep the timeline, and afterwards write what happened and what will change.
 
-Finding the technical cause of one failure belongs to `development/bug-diagnosis`. The check before a release belongs to `operations/release-checklist`. Replying to one affected customer belongs to `support/customer-support-replies`.
+Finding the technical cause of one failure belongs to `development/bug-diagnosis`. The check before a release belongs to `operations/release-checklist`. Replying to one affected customer belongs to `support/customer-support-replies`. The public side of a serious incident, such as a breach statement or an apology, belongs to `operations/crisis-communications`.
 
 ## Domain inputs and blockers
 

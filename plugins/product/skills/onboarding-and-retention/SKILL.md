@@ -20,7 +20,7 @@ The signup form and the landing page before it belong to `marketing/conversion-r
 
 ## Activation
 
-1. **Choose the activation model first** (free plan, free trial, paid trial, money-back guarantee, guided setup with a person), because it decides the whole first-run flow.
+1. **Choose the activation model first** (free plan, free trial, paid trial, money-back guarantee, guided setup with a person), because it decides the whole first-run flow. How to choose, and how to cut the path to first value step by step, are in [references/cancel-and-payment-recovery.md](references/cancel-and-payment-recovery.md).
 2. **Judge activation by conversion to paying customer and retention at 90 days, not by signups.** The activation moment is the action most strongly associated with staying; find it by comparing what retained users did with what churned users did.
 3. **Every step must be needed to reach the core value**; anything else moves later. Let the user do the thing instead of watching a tour, and give each session one goal.
 4. **Checklist**: three to seven items, ordered by value, starting with a quick win, showing progress, dismissible. Starting with one item already ticked is a tactic worth testing.
@@ -50,9 +50,10 @@ The flow has five steps: the cancel entry, one reason question, an offer matched
 | Needed it only for a while | A pause | None |
 | Business closing | No offer | None |
 
-- **Keep discounts under 50%**; larger ones teach customers to cancel in order to get the offer. Show the amount saved in money, not only the percentage.
+- **Keep a save discount to about 30% at most**, for two or three months; larger ones teach customers to cancel in order to get the offer. Show the amount saved in money, not only the percentage.
 - **A pause lasts one to three months at most**; longer pauses rarely end in a return.
-- **One main offer and one fallback**, never a stack. The "continue to cancel" option stays visible at every step, with no wording that shames the customer.
+- **One main offer and one fallback**, never a stack; the fallback may be a lower plan or a second, slightly larger discount, and nothing follows it. The "continue to cancel" option stays visible at every step, with no wording that shames the customer.
+- **Route by the customer's state as well as the reason**: a new customer never activated, a dormant one is already gone, a heavy user leaving for a competitor points at a product gap. Each needs a different response, set out with pauses, downgrades, grace periods and the messages after cancellation in [references/cancel-and-payment-recovery.md](references/cancel-and-payment-recovery.md).
 - **A save is counted only if the customer is still there 30 days later.** Track what the retained customers are worth afterwards.
 
 ## Failed payments
@@ -61,7 +62,7 @@ Applies when the user's own billing system charges the card. Where the billing p
 
 - **Retry by decline type.** A soft decline (insufficient funds, timeout) is retried, as a default at 24 hours, then days 3, 5 and 7, about four attempts. A hard decline (lost card, closed account) is not retried: ask for a new card. A decline that needs customer authentication sends the customer to complete it or update the payment method.
 - **Emails on days 0, 3, 7 and 10** as a default: plain text, no blame, with a link that opens the payment update page directly.
-- **Before it fails**: remind customers 30, 15 and 7 days before a card expires, offer a backup payment method, and announce an annual renewal three to five days ahead.
+- **Before it fails**: remind customers 30, 15 and 7 days before a card expires, offer a backup payment method, and announce an annual renewal about a week ahead, with the amount and the date; some places require notice of an automatic renewal, so check the rule for the market.
 
 ## Warning signals
 

@@ -64,7 +64,7 @@
     },
     {
       "name": "superskills-operations",
-      "description": "Release gates, SOPs, incident response, change management, vendor evaluation and status reports.",
+      "description": "Release gates, SOPs, incident response, crisis communications, change management, vendor evaluation and status reports.",
       "source": "./plugins/operations",
       "strict": false
     },

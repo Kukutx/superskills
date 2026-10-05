@@ -2,7 +2,7 @@
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "superskills-operations",
   "version": "1.1.0",
-  "description": "Release gates, SOPs, incident response, change management, vendor evaluation and status reports.",
+  "description": "Release gates, SOPs, incident response, crisis communications, change management, vendor evaluation and status reports.",
   "author": {
     "name": "Kukutx"
   },

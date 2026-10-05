@@ -93,12 +93,12 @@ Directories:
 
 Press amplifies distribution; it rarely converts directly. Its value is links, legitimacy and material to quote.
 
-- **Worth doing when** there is a real story (data only the user has, a point of view, a milestone, a customer's before and after), founder time for four to six weeks, and a page to land on. Without a story, do not pitch.
+- **Worth doing when** there is a real story (data only the user has, a point of view, a milestone, a customer's before and after), founder time for four to eight weeks, and a page to land on. Without a story, do not pitch. Building the media list, the pitch and follow-up rules, embargoes and exclusives, reacting to news and podcast preparation are in [references/press.md](references/press.md).
 - **The story is not the product.** It is a trend, a number, a conflict or a person. Three angles that work: the founding story, small against large, and a named enemy that is a broken system and not a competitor.
 - **Send a pitch only if every answer is yes**: the journalist's last five pieces cover this field; there is something new; the email alone is enough to write the article (data, a quote, a customer name, contact details); the subject line could be the headline; it is under 150 words; it contains none of "revolutionary", "game-changing", "disruptive"; the ask is clear.
 - **A press page** holds a one-paragraph description, founder photo and bio, a logo pack for light and dark backgrounds, screenshots, recent coverage, founding date and team size, and an email address, with replies promised within a day.
 - **Measure** pieces published, the quality of the sites, referral traffic and the rise in brand searches. Advertising-value equivalents are a vanity figure.
-- **If the launch goes wrong in public**: establish the facts, name one spokesperson, publish a short holding statement and say when the next update comes, all within the first hour.
+- **If the launch goes wrong in public**: establish the facts, tell the affected people before anyone else, name one spokesperson, and publish a short holding statement that says when the next update comes and nothing yet about cause or scope, all within the first hour. A larger crisis is handled with `operations/crisis-communications`.
 
 ## Output
 

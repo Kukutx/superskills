@@ -17,8 +17,10 @@ Do not use just to polish already-decided store or marketing copy. Once position
 2. Identify the specific audience and problem worth solving.
 3. Separate benefits from features.
 4. Identify differentiators that are actually defensible; do not invent proof. Compare against the three to five alternatives the audience would actually choose instead, including doing nothing; state the condition under which each claim holds, say where an alternative is stronger, and date any evidence about competitors.
-5. Choose the smallest set of messaging pillars that can stay consistent across product, store and marketing surfaces.
-6. Adapt tone and terminology to the requested market/audience.
+5. Record the objections a buyer raises and the words customers themselves use for the problem; positioning written only in the company's vocabulary does not survive contact with a buyer.
+6. Choose the smallest set of messaging pillars that can stay consistent across product, store and marketing surfaces.
+7. Adapt tone and terminology to the requested market/audience.
+8. For an early product, leave thin sections thin and say they will fill in later; proof points and a competitive view cannot be complete before there are customers. When repositioning or adding an audience, change only what the change touches and keep the rest, noting what changed and why.
 
 ## Output
 
