@@ -30,6 +30,8 @@ Facts about a prospect come from material the user pastes or a source opened in 
 
 One specific, recent, sourced reason for writing to this person now: a funding round, a new executive, a launch, a job posting that reveals a priority. "They are growing" is not a hook. A priority deduced from a signal is stated as an inference. The hook has to lead to the problem being solved: an observation with no link to it is a trick, and a template with only the name swapped is not personalization.
 
+Rank candidate hooks by recency, then by how specific they are to this person, then by their link to what is sold. When there is too little to go on, do not draft: say so and list what would help. What common account signals mean, the tone for each situation, how to build and narrow a list, and what to confirm before any bulk action are in [references/signals-and-lists.md](references/signals-and-lists.md).
+
 ## The message
 
 - A first cold email is short: under about 75 words as a default and never much past 120, in three moves: one sentence of relevance that shows the homework; one or two sentences connecting their situation to the value, with at most one proof point; one low-friction ask. A reply in a warm thread may run longer.

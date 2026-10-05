@@ -40,6 +40,10 @@ From any pile, pull out: action items (direct requests, tasks assigned, question
 
 Extracted tasks are proposed, not added: the user confirms which go on the list.
 
+A pasted chat channel or thread is summarized by topic, not in time order: the main topics, decisions and action items with who said them, announcements, and the threads still open with where they stand. Three to five points a channel; a quiet channel is reported as quiet with the date of its last message. The same subject discussed in several places is one item, with its conclusion, decisions and unresolved questions listed separately.
+
+A standup or status note from the same material has three parts: done, doing, and blocked, where blocked covers a question nobody answered, a problem raised and an explicit "stuck".
+
 ## Replies
 
 Answer the question first, match the length of the incoming message, and write no price, date, quantity or commitment the user has not given; say the direction instead ("I will send the quote today"). An angry customer gets an acknowledgement and a promise to call, not a draft of compensation or an admission. Leave out stock phrases such as "I hope this finds you well" and "just circling back".

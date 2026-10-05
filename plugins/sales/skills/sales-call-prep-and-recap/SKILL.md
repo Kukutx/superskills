@@ -28,6 +28,21 @@ There is no calendar or CRM here. What cannot be seen is said to be unseen: an e
 5. **Who will be there**: each person's role and what they probably care about, with newcomers marked. People mentioned in an email body but not on the invitation are listed as unconfirmed.
 6. What has happened so far, one line each with its source, and the threads still open.
 
+**The kind of call decides the emphasis**, and it can usually be read from the context:
+
+| Call | Prepare |
+| --- | --- |
+| discovery | what triggered the meeting; open questions tied to it, in the order signal, question, how the user can help |
+| demo | what they have already explored and any competitor in play; match depth to a technical evaluator or a budget holder; show one or two things related to what they did |
+| expansion | where use has grown and which new teams appeared; open with the value already delivered and present more as the next step for their goal |
+| renewal | the trend in engagement, open tickets, whether the champion is still there; put a number on the value delivered, name the risk and bring a plan for it |
+| periodic review | the trend of the last quarter; open with business results, not feature use; bring one or two surprising figures and a forward agenda |
+| rescue | the specific thing that dropped and when; acknowledge it without defending, ask before proposing, bring a concrete plan |
+
+Every talking point is tied to something specific in the material; a point with nothing behind it is left out, and deal context (price, a competitor comparison, trial terms) is never made up. Notes and recordings of earlier calls are the best history, because they record what was actually said. When little is known about an attendee or the account, give what there is and what is missing instead of a full-looking brief.
+
+**A week of calls**: confirm the list of meetings before researching; research a company once when it has several meetings and separate them by attendee; with seven or more, ask which get a full brief. Depth follows what is at stake: a strategic account, an open deal, a renewal within about three months or a first meeting gets the full brief, a routine check-in three or four lines. Put at the top of the week what is urgent: a trial ending within days, a renewal within a month, an unresolved critical ticket, a senior or new attendee, a competitor appearing.
+
 If the meeting has already taken place, say so and move to the recap.
 
 ## After the call

@@ -26,6 +26,7 @@ A Skill guides decisions; it does not create a new permission gate. On hosts tha
 | prompt or reusable AI instruction is the deliverable | `meta/prompt-optimizer` |
 | create, audit, simplify or restructure a Skill | `meta/skill-builder` |
 | broad roadmap across multiple workstreams | `planning/project-planner` |
+| whether a project, product or research idea is worth doing, its riskiest assumptions and pivots | `planning/idea-evaluation` |
 | find or rank web resources, media, examples, pages or accounts | `research/web-discovery` |
 | establish current facts or compare external evidence | `research/research-brief` |
 | PRD, MVP scope or product behavior | `product/prd-builder` |
@@ -74,6 +75,7 @@ A Skill guides decisions; it does not create a new permission gate. On hosts tha
 | competitor profiles, comparison tables and battlecards | `marketing/competitor-analysis` |
 | creator, influencer, affiliate or co-marketing deals | `marketing/creator-partnerships` |
 | landing page, ad, blog, newsletter or press release copy | `writing/marketing-copy` |
+| derive, write or enforce a brand voice or tone-of-voice guide | `writing/brand-voice-guide` |
 | social posts, short-video scripts and posting calendar | `writing/social-content` |
 | in-app microcopy such as buttons, errors and empty states | `writing/ux-copy` |
 | production incident triage, status updates and postmortem | `operations/incident-response` |
@@ -111,6 +113,8 @@ A Skill guides decisions; it does not create a new permission gate. On hosts tha
 | value a company or stock with DCF and comparables | `finance/company-valuation` |
 | LTV, CAC, retention, cohorts and ARR bridge | `finance/unit-economics` |
 | screen, diligence and decide on buying or backing a business | `finance/deal-diligence` |
+| teaser, information memorandum, buyer list and sale process for selling a business | `finance/selling-a-business` |
+| periodic portfolio or investment report against a benchmark | `finance/portfolio-reporting` |
 | research one listed company, its results and thesis | `finance/stock-research` |
 | industry overview and stock idea screening | `finance/sector-and-stock-screening` |
 
@@ -215,8 +219,9 @@ paid campaigns -> paid-ads; rivals -> competitor-analysis
 an NDA on its own -> nda-triage; any other agreement -> contract-review
 your own quote or proposal -> quote-and-proposal; a grant or tender -> grant-and-rfp-bidding
 one sales deal -> deal-review; the whole pipeline -> sales-pipeline-review
-buying or backing a business -> deal-diligence
+buying or backing a business -> deal-diligence; selling one -> selling-a-business
 one listed company -> stock-research; a sector or a screen -> sector-and-stock-screening
+reporting a portfolio's results -> portfolio-reporting
 ```
 
 Legal, tax, accounting and investment Skills prepare material for a non-specialist and say where a professional decides; they do not replace one.

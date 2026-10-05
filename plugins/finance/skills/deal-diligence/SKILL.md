@@ -9,7 +9,7 @@ description: Screen, diligence and decide on buying a business or backing a star
 
 Use when the user is deciding whether to acquire a business, a website or an app, invest in a private company, or take on a partner: a first-pass screen of the seller's material, a diligence plan, questions for management or customers, the returns, or the written decision.
 
-Listed shares belong to `finance/stock-research`. The valuation model belongs to `finance/company-valuation`. Subscription metrics belong to `finance/unit-economics`. The purchase agreement belongs to `legal/contract-review`.
+Selling a business belongs to `finance/selling-a-business`. Listed shares belong to `finance/stock-research`. The valuation model belongs to `finance/company-valuation`. Subscription metrics belong to `finance/unit-economics`. The purchase agreement belongs to `legal/contract-review`.
 
 ## Domain inputs and blockers
 
@@ -38,6 +38,9 @@ Then mark each criterion pass or fail and give one of three verdicts — pursue,
 
 Add what the sector needs: for software, quality of recurring revenue, cohorts and hosting cost; for consumer, brand health, channel mix, seasonality and stock.
 
+- **Normalizing profit.** An add-back is accepted only when the cost is really one-off: a restructuring that happens every year is a running cost; deal costs are added back but continuing integration spending is not; a legal settlement only when it is isolated; gains on asset sales and write-downs come out of operating profit; related-party rent and fees are restated at market rates and the owner's personal expenses removed. Keep a schedule of every adjustment with its reason, source, amount per year and the chance it recurs.
+- **Two views side by side**: the seller's adjusted profit, which accepts their definition of non-recurring, and a base view that accepts only what is clearly one-off. Decide on the base view.
+- **Three projections**: the seller's, with any "hockey stick" marked; a risk-adjusted base (growth discounted for execution and for how accurate their past forecasts were, modest margin gains, more capital spending and working capital, synergies later); and a downside that tests debt terms and liquidity.
 - Each item has a priority and a status (requested, received, in review, complete). Items that must be settled before signing are marked as such.
 - Each red flag records what was found, the workstream, its severity (deal-breaker, significant, manageable), the way to resolve or mitigate it, and its effect on price or terms.
 - A seller who is slow to produce an item is itself a signal.
@@ -55,6 +58,7 @@ Cap a 60 to 90 minute meeting at 15 to 20 questions, star the ones that must be 
 - MOIC = value of equity at exit ÷ equity invested. IRR is the rate r that solves equity × (1 + r)^years = exit equity value, adjusted for any cash taken out or put in along the way.
 - Attribute the return to three sources: profit growth, change in the valuation multiple, and debt paid down; show fees as a drag.
 - Give three scenarios and sensitivity tables on the pairs that matter (entry multiple against exit multiple, growth against exit multiple, leverage against exit multiple, holding period against exit multiple), each cell showing IRR and MOIC.
+- Synergies arrive in stages; the first year often delivers a fraction of the eventual run rate. Work out the smallest synergy that makes the deal break even in year one, and count the cost of the cash used: interest no longer earned and interest on new debt, after tax.
 - Transaction costs reduce equity value on day one; ask for the real estimate. Returns are shown before and after fees. How the deal is structured for tax changes the after-tax result and is a question for a tax adviser.
 
 ## Output

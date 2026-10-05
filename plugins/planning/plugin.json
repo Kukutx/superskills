@@ -2,7 +2,7 @@
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "superskills-planning",
   "version": "1.1.0",
-  "description": "Cross-workstream project roadmaps, and inbox and task digests.",
+  "description": "Idea evaluation, cross-workstream project roadmaps, and inbox and task digests.",
   "author": {
     "name": "Kukutx"
   },

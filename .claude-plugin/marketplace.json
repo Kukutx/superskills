@@ -40,7 +40,7 @@
     },
     {
       "name": "superskills-finance",
-      "description": "Bookkeeping and close, cash flow, payables and collections, payroll checks, valuation, financial models, unit economics, diligence and stock research.",
+      "description": "Bookkeeping and close, cash flow, payables and collections, payroll checks, valuation, financial models, unit economics, buying and selling a business, stock research and portfolio reports.",
       "source": "./plugins/finance",
       "strict": false
     },
@@ -82,7 +82,7 @@
     },
     {
       "name": "superskills-planning",
-      "description": "Cross-workstream project roadmaps, and inbox and task digests.",
+      "description": "Idea evaluation, cross-workstream project roadmaps, and inbox and task digests.",
       "source": "./plugins/planning",
       "strict": false
     },
@@ -112,7 +112,7 @@
     },
     {
       "name": "superskills-writing",
-      "description": "Business email, store listing copy, marketing copy, social content, interface microcopy and truthful resumes.",
+      "description": "Business email, store listing copy, marketing copy, brand voice guides, social content, interface microcopy and truthful resumes.",
       "source": "./plugins/writing",
       "strict": false
     }

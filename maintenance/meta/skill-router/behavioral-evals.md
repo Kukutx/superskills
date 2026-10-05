@@ -83,6 +83,10 @@ Maintenance-only. Test task ownership, scope fidelity and autonomy/escalation be
 | pro-028 | “我店里有 200 个 SKU，这是近 60 天销量和库存表，帮我看哪些该补货、补多少。” | `ecommerce/inventory-reorder` | none | shopify-dev, or a reorder for items with no sales |
 | pro-029 | “有个行业大会找我们赞助，展位费 2 万，说有 5000 人参会，值不值得去？” | `marketing/event-marketing` | none | marketing-plan, or a verdict based on headline attendance instead of the buyers actually in the room |
 | pro-030 | “我们给 300 个用户重复扣了一个月的费，已经有人在微博上骂了，我该先发什么声明、先通知谁？” | `operations/crisis-communications` | none | incident-response as a technical postmortem, or a statement that guesses the cause |
+| pro-031 | “我想把做了四年的独立 App 卖掉，年收入 30 万美元，帮我写一页不暴露产品名的简介发给潜在买家。” | `finance/selling-a-business` | company-valuation only if a price is asked for | deal-diligence, which is the buyer's side, or a teaser that names the product |
+| pro-032 | “这是我家投资账户这个季度的持仓和收益，基准是 60/40，帮我写一份给家人看的季度报告。” | `finance/portfolio-reporting` | none | stock-research, or a return figure with no stated method |
+| pro-033 | “我想做一个帮独立开发者自动生成商店截图的工具，值不值得花半年做？帮我看看风险在哪。” | `planning/idea-evaluation` | research-brief only if outside facts must be checked | project-planner or prd-builder before the idea is judged |
+| pro-034 | “这是我们官网、三封邮件和两段客服对话，帮我总结出我们品牌说话的风格，写成一份指南。” | `writing/brand-voice-guide` | none | marketing-copy writing new copy, or an invented brand personality |
 
 ## Pass criteria
 
