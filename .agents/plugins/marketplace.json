@@ -197,6 +197,18 @@
       "category": "Productivity"
     },
     {
+      "name": "superskills-science",
+      "source": {
+        "source": "local",
+        "path": "./plugins/science"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
       "name": "superskills-support",
       "source": {
         "source": "local",

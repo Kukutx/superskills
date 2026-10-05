@@ -87,6 +87,11 @@ Maintenance-only. Test task ownership, scope fidelity and autonomy/escalation be
 | pro-032 | “这是我家投资账户这个季度的持仓和收益，基准是 60/40，帮我写一份给家人看的季度报告。” | `finance/portfolio-reporting` | none | stock-research, or a return figure with no stated method |
 | pro-033 | “我想做一个帮独立开发者自动生成商店截图的工具，值不值得花半年做？帮我看看风险在哪。” | `planning/idea-evaluation` | research-brief only if outside facts must be checked | project-planner or prd-builder before the idea is judged |
 | pro-034 | “这是我们官网、三封邮件和两段客服对话，帮我总结出我们品牌说话的风格，写成一份指南。” | `writing/brand-voice-guide` | none | marketing-copy writing new copy, or an invented brand personality |
+| pro-035 | “下周要去拜访这家上市公司谈合作，这是它的年报和最新财报，帮我做一页纸的公司简介，我是去卖 SaaS 的。” | `finance/company-tear-sheet` | sales-call-prep-and-recap for the meeting plan itself | stock-research with a thesis, or figures recalled from memory |
+| pro-036 | “这是美元兑日元的即期、远期点数和各期限隐含波动率，帮我看看做套息划不划算。” | `finance/rates-fx-vol-analysis` | none | stock-research, or a threshold stated as a market standard |
+| pro-037 | “我用 5 MAD 过滤单细胞数据后只剩 40% 的细胞，线粒体比例全是 0，这是我的 QC 汇总，哪里不对？” | `science/single-cell-qc-review` | none | data-analysis, or a statistic described as computed here |
+| pro-038 | “我有两批 10x 数据和一批 Smart-seq2，一部分细胞有标注，该用 scVI 还是 scANVI？验证集 loss 一直在涨。” | `science/single-cell-model-guide` | none | single-cell-qc-review, or a function signature asserted for an unchecked version |
+| pro-039 | “nf-core/sarek 跑完 Mutect2 没有任何变异，这是我的 samplesheet 和日志。” | `science/nf-core-run-review` | none | bug-diagnosis, or a parameter asserted without the pipeline version |
 
 ## Pass criteria
 

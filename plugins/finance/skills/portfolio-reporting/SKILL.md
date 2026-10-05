@@ -9,7 +9,7 @@ description: Write a periodic portfolio or investment report with returns after 
 
 Use when the performance of a portfolio or fund has to be reported for a period: a quarterly or annual report, the pack for a review meeting, a summary for a family or for outside investors, or a proposal that sets out an allocation and its costs.
 
-Research on one company belongs to `finance/stock-research`. A KPI report on a business belongs to `data/metrics-review`. A proposal for services belongs to `sales/quote-and-proposal`.
+Research on one company belongs to `finance/stock-research`. A view on a bond, a curve or a currency belongs to `finance/rates-fx-vol-analysis`. A KPI report on a business belongs to `data/metrics-review`. A proposal for services belongs to `sales/quote-and-proposal`.
 
 This arranges and explains numbers the user supplies. It gives no advice on what to buy or sell, and a report sent to clients by a regulated adviser needs that firm's compliance review.
 
@@ -32,6 +32,7 @@ Prices, index levels and benchmark returns are market data: they come from the u
 6. **Poor performance is stated plainly and early.** A weak period explained up front keeps trust; one found in a table loses it.
 7. **Commentary** in two parts: what happened in the markets in two or three sentences, then what it meant for this portfolio and how it is positioned. Written at the reader's level, with no jargon for a non-specialist.
 8. **Activity**: purchases and sales, money in and out, income received, fees charged, rebalancing.
+9. **Bond holdings**: the portfolio's yield, duration and convexity are market-value-weighted averages of the figures supplied for each bond, and its sensitivity to a one-basis-point move is the sum of the bonds'. Show interest and principal due by quarter and mark the quarters where maturities bunch. A rate table for parallel moves of −200, −100, −50, 0, +50, +100 and +200 basis points gives the gain or loss in money and percent, labelled as an approximation, with the bonds that contribute most each way. A bond with an embedded option needs its effective duration. When position sizes are missing, equal weights are assumed and the report says so.
 
 ## A review meeting
 

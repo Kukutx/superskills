@@ -42,6 +42,14 @@ Ask only when a definition cannot be read from the material and two reasonable r
 - When many segments or metrics were tested, state how many, since some will look significant by chance. Check whether a trend reverses inside the segments (Simpson's paradox) before reporting the aggregate.
 - A forecast is a range, not a point. Non-linear growth, several seasonal cycles, outside drivers or a decision that moves real budget are reasons to recommend a proper model built by a specialist.
 
+## Derived values, units and reshaping
+
+- A value calculated from readings (a ratio, a rate, a concentration read off a standard curve, a fold change) is delivered beside the raw readings, labelled as calculated, with a reference to the rows it came from, so it can be audited and recomputed.
+- Units are the ones in the source. Where the source gives none, write "unit unknown"; do not supply one from knowledge of the field.
+- Flattening nested records into a table: one measurement per row with the parent's fields repeated on each row; value and unit in separate columns; timestamps in ISO 8601; for a series or spectrum choose long or wide form and say which.
+- When a converter fell back to a simplified path, say what was lost (the split between raw and calculated values, instrument settings) and that the output is not fit for a validated import.
+- Before a table is imported into another system, check column names against the target's fields, sample identifiers against those the target already holds, the date format, and whether the target wants units in their own column.
+
 ## Output
 
 Match the depth to the question:

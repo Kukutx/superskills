@@ -117,6 +117,11 @@ A Skill guides decisions; it does not create a new permission gate. On hosts tha
 | periodic portfolio or investment report against a benchmark | `finance/portfolio-reporting` |
 | research one listed company, its results and thesis | `finance/stock-research` |
 | industry overview and stock idea screening | `finance/sector-and-stock-screening` |
+| one-page company profile for an investor, deal team, acquirer or salesperson | `finance/company-tear-sheet` |
+| bond spreads, yield and swap curves, currency carry, implied versus realized volatility | `finance/rates-fx-vol-analysis` |
+| single-cell RNA-seq quality control cutoffs, plots and filtering code | `science/single-cell-qc-review` |
+| which scvi-tools model, training curves, integration metrics, label transfer | `science/single-cell-model-guide` |
+| nf-core samplesheets, failed tasks and run QC for rnaseq, sarek or atacseq | `science/nf-core-run-review` |
 
 ## Important boundaries
 

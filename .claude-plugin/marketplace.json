@@ -40,7 +40,7 @@
     },
     {
       "name": "superskills-finance",
-      "description": "Bookkeeping and close, cash flow, payables and collections, payroll checks, valuation, financial models, unit economics, buying and selling a business, stock research and portfolio reports.",
+      "description": "Bookkeeping and close, cash flow, payables and collections, payroll checks, valuation, financial models, unit economics, buying and selling a business, stock research, company profiles, rates and currency analysis, and portfolio reports.",
       "source": "./plugins/finance",
       "strict": false
     },
@@ -102,6 +102,12 @@
       "name": "superskills-sales",
       "description": "Sales call prep and recap, outreach, deal and pipeline reviews, quotes and bids.",
       "source": "./plugins/sales",
+      "strict": false
+    },
+    {
+      "name": "superskills-science",
+      "description": "Reviews of single-cell RNA-seq quality control, scvi-tools model choice and results, and nf-core pipeline runs, from pasted metrics, samplesheets and logs.",
+      "source": "./plugins/science",
       "strict": false
     },
     {

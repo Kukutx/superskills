@@ -46,6 +46,10 @@ The best ideas tend to sit where two screens meet, such as a quality company at 
 
 State the thesis; map the value chain; separate direct from indirect beneficiaries and pure plays from diversified companies; judge who is already priced for it and who is not; look for second-order beneficiaries the market has not yet linked to the theme.
 
+## Private funding activity
+
+When the user pastes a period's funding rounds for a sector, mark as notable, using starting filters to adjust: a very large round (100 million dollars is a common line); a down round; a company newly valued above a billion; a valuation at least double the last known one; a company raising again within about six months; an unusually large group of investors. Read the period for total raised against normal, the hottest sub-sector, whether early or late stages dominate, the most active investors, geography, and whether valuations are compressing or expanding. Each takeaway is one sentence with its figure. A sector with no rounds is reported as such, since inactivity is information; a company that was acquired or is a subsidiary is labelled that way, not reported as inactive; and when most valuations are undisclosed, say so and use a measure that does not depend on them.
+
 ## Judging candidates
 
 - Crowding: how widely held it is, the level of short interest, how many analysts cover it. A crowded idea has less left in it.

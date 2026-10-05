@@ -54,6 +54,8 @@ Keep only content that changes behavior:
 
 Prefer goals, decision boundaries and success criteria over generic step-by-step process. Avoid repeated Purpose/Role/System Prompt prose.
 
+A `SKILL.md` carries no syntax that only one host interprets, such as a command-injection marker; every other host reads it as literal text. A Skill that names a third-party tool offers alternatives and still reads fairly with a competitor's name in its place.
+
 ## Agentic quality bar
 
 A capable agent already knows how to inspect context, plan internally, use tools, make routine reversible choices and report results. Those generic behaviors belong in `gpts/kukutx/project-instructions.md`, not in every Skill.

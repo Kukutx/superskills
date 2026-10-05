@@ -9,7 +9,7 @@ description: Research one listed company, covering business and moat, earnings r
 
 Use for work on a single listed company: understanding the business, reading a quarter's results, preparing for an upcoming report, updating estimates after news, or writing down and maintaining the reasons for holding it.
 
-What the company is worth belongs to `finance/company-valuation`. Comparing an industry or finding candidates belongs to `finance/sector-and-stock-screening`. A general fact check with no investment question belongs to `research/research-brief`.
+What the company is worth belongs to `finance/company-valuation`. Comparing an industry or finding candidates belongs to `finance/sector-and-stock-screening`. A one-page profile of a company for a particular reader belongs to `finance/company-tear-sheet`. A general fact check with no investment question belongs to `research/research-brief`.
 
 The output informs the user's own decision. It carries no rating, no price target presented as a forecast and no instruction to buy or sell, and it says that it is not investment advice.
 
@@ -20,9 +20,9 @@ Results, guidance, consensus and prices are current facts and are never recalled
 Before analysing a quarter:
 
 - Write down today's date and confirm the release is the latest one. A release more than about three months old is probably the wrong quarter.
-- Learn the company's fiscal year; the label of a quarter follows the company's calendar, not the calendar year.
+- Learn the company's fiscal year; the label of a quarter follows the company's calendar, not the calendar year. Copy the label from the title of the results call instead of deriving it from the date.
 - Check that the release, the filing and the call transcript all belong to the same quarter.
-- Consensus must be the figure from **before** the release, with its source and as-of date. Without it, say that the result cannot be judged against expectations; do not estimate what consensus was.
+- Consensus must be the figure from **before** the release, with its source and as-of date. Without it, say that the result cannot be judged against expectations; do not estimate what consensus was. Note how many analysts stand behind it and how far apart they are: a wide spread means the average deserves less weight.
 
 ## Understanding the business
 
@@ -41,11 +41,14 @@ Before analysing a quarter:
 3. Break revenue down by segment, region or product and name what over- and under-performed. Explain margin movements by price, mix, cost and scale.
 4. Guidance: new against old, and new against consensus. Weigh it by management's record of guiding conservatively or aggressively. If none was given, say so.
 5. From the call: tone, the themes management pushed, what analysts kept asking about, anything unexpected.
-6. Estimates are revised from the reported actuals forward, each change written as old → new with its reason, stating whether figures are reported or adjusted and what one-off items and share count changes were involved. Separate the signal from a noisy quarter before changing a long-term assumption.
+6. A quotation from management is copied word for word; when the exact words cannot be found it becomes a paraphrase without quotation marks, and sentences from different places are never joined into one quotation.
+7. When the same period a year earlier is missing, growth is "not available"; it is not estimated.
+8. Ratios state their period: the last twelve months is the sum of the four most recently reported quarters, and the next twelve months is the sum of consensus for the next four quarters, not a single fiscal-year figure. Each company in a comparison uses its own four latest reported quarters, and returns compared across companies share exactly the same start and end dates. A multi-step calculation is written out and each step checked before it feeds the next.
+9. Estimates are revised from the reported actuals forward, each change written as old → new with its reason, stating whether figures are reported or adjusted and what one-off items and share count changes were involved. Separate the signal from a noisy quarter before changing a long-term assumption.
 
 ## Before a report
 
-List the three to five things that will decide the reaction, each as a metric against expectations and why it matters. Use the operating metrics of the industry: recurring revenue, retention and backlog for software; comparable sales and traffic for retail; orders and book-to-bill for industrials; net interest margin and credit quality for banks. Build bull, base and bear cases with the figures and the management language that would confirm each.
+List the three to five things that will decide the reaction, each as a metric against expectations and why it matters. Use the operating metrics of the industry: recurring revenue, retention and backlog for software; comparable sales and traffic for retail; orders and book-to-bill for industrials; net interest margin and credit quality for banks. Build bull, base and bear cases with the figures and the management language that would confirm each. Set the user's own estimate beside consensus for revenue, earnings per share, margins and two or three of those operating metrics; add the three to five news items of the last two months that could move the result or the guidance, each with its date and why it matters; and close on where consensus could be wrong. A preview takes a view on what will move the shares; a summary of known facts is not one.
 
 ## Thesis
 

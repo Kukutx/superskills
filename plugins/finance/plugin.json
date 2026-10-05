@@ -2,7 +2,7 @@
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "superskills-finance",
   "version": "1.1.0",
-  "description": "Bookkeeping and close, cash flow, payables and collections, payroll checks, valuation, financial models, unit economics, buying and selling a business, stock research and portfolio reports.",
+  "description": "Bookkeeping and close, cash flow, payables and collections, payroll checks, valuation, financial models, unit economics, buying and selling a business, stock research, company profiles, rates and currency analysis, and portfolio reports.",
   "author": {
     "name": "Kukutx"
   },
