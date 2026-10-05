@@ -49,7 +49,20 @@ Before a run the user confirms the reference genome and that it matches the spec
 
 A finished run has the pipeline's completion message in the log and a MultiQC report. Then check the outputs that matter: for RNA-seq a count matrix that is not empty and has every sample; for variant calling a file per sample or pair with a plausible number of calls; for ATAC-seq peaks and signal tracks for every replicate.
 
-Reading ATAC-seq quality: a good library shows a high alignment rate, a low mitochondrial share, moderate duplication, a clear enrichment at transcription start sites, a healthy fraction of reads in peaks and a fragment-size distribution with nucleosome periodicity. Judge each sample against the others in the batch and against the consortium guideline the user follows; the numeric bands quoted in tutorials differ, so name the source of any band used. Low fraction in peaks points to library complexity; high duplication is common with little starting material; fewer than two replicates leaves consensus peaks unsupported.
+Reading ATAC-seq quality against the ENCODE consortium's published standards, which is the reference to name when a band is quoted:
+
+| Measure | ENCODE standard |
+| --- | --- |
+| replicates | two or more biological replicates |
+| usable reads per replicate | 50 million non-duplicate, non-mitochondrial aligned reads for paired-end, 25 million for single-end |
+| alignment rate | above 95%; above 80% may be acceptable |
+| fraction of reads in peaks | above 0.3; above 0.2 is acceptable |
+| library complexity | NRF above 0.9, PBC1 above 0.9, PBC2 above 3 |
+| fragment lengths | a nucleosome-free region and a mononucleosome peak must both be present |
+| enrichment at transcription start sites | depends on the annotation: for GRCh38 RefSeq below 5 is concerning, 5 to 7 acceptable, above 7 ideal; for mm10 RefSeq below 10, 10 to 15, above 15 |
+| replicate concordance | rescue and self-consistency ratios both below 2 |
+
+These describe a consortium's bar for deep, reference-quality data; a smaller experiment can be usable below the read depth, and each sample is also judged against the others in its batch. The mitochondrial share and the duplication rate have no ENCODE band: report them and compare across samples. Low fraction in peaks points to library complexity; high duplication is common with little starting material; fewer than two replicates leaves consensus peaks unsupported.
 
 For public data: an accession showing no runs may hold only processed files; a series with several data types needs the user to choose the subset first.
 
