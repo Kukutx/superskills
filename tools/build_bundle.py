@@ -15,6 +15,11 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Sequence
 
+if __package__:
+    from .layout import ENTRYPOINT, MAINTENANCE_DIR, ROUTER_ROUTE, categories, route_of, skill_dir, skill_dirs
+else:
+    from layout import ENTRYPOINT, MAINTENANCE_DIR, ROUTER_ROUTE, categories, route_of, skill_dir, skill_dirs
+
 DEFAULT_ROOT = Path(__file__).resolve().parents[1]
 BUNDLE_FORMAT = "superskills.bundle.v1"
 
@@ -113,8 +118,9 @@ def build_bundle(
     *,
     root: Path | str,
     profile: str,
-    skills: Sequence[str],
+    skills: Sequence[str] = (),
     references: Sequence[str] = (),
+    category_names: Sequence[str] = (),
     output: Path | str | None = None,
 ) -> BundleSummary:
     root = Path(root).resolve()
@@ -123,31 +129,46 @@ def build_bundle(
     if not profile_instructions.is_file():
         raise BundleError(f"profile is missing project-instructions.md: {profile}")
 
-    selected_skills = sorted({normalize_skill_route(route) for route in skills})
+    # A category brings every Skill it holds together with all of their references.
+    selected_categories = sorted({name.strip().strip("/") for name in category_names})
+    unknown = sorted(set(selected_categories) - set(categories(root)))
+    if unknown:
+        raise BundleError(f"category does not exist: {', '.join(unknown)}")
+    category_skills = [
+        path for path in skill_dirs(root) if route_of(path).split("/", 1)[0] in selected_categories
+    ]
+
+    selected_skills = sorted(
+        {normalize_skill_route(route) for route in skills} | {route_of(path) for path in category_skills}
+    )
     if not selected_skills:
-        raise BundleError("select at least one --skill")
+        raise BundleError("select at least one --skill or --category")
 
     source_files: list[Path] = [
         profile_instructions,
-        root / "skills" / "meta" / "skill-router" / "skill.md",
+        skill_dir(root, ROUTER_ROUTE) / ENTRYPOINT,
     ]
     if not source_files[1].is_file():
         raise BundleError("authoritative Skill Router is missing")
 
     for route in selected_skills:
-        entrypoint = root / "skills" / route / "skill.md"
+        entrypoint = skill_dir(root, route) / ENTRYPOINT
         if not entrypoint.is_file():
             raise BundleError(f"Skill does not exist: {route}")
         source_files.append(entrypoint)
 
     selected_references: list[str] = []
+    for directory in category_skills:
+        for path in sorted((directory / "references").glob("*.md")):
+            source_files.append(path)
+            selected_references.append(f"{route_of(directory)}:{path.name}")
     for raw in references:
         owner, name = parse_reference(raw)
         if owner not in selected_skills:
             raise BundleError(
                 f"reference owner '{owner}' is not selected; add --skill {owner}"
             )
-        path = root / "skills" / owner / "references" / name
+        path = skill_dir(root, owner) / "references" / name
         if not path.is_file():
             raise BundleError(f"reference does not exist: {owner}:{name}")
         source_files.append(path)
@@ -155,9 +176,9 @@ def build_bundle(
 
     unique_sources = sorted({path.resolve() for path in source_files}, key=lambda path: path.relative_to(root).as_posix())
     for path in unique_sources:
-        relative = path.relative_to(root).as_posix()
-        if "/maintenance/" in f"/{relative}/":
-            raise BundleError(f"maintenance content cannot enter runtime bundles: {relative}")
+        relative = path.relative_to(root)
+        if relative.parts[0] == MAINTENANCE_DIR:
+            raise BundleError(f"maintenance content cannot enter runtime bundles: {relative.as_posix()}")
 
     if output is None:
         output_path = root / "dist" / profile_dir.name
@@ -196,6 +217,7 @@ def build_bundle(
             "format": BUNDLE_FORMAT,
             "profile": profile_dir.relative_to(root).as_posix(),
             "source_commit": commit,
+            "categories": selected_categories,
             "skills": selected_skills,
             "references": sorted(set(selected_references)),
             "files": manifest_files,
@@ -231,6 +253,12 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--profile", required=True, help="Profile directory, for example gpts/kukutx")
     parser.add_argument("--skill", action="append", default=[], help="Skill route category/skill; repeat as needed")
     parser.add_argument(
+        "--category",
+        action="append",
+        default=[],
+        help="Whole category with every Skill and reference in it; repeat as needed",
+    )
+    parser.add_argument(
         "--reference",
         action="append",
         default=[],
@@ -248,6 +276,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             profile=args.profile,
             skills=args.skill,
             references=args.reference,
+            category_names=args.category,
             output=args.output,
         )
     except BundleError as exc:

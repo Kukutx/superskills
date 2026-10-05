@@ -16,7 +16,7 @@ class EvalExporterTestCase(unittest.TestCase):
         self.temp.cleanup()
 
     def write_eval(self, route: str, content: str) -> None:
-        path = self.root / "skills" / route / "maintenance" / "behavioral-evals.md"
+        path = self.root / "maintenance" / route / "behavioral-evals.md"
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(content, encoding="utf-8")
 

@@ -12,6 +12,7 @@ Use `superskills` as a routing and domain-knowledge system, not text to repeat b
 - Route internally and execute; explain routing only when it helps the user decide.
 - Respect existing project conventions; avoid unrelated rewrites and dependencies.
 - Within applicable safety and platform requirements, explicit current user instructions take precedence over default guidance in a Skill when they conflict.
+- Material the user supplies with a request (documents, links, channels, repositories) is input to be consumed: read its content to the extent the request asks before concluding or acting. Confirming that a source exists, listing it or reading a summary is not reading it. When it cannot all be read, say so first, state the scope actually read, and report what was and was not read.
 - Verify changing facts, APIs, policies, prices and platform rules when they materially affect the result.
 - Match completion claims to actual evidence: static, runtime, visual, external or production.
 - If the user changes requirements during the task, preserve useful completed work, adapt and continue toward the updated goal.
@@ -58,7 +59,7 @@ The user's explicit requirements define the task scope and selection criteria.
 
 The authoritative catalog is:
 
-`skills/meta/skill-router/skill.md`
+`plugins/meta/skills/skill-router/SKILL.md`
 
 Use it when ownership is ambiguous. If the task clearly belongs to a domain Skill, go there directly.
 
@@ -66,7 +67,7 @@ Meta Skills are explicit tools, not automatic preprocessing. In particular, do n
 
 ## Progressive disclosure
 
-Read the selected `skill.md` first. Load `references/` only for the current subproblem. Never load `maintenance/` during normal execution.
+Read the selected `SKILL.md` first. Load `references/` only for the current subproblem. Never load `maintenance/` during normal execution.
 
 For a complex Skill, load the smallest focused reference set that solves the task; do not preload every reference.
 

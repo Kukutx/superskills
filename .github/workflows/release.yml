@@ -38,6 +38,23 @@ jobs:
           python tools/validate_repo.py
           python tools/export_behavioral_evals.py --check
 
+      - name: Require plugin versions to match the release tag
+        run: |
+          python - <<'PY'
+          import json, os, pathlib
+
+          expected = os.environ["VERSION"].removeprefix("v")
+          versions = {
+              json.loads(path.read_text(encoding="utf-8"))["version"]
+              for path in pathlib.Path("plugins").glob("*/plugin.json")
+          }
+          if versions != {expected}:
+              raise SystemExit(
+                  f"plugin versions {sorted(versions)} do not match {expected}; "
+                  f"run python tools/build_manifests.py --version {expected}"
+              )
+          PY
+
       - name: Reject duplicate release tag
         run: |
           if gh release view "$VERSION" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
@@ -62,7 +79,8 @@ jobs:
           )
           print(archive)
           PY
-          (cd dist && sha256sum superskills-resume-bundle.zip > SHA256SUMS.txt)
+          python tools/package_web_skills.py
+          (cd dist && sha256sum superskills-resume-bundle.zip claude-web/*.zip > SHA256SUMS.txt)
 
       - name: Write release notes
         run: |
@@ -73,6 +91,8 @@ jobs:
 
           - autonomy-first execution with escalation at true blockers and consequential boundaries;
           - truthful ATS-safe resume/CV writing;
+          - one installable plugin per category for Claude Code and Codex;
+          - one uploadable ZIP per Skill for claude.ai (Customize > Skills);
           - one-primary-Skill routing and progressive disclosure;
           - calibrated verification with strict repository regression checks;
           - machine-readable behavioral eval export;
@@ -80,13 +100,14 @@ jobs:
           - Python 3.14 tooling and CI;
           - MIT licensing.
 
-          Included asset: a ready-to-upload writing/resume-writing runtime bundle bound to commit ${GITHUB_SHA}.
+          Included assets, bound to commit ${GITHUB_SHA}: every Skill as a claude.ai upload ZIP, and a ready-to-upload writing/resume-writing ChatGPT runtime bundle.
           EOF
 
       - name: Create release
         run: |
           gh release create "$VERSION" \
             dist/superskills-resume-bundle.zip \
+            dist/claude-web/*.zip \
             dist/SHA256SUMS.txt \
             --target "$GITHUB_SHA" \
             --title "$VERSION" \

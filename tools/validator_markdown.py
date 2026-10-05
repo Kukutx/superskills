@@ -6,7 +6,7 @@ import re
 from dataclasses import dataclass
 from pathlib import Path
 
-ROOT_PREFIXES = ("docs/", "gpts/", "skills/", "templates/", "tools/", "tests/", ".github/")
+ROOT_PREFIXES = ("docs/", "gpts/", "plugins/", "maintenance/", "templates/", "tools/", "tests/", ".github/")
 ROUTE_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*/[a-z0-9]+(?:-[a-z0-9]+)*$")
 ROUTE_FIND_RE = re.compile(
     r"(?<![a-z0-9-])([a-z0-9]+(?:-[a-z0-9]+)*/[a-z0-9]+(?:-[a-z0-9]+)*)(?![a-z0-9-])"

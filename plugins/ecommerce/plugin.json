@@ -1,0 +1,11 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "superskills-ecommerce",
+  "version": "1.1.0",
+  "description": "Shopify theme, Liquid and store integration work, and inventory reorder decisions.",
+  "author": {
+    "name": "Kukutx"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/Kukutx/superskills"
+}

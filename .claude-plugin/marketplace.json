@@ -1,0 +1,120 @@
+{
+  "name": "superskills",
+  "owner": {
+    "name": "Kukutx",
+    "url": "https://github.com/Kukutx"
+  },
+  "metadata": {
+    "description": "Personal cross-domain Agent Skills. One plugin per category; install only the categories a project or workspace needs."
+  },
+  "plugins": [
+    {
+      "name": "superskills-creative",
+      "description": "Image-generation direction, promo video planning and xTool F1 engraving design.",
+      "source": "./plugins/creative",
+      "strict": false
+    },
+    {
+      "name": "superskills-data",
+      "description": "Data analysis and pre-share checks, metrics reviews, SQL query writing and chart design.",
+      "source": "./plugins/data",
+      "strict": false
+    },
+    {
+      "name": "superskills-design",
+      "description": "App Store / Play Store visual assets, UI design review and review of existing images.",
+      "source": "./plugins/design",
+      "strict": false
+    },
+    {
+      "name": "superskills-development",
+      "description": "Bug diagnosis, code review, technical design, implementation planning, technical debt triage, Godot 4.x (shared, 2D, 3D) and sprite animation pipelines.",
+      "source": "./plugins/development",
+      "strict": false
+    },
+    {
+      "name": "superskills-ecommerce",
+      "description": "Shopify theme, Liquid and store integration work, and inventory reorder decisions.",
+      "source": "./plugins/ecommerce",
+      "strict": false
+    },
+    {
+      "name": "superskills-finance",
+      "description": "Bookkeeping and close, cash flow, payables and collections, payroll checks, valuation, financial models, unit economics, diligence and stock research.",
+      "source": "./plugins/finance",
+      "strict": false
+    },
+    {
+      "name": "superskills-legal",
+      "description": "Contract review, NDA triage and privacy compliance checks for non-lawyers.",
+      "source": "./plugins/legal",
+      "strict": false
+    },
+    {
+      "name": "superskills-marketing",
+      "description": "Positioning, marketing plans, launches, SEO and app store optimization, ads, experiments, conversion, content strategy, email and SMS sequences, competitors and creator partnerships.",
+      "source": "./plugins/marketing",
+      "strict": false
+    },
+    {
+      "name": "superskills-meta",
+      "description": "Prompt optimization, Skill authoring and the Superskills router.",
+      "source": "./plugins/meta",
+      "strict": false
+    },
+    {
+      "name": "superskills-operations",
+      "description": "Release gates, SOPs, incident response, change management, vendor evaluation and status reports.",
+      "source": "./plugins/operations",
+      "strict": false
+    },
+    {
+      "name": "superskills-people",
+      "description": "Hiring, interviews and offers, and performance reviews.",
+      "source": "./plugins/people",
+      "strict": false
+    },
+    {
+      "name": "superskills-personal",
+      "description": "Divination readings, generational context analysis and non-diagnostic psychology reflection.",
+      "source": "./plugins/personal",
+      "strict": false
+    },
+    {
+      "name": "superskills-planning",
+      "description": "Cross-workstream project roadmaps, and inbox and task digests.",
+      "source": "./plugins/planning",
+      "strict": false
+    },
+    {
+      "name": "superskills-product",
+      "description": "PRDs and MVP scope, roadmap prioritization, pricing and paywalls, onboarding and retention.",
+      "source": "./plugins/product",
+      "strict": false
+    },
+    {
+      "name": "superskills-research",
+      "description": "Web resource discovery, evidence-led research briefs and user research.",
+      "source": "./plugins/research",
+      "strict": false
+    },
+    {
+      "name": "superskills-sales",
+      "description": "Sales call prep and recap, outreach, deal and pipeline reviews, quotes and bids.",
+      "source": "./plugins/sales",
+      "strict": false
+    },
+    {
+      "name": "superskills-support",
+      "description": "Customer support triage, replies and escalations, help-center articles, review replies and win-back.",
+      "source": "./plugins/support",
+      "strict": false
+    },
+    {
+      "name": "superskills-writing",
+      "description": "Business email, store listing copy, marketing copy, social content, interface microcopy and truthful resumes.",
+      "source": "./plugins/writing",
+      "strict": false
+    }
+  ]
+}

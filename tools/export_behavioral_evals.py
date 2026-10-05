@@ -11,9 +11,11 @@ from pathlib import Path
 from typing import Sequence
 
 if __package__:
-    from .validate_repo import routing_cases_from_text
+    from .layout import MAINTENANCE_DIR
+    from .validator_markdown import routing_cases_from_text
 else:
-    from validate_repo import routing_cases_from_text
+    from layout import MAINTENANCE_DIR
+    from validator_markdown import routing_cases_from_text
 
 DEFAULT_ROOT = Path(__file__).resolve().parents[1]
 
@@ -25,14 +27,14 @@ class EvalExportError(ValueError):
 def source_skill_for(path: Path, root: Path) -> str:
     relative = path.relative_to(root)
     parts = relative.parts
-    if len(parts) < 5 or parts[0] != "skills":
+    if len(parts) != 4 or parts[0] != MAINTENANCE_DIR:
         raise EvalExportError(f"unexpected behavioral eval path: {relative}")
     return f"{parts[1]}/{parts[2]}"
 
 
 def export_cases(root: Path | str) -> list[dict[str, object]]:
     root = Path(root).resolve()
-    files = sorted(root.glob("skills/*/*/maintenance/behavioral-evals.md"))
+    files = sorted(root.glob(f"{MAINTENANCE_DIR}/*/*/behavioral-evals.md"))
     records: list[dict[str, object]] = []
 
     for path in files:

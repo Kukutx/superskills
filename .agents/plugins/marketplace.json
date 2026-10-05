@@ -1,0 +1,224 @@
+{
+  "name": "superskills",
+  "interface": {
+    "displayName": "Superskills"
+  },
+  "plugins": [
+    {
+      "name": "superskills-creative",
+      "source": {
+        "source": "local",
+        "path": "./plugins/creative"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "superskills-data",
+      "source": {
+        "source": "local",
+        "path": "./plugins/data"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "superskills-design",
+      "source": {
+        "source": "local",
+        "path": "./plugins/design"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "superskills-development",
+      "source": {
+        "source": "local",
+        "path": "./plugins/development"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Coding"
+    },
+    {
+      "name": "superskills-ecommerce",
+      "source": {
+        "source": "local",
+        "path": "./plugins/ecommerce"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Coding"
+    },
+    {
+      "name": "superskills-finance",
+      "source": {
+        "source": "local",
+        "path": "./plugins/finance"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "superskills-legal",
+      "source": {
+        "source": "local",
+        "path": "./plugins/legal"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "superskills-marketing",
+      "source": {
+        "source": "local",
+        "path": "./plugins/marketing"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "superskills-meta",
+      "source": {
+        "source": "local",
+        "path": "./plugins/meta"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Coding"
+    },
+    {
+      "name": "superskills-operations",
+      "source": {
+        "source": "local",
+        "path": "./plugins/operations"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "superskills-people",
+      "source": {
+        "source": "local",
+        "path": "./plugins/people"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "superskills-personal",
+      "source": {
+        "source": "local",
+        "path": "./plugins/personal"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "superskills-planning",
+      "source": {
+        "source": "local",
+        "path": "./plugins/planning"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "superskills-product",
+      "source": {
+        "source": "local",
+        "path": "./plugins/product"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "superskills-research",
+      "source": {
+        "source": "local",
+        "path": "./plugins/research"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "superskills-sales",
+      "source": {
+        "source": "local",
+        "path": "./plugins/sales"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "superskills-support",
+      "source": {
+        "source": "local",
+        "path": "./plugins/support"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "superskills-writing",
+      "source": {
+        "source": "local",
+        "path": "./plugins/writing"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

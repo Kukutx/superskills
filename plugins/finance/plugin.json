@@ -1,0 +1,11 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "superskills-finance",
+  "version": "1.1.0",
+  "description": "Bookkeeping and close, cash flow, payables and collections, payroll checks, valuation, financial models, unit economics, diligence and stock research.",
+  "author": {
+    "name": "Kukutx"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/Kukutx/superskills"
+}

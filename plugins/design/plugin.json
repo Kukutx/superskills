@@ -1,0 +1,11 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "superskills-design",
+  "version": "1.1.0",
+  "description": "App Store / Play Store visual assets, UI design review and review of existing images.",
+  "author": {
+    "name": "Kukutx"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/Kukutx/superskills"
+}

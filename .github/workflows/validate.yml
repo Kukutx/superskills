@@ -38,3 +38,8 @@ jobs:
             --skill writing/resume-writing \
             --output /tmp/superskills-bundle
           test -f /tmp/superskills-bundle/manifest.json
+      - name: Smoke-test web packages and live eval suite
+        run: |
+          python tools/package_web_skills.py --output /tmp/superskills-claude-web
+          python tools/build_live_evals.py
+          test -f dist/live-evals/.claude-plugin/plugin.json

@@ -1,6 +1,6 @@
 ---
 name: skill-name
-description: What this Skill owns and when an agent should use it.
+description: What this Skill does, with the user's own keywords first. Use when <the tasks that need it>, not for <the nearest task it must not take>.
 ---
 
 # Skill Name
@@ -54,10 +54,12 @@ Default to the smallest useful structure for this domain. Put the requested resu
 State what was actually checked. Distinguish static confidence from runtime, visual, external or production verification when relevant. Keep verification proportional to the change; broaden it only when failures or unresolved risk justify it.
 
 <!--
-Keep global autonomy/escalation/scope behavior in gpts/kukutx/project-instructions.md.
+Place this file at plugins/<category>/skills/<skill>/SKILL.md; the name must equal the folder name.
+Description: capability first, then when to use it, then the nearest task it must not take; at most 200 characters, no ": ".
+The body must stand on its own: hosts with a native Skill registry never load gpts/kukutx/project-instructions.md.
 Add one-level references/ only when domain depth is genuinely task-dependent.
-If a real ownership/routing/blocker boundary needs regression coverage, add maintenance/behavioral-evals.md.
-Use maintenance/sources.md only for substantial source inventories; use decisions.md rarely.
+If a real ownership/routing/blocker boundary needs regression coverage, add maintenance/<category>/<skill>/behavioral-evals.md.
+Use sources.md there only for substantial source inventories; use decisions.md rarely.
 Move ownership when splitting content; do not duplicate rules across files.
 Do not create prompt-template.md, examples.md, changelog.md or compatibility stubs by default.
 Run tests, python tools/validate_repo.py and the behavioral eval export check before completion.

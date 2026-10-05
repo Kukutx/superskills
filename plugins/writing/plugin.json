@@ -1,0 +1,11 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "superskills-writing",
+  "version": "1.1.0",
+  "description": "Business email, store listing copy, marketing copy, social content, interface microcopy and truthful resumes.",
+  "author": {
+    "name": "Kukutx"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/Kukutx/superskills"
+}
