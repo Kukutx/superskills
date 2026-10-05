@@ -121,6 +121,8 @@ python tools/build_bundle.py \
   --reference development/godot-project-systems:ui-ux
 ```
 
+整类一起带用 `--category <category>`，可重复。包里的 Router 只保留已选 Skill 的 Catalog 行，并注明其余 Skill 未加载，避免把任务路由到没有上传的文件。
+
 输出的 `manifest.json` 记录源提交、文件哈希、字节数和粗略 Token 预算，并保证不包含 `maintenance/`。
 
 ## Releases

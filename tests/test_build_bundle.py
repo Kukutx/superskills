@@ -76,6 +76,29 @@ class BundleBuilderTestCase(unittest.TestCase):
         manifest = json.loads((output / "manifest.json").read_text(encoding="utf-8"))
         self.assertEqual(["development/foo", "writing/baz"], manifest["skills"])
 
+    def test_router_catalog_lists_only_bundled_skills(self) -> None:
+        self.write("plugins/writing/skills/baz/SKILL.md", "# Baz\n")
+        self.write(
+            "plugins/meta/skills/skill-router/SKILL.md",
+            "# Router\n\n## Catalog\n\n| Intent | Skill |\n| --- | --- |\n"
+            "| do foo | `development/foo` |\n| do baz | `writing/baz` |\n\n"
+            "## Important boundaries\n\nfoo -> foo; baz -> baz\n",
+        )
+        output = self.root / "out"
+        build_bundle(root=self.root, profile="gpts/test", skills=["development/foo"], output=output)
+        router = (output / "plugins/meta/skills/skill-router/SKILL.md").read_text(encoding="utf-8")
+        self.assertIn("| do foo | `development/foo` |", router)
+        self.assertNotIn("`writing/baz`", router)
+        self.assertIn("carries only the Skills listed above", router)
+        self.assertIn("## Important boundaries\n\nfoo -> foo; baz -> baz\n", router)
+
+        build_bundle(
+            root=self.root, profile="gpts/test", skills=["development/foo", "writing/baz"], output=output
+        )
+        router = (output / "plugins/meta/skills/skill-router/SKILL.md").read_text(encoding="utf-8")
+        self.assertIn("`writing/baz`", router)
+        self.assertNotIn("carries only the Skills listed above", router)
+
     def test_unknown_category_and_empty_selection_fail(self) -> None:
         with self.assertRaisesRegex(BundleError, "category does not exist: finance"):
             build_bundle(root=self.root, profile="gpts/test", category_names=["finance"], output=self.root / "out")

@@ -7,6 +7,7 @@ import argparse
 import hashlib
 import json
 import math
+import re
 import shutil
 import subprocess
 import sys
@@ -97,6 +98,38 @@ def parse_reference(raw: str) -> tuple[str, str]:
     return owner, name
 
 
+CATALOG_HEADING = "## Catalog"
+CATALOG_ROUTE = re.compile(r"`([a-z0-9-]+/[a-z0-9-]+)`\s*\|\s*$")
+PARTIAL_CATALOG_NOTE = (
+    "This bundle carries only the Skills listed above. When a task belongs to a Skill named "
+    "elsewhere in this file that is not listed, say that it is not loaded and answer without it."
+)
+
+
+def trim_router_catalog(text: str, selected_skills: Sequence[str]) -> str:
+    """Keep only the Catalog rows whose Skill is in the bundle, so the Router never points at a missing file."""
+    lines = text.splitlines(keepends=True)
+    start = next((i for i, line in enumerate(lines) if line.strip() == CATALOG_HEADING), None)
+    if start is None:
+        return text
+    end = next((i for i in range(start + 1, len(lines)) if lines[i].startswith("## ")), len(lines))
+    kept: list[str] = []
+    dropped = False
+    for line in lines[start + 1 : end]:
+        match = CATALOG_ROUTE.search(line.rstrip())
+        if match and match.group(1) not in selected_skills:
+            dropped = True
+            continue
+        kept.append(line)
+    if not dropped:
+        return text
+    newline = "\r\n" if lines[start].endswith("\r\n") else "\n"
+    while kept and not kept[-1].strip():
+        kept.pop()
+    kept.extend([newline, PARTIAL_CATALOG_NOTE + newline, newline])
+    return "".join(lines[: start + 1] + kept + lines[end:])
+
+
 def safe_replace_directory(output: Path) -> None:
     if not output.exists():
         return
@@ -174,6 +207,7 @@ def build_bundle(
         source_files.append(path)
         selected_references.append(f"{owner}:{name}")
 
+    router_source = source_files[1].resolve()
     unique_sources = sorted({path.resolve() for path in source_files}, key=lambda path: path.relative_to(root).as_posix())
     for path in unique_sources:
         relative = path.relative_to(root)
@@ -200,6 +234,8 @@ def build_bundle(
             destination = temp_path / relative
             destination.parent.mkdir(parents=True, exist_ok=True)
             data = source.read_bytes()
+            if source == router_source:
+                data = trim_router_catalog(data.decode("utf-8"), selected_skills).encode("utf-8")
             destination.write_bytes(data)
             size = len(data)
             total_bytes += size

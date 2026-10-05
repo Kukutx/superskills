@@ -66,7 +66,7 @@ Maintenance-only. Test task ownership, scope fidelity and autonomy/escalation be
 | pro-011 | “英伟达昨晚发了财报，帮我分析这季是超预期还是不及预期，指引怎么样。” | `finance/stock-research` | research only for a distinct non-investment fact | answering with results or consensus recalled from memory |
 | pro-012 | “我想买下一个月利润 3000 美元的小网站，卖家要价 12 万，帮我看值不值、该查什么。” | `finance/deal-diligence` | company-valuation only if a full model is asked for | deal-review, which judges a sales deal |
 | pro-013 | “我要招一个 Flutter 工程师，收到 40 份简历，帮我定筛选标准并挑出该面试的人。” | `people/hiring` | none | resume-writing, which writes a candidate's own resume |
-| pro-014 | “这是和客户今天通话的文字稿，帮我整理出双方的承诺并写跟进邮件。” | `sales/sales-call-prep-and-recap` | none | business-email without extracting the commitments first |
+| pro-014 | “今天和客户通了电话：他答应周五前确认预算并拉法务进群，我答应周三发报价和案例，下次沟通定在下周二。帮我整理双方的承诺并写跟进邮件。” | `sales/sales-call-prep-and-recap` | none | business-email without extracting the commitments first |
 | pro-015 | “对方说我们比竞品贵 30%，要再考虑一下，我该怎么回？” | `sales/sales-outreach` | none | customer-support-replies, or conceding a discount as the first move |
 | pro-016 | “客户让我报个价，给他们门店做一套预约小程序，这是我上次通话的笔记，帮我写成报价单。” | `sales/quote-and-proposal` | none | inventing a price when no comparable past job or price list was given |
 | pro-017 | “下周要在 Product Hunt 和几个目录站发布我的新 App，帮我排发布计划。” | `marketing/product-launch` | none | release-checklist, which gates the build rather than the announcement |
