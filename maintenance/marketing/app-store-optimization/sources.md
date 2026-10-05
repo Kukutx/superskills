@@ -22,3 +22,5 @@ Maintenance-only. Do not load for normal tasks.
 | Google Play Console Help, preview assets | https://support.google.com/googleplay/android-developer/answer/9866151 | screenshot counts, feature graphic size, preview video autoplay | 2026-10 |
 | Android Developers, Android vitals | https://developer.android.com/topic/performance/vitals | crash and ANR thresholds above which visibility may be reduced | 2026-10 |
 | Google Play Console Help, store listing experiments | https://support.google.com/googleplay/android-developer/answer/6227309 | what a store listing experiment can test; the variant count was unclear and is not stated in the Skill | 2026-10 |
+| Apple, App Review Guidelines section 2.3 | https://developer.apple.com/app-store/review/guidelines/ | what review rejects in names, keywords, screenshots, previews, categories and "what's new" text | 2026-10 |
+| App Store Connect Help, platform version information | https://developer.apple.com/help/app-store-connect/reference/app-information/platform-version-information | the keyword field is limited to 100 bytes; promotional text 170 characters; up to three previews per localization | 2026-10 |

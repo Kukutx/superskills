@@ -52,7 +52,7 @@
     },
     {
       "name": "superskills-marketing",
-      "description": "Positioning, marketing plans, launches, SEO and app store optimization, ads, experiments, conversion, content strategy, email and SMS sequences, competitors and creator partnerships.",
+      "description": "Positioning, marketing plans, launches, events, SEO and app store optimization, ads, experiments, conversion, content strategy, email and SMS sequences, competitors and creator partnerships.",
       "source": "./plugins/marketing",
       "strict": false
     },

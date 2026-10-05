@@ -25,7 +25,8 @@ Follower counts, engagement and past posts cannot be looked up from here. Vettin
 1. **Audience fit decides, not audience size.** Would this creator's followers plausibly buy the product?
 2. **Tiers by followers**: nano 1,000 to 10,000 (often paid in product), micro 10,000 to 50,000, mid 50,000 to 500,000, macro above that. For the same budget, several nano and micro creators usually do better than one large account.
 3. **Vetting checks**: engagement rate (around 1 to 3% on image and short-video platforms is a working floor, not a published standard); signs of bought followers or automated comments; how earlier sponsored posts performed compared with the creator's normal posts; anything in the last three months that the brand would not want to stand beside; whether the creator has talked about this kind of product unprompted.
-4. Ask each creator for their rate card and compare several before fixing a fee. Market rates change and are not stated here.
+4. More warning signs: comment pods, generic comments, a sudden jump in followers, engagement far out of line with audience size. A media kit tends to flatter.
+6. Ask each creator for their rate card and compare several before fixing a fee. Market rates change and are not stated here.
 
 ## Deal terms and the brief
 
@@ -44,6 +45,21 @@ Terms to settle in writing: deliverables and dates; **usage rights**, meaning wh
 - Freedom on everything else. A word-for-word script produces an ad nobody watches.
 
 The creator speaks only from real experience of the product and makes only claims the brand can prove.
+
+With a large account, do not accept the quoted flat fee as given: propose a hybrid, and ask explicitly for the right to run the content as ads from the creator's handle. For podcasts and other audio, where nothing can be clicked, a code per host carries the attribution, backed by a dedicated page and a "where did you hear about us" question.
+
+## Creator programmes at volume
+
+When the asset is the number of pieces tested rather than one creator's audience, run a programme instead of single deals: several creators posting daily produce far more tests than a brand account can, and distribution follows the content, not the follower count.
+
+- **Write the playbook before recruiting**: use the product and note where its value becomes visible; study the user's own best content, direct competitors, products with a similar user journey and what the audience already watches; collect what failed too. Each concept names the audience, the pain, the hook, the format, the points to make and the product moment to show.
+- **Hire on a paid trial, not a portfolio.** Give real concepts, score hook, delivery, framing and editing, send written feedback and ask for a revision. The first video shows ability; the revision shows whether the person can be worked with.
+- **Review every piece before it goes out**, against the playbook, with feedback specific enough to act on ("cut the first sentence, hold the phone closer"); "more natural" cannot be executed.
+- **Judge by product questions, saves, shares and installs, not views.** Rework what shows promise at once, changing one main variable at a time (new hook, same creator; same hook, new creator; same idea, new format). The goal is a format that works more than once. Give it at least four weeks.
+- **One named owner.** Around ten creators is a full-time job of briefing, reviewing and tracking.
+- **The compliance line.** Every post by a paid creator is an ad and is disclosed as one, including from a new account made not to look like the brand. Paying people to comment as unconnected users is an undisclosed endorsement; replies come from programme accounts or from the brand openly. Creators have really used the product. A network of undisclosed accounts also risks the platform's rules on inauthentic behaviour.
+
+An **ambassador programme** is the long-term form: light requirements, benefits that rise with contribution, people recruited one by one from those who already recommend the product, a code and link each, and resources moved to the ones who perform.
 
 ## Disclosure
 
@@ -67,10 +83,12 @@ Set up before the first post, because none of it can be added afterwards: a code
 
 - **A good partner** sells to the same buyers, solves a different problem, sits next to the product in the buyer's workflow and is at a similar stage.
 - **Where to look**: tools the user's customers already use, sponsors of the newsletters and podcasts they follow, exhibitors at the same events, companies active in the same communities, the integrations customers ask for most.
-- **Score each candidate from 1 to 5** on audience fit, audience size, brand match, engagement quality, what each side can give the other, and ease of execution.
-- **Pick the format by effort and by who keeps the leads**: a newsletter swap or a podcast guest slot costs little and each side keeps its own leads; a joint report or study is gated and the leads are shared. Co-marketing is one kind of partnership among integration, distribution, affiliate and marketplace listings; do not default to joint content.
+- **Five kinds of partnership, chosen by the problem**: an integration (products connect; helps retention and expansion) when customers leave or stall; affiliates (paid per referral; fast and performance-based) or resellers (they sell and service it; slow and heavy, and they care about their service margin) when distribution is wanted without more staff; co-marketing (joint content or events) when there is content but no reach; a marketplace or app store listing when one platform owns the buyer's daily workflow, in which case commit to that one platform and count its commission as the cost of acquisition. The kinds feed each other: integrations bring marketplace presence, which attracts resellers and affiliates, whose results become case studies.
+- **Score each candidate from 1 to 5** on audience fit, audience size, brand match, engagement quality, what each side can give the other, and ease of execution. Weight by the goal: reach and fit for acquisition, brand match and engagement for a relationship. With several candidates and little time, start with one low-effort content swap to test the relationship before a large joint project.
+- **Pick the format by effort and by who keeps the leads**: a newsletter swap or a podcast guest slot costs little and each side keeps its own leads; a joint report or study is gated and the leads are shared. Co-marketing is one kind of partnership among five; do not default to joint content.
 - **Arrive with two or three concrete ideas**, the user's own audience figures and a clear statement of what each side would get.
-- **Six things agreed before starting**: who owns the leads, what each side commits to promote, who makes the materials and who approves them, the timeline, how success is measured, and what happens afterwards.
+- **Agreed before starting**: who owns the leads, what each side commits to promote, who makes the materials and who approves them, who pays for what, how each brand may be used, the timeline, how success is measured, and what happens afterwards.
+- **Leads from a joint event** are split in one of three ways, chosen in advance and written down: each side keeps its own registrations (cleanest, no cross-acquisition), everything is shared (widest reach, needs a clear hand-over and the consent to share), or by the audience each lead came from. Judge the result by lead quality and attributed revenue per partner, not by count, and review it together before planning a second one.
 
 ## Output
 

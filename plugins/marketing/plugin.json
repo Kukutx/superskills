@@ -2,7 +2,7 @@
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "superskills-marketing",
   "version": "1.1.0",
-  "description": "Positioning, marketing plans, launches, SEO and app store optimization, ads, experiments, conversion, content strategy, email and SMS sequences, competitors and creator partnerships.",
+  "description": "Positioning, marketing plans, launches, events, SEO and app store optimization, ads, experiments, conversion, content strategy, email and SMS sequences, competitors and creator partnerships.",
   "author": {
     "name": "Kukutx"
   },

@@ -36,11 +36,13 @@ Status is judged against the account's own trailing 90-day average, not an indus
 | Status | Rule |
 | --- | --- |
 | Working | cost per result within 15% of the average or better, volume steady |
-| Watch | 15–40% worse, or frequency above 3, or volume down two weeks running |
+| Watch | 15–40% worse, or frequency past the warning line for its audience (about 2.5 for a cold audience, about 4 for retargeting), or volume down two weeks running |
 | Problem | more than 40% worse, or spend with no results for 14 days or more |
 | No verdict | no conversion tracking, or below the minimum data |
 
 Lead with cost per result, or cost per closed sale when the user's records allow it. Impressions never come first.
+
+A stop rule can also be written in spend instead of days: a new ad that has spent two to three times the target cost per result with nothing to show is stopped. In an audit, a check that could not be verified is reported as unknown and lowers coverage, never the health score. How to grade an audit, what zero conversions can and cannot prove, how to read a search-terms report and how to label statements for a client are in [references/reading-ad-data.md](references/reading-ad-data.md).
 
 | Signal | Reading |
 | --- | --- |
@@ -57,16 +59,18 @@ Two weeks of movement is not a trend.
 
 ## Budget, targeting and structure
 
-- **Raise** only when cost is stable or improving, frequency is under 3 and there are 30 days of history. Step by about 20% and wait three to five days between steps. Larger jumps are reported to send a campaign back into its learning phase; treat that as a hypothesis and check the platform's current guidance.
-- **Lower** when cost per result is 40% or more worse than the account's average, or frequency is above 4 with a falling click rate. Below the minimum data, the right move most weeks is none.
-- Pausing the only working campaign is never proposed without saying that it is the only one, and that a restart will perform worse for some days.
-- Split a testing budget about 70% to what is proven and 30% to tests.
-- **Scale against a break-even**: work out the highest cost per acquisition the lifetime value supports and grow toward it, watching net cash, not the return of a single campaign.
+- **Raise** only when cost is stable or improving, frequency is below the warning line and there are 30 days of history. Step by about 20% and wait three to five days between steps on social platforms; on search, move a bid target by 10–15% and wait one to two weeks. If cost per result rises to one and a half times the target after a raise, cut back by 20–30% and let it settle before trying again. Larger jumps are reported to send a campaign back into its learning phase; treat that as a hypothesis and check the platform's current guidance.
+- **Lower** when cost per result is 40% or more worse than the account's average, or frequency is in the severe band for its audience with a falling click rate. Below the minimum data, the right move most weeks is none.
+- Pausing the only working campaign is never proposed without saying that it is the only one, and that a restart will perform worse for some days. A producing ad is not paused until its replacement is ready.
+- Keep most of the budget, 70% to 80% as a default, on what is proven and the rest on tests with their own protected budget.
+- **Scale against payback, not a lifetime-value ratio.** Payback in months = acquisition cost ÷ monthly revenue per customer, worked out per plan, since a blended average hides that a cheap plan may never pay for its ads. Divide by the annual retention rate to allow for customers who leave. As a working gate, paid acquisition is for plans that pay back within about a year; cheaper plans are acquired organically. Recompute monthly, because acquisition cost rises with volume, and watch net cash, not the return of a single campaign.
 - **Return uses the revenue the ads can reach.** Dividing whole-company revenue by ad spend inflates the figure many times over; state both numbers used. A return an order of magnitude better than plausible means the denominator is wrong.
 - **Targeting.** Narrow the geography to where the business can actually serve; exclude existing customers; when frequency passes 4, widening the audience beats swapping the creative. Stacking narrow interest filters does not rescue weak creative; several creatives aimed at different segments with broad targeting usually does better.
 - **Retargeting windows** (working defaults): cart or trial visitors 1–7 days, visitors to key pages 7–30 days, any visitor 30–90 days, each with a frequency cap. Exclude recent buyers for 7–14 days, visits under ten seconds and irrelevant pages. Show a different offer, not the same ad again: an answer to an objection, testimonials, another product, or something useful first.
-- **Search.** Brand and non-brand keywords are separate campaigns. Brand search is demand that already existed, so a low brand cost is not a win; report the blended return, but set targets on the non-brand one. A search-terms report is a sample: compute the break-even conversion rate before calling spend wasted, and never invent negative keywords without the report.
+- **Search.** Brand and non-brand keywords are separate campaigns. Brand search is demand that already existed, so a low brand cost is not a win; report the blended return, but set targets on the non-brand one. A search-terms report is a partial, biased sample: state how many of the clicks had their terms disclosed, compute the break-even conversion rate before calling spend wasted, and never invent negative keywords without the report.
 - **Links** carry UTM parameters in lowercase with one separator style and specific names, recorded in a single sheet. The landing page repeats the best-performing ad headline as its main heading.
+
+For a business that sells through leads and sales calls, for the structure of a search campaign, for fatigue thresholds by campaign type and for incrementality tests, read [references/b2b-search-and-measurement.md](references/b2b-search-and-measurement.md).
 
 Single-author claims about platform behaviour are hypotheses to test in the account, not rules: that static images beat produced video, that the algorithm rewards a large volume of fresh creative, that a given share of effort belongs to creative over targeting, that automated bidding should wait for about 50 conversions.
 

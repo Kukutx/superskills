@@ -24,8 +24,8 @@ This Skill diagnoses, scores and ranks fixes. Writing the title, subtitle, descr
 | Tier | Signal | How to judge |
 | --- | --- | --- |
 | Dominant | a household name, millions of ratings | an unusual choice is questioned ("mistake, or a deliberate choice backed by data?") before it is marked down |
-| Established | 100,000 or more ratings | by the rules; an unusual choice is noted as possibly deliberate |
-| Challenger | fewer than 100,000 ratings; most independent apps | strictly by the rules |
+| Established | widely recognized in its category, with a large body of ratings | by the rules; an unusual choice is noted as possibly deliberate |
+| Challenger | everything else, including most independent apps | strictly by the rules |
 
 ## What each store uses
 
@@ -34,7 +34,7 @@ Read from the official pages in October 2026. Limits change: when a fix depends 
 | Store | Fact | Source |
 | --- | --- | --- |
 | Apple | Search matches the app name, subtitle, keywords and primary category, and also weighs downloads, ratings and reviews. The description is not in that list, so judge it for conversion | Apple Developer, App Store search |
-| Apple | Name up to 30 characters, subtitle up to 30, keywords 100 characters separated by commas without spaces; promotional text up to 170, editable without a new version, and it does not affect search ranking; the description changes only with a new version | Apple Developer, search and product page |
+| Apple | Name up to 30 characters, subtitle up to 30, keywords separated by commas without spaces, limited to 100 bytes according to App Store Connect Help (the same as 100 characters for Latin text; other scripts use more bytes per character and fit fewer terms); promotional text up to 170, editable without a new version, and it does not affect search ranking; the description changes only with a new version | Apple Developer, search and product page |
 | Apple | Up to 10 screenshots; the first one to three show in search results when there is no app preview; up to three previews of up to 30 seconds, autoplaying muted | Apple Developer, product page |
 | Apple | In-app events appear in search (each up to 31 days, up to 10 published). Up to 70 custom product pages, which can be given keywords so they appear in search. A product page test has up to three treatments of icon, screenshots and previews, for up to 90 days, one test at a time | Apple Developer, in-app events, custom product pages, product page optimization |
 | Google Play | App name 30 characters, short description 80, full description 4,000. Play says listing text helps discovery and that repetitive or irrelevant keywords can get an app suspended | Play Console Help, store listing and discovery |
@@ -47,7 +47,7 @@ Not verified with either store, so used as practice and never stated as store be
 
 ## Scoring
 
-Score each dimension from 0 to 10, weight it, and total to 100. The weights are a working heuristic, not a store formula; justify every score in one line from the store facts above and the flags below.
+Score each dimension from 0 to 10, weight it, and total to 100. The weights are a working heuristic, not a store formula; justify every score in one line from the store facts above and the flags below. The anchors for each score, the adjustments for brand maturity and the way to compare several apps are in [references/scoring-rubric.md](references/scoring-rubric.md).
 
 | Dimension | Weight |
 | --- | --- |
@@ -58,7 +58,7 @@ Score each dimension from 0 to 10, weight it, and total to 100. The weights are 
 | Metadata and freshness: category fit, last update | 10% |
 | Conversion signals | 10% |
 
-Grades: A 85–100, B 70–84, C 50–69, D 30–49, F below 30. A dimension that could not be assessed is marked "not assessed" and left out of the total, with the total shown out of the remaining weight.
+Grades, as a working scale: A 85–100, B 70–84, C 50–69, D 30–49, F below 30. A dimension that could not be assessed is marked "not assessed" and left out of the total, with the total shown out of the remaining weight.
 
 Flag these at every tier: a rating below 4.0; no update in more than three months; fewer than about five screenshots (a working default; the stores allow more); no feature graphic on Google Play; a Play description with almost no relevant terms; a category that does not match what the app does.
 
@@ -66,19 +66,20 @@ Flag these at every tier: a rating below 4.0; no update in more than three month
 
 - Each fix is concrete: the field, the current text, the proposed text and its character count, and why that term was chosen. A full rewrite of a field is a job for the store-copy Skill; here the proposed text shows the direction.
 - Proposed text uses only real features. No invented ratings, awards, user numbers or claims, and no casual use of competitor trademarks.
-- On Google Play, relevant terms belong in the description in natural sentences; repeating a term to chase density is the keyword spam the policy names.
+- On Google Play there is no hidden keyword field: terms can only live in the title, the short description and the full description, in natural sentences. Repeating a term to chase a density figure is the keyword spam the policy names; no density target is used here.
+- **What Apple's review rejects in metadata** (App Review Guidelines section 2.3, read October 2026): screenshots that show only title art, a login page or a splash screen instead of the app in use; previews that use anything other than screen capture of the app; in-app purchases not made clear in the description, screenshots and previews; a name over 30 characters or metadata packed with trademarks, other apps' names, prices or irrelevant phrases; a subtitle with unverifiable claims; icons, screenshots and previews that are not suitable for a 4+ audience even when the app is rated higher; names, icons or imagery of other mobile platforms; a generic "what's new" for a significant change; a wrong category. A fix proposed here must not create one of these.
 - A crash or ANR rate above the Android vitals thresholds is reported as a visibility problem next to the metadata findings, because Play may reduce exposure whatever the listing says.
 - Apple's product page tests and custom product pages, and Google Play's listing experiments, are the way to settle a disputed change; take their current limits from the store's page.
 
 ## Output
 
 1. **Scorecard**: the six dimensions with score, weight and one-line reason; total and grade; tier.
-2. **Three quick wins**, each doable within an hour.
+2. **Three quick wins**, each with its impact, the effort (minutes to an hour), the current text, the replacement with its character count, and one line of reasoning.
 3. **Findings by dimension.**
-4. **Keyword suggestions**, with the statement that volume and rank were not assessed.
+4. **Keyword suggestions**, each with the field it belongs in and a priority, and the statement that volume and rank were not assessed.
 5. **Visual asset suggestions**: what the first three screenshots should communicate.
-6. **Action plan** ordered by effect against effort.
-7. **Not assessed**, and the as-of date of the store limits used.
+6. **Action plan** grouped into this week, this month and next quarter.
+7. **Not assessed**, and the as-of date of the store limits used. Always listed: search volume and difficulty, ranking history, download and revenue estimates, the contents of a competitor's hidden keyword field, the listing's own conversion rate, and the results of past store tests.
 
 ## Constraints
 

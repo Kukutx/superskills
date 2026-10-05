@@ -62,6 +62,7 @@ A Skill guides decisions; it does not create a new permission gate. On hosts tha
 | stock reorder quantities, dead stock and purchase orders | `ecommerce/inventory-reorder` |
 | marketing campaign or growth plan with channels, budget and KPIs | `marketing/marketing-plan` |
 | launch plan, directory submissions and press pitches | `marketing/product-launch` |
+| sponsor, exhibit, speak or host a webinar, and measure the event | `marketing/event-marketing` |
 | what to publish, topic priorities and community building | `marketing/content-strategy` |
 | automated email sequence with timing, branching and copy | `marketing/email-sequences` |
 | SMS or WhatsApp marketing with consent and compliance checks | `marketing/sms-marketing` |
