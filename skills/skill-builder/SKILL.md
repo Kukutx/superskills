@@ -11,6 +11,15 @@ Create or expand a Skill only when the task repeats and there are **durable deci
 
 Do not create one for a one-off prompt, generic global behavior, a renamed duplicate owner or notes that do not change Agent decisions.
 
+## Intake: a prompt or Skill found elsewhere
+
+When the user shares an interesting prompt, Skill or workflow to collect:
+
+1. Extract the durable decision rules it encodes; drop persona prose, formatting rituals and model-specific tricks that current models no longer need.
+2. Decide one outcome: **merge** into the nearest existing owner, **new** Skill (only if the first decision above holds), or **reject** with a one-line reason. Prefer merge.
+3. Never copy third-party text whose license does not allow it; rewrite the rules in your own words and record the source URL in that Skill's maintenance `sources.md` when it materially shaped the rules.
+4. Give a new Skill a description that says what it does and when to use it, add it to the Router Catalog, and add an eval case under `evals/` when its value depends on behavior a plain model would get wrong.
+
 ## Workflow
 
 1. Inspect existing Skills, references, routing and project instructions first.

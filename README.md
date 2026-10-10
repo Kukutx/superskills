@@ -37,7 +37,9 @@ superskills/
 ├── AGENTS.md
 ├── LICENSE
 ├── README.md
+├── claude/kukutx/preferences.md   # claude.ai 个人偏好（全局行为）
 ├── docs/authoring-guide.md
+├── evals/                   # claude plugin eval 行为评测（有/无 skill 对比）
 ├── gpts/kukutx/
 │   ├── README.md
 │   └── project-instructions.md
@@ -67,6 +69,8 @@ Skill 目录遵循开放的 [Agent Skills 规范](https://agentskills.io/specifi
 
 **claude.ai 网页版 / 桌面版（推荐，无需下载）**：在 [Customize > Plugins](https://claude.ai/customize/plugins) 选择 **Add > Add marketplace**，填入 `https://github.com/Kukutx/superskills`，再安装 `superskills`。全部 Skill 会挂到账号上，聊天时 Claude 按 description 自动调用；同一账号的 Cowork 和 Claude Code 也会同步出现。
 
+Skill 选择由 claude.ai 自动完成，但自治、何时提问等全局行为需要放在个人偏好里：把 [`claude/kukutx/preferences.md`](claude/kukutx/preferences.md) 中分隔线之间的内容粘贴到 claude.ai 设置的个人偏好。
+
 **Claude Code**：
 
 ```text
@@ -87,6 +91,16 @@ python tools/export_behavioral_evals.py --check
 ```
 
 Validator 检查 Skill 层级、frontmatter（含 Agent Skills 规范约束）、目录形状、Router Catalog 完整性、真实 Markdown 引用、runtime/maintenance 边界和 behavioral eval 路径完整性。
+
+## Behavior evals
+
+`evals/` 用 `claude plugin eval` 检查常用 Skill 是否真的改善了回答：每个用例同时跑“装插件”和“不装插件”两组，报告分差 Δ。
+
+```bash
+claude plugin eval . --judge-model sonnet
+```
+
+Δ 长期为 0 的 Skill 说明模型本身已经做得到，应精简或删除；新增依赖特殊规则的 Skill 时补一个用例。
 
 ## Build a runtime bundle
 

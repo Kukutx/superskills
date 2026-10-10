@@ -195,6 +195,8 @@ python tools/export_behavioral_evals.py --output dist/behavioral-evals.jsonl
 
 这些文件仍是人工/Agent review fixtures，CI 只验证结构、路径和可导出性；它不等于真实模型已经通过语义评测。实际模型评测应消费导出的 JSONL，并把模型、配置和结果分开记录。
 
+真实模型评测放在仓库根的 `evals/`，用 `claude plugin eval . --judge-model sonnet` 运行，同时跑有/无插件两组并报告 Δ。每个用例一个 `llm` 结果 grader 和一个 `tool_used: Skill` 触发 grader；只为“普通模型容易做错、Skill 规则能纠正”的行为写用例。Δ 长期为 0 说明该规则已不必要，优先精简。
+
 优先测试：
 
 - 最容易混淆的相邻 Skill/reference；
