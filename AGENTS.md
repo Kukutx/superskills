@@ -6,7 +6,7 @@ When modifying this repository:
 2. Treat `skills/skill-router/SKILL.md` `## Catalog` as the only complete Skill catalog; every non-Router Skill must appear there exactly once.
 3. Prefer improving, renaming, splitting or merging an existing owner before creating a new Skill.
 4. Default to one `SKILL.md`. Add one-level `references/` only for real task-dependent runtime depth.
-5. Keep the global autonomy, escalation and scope policy in `gpts/kukutx/project-instructions.md`; domain Skills should add only domain-specific decision inputs, blockers and validation rules.
+5. Keep the global autonomy, escalation and scope policy in `gpts/kukutx/project-instructions.md` (mirror changes into the condensed `claude/kukutx/preferences.md`); domain Skills should add only domain-specific decision inputs, blockers and validation rules.
 6. Keep source inventories, behavioral regressions and rare design rationale in `maintenance/`; never load or copy them into normal runtime guidance.
 7. Move ownership when splitting content; do not maintain the same rule in multiple references.
 8. Do not create prompt-template, generic examples, changelog or compatibility files unless a current decision genuinely requires a separate artifact.
