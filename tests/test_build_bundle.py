@@ -13,8 +13,8 @@ class BundleBuilderTestCase(unittest.TestCase):
         self.temp = tempfile.TemporaryDirectory()
         self.root = Path(self.temp.name)
         self.write("gpts/test/project-instructions.md", "# Instructions\n")
-        self.write("skills/meta/skill-router/skill.md", "# Router\n")
-        self.write("skills/development/foo/skill.md", "# Foo\n")
+        self.write("skills/meta/skill-router/SKILL.md", "# Router\n")
+        self.write("skills/development/foo/SKILL.md", "# Foo\n")
         self.write("skills/development/foo/references/details.md", "# Details\n")
         self.write("skills/development/foo/maintenance/sources.md", "SECRET\n")
 
@@ -38,8 +38,8 @@ class BundleBuilderTestCase(unittest.TestCase):
 
         self.assertEqual(output.resolve(), summary.output)
         self.assertTrue((output / "gpts/test/project-instructions.md").is_file())
-        self.assertTrue((output / "skills/meta/skill-router/skill.md").is_file())
-        self.assertTrue((output / "skills/development/foo/skill.md").is_file())
+        self.assertTrue((output / "skills/meta/skill-router/SKILL.md").is_file())
+        self.assertTrue((output / "skills/development/foo/SKILL.md").is_file())
         self.assertTrue((output / "skills/development/foo/references/details.md").is_file())
         self.assertFalse((output / "skills/development/foo/maintenance/sources.md").exists())
 

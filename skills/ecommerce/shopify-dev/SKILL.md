@@ -1,6 +1,6 @@
 ---
 name: shopify-dev
-description: Handle Shopify-specific theme, Liquid, admin configuration, app integration and store implementation tasks with native-first, minimal and reversible changes.
+description: Handle Shopify-specific theme, Liquid, admin configuration, app integration and store implementation tasks with native-first, minimal and reversible changes. Use when the task involves a Shopify store, theme code, Liquid templates, store settings or a Shopify app integration.
 ---
 
 # Shopify Development

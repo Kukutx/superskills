@@ -1,6 +1,6 @@
 ---
 name: business-email
-description: Draft or edit concise professional emails that preserve the user's intent, tone and negotiation position without adding unsupported facts or commitments.
+description: Draft or edit concise professional emails that preserve the user's intent, tone and negotiation position without adding unsupported facts or commitments. Use when the user wants to write, reply to or polish a work email.
 ---
 
 # Business Email

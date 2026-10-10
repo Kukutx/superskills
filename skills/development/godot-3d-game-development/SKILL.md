@@ -1,6 +1,6 @@
 ---
 name: godot-3d-game-development
-description: Godot 4.x 3D-specific runtime and production guidance for spatial transforms, CharacterBody3D/physics, Camera3D, 3D collision/interaction, rendering/lighting/worlds, animation/rigging/import and NavigationAgent3D.
+description: Godot 4.x 3D-specific runtime and production guidance for spatial transforms, CharacterBody3D/physics, Camera3D, 3D collision/interaction, rendering/lighting/worlds, animation/rigging/import and NavigationAgent3D. Use when building or fixing 3D gameplay, cameras, rendering or imports in a Godot 4 project.
 ---
 
 # Godot 3D Game Development
@@ -52,7 +52,7 @@ Do not impose a starter architecture on an existing project.
 | materials, lights, Environment/GI, world rendering, LOD/occlusion and measured performance | `references/rendering-lighting-world.md` |
 | glTF/Blender import, Skeleton3D, AnimationPlayer/Tree, root motion and re-import safety | `references/animation-assets.md` |
 | NavigationAgent3D, nav geometry, perception and AI movement handoff | `references/navigation-ai.md` |
-| architecture/input/UI/audio/save/inventory/dialogue/verification/export | `../godot-project-systems/skill.md` |
+| architecture/input/UI/audio/save/inventory/dialogue/verification/export | `../godot-project-systems/SKILL.md` |
 
 Normally load one 3D reference first. Add the shared Skill only when the task genuinely crosses into a dimension-neutral project-system concern.
 
@@ -64,7 +64,7 @@ Normally load one 3D reference first. Add the shared Skill only when the task ge
 - root motion visually moves through walls -> `animation-assets.md` + `spatial-movement-camera.md`
 - shadows/GI cause a measured frame-time problem -> `rendering-lighting-world.md`
 - NavigationAgent3D jitters near target -> `navigation-ai.md`
-- pause/settings focus, save migration or export CI -> `../godot-project-systems/skill.md`
+- pause/settings focus, save migration or export CI -> `../godot-project-systems/SKILL.md`
 
 ## Dependency rule
 

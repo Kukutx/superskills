@@ -1,0 +1,15 @@
+{
+  "name": "kukutx-superskills",
+  "owner": {
+    "name": "Kukutx",
+    "url": "https://github.com/Kukutx"
+  },
+  "description": "Kukutx 的个人 Skills 合集。",
+  "plugins": [
+    {
+      "name": "superskills",
+      "source": "./",
+      "description": "Kukutx 的个人 Skills 合集：日常生活、写作、研究、开发（含 Godot）、设计、个人反思与占卜等。"
+    }
+  ]
+}

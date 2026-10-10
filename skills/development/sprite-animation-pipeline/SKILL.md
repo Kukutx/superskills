@@ -1,6 +1,6 @@
 ---
 name: sprite-animation-pipeline
-description: Produce game-ready 2D/pixel-art sprite animations from seed/reference assets or existing sheets, with stable frame contracts, deterministic slicing/normalization, timing metadata and engine handoff.
+description: Produce game-ready 2D/pixel-art sprite animations from seed/reference assets or existing sheets, with stable frame contracts, deterministic slicing/normalization, timing metadata and engine handoff. Use when the user wants to generate, slice, normalize or package sprite sheets and frame animations for a game.
 ---
 
 # Sprite Animation Pipeline

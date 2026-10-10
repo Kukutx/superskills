@@ -8,7 +8,7 @@
 user task
 -> inspect available context and tools
 -> choose one primary Skill
--> read skill.md and only needed references
+-> read SKILL.md and only needed references
 -> execute authorized, reversible work
 -> verify and self-correct
 -> escalate only a true blocker or consequential final step
@@ -22,7 +22,7 @@ user task
 - **action before interrogation**：先读取现有资料、使用可用工具并完成已授权的可逆工作；只把真正需要用户决定的阻塞点升级给用户。
 - **approval at the boundary**：需要批准的不可逆或高影响动作，先准备好可审查结果，再在最后边界请求批准。
 - **execution is not planning**：任务很长或步骤很多，不代表 `project-planner` 是交付物；用户要求执行时，应由领域 owner 执行并在内部规划。
-- **progressive disclosure**：默认只读 `skill.md`；深层知识按需读 `references/`。
+- **progressive disclosure**：默认只读 `SKILL.md`；深层知识按需读 `references/`。
 - **maintenance is not runtime**：behavioral eval、来源和少量设计决策只放 `maintenance/`。
 - **single source of truth**：同一规则只保留一个 owner。
 - **evidence before claims**：运行、视觉、存档、导出和发布结论必须有匹配证据，验证强度与改动风险相匹配。
@@ -31,6 +31,9 @@ user task
 
 ```text
 superskills/
+├── .claude-plugin/
+│   ├── plugin.json          # Claude Code plugin manifest
+│   └── marketplace.json     # one-plugin marketplace for /plugin install
 ├── AGENTS.md
 ├── LICENSE
 ├── README.md
@@ -39,7 +42,7 @@ superskills/
 │   ├── README.md
 │   └── project-instructions.md
 ├── skills/<category>/<skill>/
-│   ├── skill.md
+│   ├── SKILL.md
 │   ├── references/          # optional runtime depth
 │   └── maintenance/         # optional evals/sources/decisions
 ├── templates/skill-template.md
@@ -54,9 +57,24 @@ superskills/
     └── delete-merged-branch.yml
 ```
 
-**唯一完整 Skill catalog**：`skills/meta/skill-router/skill.md` 的 `## Catalog` 表格。
+**唯一完整 Skill catalog**：`skills/meta/skill-router/SKILL.md` 的 `## Catalog` 表格。
 
 不要在 README、Project Instructions 或其他文件复制完整路由表。新增、删除或重命名 Skill 时只维护 Router；边界变化时只补必要的 behavioral eval。
+
+## Install
+
+Skill 目录遵循开放的 [Agent Skills 规范](https://agentskills.io/specification)：每个 Skill 是一个包含 `SKILL.md` 的文件夹，可直接用于支持该规范的 Agent。
+
+**Claude Code**（整个合集作为插件安装，Skill 以 `superskills:<name>` 命名）：
+
+```text
+/plugin marketplace add Kukutx/superskills
+/plugin install superskills@kukutx-superskills
+```
+
+**单个 Skill**：把 `skills/<category>/<skill>/` 整个文件夹复制到 `~/.claude/skills/<skill>/`（或其他兼容 Agent 的 skills 目录）；在 claude.ai 中可把该文件夹打包成 ZIP 后在 Skills 设置里上传。
+
+**ChatGPT Project / GPT**：没有原生 Skill 加载机制，使用下面的 runtime bundle 和 `gpts/kukutx/`。
 
 ## Validation
 
@@ -68,7 +86,7 @@ python tools/validate_repo.py
 python tools/export_behavioral_evals.py --check
 ```
 
-Validator 检查 Skill 层级、frontmatter、目录形状、Router Catalog 完整性、真实 Markdown 引用、runtime/maintenance 边界和 behavioral eval 路径完整性。
+Validator 检查 Skill 层级、frontmatter（含 Agent Skills 规范约束）、插件清单与类别目录一致性、目录形状、Router Catalog 完整性、真实 Markdown 引用、runtime/maintenance 边界和 behavioral eval 路径完整性。
 
 ## Build a runtime bundle
 

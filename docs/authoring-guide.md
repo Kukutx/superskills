@@ -7,7 +7,7 @@
 普通 Skill：
 
 ```text
-skills/<category>/<skill>/skill.md
+skills/<category>/<skill>/SKILL.md
 ```
 
 只有复杂 Skill 才增加：
@@ -19,11 +19,24 @@ maintenance/   # runtime 不加载
 
 不要默认创建 prompt template、examples、changelog、compatibility stub 或重复 README。
 
-## Minimal `skill.md`
+## Agent Skills spec
+
+Skill 文件夹遵循 [Agent Skills 规范](https://agentskills.io/specification)，因此同一份 Skill 可被 Claude Code、claude.ai 和其他兼容 Agent 直接加载。Validator 强制其中会让 Skill 无法加载的硬约束：
+
+- 入口文件名必须是大写的 `SKILL.md`；
+- `name`：小写 kebab-case、不超过 64 字符、与文件夹同名，不使用保留词 `anthropic` / `claude`；
+- `description`：非空、不超过 1024 字符、不含 XML 标签；
+- 入口超过 500 行给出 advisory。
+
+`description` 是 Agent 决定是否加载 Skill 的唯一依据，必须用第三人称同时写清**做什么**和**何时使用**（通常以 `Use when ...` 结尾），并包含用户真实会说的触发词。frontmatter 只用 `name` 与 `description`；其他字段（如 Claude Code 的 `disable-model-invocation`）只有在确实改变行为时才加。
+
+新增 Skill 类别时，同时把类别目录加入 `.claude-plugin/plugin.json` 的 `skills` 列表；Validator 会检查两者一致。
+
+## Minimal `SKILL.md`
 
 通常只需要：
 
-1. YAML `name` + routing-quality `description`
+1. YAML `name` + routing-quality `description`（做什么 + 何时使用）
 2. Scope / Use：它真正拥有哪类任务
 3. Durable decision rules / invariants
 4. Domain inputs / true blockers
@@ -66,7 +79,7 @@ step-by-step prose that a capable agent can infer
 唯一完整 Skill catalog：
 
 ```text
-skills/meta/skill-router/skill.md
+skills/meta/skill-router/SKILL.md
 ```
 
 原则：
@@ -129,7 +142,7 @@ Reference 至少应满足一项：
 - 有独立 owner/validation；
 - 合并会让路由或 source-of-truth 模糊。
 
-**拆分是移动 ownership，不是复制内容。** 主 `skill.md` 只保留路由和跨域 invariant。每个 runtime reference 必须通过正式 Markdown 链接或明确的 Markdown code path 从主入口可发现。
+**拆分是移动 ownership，不是复制内容。** 主 `SKILL.md` 只保留路由和跨域 invariant。每个 runtime reference 必须通过正式 Markdown 链接或明确的 Markdown code path 从主入口可发现。
 
 不要嵌套 `references/` 子目录；保持一层、可路由、可验证。
 
@@ -231,8 +244,9 @@ python tools/export_behavioral_evals.py --check
 
 Validator 负责：
 
-- 扫描所有 `skill.md`，并拒绝错误层级；
-- frontmatter、folder naming、duplicate Skill names；
+- 扫描所有 `SKILL.md`，并拒绝错误层级；
+- frontmatter、Agent Skills 规范的 name/description 约束、folder naming、duplicate Skill names；
+- `.claude-plugin/plugin.json` 的 `skills` 列表与类别目录一致；
 - Skill 目录形状；
 - runtime reference 必须是一层 Markdown，并通过真实链接/code path 从入口可发现；
 - maintenance 只允许当前规范文件，并且不混入 runtime；

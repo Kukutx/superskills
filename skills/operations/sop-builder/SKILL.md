@@ -1,6 +1,6 @@
 ---
 name: sop-builder
-description: Turn a genuinely repeated process into a short, executable SOP with trigger, inputs, decisions, quality checks and definition of done.
+description: Turn a genuinely repeated process into a short, executable SOP with trigger, inputs, decisions, quality checks and definition of done. Use when the user wants a checklist, playbook or SOP for a process they repeat.
 ---
 
 # SOP Builder

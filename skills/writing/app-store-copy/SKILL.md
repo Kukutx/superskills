@@ -1,6 +1,6 @@
 ---
 name: app-store-copy
-description: Write credible App Store and Google Play listing copy from established product value and real features, with platform-aware structure and no invented claims.
+description: Write credible App Store and Google Play listing copy from established product value and real features, with platform-aware structure and no invented claims. Use when the user needs an app name, subtitle, keywords, promotional text or description for an app store listing.
 ---
 
 # App Store Copy

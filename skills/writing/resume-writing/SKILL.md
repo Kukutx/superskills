@@ -1,6 +1,6 @@
 ---
 name: resume-writing
-description: Create, tailor, rewrite or audit truthful resumes and CVs for a target role, with evidence-based bullets, ATS-safe structure and no invented experience, dates or metrics.
+description: Create, tailor, rewrite or audit truthful resumes and CVs for a target role, with evidence-based bullets, ATS-safe structure and no invented experience, dates or metrics. Use when the user shares a resume or CV, or asks to write or tailor one for a job.
 ---
 
 # Resume Writing
