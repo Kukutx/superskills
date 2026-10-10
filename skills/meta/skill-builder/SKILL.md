@@ -17,20 +17,20 @@ Do not create one for a one-off prompt, generic global behavior, a renamed dupli
 2. Define the exact owner and nearest overlap.
 3. Prefer improving, renaming, splitting or merging an existing owner over creating a parallel one.
 4. Remove duplicated global behavior before adding new guidance.
-5. Write one concise `skill.md` first.
+5. Write one concise `SKILL.md` first.
 6. Add `references/` only for task-dependent depth with a clear decision boundary.
 7. When splitting, **move ownership rather than copy it**.
-8. Ensure every runtime reference is discoverable from `skill.md` and keep references one directory level deep.
+8. Ensure every runtime reference is discoverable from `SKILL.md` and keep references one directory level deep.
 9. Use `behavioral-evals.md` under maintenance/ for real routing, ownership, autonomy or blocker regressions and `sources.md` only for substantial source inventories.
 10. Do not create changelog files; Git stores history. Use `decisions.md` only when current design rationale is genuinely needed.
-11. Update the global Router only when task selection changes.
+11. Update the global Router only when task selection changes; when adding a category, also list it in `.claude-plugin/plugin.json` `skills`.
 12. Run `python tools/validate_repo.py` and fix structural, orphan or stale-route failures.
 
 ## Default shape
 
 ```text
 skills/<category>/<skill>/
-└── skill.md
+└── SKILL.md
 ```
 
 Add only when justified:
@@ -40,11 +40,11 @@ references/    # runtime domain depth
 maintenance/   # behavioral evals / sources / rare current design rationale
 ```
 
-## `skill.md` quality bar
+## `SKILL.md` quality bar
 
 Keep only content that changes behavior:
 
-- `name` + routing-quality `description`;
+- `name` + third-person `description` that says what the Skill does and when to use it, with the trigger words users actually say; it is the only text an agent sees before loading the Skill;
 - scope / not-scope;
 - durable domain decisions or invariants;
 - domain-specific inputs and true blockers;

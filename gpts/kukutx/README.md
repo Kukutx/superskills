@@ -25,8 +25,8 @@ python tools/build_bundle.py \
 ## Manual setup
 
 1. Instructions：`gpts/kukutx/project-instructions.md`
-2. Knowledge：`skills/meta/skill-router/skill.md`
-3. 再加入当前项目真正会用到的 domain `skill.md`
+2. Knowledge：`skills/meta/skill-router/SKILL.md`
+3. 再加入当前项目真正会用到的 domain `SKILL.md`
 4. 复杂 Skill 只加入需要的 `references/`
 
 不要默认上传整个仓库，也不要上传 `maintenance/`。
@@ -35,7 +35,7 @@ python tools/build_bundle.py \
 
 - shared behavior 变化 -> 更新 `project-instructions.md`
 - Skill catalog 变化 -> 只更新 Router `## Catalog`
-- domain behavior 变化 -> 更新对应 `skill.md` / reference
+- domain behavior 变化 -> 更新对应 `SKILL.md` / reference
 - routing/ownership/autonomy/blocker 边界变化 -> 更新最小 behavioral eval 集
 - 更新后运行测试、Validator 和 eval export check
 

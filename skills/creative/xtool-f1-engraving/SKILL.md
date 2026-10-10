@@ -1,6 +1,6 @@
 ---
 name: xtool-f1-engraving
-description: Design engraving-ready concepts and production guidance for xTool F1 projects, with small-format geometry, material-aware artwork and vector/raster constraints. Verify current machine/material guidance when exact capability or safety matters.
+description: Design engraving-ready concepts and production guidance for xTool F1 projects, with small-format geometry, material-aware artwork and vector/raster constraints. Verify current machine/material guidance when exact capability or safety matters. Use when the user plans a laser engraving or cutting job for an xTool F1, including artwork prep, material choice and settings.
 ---
 
 # xTool F1 Engraving

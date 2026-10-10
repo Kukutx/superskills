@@ -129,13 +129,13 @@ def build_bundle(
 
     source_files: list[Path] = [
         profile_instructions,
-        root / "skills" / "meta" / "skill-router" / "skill.md",
+        root / "skills" / "meta" / "skill-router" / "SKILL.md",
     ]
     if not source_files[1].is_file():
         raise BundleError("authoritative Skill Router is missing")
 
     for route in selected_skills:
-        entrypoint = root / "skills" / route / "skill.md"
+        entrypoint = root / "skills" / route / "SKILL.md"
         if not entrypoint.is_file():
             raise BundleError(f"Skill does not exist: {route}")
         source_files.append(entrypoint)

@@ -1,6 +1,6 @@
 ---
 name: godot-2d-game-development
-description: Godot 4.x 2D-specific runtime and production guidance for CharacterBody2D physics, Camera2D, TileMapLayer/worlds, runtime animation, gameplay interaction, game feel, 2D VFX, AI/navigation, procedural content, 2D assets and measured performance.
+description: Godot 4.x 2D-specific runtime and production guidance for CharacterBody2D physics, Camera2D, TileMapLayer/worlds, runtime animation, gameplay interaction, game feel, 2D VFX, AI/navigation, procedural content, 2D assets and measured performance. Use when building or fixing 2D or pixel-art gameplay in a Godot 4 project.
 ---
 
 # Godot 2D Game Development
@@ -37,8 +37,8 @@ Use `development/godot-3d-game-development` for materially 3D/spatial work.
 | seeded generation, waves/spawn rules, generated-layout validity | `references/procedural-generation.md` |
 | editable 2D asset source, import, FX/map/tiles handoff | `references/asset-pipeline.md` |
 | profiler, frame-time, memory and measured 2D optimization | `references/performance.md` |
-| architecture/input/UI/audio/save/inventory/dialogue/verification/export | `../godot-project-systems/skill.md` |
-| sprite-strip generation, exact frame geometry, slicing, timing metadata, naming/packing | `../sprite-animation-pipeline/skill.md` |
+| architecture/input/UI/audio/save/inventory/dialogue/verification/export | `../godot-project-systems/SKILL.md` |
+| sprite-strip generation, exact frame geometry, slicing, timing metadata, naming/packing | `../sprite-animation-pipeline/SKILL.md` |
 
 ## Routing examples
 
@@ -47,8 +47,8 @@ Use `development/godot-3d-game-development` for materially 3D/spatial work.
 - runtime animation timing -> `animation-runtime.md`
 - gameplay contact/interaction correctness -> `combat-system.md`
 - feel/feedback after correctness is established -> `game-feel.md`
-- generate/slice/package a sprite strip -> `../sprite-animation-pipeline/skill.md`
-- remapping/menu focus/save migration/export CI -> `../godot-project-systems/skill.md`
+- generate/slice/package a sprite strip -> `../sprite-animation-pipeline/SKILL.md`
+- remapping/menu focus/save migration/export CI -> `../godot-project-systems/SKILL.md`
 
 ## Ownership
 

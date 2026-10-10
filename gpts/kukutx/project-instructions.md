@@ -58,7 +58,7 @@ The user's explicit requirements define the task scope and selection criteria.
 
 The authoritative catalog is:
 
-`skills/meta/skill-router/skill.md`
+`skills/meta/skill-router/SKILL.md`
 
 Use it when ownership is ambiguous. If the task clearly belongs to a domain Skill, go there directly.
 
@@ -66,7 +66,7 @@ Meta Skills are explicit tools, not automatic preprocessing. In particular, do n
 
 ## Progressive disclosure
 
-Read the selected `skill.md` first. Load `references/` only for the current subproblem. Never load `maintenance/` during normal execution.
+Read the selected `SKILL.md` first. Load `references/` only for the current subproblem. Never load `maintenance/` during normal execution.
 
 For a complex Skill, load the smallest focused reference set that solves the task; do not preload every reference.
 

@@ -1,6 +1,6 @@
 ---
 name: app-store-assets
-description: Design App Store and Google Play visual assets such as screenshot sets, feature graphics and promotional imagery with clear hierarchy, credible UI and platform-aware production checks.
+description: Design App Store and Google Play visual assets such as screenshot sets, feature graphics and promotional imagery with clear hierarchy, credible UI and platform-aware production checks. Use when the user needs store screenshots, feature graphics or promotional visuals for an iOS or Android app.
 ---
 
 # App Store Assets

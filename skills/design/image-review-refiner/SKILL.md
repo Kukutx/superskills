@@ -1,6 +1,6 @@
 ---
 name: image-review-refiner
-description: Review an existing generated or designed image against its intended use, preserve what works, prioritize visible defects, and produce precise next-round changes or a refined prompt.
+description: Review an existing generated or designed image against its intended use, preserve what works, prioritize visible defects, and produce precise next-round changes or a refined prompt. Use when the user shares an image and asks what is wrong with it, how to improve it, or how to regenerate it better.
 ---
 
 # Image Review Refiner

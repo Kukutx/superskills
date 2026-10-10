@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 import re
 from collections import Counter, defaultdict
 from dataclasses import dataclass
@@ -35,13 +36,20 @@ else:
     )
 
 DEFAULT_ROOT = Path(__file__).resolve().parents[1]
-ALLOWED_SKILL_ENTRIES = {"skill.md", "references", "maintenance"}
+ALLOWED_SKILL_ENTRIES = {"SKILL.md", "references", "maintenance"}
 ALLOWED_MAINTENANCE_FILES = {"behavioral-evals.md", "sources.md", "decisions.md"}
 MAINTENANCE_HEADINGS = ("## Source synthesis", "## Upstream inspiration")
 MAINTENANCE_ONLY_REFERENCE_NAMES = ALLOWED_MAINTENANCE_FILES
 ENTRYPOINT_ADVISORY_BYTES = 6500
 REFERENCE_ADVISORY_BYTES = 8000
 SLUG_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
+# Agent Skills specification (https://agentskills.io/specification) limits.
+SKILL_NAME_MAX_CHARS = 64
+SKILL_DESCRIPTION_MAX_CHARS = 1024
+SKILL_ENTRYPOINT_ADVISORY_LINES = 500
+RESERVED_NAME_WORDS = ("anthropic", "claude")
+XML_TAG_RE = re.compile(r"<[A-Za-z/][^>]*>")
+PLUGIN_MANIFEST = Path(".claude-plugin") / "plugin.json"
 
 
 @dataclass
@@ -65,16 +73,16 @@ def _validate_skill_tree(skills_root: Path, root: Path, errors: list[str]) -> li
         for candidate in sorted(category.iterdir()):
             if not candidate.is_dir():
                 errors.append(f"{candidate.relative_to(root)}: Skill entries must be directories")
-            elif not (candidate / "skill.md").is_file():
-                errors.append(f"{candidate.relative_to(root)}: Skill directory missing skill.md")
+            elif not (candidate / "SKILL.md").is_file():
+                errors.append(f"{candidate.relative_to(root)}: Skill directory missing SKILL.md")
 
     valid: list[Path] = []
-    for path in sorted(skills_root.rglob("skill.md")):
+    for path in sorted(skills_root.rglob("SKILL.md")):
         relative = path.relative_to(root)
         parts = relative.parts
-        if len(parts) != 4 or parts[0] != "skills" or parts[-1] != "skill.md":
+        if len(parts) != 4 or parts[0] != "skills" or parts[-1] != "SKILL.md":
             errors.append(
-                f"{relative}: malformed Skill entrypoint; expected skills/<category>/<skill>/skill.md"
+                f"{relative}: malformed Skill entrypoint; expected skills/<category>/<skill>/SKILL.md"
             )
         elif not SLUG_RE.fullmatch(parts[1]) or not SLUG_RE.fullmatch(parts[2]):
             errors.append(f"{relative}: category and Skill folders must use lowercase kebab-case")
@@ -154,7 +162,7 @@ def _validate_maintenance(
     if not eval_file.is_file():
         return
     text = eval_file.read_text(encoding="utf-8")
-    valid_local_md = {"skill.md", *(path.name for path in references)}
+    valid_local_md = {"SKILL.md", *(path.name for path in references)}
     valid_local_md.update(path.name for path in maintenance.glob("*.md"))
     for raw in CODE_SPAN_RE.findall(strip_html_comments(text)):
         target = normalize_markdown_target(raw)
@@ -202,6 +210,28 @@ def _validate_runtime_links(
                 errors.append(f"{markdown_file.relative_to(root)}: broken Markdown path {raw}")
 
 
+def _validate_plugin_manifest(skills_root: Path, root: Path, errors: list[str]) -> None:
+    """Keep the Claude Code plugin's skill directories in sync with the category folders."""
+    manifest = root / PLUGIN_MANIFEST
+    if not manifest.is_file():
+        return
+    try:
+        data = json.loads(manifest.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as error:
+        errors.append(f"{PLUGIN_MANIFEST.as_posix()}: invalid JSON: {error}")
+        return
+    raw = data.get("skills", [])
+    declared = [raw] if isinstance(raw, str) else list(raw)
+    listed = {entry.removeprefix("./").rstrip("/") for entry in declared if isinstance(entry, str)}
+    expected = {f"skills/{category.name}" for category in skills_root.iterdir() if category.is_dir()}
+    missing = sorted(expected - listed)
+    stale = sorted(listed - expected)
+    if missing:
+        errors.append(f"{PLUGIN_MANIFEST.as_posix()}: skills is missing category directories {missing}")
+    if stale:
+        errors.append(f"{PLUGIN_MANIFEST.as_posix()}: skills lists unknown directories {stale}")
+
+
 def validate_repository(root: Path | str = DEFAULT_ROOT) -> ValidationResult:
     root = Path(root).resolve()
     skills_root = root / "skills"
@@ -228,12 +258,29 @@ def validate_repository(root: Path | str = DEFAULT_ROOT) -> ValidationResult:
             skill_names[name].append(str(relative))
             if name != skill_file.parent.name:
                 errors.append(f"{relative}: frontmatter name '{name}' != folder '{skill_file.parent.name}'")
-        if not metadata.get("description"):
+            if len(name) > SKILL_NAME_MAX_CHARS:
+                errors.append(f"{relative}: frontmatter name exceeds {SKILL_NAME_MAX_CHARS} characters")
+            if any(word in name.split("-") for word in RESERVED_NAME_WORDS):
+                errors.append(f"{relative}: frontmatter name uses a reserved word {RESERVED_NAME_WORDS}")
+        description = metadata.get("description")
+        if not description:
             errors.append(f"{relative}: missing frontmatter description")
+        else:
+            if len(description) > SKILL_DESCRIPTION_MAX_CHARS:
+                errors.append(
+                    f"{relative}: frontmatter description exceeds {SKILL_DESCRIPTION_MAX_CHARS} characters"
+                )
+            if XML_TAG_RE.search(description):
+                errors.append(f"{relative}: frontmatter description must not contain XML tags")
 
         unexpected = {path.name for path in skill_file.parent.iterdir()} - ALLOWED_SKILL_ENTRIES
         if unexpected:
             errors.append(f"{skill_file.parent.relative_to(root)}: unexpected entries {sorted(unexpected)}")
+        if text.count("\n") > SKILL_ENTRYPOINT_ADVISORY_LINES:
+            warnings.append(
+                f"{relative}: entrypoint exceeds {SKILL_ENTRYPOINT_ADVISORY_LINES} lines; "
+                "move task-dependent depth into references/"
+            )
         if len(text.encode("utf-8")) > ENTRYPOINT_ADVISORY_BYTES:
             warnings.append(
                 f"{relative}: large entrypoint; review whether it contains multiple owners or task-dependent detail"
@@ -249,9 +296,9 @@ def validate_repository(root: Path | str = DEFAULT_ROOT) -> ValidationResult:
         if len(paths) > 1:
             errors.append(f"duplicate frontmatter skill name '{name}': {paths}")
 
-    router = skills_root / "meta" / "skill-router" / "skill.md"
+    router = skills_root / "meta" / "skill-router" / "SKILL.md"
     if not router.is_file():
-        errors.append("skills/meta/skill-router/skill.md: missing authoritative Router")
+        errors.append("skills/meta/skill-router/SKILL.md: missing authoritative Router")
     else:
         catalog_routes, catalog_errors = extract_catalog_routes(router.read_text(encoding="utf-8"))
         errors.extend(catalog_errors)
@@ -268,5 +315,6 @@ def validate_repository(root: Path | str = DEFAULT_ROOT) -> ValidationResult:
         if stale:
             errors.append(f"skill-router Catalog references missing or self routes: {stale}")
 
+    _validate_plugin_manifest(skills_root, root, errors)
     _validate_runtime_links(skill_files + reference_files, root, errors)
     return ValidationResult(errors, warnings, len(skill_files))

@@ -1,6 +1,6 @@
 ---
 name: generational-context-analysis
-description: Evidence-led analysis of how birth cohort, place, historical conditions and life stage may shape childhood context, worldview, career, relationships, money and life decisions. This route is non-divinatory unless the user separately asks for symbolic analysis.
+description: Evidence-led analysis of how birth cohort, place, historical conditions and life stage may shape childhood context, worldview, career, relationships, money and life decisions. This route is non-divinatory unless the user separately asks for symbolic analysis. Use when the user asks how growing up in a particular era, generation or place shaped a person.
 ---
 
 # Generational Context Analysis

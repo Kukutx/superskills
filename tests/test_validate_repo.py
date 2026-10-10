@@ -26,14 +26,14 @@ class ValidatorTestCase(unittest.TestCase):
     def add_skill(self, route: str, body: str = "# Foo\n") -> Path:
         category, name = route.split("/", 1)
         return self.write(
-            f"skills/{route}/skill.md",
+            f"skills/{route}/SKILL.md",
             f"---\nname: {name}\ndescription: Test {name}.\n---\n\n{body}",
         )
 
     def write_router(self, routes: list[str], suffix: str = "") -> None:
         rows = "\n".join(f"| test | `{route}` |" for route in routes)
         self.write(
-            "skills/meta/skill-router/skill.md",
+            "skills/meta/skill-router/SKILL.md",
             "---\nname: skill-router\ndescription: Route tests.\n---\n\n"
             "# Router\n\n## Catalog\n\n| Intent | Skill |\n| --- | --- |\n"
             f"{rows}\n\n## Boundaries\n\n{suffix}\n",
@@ -61,7 +61,7 @@ class ValidatorTestCase(unittest.TestCase):
 
     def test_malformed_nested_skill_entrypoint_fails(self) -> None:
         self.write(
-            "skills/development/foo/nested/skill.md",
+            "skills/development/foo/nested/SKILL.md",
             "---\nname: nested\ndescription: Invalid.\n---\n",
         )
         self.assertIn("malformed Skill entrypoint", self.error_text())
@@ -109,10 +109,45 @@ class ValidatorTestCase(unittest.TestCase):
         self.assertIn("unsupported maintenance file", self.error_text())
 
     def test_missing_frontmatter_is_reported(self) -> None:
-        self.write("skills/development/foo/skill.md", "# No metadata\n")
+        self.write("skills/development/foo/SKILL.md", "# No metadata\n")
         text = self.error_text()
         self.assertIn("missing opening frontmatter delimiter", text)
         self.assertIn("missing frontmatter name", text)
+
+    def test_lowercase_legacy_entrypoint_fails(self) -> None:
+        self.write("skills/development/bar/skill.md", "---\nname: bar\ndescription: Legacy.\n---\n")
+        self.assertIn("Skill directory missing SKILL.md", self.error_text())
+
+    def test_description_over_spec_limit_fails(self) -> None:
+        self.write(
+            "skills/development/foo/SKILL.md",
+            f"---\nname: foo\ndescription: {'x' * 1025}\n---\n",
+        )
+        self.assertIn("description exceeds 1024 characters", self.error_text())
+
+    def test_description_with_xml_tag_fails(self) -> None:
+        self.write(
+            "skills/development/foo/SKILL.md",
+            "---\nname: foo\ndescription: Use <example> tags.\n---\n",
+        )
+        self.assertIn("must not contain XML tags", self.error_text())
+
+    def test_reserved_word_in_name_fails(self) -> None:
+        self.add_skill("development/claude-helper")
+        self.write_router(["development/foo", "development/claude-helper"])
+        self.assertIn("reserved word", self.error_text())
+
+    def test_plugin_manifest_must_list_every_category(self) -> None:
+        self.write(".claude-plugin/plugin.json", '{"name": "test", "skills": ["./skills/development/"]}')
+        self.assertIn("missing category directories ['skills/meta']", self.error_text())
+
+    def test_plugin_manifest_in_sync_passes(self) -> None:
+        self.write(
+            ".claude-plugin/plugin.json",
+            '{"name": "test", "skills": ["./skills/development/", "./skills/meta/"]}',
+        )
+        result = validate_repository(self.root)
+        self.assertTrue(result.ok, result.errors)
 
 
 if __name__ == "__main__":

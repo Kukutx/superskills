@@ -1,6 +1,6 @@
 ---
 name: prd-builder
-description: Turn a product or feature idea into a narrow, buildable PRD with MVP scope, out-of-scope, user behavior and acceptance criteria.
+description: Turn a product or feature idea into a narrow, buildable PRD with MVP scope, out-of-scope, user behavior and acceptance criteria. Use when the user wants a PRD, feature spec or MVP scope for something they plan to build.
 ---
 
 # PRD Builder
