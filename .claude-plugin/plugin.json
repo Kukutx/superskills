@@ -16,19 +16,5 @@
     "writing",
     "research",
     "productivity"
-  ],
-  "skills": [
-    "./skills/creative/",
-    "./skills/design/",
-    "./skills/development/",
-    "./skills/ecommerce/",
-    "./skills/marketing/",
-    "./skills/meta/",
-    "./skills/operations/",
-    "./skills/personal/",
-    "./skills/planning/",
-    "./skills/product/",
-    "./skills/research/",
-    "./skills/writing/"
   ]
 }

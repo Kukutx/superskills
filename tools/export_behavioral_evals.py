@@ -25,14 +25,14 @@ class EvalExportError(ValueError):
 def source_skill_for(path: Path, root: Path) -> str:
     relative = path.relative_to(root)
     parts = relative.parts
-    if len(parts) < 5 or parts[0] != "skills":
+    if len(parts) != 4 or parts[0] != "skills":
         raise EvalExportError(f"unexpected behavioral eval path: {relative}")
-    return f"{parts[1]}/{parts[2]}"
+    return parts[1]
 
 
 def export_cases(root: Path | str) -> list[dict[str, object]]:
     root = Path(root).resolve()
-    files = sorted(root.glob("skills/*/*/maintenance/behavioral-evals.md"))
+    files = sorted(root.glob("skills/*/maintenance/behavioral-evals.md"))
     records: list[dict[str, object]] = []
 
     for path in files:

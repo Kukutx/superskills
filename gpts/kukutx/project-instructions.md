@@ -58,7 +58,7 @@ The user's explicit requirements define the task scope and selection criteria.
 
 The authoritative catalog is:
 
-`skills/meta/skill-router/SKILL.md`
+`skills/skill-router/SKILL.md`
 
 Use it when ownership is ambiguous. If the task clearly belongs to a domain Skill, go there directly.
 

@@ -3,7 +3,7 @@
 When modifying this repository:
 
 1. Read `docs/authoring-guide.md` before changing Skill structure or ownership.
-2. Treat `skills/meta/skill-router/SKILL.md` `## Catalog` as the only complete Skill catalog; every non-Router Skill must appear there exactly once.
+2. Treat `skills/skill-router/SKILL.md` `## Catalog` as the only complete Skill catalog; every non-Router Skill must appear there exactly once.
 3. Prefer improving, renaming, splitting or merging an existing owner before creating a new Skill.
 4. Default to one `SKILL.md`. Add one-level `references/` only for real task-dependent runtime depth.
 5. Keep the global autonomy, escalation and scope policy in `gpts/kukutx/project-instructions.md`; domain Skills should add only domain-specific decision inputs, blockers and validation rules.

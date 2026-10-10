@@ -7,7 +7,7 @@
 普通 Skill：
 
 ```text
-skills/<category>/<skill>/SKILL.md
+skills/<skill>/SKILL.md
 ```
 
 只有复杂 Skill 才增加：
@@ -30,7 +30,7 @@ Skill 文件夹遵循 [Agent Skills 规范](https://agentskills.io/specification
 
 `description` 是 Agent 决定是否加载 Skill 的唯一依据，必须用第三人称同时写清**做什么**和**何时使用**（通常以 `Use when ...` 结尾），并包含用户真实会说的触发词。frontmatter 只用 `name` 与 `description`；其他字段（如 Claude Code 的 `disable-model-invocation`）只有在确实改变行为时才加。
 
-新增 Skill 类别时，同时把类别目录加入 `.claude-plugin/plugin.json` 的 `skills` 列表；Validator 会检查两者一致。
+Skill 平铺在 `skills/<skill>/`，这是 claude.ai、Cowork 和 Claude Code 都会加载的插件标准布局；不要再加分类目录，分类只体现在 Router Catalog 的意图描述里。Skill 名即路由名，例如 `resume-writing`。
 
 ## Minimal `SKILL.md`
 
@@ -79,7 +79,7 @@ step-by-step prose that a capable agent can infer
 唯一完整 Skill catalog：
 
 ```text
-skills/meta/skill-router/SKILL.md
+skills/skill-router/SKILL.md
 ```
 
 原则：
@@ -181,7 +181,7 @@ canonical URL
 ```markdown
 | ID | Prompt | Primary | Secondary | Must avoid |
 | --- | --- | --- | --- | --- |
-| example-001 | 用户任务 | `category/skill` | 可选 | 禁止行为 |
+| example-001 | 用户任务 | `skill-name` | 可选 | 禁止行为 |
 ```
 
 列名必须严格使用 `ID`、`Prompt`、`Primary`、`Secondary`、`Must avoid`。不维护旧列名兼容。显式 `ID` 在整个仓库中必须唯一。
@@ -246,7 +246,6 @@ Validator 负责：
 
 - 扫描所有 `SKILL.md`，并拒绝错误层级；
 - frontmatter、Agent Skills 规范的 name/description 约束、folder naming、duplicate Skill names；
-- `.claude-plugin/plugin.json` 的 `skills` 列表与类别目录一致；
 - Skill 目录形状；
 - runtime reference 必须是一层 Markdown，并通过真实链接/code path 从入口可发现；
 - maintenance 只允许当前规范文件，并且不混入 runtime；
@@ -265,9 +264,9 @@ Validator 负责：
 ```bash
 python tools/build_bundle.py \
   --profile gpts/kukutx \
-  --skill development/godot-project-systems \
-  --reference development/godot-project-systems:ui-ux \
-  --reference development/godot-project-systems:input-controls-accessibility
+  --skill godot-project-systems \
+  --reference godot-project-systems:ui-ux \
+  --reference godot-project-systems:input-controls-accessibility
 ```
 
 Bundle 自动包含 Project Instructions、Router、选中的 Skill 和 reference，并拒绝 `maintenance/`。`manifest.json` 记录源提交、文件哈希、字节数和粗略 Token 预算。

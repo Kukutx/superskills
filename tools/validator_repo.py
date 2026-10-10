@@ -2,16 +2,14 @@
 
 from __future__ import annotations
 
-import json
 import re
-from collections import Counter, defaultdict
+from collections import Counter
 from dataclasses import dataclass
 from pathlib import Path
 
 if __package__:
     from .validator_markdown import (
         CODE_SPAN_RE,
-        ROUTE_FIND_RE,
         extract_catalog_routes,
         frontmatter,
         markdown_targets,
@@ -24,7 +22,6 @@ if __package__:
 else:
     from validator_markdown import (
         CODE_SPAN_RE,
-        ROUTE_FIND_RE,
         extract_catalog_routes,
         frontmatter,
         markdown_targets,
@@ -49,7 +46,6 @@ SKILL_DESCRIPTION_MAX_CHARS = 1024
 SKILL_ENTRYPOINT_ADVISORY_LINES = 500
 RESERVED_NAME_WORDS = ("anthropic", "claude")
 XML_TAG_RE = re.compile(r"<[A-Za-z/][^>]*>")
-PLUGIN_MANIFEST = Path(".claude-plugin") / "plugin.json"
 
 
 @dataclass
@@ -64,29 +60,21 @@ class ValidationResult:
 
 
 def _validate_skill_tree(skills_root: Path, root: Path, errors: list[str]) -> list[Path]:
-    for category in sorted(skills_root.iterdir()):
-        if not category.is_dir():
-            errors.append(f"skills/{category.name}: category entries must be directories")
-            continue
-        if not SLUG_RE.fullmatch(category.name):
-            errors.append(f"skills/{category.name}: invalid category slug")
-        for candidate in sorted(category.iterdir()):
-            if not candidate.is_dir():
-                errors.append(f"{candidate.relative_to(root)}: Skill entries must be directories")
-            elif not (candidate / "SKILL.md").is_file():
-                errors.append(f"{candidate.relative_to(root)}: Skill directory missing SKILL.md")
+    for candidate in sorted(skills_root.iterdir()):
+        if not candidate.is_dir():
+            errors.append(f"skills/{candidate.name}: Skill entries must be directories")
+        elif not SLUG_RE.fullmatch(candidate.name):
+            errors.append(f"skills/{candidate.name}: Skill folders must use lowercase kebab-case")
+        elif not (candidate / "SKILL.md").is_file():
+            errors.append(f"skills/{candidate.name}: Skill directory missing SKILL.md")
 
     valid: list[Path] = []
     for path in sorted(skills_root.rglob("SKILL.md")):
         relative = path.relative_to(root)
         parts = relative.parts
-        if len(parts) != 4 or parts[0] != "skills" or parts[-1] != "SKILL.md":
-            errors.append(
-                f"{relative}: malformed Skill entrypoint; expected skills/<category>/<skill>/SKILL.md"
-            )
-        elif not SLUG_RE.fullmatch(parts[1]) or not SLUG_RE.fullmatch(parts[2]):
-            errors.append(f"{relative}: category and Skill folders must use lowercase kebab-case")
-        else:
+        if len(parts) != 3 or parts[0] != "skills":
+            errors.append(f"{relative}: malformed Skill entrypoint; expected skills/<skill>/SKILL.md")
+        elif SLUG_RE.fullmatch(parts[1]):
             valid.append(path)
     if not valid:
         errors.append("No valid skills found")
@@ -137,8 +125,7 @@ def _validate_references(
 def _validate_maintenance(
     skill_file: Path,
     references: list[Path],
-    skill_paths: set[str],
-    skill_categories: set[str],
+    skill_names: set[str],
     root: Path,
     errors: list[str],
 ) -> None:
@@ -184,12 +171,11 @@ def _validate_maintenance(
             errors.append(f"{eval_file.relative_to(root)}:{case.line}: routing case has an empty prompt")
         if not case.primary:
             errors.append(f"{eval_file.relative_to(root)}:{case.line}: routing case has an empty primary route")
-        for cell in (case.primary, case.secondary, case.must_avoid):
-            for route in ROUTE_FIND_RE.findall(cell):
-                if route.split("/", 1)[0] in skill_categories and route not in skill_paths:
-                    errors.append(
-                        f"{eval_file.relative_to(root)}:{case.line}: references missing local Skill {route}"
-                    )
+        for name in case.skill_mentions:
+            if name not in skill_names:
+                errors.append(
+                    f"{eval_file.relative_to(root)}:{case.line}: references missing local Skill {name}"
+                )
 
 
 def _validate_runtime_links(
@@ -210,28 +196,6 @@ def _validate_runtime_links(
                 errors.append(f"{markdown_file.relative_to(root)}: broken Markdown path {raw}")
 
 
-def _validate_plugin_manifest(skills_root: Path, root: Path, errors: list[str]) -> None:
-    """Keep the Claude Code plugin's skill directories in sync with the category folders."""
-    manifest = root / PLUGIN_MANIFEST
-    if not manifest.is_file():
-        return
-    try:
-        data = json.loads(manifest.read_text(encoding="utf-8"))
-    except json.JSONDecodeError as error:
-        errors.append(f"{PLUGIN_MANIFEST.as_posix()}: invalid JSON: {error}")
-        return
-    raw = data.get("skills", [])
-    declared = [raw] if isinstance(raw, str) else list(raw)
-    listed = {entry.removeprefix("./").rstrip("/") for entry in declared if isinstance(entry, str)}
-    expected = {f"skills/{category.name}" for category in skills_root.iterdir() if category.is_dir()}
-    missing = sorted(expected - listed)
-    stale = sorted(listed - expected)
-    if missing:
-        errors.append(f"{PLUGIN_MANIFEST.as_posix()}: skills is missing category directories {missing}")
-    if stale:
-        errors.append(f"{PLUGIN_MANIFEST.as_posix()}: skills lists unknown directories {stale}")
-
-
 def validate_repository(root: Path | str = DEFAULT_ROOT) -> ValidationResult:
     root = Path(root).resolve()
     skills_root = root / "skills"
@@ -241,9 +205,7 @@ def validate_repository(root: Path | str = DEFAULT_ROOT) -> ValidationResult:
         return ValidationResult(["skills/ directory does not exist"], [], 0)
 
     skill_files = _validate_skill_tree(skills_root, root, errors)
-    skill_paths = {f"{path.parent.parent.name}/{path.parent.name}" for path in skill_files}
-    skill_categories = {route.split("/", 1)[0] for route in skill_paths}
-    skill_names: dict[str, list[str]] = defaultdict(list)
+    skill_paths = {path.parent.name for path in skill_files}
     reference_files: list[Path] = []
 
     for skill_file in skill_files:
@@ -255,7 +217,6 @@ def validate_repository(root: Path | str = DEFAULT_ROOT) -> ValidationResult:
         if not name:
             errors.append(f"{relative}: missing frontmatter name")
         else:
-            skill_names[name].append(str(relative))
             if name != skill_file.parent.name:
                 errors.append(f"{relative}: frontmatter name '{name}' != folder '{skill_file.parent.name}'")
             if len(name) > SKILL_NAME_MAX_CHARS:
@@ -289,16 +250,12 @@ def validate_repository(root: Path | str = DEFAULT_ROOT) -> ValidationResult:
         references = _validate_references(skill_file, text, root, errors, warnings)
         reference_files.extend(references)
         _validate_maintenance(
-            skill_file, references, skill_paths, skill_categories, root, errors
+            skill_file, references, skill_paths, root, errors
         )
 
-    for name, paths in sorted(skill_names.items()):
-        if len(paths) > 1:
-            errors.append(f"duplicate frontmatter skill name '{name}': {paths}")
-
-    router = skills_root / "meta" / "skill-router" / "SKILL.md"
+    router = skills_root / "skill-router" / "SKILL.md"
     if not router.is_file():
-        errors.append("skills/meta/skill-router/SKILL.md: missing authoritative Router")
+        errors.append("skills/skill-router/SKILL.md: missing authoritative Router")
     else:
         catalog_routes, catalog_errors = extract_catalog_routes(router.read_text(encoding="utf-8"))
         errors.extend(catalog_errors)
@@ -306,7 +263,7 @@ def validate_repository(root: Path | str = DEFAULT_ROOT) -> ValidationResult:
         duplicates = sorted(route for route, count in counts.items() if count > 1)
         if duplicates:
             errors.append(f"skill-router Catalog duplicates: {duplicates}")
-        expected = skill_paths - {"meta/skill-router"}
+        expected = skill_paths - {"skill-router"}
         catalog = set(catalog_routes)
         missing = sorted(expected - catalog)
         stale = sorted(catalog - expected)
@@ -315,6 +272,5 @@ def validate_repository(root: Path | str = DEFAULT_ROOT) -> ValidationResult:
         if stale:
             errors.append(f"skill-router Catalog references missing or self routes: {stale}")
 
-    _validate_plugin_manifest(skills_root, root, errors)
     _validate_runtime_links(skill_files + reference_files, root, errors)
     return ValidationResult(errors, warnings, len(skill_files))

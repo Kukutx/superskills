@@ -13,10 +13,10 @@ class BundleBuilderTestCase(unittest.TestCase):
         self.temp = tempfile.TemporaryDirectory()
         self.root = Path(self.temp.name)
         self.write("gpts/test/project-instructions.md", "# Instructions\n")
-        self.write("skills/meta/skill-router/SKILL.md", "# Router\n")
-        self.write("skills/development/foo/SKILL.md", "# Foo\n")
-        self.write("skills/development/foo/references/details.md", "# Details\n")
-        self.write("skills/development/foo/maintenance/sources.md", "SECRET\n")
+        self.write("skills/skill-router/SKILL.md", "# Router\n")
+        self.write("skills/foo/SKILL.md", "# Foo\n")
+        self.write("skills/foo/references/details.md", "# Details\n")
+        self.write("skills/foo/maintenance/sources.md", "SECRET\n")
 
     def tearDown(self) -> None:
         self.temp.cleanup()
@@ -31,22 +31,22 @@ class BundleBuilderTestCase(unittest.TestCase):
         summary = build_bundle(
             root=self.root,
             profile="gpts/test",
-            skills=["development/foo"],
-            references=["development/foo:details"],
+            skills=["foo"],
+            references=["foo:details"],
             output=output,
         )
 
         self.assertEqual(output.resolve(), summary.output)
         self.assertTrue((output / "gpts/test/project-instructions.md").is_file())
-        self.assertTrue((output / "skills/meta/skill-router/SKILL.md").is_file())
-        self.assertTrue((output / "skills/development/foo/SKILL.md").is_file())
-        self.assertTrue((output / "skills/development/foo/references/details.md").is_file())
-        self.assertFalse((output / "skills/development/foo/maintenance/sources.md").exists())
+        self.assertTrue((output / "skills/skill-router/SKILL.md").is_file())
+        self.assertTrue((output / "skills/foo/SKILL.md").is_file())
+        self.assertTrue((output / "skills/foo/references/details.md").is_file())
+        self.assertFalse((output / "skills/foo/maintenance/sources.md").exists())
 
         manifest = json.loads((output / "manifest.json").read_text(encoding="utf-8"))
         self.assertEqual(BUNDLE_FORMAT, manifest["format"])
-        self.assertEqual(["development/foo"], manifest["skills"])
-        self.assertEqual(["development/foo:details.md"], manifest["references"])
+        self.assertEqual(["foo"], manifest["skills"])
+        self.assertEqual(["foo:details.md"], manifest["references"])
         self.assertTrue(all("/maintenance/" not in f"/{item['path']}/" for item in manifest["files"]))
 
     def test_reference_requires_selected_owner(self) -> None:
@@ -54,8 +54,8 @@ class BundleBuilderTestCase(unittest.TestCase):
             build_bundle(
                 root=self.root,
                 profile="gpts/test",
-                skills=["meta/skill-router"],
-                references=["development/foo:details"],
+                skills=["skill-router"],
+                references=["foo:details"],
                 output=self.root / "out",
             )
 
@@ -67,7 +67,7 @@ class BundleBuilderTestCase(unittest.TestCase):
             build_bundle(
                 root=self.root,
                 profile="gpts/test",
-                skills=["development/foo"],
+                skills=["foo"],
                 output=output,
             )
         self.assertEqual("keep", (output / "unrelated.txt").read_text(encoding="utf-8"))
@@ -78,11 +78,19 @@ class BundleBuilderTestCase(unittest.TestCase):
             build_bundle(
                 root=self.root,
                 profile="gpts/test",
-                skills=["development/foo"],
+                skills=["foo"],
                 output=output,
             )
         manifest = json.loads((output / "manifest.json").read_text(encoding="utf-8"))
         self.assertEqual(BUNDLE_FORMAT, manifest["format"])
+
+    def test_all_skills_includes_every_skill_and_reference(self) -> None:
+        output = self.root / "out"
+        build_bundle(root=self.root, profile="gpts/test", skills=[], all_skills=True, output=output)
+        manifest = json.loads((output / "manifest.json").read_text(encoding="utf-8"))
+        self.assertEqual(["foo", "skill-router"], manifest["skills"])
+        self.assertEqual(["foo:details.md"], manifest["references"])
+        self.assertFalse((output / "skills/foo/maintenance/sources.md").exists())
 
 
 if __name__ == "__main__":

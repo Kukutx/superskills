@@ -41,7 +41,7 @@ superskills/
 ├── gpts/kukutx/
 │   ├── README.md
 │   └── project-instructions.md
-├── skills/<category>/<skill>/
+├── skills/<skill>/
 │   ├── SKILL.md
 │   ├── references/          # optional runtime depth
 │   └── maintenance/         # optional evals/sources/decisions
@@ -57,22 +57,22 @@ superskills/
     └── delete-merged-branch.yml
 ```
 
-**唯一完整 Skill catalog**：`skills/meta/skill-router/SKILL.md` 的 `## Catalog` 表格。
+**唯一完整 Skill catalog**：`skills/skill-router/SKILL.md` 的 `## Catalog` 表格。
 
 不要在 README、Project Instructions 或其他文件复制完整路由表。新增、删除或重命名 Skill 时只维护 Router；边界变化时只补必要的 behavioral eval。
 
 ## Install
 
-Skill 目录遵循开放的 [Agent Skills 规范](https://agentskills.io/specification)：每个 Skill 是一个包含 `SKILL.md` 的文件夹，可直接用于支持该规范的 Agent。
+Skill 目录遵循开放的 [Agent Skills 规范](https://agentskills.io/specification)：每个 Skill 是 `skills/<skill>/SKILL.md`，仓库根目录同时是一个 Claude 插件 marketplace。
 
-**Claude Code**（整个合集作为插件安装，Skill 以 `superskills:<name>` 命名）：
+**claude.ai 网页版 / 桌面版（推荐，无需下载）**：在 [Customize > Plugins](https://claude.ai/customize/plugins) 选择 **Add > Add marketplace**，填入 `https://github.com/Kukutx/superskills`，再安装 `superskills`。全部 Skill 会挂到账号上，聊天时 Claude 按 description 自动调用；同一账号的 Cowork 和 Claude Code 也会同步出现。
+
+**Claude Code**：
 
 ```text
 /plugin marketplace add Kukutx/superskills
 /plugin install superskills@kukutx-superskills
 ```
-
-**单个 Skill**：把 `skills/<category>/<skill>/` 整个文件夹复制到 `~/.claude/skills/<skill>/`（或其他兼容 Agent 的 skills 目录）；在 claude.ai 中可把该文件夹打包成 ZIP 后在 Skills 设置里上传。
 
 **ChatGPT Project / GPT**：没有原生 Skill 加载机制，使用下面的 runtime bundle 和 `gpts/kukutx/`。
 
@@ -86,7 +86,7 @@ python tools/validate_repo.py
 python tools/export_behavioral_evals.py --check
 ```
 
-Validator 检查 Skill 层级、frontmatter（含 Agent Skills 规范约束）、插件清单与类别目录一致性、目录形状、Router Catalog 完整性、真实 Markdown 引用、runtime/maintenance 边界和 behavioral eval 路径完整性。
+Validator 检查 Skill 层级、frontmatter（含 Agent Skills 规范约束）、目录形状、Router Catalog 完整性、真实 Markdown 引用、runtime/maintenance 边界和 behavioral eval 路径完整性。
 
 ## Build a runtime bundle
 
@@ -95,13 +95,13 @@ Validator 检查 Skill 层级、frontmatter（含 Agent Skills 规范约束）�
 ```bash
 python tools/build_bundle.py \
   --profile gpts/kukutx \
-  --skill writing/resume-writing
+  --skill resume-writing
 ```
 
 复杂 Skill 可追加：
 
 ```bash
---reference development/godot-project-systems:ui-ux
+--reference godot-project-systems:ui-ux
 ```
 
 输出的 `manifest.json` 记录源提交、文件哈希、字节数和粗略 Token 预算，并保证不包含 `maintenance/`。

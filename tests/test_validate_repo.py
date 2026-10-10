@@ -11,8 +11,8 @@ class ValidatorTestCase(unittest.TestCase):
     def setUp(self) -> None:
         self.temp = tempfile.TemporaryDirectory()
         self.root = Path(self.temp.name)
-        self.add_skill("development/foo")
-        self.write_router(["development/foo"])
+        self.add_skill("foo")
+        self.write_router(["foo"])
 
     def tearDown(self) -> None:
         self.temp.cleanup()
@@ -23,17 +23,16 @@ class ValidatorTestCase(unittest.TestCase):
         path.write_text(content, encoding="utf-8")
         return path
 
-    def add_skill(self, route: str, body: str = "# Foo\n") -> Path:
-        category, name = route.split("/", 1)
+    def add_skill(self, name: str, body: str = "# Foo\n") -> Path:
         return self.write(
-            f"skills/{route}/SKILL.md",
+            f"skills/{name}/SKILL.md",
             f"---\nname: {name}\ndescription: Test {name}.\n---\n\n{body}",
         )
 
     def write_router(self, routes: list[str], suffix: str = "") -> None:
         rows = "\n".join(f"| test | `{route}` |" for route in routes)
         self.write(
-            "skills/meta/skill-router/SKILL.md",
+            "skills/skill-router/SKILL.md",
             "---\nname: skill-router\ndescription: Route tests.\n---\n\n"
             "# Router\n\n## Catalog\n\n| Intent | Skill |\n| --- | --- |\n"
             f"{rows}\n\n## Boundaries\n\n{suffix}\n",
@@ -48,106 +47,94 @@ class ValidatorTestCase(unittest.TestCase):
         self.assertEqual(2, result.skill_count)
 
     def test_catalog_does_not_accept_route_mentioned_outside_catalog(self) -> None:
-        self.write_router([], suffix="Use `development/foo` for this case.")
+        self.write_router([], suffix="Use `foo` for this case.")
         self.assertIn("Catalog missing", self.error_text())
 
     def test_duplicate_catalog_route_fails(self) -> None:
-        self.write_router(["development/foo", "development/foo"])
+        self.write_router(["foo", "foo"])
         self.assertIn("Catalog duplicates", self.error_text())
 
     def test_stale_catalog_route_fails(self) -> None:
-        self.write_router(["development/foo", "development/missing"])
+        self.write_router(["foo", "missing"])
         self.assertIn("Catalog references missing", self.error_text())
 
     def test_malformed_nested_skill_entrypoint_fails(self) -> None:
         self.write(
-            "skills/development/foo/nested/SKILL.md",
+            "skills/foo/nested/SKILL.md",
             "---\nname: nested\ndescription: Invalid.\n---\n",
         )
         self.assertIn("malformed Skill entrypoint", self.error_text())
 
     def test_orphan_reference_requires_real_discovery_path(self) -> None:
-        self.write("skills/development/foo/references/details.md", "# Details\n")
-        self.add_skill("development/foo", "# Foo\n\nDetails: details.md\n<!-- `references/details.md` -->\n")
+        self.write("skills/foo/references/details.md", "# Details\n")
+        self.add_skill("foo", "# Foo\n\nDetails: details.md\n<!-- `references/details.md` -->\n")
         self.assertIn("orphan runtime reference", self.error_text())
 
     def test_standard_markdown_reference_link_is_accepted(self) -> None:
-        self.write("skills/development/foo/references/details.md", "# Details\n")
-        self.add_skill("development/foo", "# Foo\n\nRead [details](references/details.md).\n")
+        self.write("skills/foo/references/details.md", "# Details\n")
+        self.add_skill("foo", "# Foo\n\nRead [details](references/details.md).\n")
         result = validate_repository(self.root)
         self.assertTrue(result.ok, result.errors)
 
     def test_broken_standard_markdown_link_fails(self) -> None:
-        self.add_skill("development/foo", "# Foo\n\nRead [missing](references/missing.md).\n")
+        self.add_skill("foo", "# Foo\n\nRead [missing](references/missing.md).\n")
         self.assertIn("broken Markdown path references/missing.md", self.error_text())
 
     def test_maintenance_file_cannot_live_in_references(self) -> None:
-        self.write("skills/development/foo/references/sources.md", "# Sources\n")
-        self.add_skill("development/foo", "# Foo\n\nRead `references/sources.md`.\n")
+        self.write("skills/foo/references/sources.md", "# Sources\n")
+        self.add_skill("foo", "# Foo\n\nRead `references/sources.md`.\n")
         self.assertIn("maintenance material is in references", self.error_text())
 
     def test_behavioral_eval_missing_local_route_fails(self) -> None:
         self.write(
-            "skills/development/foo/maintenance/behavioral-evals.md",
+            "skills/foo/maintenance/behavioral-evals.md",
             "# Evals\n\n| ID | Prompt | Primary | Secondary | Must avoid |\n"
             "| --- | --- | --- | --- | --- |\n"
-            "| foo-001 | test | `development/missing` | none | none |\n",
+            "| foo-001 | test | `missing` | none | none |\n",
         )
-        self.assertIn("references missing local Skill development/missing", self.error_text())
+        self.assertIn("references missing local Skill missing", self.error_text())
 
     def test_legacy_behavioral_eval_headers_fail(self) -> None:
         self.write(
-            "skills/development/foo/maintenance/behavioral-evals.md",
+            "skills/foo/maintenance/behavioral-evals.md",
             "# Evals\n\n| Prompt | Expected route | Must avoid |\n"
             "| --- | --- | --- |\n"
-            "| test | `development/foo` | none |\n",
+            "| test | `foo` | none |\n",
         )
         self.assertIn("must contain a canonical", self.error_text())
 
     def test_unknown_maintenance_file_fails(self) -> None:
-        self.write("skills/development/foo/maintenance/examples.md", "# Examples\n")
+        self.write("skills/foo/maintenance/examples.md", "# Examples\n")
         self.assertIn("unsupported maintenance file", self.error_text())
 
     def test_missing_frontmatter_is_reported(self) -> None:
-        self.write("skills/development/foo/SKILL.md", "# No metadata\n")
+        self.write("skills/foo/SKILL.md", "# No metadata\n")
         text = self.error_text()
         self.assertIn("missing opening frontmatter delimiter", text)
         self.assertIn("missing frontmatter name", text)
 
     def test_lowercase_legacy_entrypoint_fails(self) -> None:
-        self.write("skills/development/bar/skill.md", "---\nname: bar\ndescription: Legacy.\n---\n")
+        self.write("skills/bar/skill.md", "---\nname: bar\ndescription: Legacy.\n---\n")
         self.assertIn("Skill directory missing SKILL.md", self.error_text())
 
     def test_description_over_spec_limit_fails(self) -> None:
         self.write(
-            "skills/development/foo/SKILL.md",
+            "skills/foo/SKILL.md",
             f"---\nname: foo\ndescription: {'x' * 1025}\n---\n",
         )
         self.assertIn("description exceeds 1024 characters", self.error_text())
 
     def test_description_with_xml_tag_fails(self) -> None:
         self.write(
-            "skills/development/foo/SKILL.md",
+            "skills/foo/SKILL.md",
             "---\nname: foo\ndescription: Use <example> tags.\n---\n",
         )
         self.assertIn("must not contain XML tags", self.error_text())
 
     def test_reserved_word_in_name_fails(self) -> None:
-        self.add_skill("development/claude-helper")
-        self.write_router(["development/foo", "development/claude-helper"])
+        self.add_skill("claude-helper")
+        self.write_router(["foo", "claude-helper"])
         self.assertIn("reserved word", self.error_text())
-
-    def test_plugin_manifest_must_list_every_category(self) -> None:
-        self.write(".claude-plugin/plugin.json", '{"name": "test", "skills": ["./skills/development/"]}')
-        self.assertIn("missing category directories ['skills/meta']", self.error_text())
-
-    def test_plugin_manifest_in_sync_passes(self) -> None:
-        self.write(
-            ".claude-plugin/plugin.json",
-            '{"name": "test", "skills": ["./skills/development/", "./skills/meta/"]}',
-        )
-        result = validate_repository(self.root)
-        self.assertTrue(result.ok, result.errors)
 
 
 if __name__ == "__main__":
