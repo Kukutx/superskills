@@ -7,10 +7,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 ROOT_PREFIXES = ("docs/", "gpts/", "skills/", "templates/", "tools/", "tests/", ".github/")
-ROUTE_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*/[a-z0-9]+(?:-[a-z0-9]+)*$")
-ROUTE_FIND_RE = re.compile(
-    r"(?<![a-z0-9-])([a-z0-9]+(?:-[a-z0-9]+)*/[a-z0-9]+(?:-[a-z0-9]+)*)(?![a-z0-9-])"
-)
+SKILL_NAME_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 HTML_COMMENT_RE = re.compile(r"<!--.*?-->", re.DOTALL)
 CODE_SPAN_RE = re.compile(r"`([^`\n]+)`")
 MARKDOWN_LINK_RE = re.compile(r"(?<!!)\[[^\]]*\]\(([^)]+)\)")
@@ -33,6 +30,7 @@ class RoutingCase:
     must_avoid: str
     case_id: str
     line: int
+    skill_mentions: tuple[str, ...] = ()
 
 
 def strip_html_comments(text: str) -> str:
@@ -150,6 +148,7 @@ def routing_cases_from_text(text: str) -> list[RoutingCase]:
                     must_avoid=_plain_cell(row[4]),
                     case_id=_plain_cell(row[0]),
                     line=table.start_line + row_offset,
+                    skill_mentions=tuple(skill_names_in_cell(row[2]) + skill_names_in_cell(row[3])),
                 )
             )
     return cases
@@ -170,16 +169,16 @@ def extract_catalog_routes(router_text: str) -> tuple[list[str], list[str]]:
     routes: list[str] = []
     skill_index = table.headers.index("skill")
     for row_number, row in enumerate(table.rows, start=table.start_line + 2):
-        matches = ROUTE_FIND_RE.findall(row[skill_index])
+        matches = CODE_SPAN_RE.findall(row[skill_index])
         if len(matches) != 1:
             errors.append(
-                f"skill-router Catalog row {row_number}: expected exactly one category/skill route, "
+                f"skill-router Catalog row {row_number}: expected exactly one `skill-name`, "
                 f"found {matches or 'none'}"
             )
-        elif ROUTE_RE.fullmatch(matches[0]):
+        elif SKILL_NAME_RE.fullmatch(matches[0]):
             routes.append(matches[0])
         else:
-            errors.append(f"skill-router Catalog row {row_number}: invalid route '{matches[0]}'")
+            errors.append(f"skill-router Catalog row {row_number}: invalid skill name '{matches[0]}'")
     return routes, errors
 
 
@@ -226,3 +225,8 @@ def reference_discovery_targets(skill_file: Path, text: str, root: Path) -> set[
         else:
             targets.add(resolve_markdown_path(root, skill_file, raw))
     return targets
+
+
+def skill_names_in_cell(cell: str) -> list[str]:
+    """Return code spans in a table cell that look like Skill names rather than files."""
+    return [span for span in CODE_SPAN_RE.findall(cell) if SKILL_NAME_RE.fullmatch(span)]

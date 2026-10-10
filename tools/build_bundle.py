@@ -69,16 +69,15 @@ def ensure_relative_directory(root: Path, raw: str, label: str) -> Path:
 
 def normalize_skill_route(raw: str) -> str:
     route = raw.strip().strip("/")
-    parts = route.split("/")
-    if len(parts) != 2 or any(not part for part in parts):
-        raise BundleError(f"invalid Skill route '{raw}'; expected category/skill")
+    if not route or "/" in route or "\\" in route or route in {".", ".."}:
+        raise BundleError(f"invalid Skill name '{raw}'; expected skill-name")
     return route
 
 
 def parse_reference(raw: str) -> tuple[str, str]:
     if ":" not in raw:
         raise BundleError(
-            f"invalid reference '{raw}'; expected category/skill:reference-name"
+            f"invalid reference '{raw}'; expected skill-name:reference-name"
         )
     owner_raw, name_raw = raw.rsplit(":", 1)
     owner = normalize_skill_route(owner_raw)
@@ -116,6 +115,7 @@ def build_bundle(
     skills: Sequence[str],
     references: Sequence[str] = (),
     output: Path | str | None = None,
+    all_skills: bool = False,
 ) -> BundleSummary:
     root = Path(root).resolve()
     profile_dir = ensure_relative_directory(root, profile, "profile")
@@ -123,13 +123,19 @@ def build_bundle(
     if not profile_instructions.is_file():
         raise BundleError(f"profile is missing project-instructions.md: {profile}")
 
+    if all_skills:
+        skills = [path.parent.name for path in (root / "skills").glob("*/SKILL.md")]
+        references = [
+            f"{path.parent.parent.name}:{path.name}"
+            for path in (root / "skills").glob("*/references/*.md")
+        ]
     selected_skills = sorted({normalize_skill_route(route) for route in skills})
     if not selected_skills:
-        raise BundleError("select at least one --skill")
+        raise BundleError("select at least one --skill or use --all-skills")
 
     source_files: list[Path] = [
         profile_instructions,
-        root / "skills" / "meta" / "skill-router" / "SKILL.md",
+        root / "skills" / "skill-router" / "SKILL.md",
     ]
     if not source_files[1].is_file():
         raise BundleError("authoritative Skill Router is missing")
@@ -229,12 +235,17 @@ def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", type=Path, default=DEFAULT_ROOT)
     parser.add_argument("--profile", required=True, help="Profile directory, for example gpts/kukutx")
-    parser.add_argument("--skill", action="append", default=[], help="Skill route category/skill; repeat as needed")
+    parser.add_argument("--skill", action="append", default=[], help="Skill name, for example resume-writing; repeat as needed")
     parser.add_argument(
         "--reference",
         action="append",
         default=[],
-        help="Focused reference category/skill:reference-name; repeat as needed",
+        help="Focused reference skill-name:reference-name; repeat as needed",
+    )
+    parser.add_argument(
+        "--all-skills",
+        action="store_true",
+        help="Include every Skill and runtime reference, for a single always-available knowledge set",
     )
     parser.add_argument("--output", type=Path, help="Output directory; default dist/<profile-name>")
     return parser
@@ -249,6 +260,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             skills=args.skill,
             references=args.reference,
             output=args.output,
+            all_skills=args.all_skills,
         )
     except BundleError as exc:
         print(f"bundle build failed: {exc}", file=sys.stderr)

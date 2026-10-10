@@ -49,20 +49,20 @@ jobs:
         run: |
           python tools/build_bundle.py \
             --profile gpts/kukutx \
-            --skill writing/resume-writing \
-            --output dist/superskills-resume-bundle
+            --all-skills \
+            --output dist/superskills-gpt-bundle
           python - <<'PY'
           import shutil
 
           archive = shutil.make_archive(
-              "dist/superskills-resume-bundle",
+              "dist/superskills-gpt-bundle",
               "zip",
               root_dir="dist",
-              base_dir="superskills-resume-bundle",
+              base_dir="superskills-gpt-bundle",
           )
           print(archive)
           PY
-          (cd dist && sha256sum superskills-resume-bundle.zip > SHA256SUMS.txt)
+          (cd dist && sha256sum superskills-gpt-bundle.zip > SHA256SUMS.txt)
 
       - name: Write release notes
         run: |
@@ -80,13 +80,13 @@ jobs:
           - Python 3.14 tooling and CI;
           - MIT licensing.
 
-          Included asset: a ready-to-upload writing/resume-writing runtime bundle bound to commit ${GITHUB_SHA}.
+          Included asset: a ChatGPT Project/GPT runtime bundle with every Skill and runtime reference, bound to commit ${GITHUB_SHA}. On claude.ai, add this repository as a plugin marketplace instead.
           EOF
 
       - name: Create release
         run: |
           gh release create "$VERSION" \
-            dist/superskills-resume-bundle.zip \
+            dist/superskills-gpt-bundle.zip \
             dist/SHA256SUMS.txt \
             --target "$GITHUB_SHA" \
             --title "$VERSION" \

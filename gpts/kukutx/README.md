@@ -7,7 +7,13 @@ ChatGPT Project 和 GPT 使用同一份核心配置，避免重复维护。
 ```bash
 python tools/build_bundle.py \
   --profile gpts/kukutx \
-  --skill writing/resume-writing
+  --skill resume-writing
+```
+
+综合使用（所有 Skill 都要随时可用）时构建完整包：
+
+```bash
+python tools/build_bundle.py --profile gpts/kukutx --all-skills
 ```
 
 复杂 Skill 只追加当前任务需要的 reference：
@@ -15,9 +21,9 @@ python tools/build_bundle.py \
 ```bash
 python tools/build_bundle.py \
   --profile gpts/kukutx \
-  --skill development/godot-project-systems \
-  --reference development/godot-project-systems:ui-ux \
-  --reference development/godot-project-systems:input-controls-accessibility
+  --skill godot-project-systems \
+  --reference godot-project-systems:ui-ux \
+  --reference godot-project-systems:input-controls-accessibility
 ```
 
 默认输出到 `dist/kukutx/`。`manifest.json` 记录源提交、包含文件、SHA-256、字节数和粗略 Token 预算。构建器只接受已选择 Skill 的 reference，并拒绝把 `maintenance/` 放入 runtime bundle。
@@ -25,7 +31,7 @@ python tools/build_bundle.py \
 ## Manual setup
 
 1. Instructions：`gpts/kukutx/project-instructions.md`
-2. Knowledge：`skills/meta/skill-router/SKILL.md`
+2. Knowledge：`skills/skill-router/SKILL.md`
 3. 再加入当前项目真正会用到的 domain `SKILL.md`
 4. 复杂 Skill 只加入需要的 `references/`
 
