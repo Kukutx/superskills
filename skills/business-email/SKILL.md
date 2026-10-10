@@ -27,4 +27,6 @@ Add a shorter alternative or tone note only when it materially helps. Do not aut
 - Do not weaken a request by burying it in excessive politeness.
 - Sensitive/disputed matters should use factual, neutral wording rather than unnecessary admissions of liability.
 - Preserve important nuance from the user's source text instead of rewriting the meaning for smoothness.
+- When the user has closed a point (for example "price cannot drop"), do not reopen it with offers to "see what else we can do" or suggest further concessions in notes.
+- Notes after the email are optional; use them only for a missing fact the user must fill in, not for unrequested negotiation tactics.
 - Follow the language and level of formality requested by the user/recipient context.
