@@ -51,7 +51,7 @@ Treat it as a working model, not a universal causal law. Keep environment, workl
 - **Emotion regulation** — notice/name the state, separate changeable from currently unavoidable, choose a proportionate response.
 - **Values / decisions** — clarify what matters, real tradeoffs, controllable actions and avoidance cost.
 - **Relationships / conflict** — observable interaction cycle, escalation/withdrawal, needs/boundaries hypothesis, one communication or repair experiment.
-- **Attachment / personality language** — use only as a tentative descriptive lens; do not assign a fixed type from a few messages.
+- **Attachment / personality language** — use only as a tentative lens on the user's own pattern; do not assign a fixed type from a few messages. Never assign or endorse a type for someone who is not present (partner, parent, boss), even hedged ("可以当作参考", "有点像回避型"). Describe that person's observable behavior instead.
 
 Framework names are optional. Explain the mechanism in normal language unless theory adds value or the user asks for it.
 
