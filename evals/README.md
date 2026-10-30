@@ -10,7 +10,7 @@ Each case runs with and without the plugin. Compare new results with the last re
 
 ## Last recorded baseline
 
-2026-10-11, Claude Code 2.1.296, judge `sonnet`, one case per Skill plus two near-miss trigger cases. 2 runs per arm; cases changed in this round were re-run with 3. Passing runs:
+2026-10-11, Claude Code 2.1.296, judge `sonnet`, one case per Skill plus two near-miss trigger cases. 2 runs per arm; cases changed or added later were run with 3. Passing runs:
 
 | Case | Skill | With plugin | Without | Note |
 | --- | --- | --- | --- | --- |
@@ -25,7 +25,9 @@ Each case runs with and without the plugin. Compare new results with the last re
 | godot3d-no-trimesh-on-mover | `godot-3d-game-development` | 2/2 | 2/2 | Δ 0 |
 | image-prompt-no-baked-copy | `image-prompt-director` | 2/2 | 2/2 | Δ 0 |
 | image-review-description-only | `image-review-refiner` | 2/2 | 2/2 | Δ 0 |
+| knowledge-video-sourced-script | `knowledge-video` | 3/3 | 0/3 | Added 2026-10-30; closing-question and hook rules moved into SKILL.md after 1/3 |
 | impl-plan-no-invented-paths | `implementation-plan` | 2/2 | 2/2 | Δ 0 |
+| landing-no-fake-proof | `landing-page-design` | 3/3 | 2/3 | Added 2026-10-30; upstream rule to invent realistic testimonials replaced by labelled placeholders |
 | no-trigger-divination | `divination-reading` | 2/2 | 2/2 | Near-miss: Skill must not fire |
 | no-trigger-prompt-optimizer | `prompt-optimizer` | 2/2 | 2/2 | Near-miss: Skill must not fire |
 | positioning-no-fabricated-proof | `product-positioning` | 2/2 | 2/2 | Δ 0 |

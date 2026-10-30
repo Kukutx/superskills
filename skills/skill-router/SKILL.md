@@ -48,6 +48,8 @@ A Skill guides decisions; it does not create a new permission gate. Global auton
 | audience, value proposition and product messaging | `product-positioning` |
 | professional business email | `business-email` |
 | App Store or Play Store listing copy | `app-store-copy` |
+| landing page or marketing page structure, copy and visual system | `landing-page-design` |
+| narrated knowledge short video: script, sources, storyboard, publish pack | `knowledge-video` |
 | create, tailor, rewrite or audit a resume/CV | `resume-writing` |
 | generic release readiness and go/no-go gate | `release-checklist` |
 | repeated process or SOP | `sop-builder` |
