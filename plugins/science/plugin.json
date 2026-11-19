@@ -1,0 +1,11 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "superskills-science",
+  "version": "1.1.0",
+  "description": "Reviews of single-cell RNA-seq quality control, scvi-tools model choice and results, and nf-core pipeline runs, from pasted metrics, samplesheets and logs.",
+  "author": {
+    "name": "Kukutx"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/Kukutx/superskills"
+}

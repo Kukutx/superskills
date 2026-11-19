@@ -1,0 +1,11 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "superskills-development",
+  "version": "1.1.0",
+  "description": "Bug diagnosis, code review, technical design, implementation planning, technical debt triage, Godot 4.x (shared, 2D, 3D) and sprite animation pipelines.",
+  "author": {
+    "name": "Kukutx"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/Kukutx/superskills"
+}

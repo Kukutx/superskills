@@ -13,10 +13,10 @@ class BundleBuilderTestCase(unittest.TestCase):
         self.temp = tempfile.TemporaryDirectory()
         self.root = Path(self.temp.name)
         self.write("gpts/test/project-instructions.md", "# Instructions\n")
-        self.write("skills/skill-router/SKILL.md", "# Router\n")
-        self.write("skills/foo/SKILL.md", "# Foo\n")
-        self.write("skills/foo/references/details.md", "# Details\n")
-        self.write("skills/foo/maintenance/sources.md", "SECRET\n")
+        self.write("plugins/meta/skills/skill-router/SKILL.md", "# Router\n")
+        self.write("plugins/development/skills/foo/SKILL.md", "# Foo\n")
+        self.write("plugins/development/skills/foo/references/details.md", "# Details\n")
+        self.write("maintenance/development/foo/sources.md", "SECRET\n")
 
     def tearDown(self) -> None:
         self.temp.cleanup()
@@ -31,31 +31,99 @@ class BundleBuilderTestCase(unittest.TestCase):
         summary = build_bundle(
             root=self.root,
             profile="gpts/test",
-            skills=["foo"],
-            references=["foo:details"],
+            skills=["development/foo"],
+            references=["development/foo:details"],
             output=output,
         )
 
         self.assertEqual(output.resolve(), summary.output)
         self.assertTrue((output / "gpts/test/project-instructions.md").is_file())
-        self.assertTrue((output / "skills/skill-router/SKILL.md").is_file())
-        self.assertTrue((output / "skills/foo/SKILL.md").is_file())
-        self.assertTrue((output / "skills/foo/references/details.md").is_file())
-        self.assertFalse((output / "skills/foo/maintenance/sources.md").exists())
+        self.assertTrue((output / "plugins/meta/skills/skill-router/SKILL.md").is_file())
+        self.assertTrue((output / "plugins/development/skills/foo/SKILL.md").is_file())
+        self.assertTrue((output / "plugins/development/skills/foo/references/details.md").is_file())
+        self.assertFalse((output / "maintenance").exists())
 
         manifest = json.loads((output / "manifest.json").read_text(encoding="utf-8"))
         self.assertEqual(BUNDLE_FORMAT, manifest["format"])
-        self.assertEqual(["foo"], manifest["skills"])
-        self.assertEqual(["foo:details.md"], manifest["references"])
+        self.assertEqual(["development/foo"], manifest["skills"])
+        self.assertEqual(["development/foo:details.md"], manifest["references"])
         self.assertTrue(all("/maintenance/" not in f"/{item['path']}/" for item in manifest["files"]))
+
+    def test_category_brings_every_skill_and_reference_in_it(self) -> None:
+        self.write("plugins/development/skills/bar/SKILL.md", "# Bar\n")
+        self.write("plugins/writing/skills/baz/SKILL.md", "# Baz\n")
+        output = self.root / "out"
+        build_bundle(root=self.root, profile="gpts/test", category_names=["development"], output=output)
+
+        manifest = json.loads((output / "manifest.json").read_text(encoding="utf-8"))
+        self.assertEqual(["development"], manifest["categories"])
+        self.assertEqual(["development/bar", "development/foo"], manifest["skills"])
+        self.assertEqual(["development/foo:details.md"], manifest["references"])
+        self.assertTrue((output / "plugins/development/skills/foo/references/details.md").is_file())
+        self.assertFalse((output / "plugins/writing").exists())
+        self.assertFalse((output / "maintenance").exists())
+
+    def test_all_skills_brings_every_category_skill_and_reference(self) -> None:
+        self.write("plugins/writing/skills/baz/SKILL.md", "# Baz\n")
+        output = self.root / "out"
+        build_bundle(root=self.root, profile="gpts/test", all_skills=True, output=output)
+
+        manifest = json.loads((output / "manifest.json").read_text(encoding="utf-8"))
+        self.assertEqual(["development", "meta", "writing"], manifest["categories"])
+        self.assertEqual(["development/foo", "meta/skill-router", "writing/baz"], manifest["skills"])
+        self.assertEqual(["development/foo:details.md"], manifest["references"])
+        self.assertTrue((output / "plugins/writing/skills/baz/SKILL.md").is_file())
+        self.assertFalse((output / "maintenance").exists())
+
+    def test_category_and_single_skills_combine(self) -> None:
+        self.write("plugins/writing/skills/baz/SKILL.md", "# Baz\n")
+        output = self.root / "out"
+        build_bundle(
+            root=self.root,
+            profile="gpts/test",
+            skills=["writing/baz"],
+            category_names=["development"],
+            output=output,
+        )
+        manifest = json.loads((output / "manifest.json").read_text(encoding="utf-8"))
+        self.assertEqual(["development/foo", "writing/baz"], manifest["skills"])
+
+    def test_router_catalog_lists_only_bundled_skills(self) -> None:
+        self.write("plugins/writing/skills/baz/SKILL.md", "# Baz\n")
+        self.write(
+            "plugins/meta/skills/skill-router/SKILL.md",
+            "# Router\n\n## Catalog\n\n| Intent | Skill |\n| --- | --- |\n"
+            "| do foo | `development/foo` |\n| do baz | `writing/baz` |\n\n"
+            "## Important boundaries\n\nfoo -> foo; baz -> baz\n",
+        )
+        output = self.root / "out"
+        build_bundle(root=self.root, profile="gpts/test", skills=["development/foo"], output=output)
+        router = (output / "plugins/meta/skills/skill-router/SKILL.md").read_text(encoding="utf-8")
+        self.assertIn("| do foo | `development/foo` |", router)
+        self.assertNotIn("`writing/baz`", router)
+        self.assertIn("carries only the Skills listed above", router)
+        self.assertIn("## Important boundaries\n\nfoo -> foo; baz -> baz\n", router)
+
+        build_bundle(
+            root=self.root, profile="gpts/test", skills=["development/foo", "writing/baz"], output=output
+        )
+        router = (output / "plugins/meta/skills/skill-router/SKILL.md").read_text(encoding="utf-8")
+        self.assertIn("`writing/baz`", router)
+        self.assertNotIn("carries only the Skills listed above", router)
+
+    def test_unknown_category_and_empty_selection_fail(self) -> None:
+        with self.assertRaisesRegex(BundleError, "category does not exist: finance"):
+            build_bundle(root=self.root, profile="gpts/test", category_names=["finance"], output=self.root / "out")
+        with self.assertRaisesRegex(BundleError, "at least one --skill or --category"):
+            build_bundle(root=self.root, profile="gpts/test", output=self.root / "out")
 
     def test_reference_requires_selected_owner(self) -> None:
         with self.assertRaisesRegex(BundleError, "is not selected"):
             build_bundle(
                 root=self.root,
                 profile="gpts/test",
-                skills=["skill-router"],
-                references=["foo:details"],
+                skills=["meta/skill-router"],
+                references=["development/foo:details"],
                 output=self.root / "out",
             )
 
@@ -67,7 +135,7 @@ class BundleBuilderTestCase(unittest.TestCase):
             build_bundle(
                 root=self.root,
                 profile="gpts/test",
-                skills=["foo"],
+                skills=["development/foo"],
                 output=output,
             )
         self.assertEqual("keep", (output / "unrelated.txt").read_text(encoding="utf-8"))
@@ -78,19 +146,11 @@ class BundleBuilderTestCase(unittest.TestCase):
             build_bundle(
                 root=self.root,
                 profile="gpts/test",
-                skills=["foo"],
+                skills=["development/foo"],
                 output=output,
             )
         manifest = json.loads((output / "manifest.json").read_text(encoding="utf-8"))
         self.assertEqual(BUNDLE_FORMAT, manifest["format"])
-
-    def test_all_skills_includes_every_skill_and_reference(self) -> None:
-        output = self.root / "out"
-        build_bundle(root=self.root, profile="gpts/test", skills=[], all_skills=True, output=output)
-        manifest = json.loads((output / "manifest.json").read_text(encoding="utf-8"))
-        self.assertEqual(["foo", "skill-router"], manifest["skills"])
-        self.assertEqual(["foo:details.md"], manifest["references"])
-        self.assertFalse((output / "skills/foo/maintenance/sources.md").exists())
 
 
 if __name__ == "__main__":

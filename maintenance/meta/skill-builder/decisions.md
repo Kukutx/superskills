@@ -1,0 +1,85 @@
+# Skill Builder decisions
+
+Maintenance-only. Current rationale that cannot be inferred from the repository.
+
+## Candidates evaluated and not added
+
+- **Agent handoff** (2026-10): a dedicated Skill was drafted and replayed against a no-Skill baseline on three cases (unverified work, pointing to existing artifacts, perishable facts). The baseline passed the same criteria, so no behavior change was demonstrated and the Skill was not added. Revisit only with a case the baseline fails.
+- **Vendor setup Skills** (2026-10): setup-style Skills written to scaffold a new project (add the `http` package, hand-write JSON serialization) assume there are no conventions yet and contradict the ones an existing codebase already has. None was added here; a vendor Skill repository is a reference source to read, not something to install where it auto-triggers.
+- **Content-format Skills** (2026-10): social posts, video scripts, press releases, case studies, newsletters and SEO articles were each considered after reading inference.sh's Skills, and none was added as a Skill of its own. Later in the same month the professional-domain round (below) added `writing/marketing-copy`, `writing/social-content` and `creative/promo-video`, which own these formats as groups; one Skill per format is still not wanted. Audio, speech and SDK-calling Skills are bound to a paid platform and were not adopted.
+- **Vendor deploy and setup scripts** (2026-10): Vercel's `deploy.sh` uploads an archive with four exclusions to a hard-coded third-party endpoint, has no request timeout, treats any 4xx as ready and exits 0 on poll timeout. Not to be used. Anthropic's document Skills (docx, pptx, pdf, xlsx) are under a proprietary licence: practices may be learned, text and code may not be copied.
+- **User-invoked Skills via `disable-model-invocation`** (2026-10): Claude Code can hide a Skill from the model so only the user can invoke it, at zero always-on cost. Not adopted: the field is specific to one host, the Agent Skills reference validator rejects unknown frontmatter, and every Skill here is meant to trigger on its own. The Router is kept out of registry hosts by not installing the `meta` plugin there instead.
+
+## Professional-domain round (2026-10)
+
+The owner asked for breadth: Skills that make everyday tasks in other professions workable on web hosts, usable rather than company-specific. The round took the repository from 29 to 100 Skills: seventy-one were added in `data`, `design`, `finance`, `legal`, `marketing`, `operations`, `people`, `planning`, `product`, `research`, `sales`, `science`, `support`, `writing`, `creative`, `development` and `ecommerce`, and existing Skills gained rules wherever a topic already had an owner.
+
+- **How they were written.** Upstream plugins were read file by file into notes, the notes were merged across sources into one owner per task, and each Skill was written from the notes in new words. Connector-dependent steps were replaced by what can be done from pasted material.
+- **What was replayed (2026-10-05, Claude Code 2.1.288, the account's default model, one run per case, registry routing with all 100 Skills installed as one plugin).** The 39 routing cases `pro-001` to `pro-039`: 38 selected the expected Skill and avoided the named neighbour on the first run. `pro-014` failed twice as first written: the prompt said a transcript was attached when none was, and the model asked for it without loading any Skill. The case now carries the commitments in the prompt and passed once. This shows that the descriptions route these prompts in a registry host. It does not show that any Skill changes the answer: no Skill was replayed against a no-Skill baseline, no `behavior` case exists for the new Skills, and nothing was replayed on claude.ai or ChatGPT.
+- **Unsourced numbers.** Benchmarks the upstream material gave without a source are either left out or written as labelled defaults that the user's data replaces. Contradictions between upstream files were resolved towards the stricter value or left to the user.
+- **Facts checked against official pages**, recorded in each Skill's `sources.md`. Corrections to the upstream material: WCAG 2.5.5 (44 px targets) is level AAA, the AA criterion is 2.5.8 at 24 px; the 1099-NEC reporting threshold is 2,000 dollars for tax years beginning after 2025, not 600; Apple's keyword field is limited to 100 bytes according to App Store Connect Help, while Apple's marketing page says 100 characters, so the Skill states bytes and what that means for non-Latin scripts; a Google Play preview video may autoplay muted; Google removed FAQ rich results in 2026; Google states no length limit for titles or meta descriptions. In the science Skills: the upstream single-cell guide and its script disagree on whether the MAD is taken on log-transformed or raw values, and the published chapter uses log-transformed; the upstream nf-core material treats ATAC-seq as paired-end only and omits `auto` strandedness, while the pipelines' usage pages say the layout is detected from the sheet and list `auto`; the upstream scvi-tools material comments out its SysVI call as version-dependent, while the current model index lists SysVI.
+- **Merged instead of added.** Internal-material synthesis went into `research-brief`; capacity planning into `project-planner`; process documents and runbooks into `sop-builder`; specification rules into `prd-builder`; architecture decision consequences into `technical-design`; voice matching into `business-email`; customer-research evidence rules into `user-research`; policy, refund and inquiry handling into `customer-support-replies`; deck number consistency into `financial-modeling`; personal task lists, glossary and message digests into `inbox-and-task-digest`.
+- **Evaluated and not added.**
+  - KYC onboarding checks: the upstream gives only a factor framework and defers every threshold to an institution's own rule table, so there is nothing to carry.
+  - LBO modelling: bound to a spreadsheet template that was not part of the material; its few general rules are in `financial-modeling` and `deal-diligence`.
+  - Morning notes and catalyst calendars as their own Skills: they need live market data; the judgement rules are in `stock-research`.
+  - Compliance-framework tracking (SOC 2, ISO 27001, HIPAA, PCI): one line per framework upstream, not enough to support any conclusion.
+  - Org planning and people analytics: the benchmarks have no source and contradict each other.
+  - Design handoff and design-system documentation, stand-ups, generic documentation, brainstorming frameworks: templates a capable model already produces.
+  - Team-lead sales views, lead routing, CRM write-back, daily and weekly briefings, connector setup and builder Skills: they depend on connectors or company-internal data that a web chat does not have.
+  - Canva and scheduling-API orchestration: tool calls, not decision rules; the length and caption rules went into `social-content`.
+  - A suspicious-request Skill: the rule (requests for money, credentials or changed bank details are flagged, never drafted) is carried inside the Skills that read inbound messages.
+  - Treasury futures basis: the upstream names the measures and gives neither formulas nor thresholds, so a Skill would have to invent them.
+  - Instrument data conversion to the Allotrope format: the upstream calls itself an example, contradicts itself on field names, manifest form and units, and validates by string matching; five format-neutral rules went into `data-analysis`.
+  - PDF viewer and plugin-management Skills: bound to a local viewer or to one desktop host, and the plugin rules duplicate or contradict this repository's stricter ones.
+  - Prospecting, enrichment and chat-workspace connectors: tool calls; their judgement rules went into `sales-outreach`, `sales-call-prep-and-recap` and `inbox-and-task-digest`.
+  - Code, templates and pipelines inside upstream Skills (document and slide generators, chart templates, training scripts, download helpers): boilerplate a model writes unaided, or runnable only on the user's machine. Thresholds found inside the scripts were lifted into the Skills.
+- **Late additions in the same round.** `finance/selling-a-business`, `finance/portfolio-reporting`, `finance/company-tear-sheet`, `finance/rates-fx-vol-analysis`, `planning/idea-evaluation`, `writing/brand-voice-guide` and the three `science` Skills came from the closing batches. `rates-fx-vol-analysis` and the `science` Skills are narrow and were kept because the round's aim is breadth; they are the first candidates to drop if they never trigger.
+- **Reading coverage of the three industry repositories** is recorded in `sources.md` with what was not read and why.
+
+## Behavior baseline (2026-10-11)
+
+Recorded on `master` before the per-category layout was merged. The cases now live under each Skill's `evals/` folder. Claude Code 2.1.296, judge `sonnet`, one case per Skill that existed then plus two near-miss trigger cases. 2 runs per arm; cases changed or added later were run with 3. Passing runs with the Skill installed and without it:
+
+| Case | Skill | With plugin | Without | Note |
+| --- | --- | --- | --- | --- |
+| bug-diagnosis-evidence-first | `development/bug-diagnosis` | 2/2 | 2/2 | Skill did not fire; base model already passes |
+| code-review-no-manufactured-findings | `development/code-review` | 2/2 | 2/2 | Skill did not fire; base model already passes |
+| design-no-new-infra | `development/technical-design` | 2/2 | 2/2 | Skill did not fire; base model already passes |
+| discovery-no-invented-links | `research/web-discovery` | 2/2 | 2/2 | Δ 0 |
+| email-no-concession | `writing/business-email` | 2/2 | 0/2 | Was 3/3 vs 3/3 on 2026-10-10; baseline is noisy |
+| generation-no-personality-verdict | `personal/generational-context-analysis` | 3/3 | 0/3 | Relationship rule tightened after a run prescribed partner traits from cohort |
+| godot-save-stable-ids | `development/godot-project-systems` | 2/2 | 2/2 | Skill did not fire; base model already passes |
+| godot2d-hit-once-per-attack | `development/godot-2d-game-development` | 2/2 | 2/2 | Skill did not fire; base model already passes |
+| godot3d-no-trimesh-on-mover | `development/godot-3d-game-development` | 2/2 | 2/2 | Δ 0 |
+| image-prompt-no-baked-copy | `creative/image-prompt-director` | 2/2 | 2/2 | Δ 0 |
+| image-review-description-only | `design/image-review-refiner` | 2/2 | 2/2 | Δ 0 |
+| knowledge-video-sourced-script | `creative/knowledge-video` | 3/3 | 0/3 | Added 2026-10-30; closing-question and hook rules moved into SKILL.md after 1/3 |
+| impl-plan-no-invented-paths | `development/implementation-plan` | 2/2 | 2/2 | Δ 0 |
+| landing-no-fake-proof | `design/landing-page-design` | 3/3 | 2/3 | Added 2026-10-30; upstream rule to invent realistic testimonials replaced by labelled placeholders |
+| no-trigger-divination | `personal/divination-reading` | 2/2 | 2/2 | Near-miss: Skill must not fire |
+| no-trigger-prompt-optimizer | `meta/prompt-optimizer` | 2/2 | 2/2 | Near-miss: Skill must not fire |
+| positioning-no-fabricated-proof | `marketing/product-positioning` | 2/2 | 2/2 | Δ 0 |
+| prd-no-invented-research | `product/prd-builder` | 2/2 | 2/2 | Δ 0 |
+| prompt-copy-ready | `meta/prompt-optimizer` | 2/2 | 2/2 | Δ 0 (also Δ 0 on 2026-10-10) |
+| psych-no-attachment-label | `personal/psychology-reflection` | 3/3 | 1/3 | Rule tightened: no type for an absent third party, even hedged |
+| release-ci-not-proof | `operations/release-checklist` | 2/2 | 2/2 | Skill did not fire; base model already passes |
+| research-no-invented-sources | `research/research-brief` | 3/3 | 3/3 | Rubric clarified: naming pages to check is not citing them |
+| resume-no-invented-metrics | `writing/resume-writing` | 2/2 | 0/2 | Without the Skill, invented figures appear as fact or inside placeholders |
+| roadmap-no-invented-dates | `planning/project-planner` | 2/2 | 1/2 | |
+| shopify-native-first | `ecommerce/shopify-dev` | 2/2 | 2/2 | Δ 0 |
+| sop-one-time-not-sop | `operations/sop-builder` | 2/2 | 2/2 | Skill did not fire; base model already passes |
+| sprite-no-giant-sheet | `development/sprite-animation-pipeline` | 2/2 | 0/2 | Without the Skill, one giant all-actions sheet prompt |
+| store-copy-no-invented-claims | `writing/app-store-copy` | 1/3 | 0/3 | Known gap: copy still adds unstated mechanics; self-check step added |
+| store-screenshots-no-fake-proof | `design/app-store-assets` | 2/2 | 0/2 | Without the Skill, invented ratings or user counts |
+| tarot-honest-draw | `personal/divination-reading` | 2/2 | 2/2 | Δ 0 |
+| xtool-no-invented-settings | `creative/xtool-f1-engraving` | 2/2 | 0/2 | Without the Skill, one fixed power/speed set for the real job |
+
+Reading this table:
+
+- **Clear gains** (with > without): resume, email, generation, psych, roadmap, sprite, store screenshots, xtool, store copy.
+- **Δ 0 with the Skill firing**: current models already behave this way on these prompts. With only 2 runs these rules stay; trim one only if it keeps Δ 0 over several runs and on claude.ai, where base behavior can differ.
+- **Skill did not fire** in Claude Code for 7 coding/process cases: the model answered directly, and the base answer already passed. No trigger tuning is needed while the base answer is correct.
+- `store-copy-no-invented-claims` is deliberately strict and remains a known gap.
+
+Limits of this baseline. It was measured with only the Skills that existed on `master` at the time installed. With every category installed, the `skill-fired` graders also test routing against the Skills added in the professional-domain round (for example `writing/marketing-copy` next to `design/landing-page-design`, or `creative/promo-video` and `writing/social-content` next to `creative/knowledge-video`), and that has not been replayed. The professional-domain Skills and `writing/multilingual-docs` have no authored case yet.

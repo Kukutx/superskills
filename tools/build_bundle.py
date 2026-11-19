@@ -7,6 +7,7 @@ import argparse
 import hashlib
 import json
 import math
+import re
 import shutil
 import subprocess
 import sys
@@ -14,6 +15,11 @@ import tempfile
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Sequence
+
+if __package__:
+    from .layout import ENTRYPOINT, MAINTENANCE_DIR, ROUTER_ROUTE, categories, route_of, skill_dir, skill_dirs
+else:
+    from layout import ENTRYPOINT, MAINTENANCE_DIR, ROUTER_ROUTE, categories, route_of, skill_dir, skill_dirs
 
 DEFAULT_ROOT = Path(__file__).resolve().parents[1]
 BUNDLE_FORMAT = "superskills.bundle.v1"
@@ -69,15 +75,16 @@ def ensure_relative_directory(root: Path, raw: str, label: str) -> Path:
 
 def normalize_skill_route(raw: str) -> str:
     route = raw.strip().strip("/")
-    if not route or "/" in route or "\\" in route or route in {".", ".."}:
-        raise BundleError(f"invalid Skill name '{raw}'; expected skill-name")
+    parts = route.split("/")
+    if len(parts) != 2 or any(not part for part in parts):
+        raise BundleError(f"invalid Skill route '{raw}'; expected category/skill")
     return route
 
 
 def parse_reference(raw: str) -> tuple[str, str]:
     if ":" not in raw:
         raise BundleError(
-            f"invalid reference '{raw}'; expected skill-name:reference-name"
+            f"invalid reference '{raw}'; expected category/skill:reference-name"
         )
     owner_raw, name_raw = raw.rsplit(":", 1)
     owner = normalize_skill_route(owner_raw)
@@ -89,6 +96,38 @@ def parse_reference(raw: str) -> tuple[str, str]:
     if not name.endswith(".md"):
         name += ".md"
     return owner, name
+
+
+CATALOG_HEADING = "## Catalog"
+CATALOG_ROUTE = re.compile(r"`([a-z0-9-]+/[a-z0-9-]+)`\s*\|\s*$")
+PARTIAL_CATALOG_NOTE = (
+    "This bundle carries only the Skills listed above. When a task belongs to a Skill named "
+    "elsewhere in this file that is not listed, say that it is not loaded and answer without it."
+)
+
+
+def trim_router_catalog(text: str, selected_skills: Sequence[str]) -> str:
+    """Keep only the Catalog rows whose Skill is in the bundle, so the Router never points at a missing file."""
+    lines = text.splitlines(keepends=True)
+    start = next((i for i, line in enumerate(lines) if line.strip() == CATALOG_HEADING), None)
+    if start is None:
+        return text
+    end = next((i for i in range(start + 1, len(lines)) if lines[i].startswith("## ")), len(lines))
+    kept: list[str] = []
+    dropped = False
+    for line in lines[start + 1 : end]:
+        match = CATALOG_ROUTE.search(line.rstrip())
+        if match and match.group(1) not in selected_skills:
+            dropped = True
+            continue
+        kept.append(line)
+    if not dropped:
+        return text
+    newline = "\r\n" if lines[start].endswith("\r\n") else "\n"
+    while kept and not kept[-1].strip():
+        kept.pop()
+    kept.extend([newline, PARTIAL_CATALOG_NOTE + newline, newline])
+    return "".join(lines[: start + 1] + kept + lines[end:])
 
 
 def safe_replace_directory(output: Path) -> None:
@@ -112,8 +151,9 @@ def build_bundle(
     *,
     root: Path | str,
     profile: str,
-    skills: Sequence[str],
+    skills: Sequence[str] = (),
     references: Sequence[str] = (),
+    category_names: Sequence[str] = (),
     output: Path | str | None = None,
     all_skills: bool = False,
 ) -> BundleSummary:
@@ -123,47 +163,60 @@ def build_bundle(
     if not profile_instructions.is_file():
         raise BundleError(f"profile is missing project-instructions.md: {profile}")
 
+    # A category brings every Skill it holds together with all of their references;
+    # --all-skills is every category, for a single always-available knowledge set.
     if all_skills:
-        skills = [path.parent.name for path in (root / "skills").glob("*/SKILL.md")]
-        references = [
-            f"{path.parent.parent.name}:{path.name}"
-            for path in (root / "skills").glob("*/references/*.md")
-        ]
-    selected_skills = sorted({normalize_skill_route(route) for route in skills})
+        category_names = categories(root)
+    selected_categories = sorted({name.strip().strip("/") for name in category_names})
+    unknown = sorted(set(selected_categories) - set(categories(root)))
+    if unknown:
+        raise BundleError(f"category does not exist: {', '.join(unknown)}")
+    category_skills = [
+        path for path in skill_dirs(root) if route_of(path).split("/", 1)[0] in selected_categories
+    ]
+
+    selected_skills = sorted(
+        {normalize_skill_route(route) for route in skills} | {route_of(path) for path in category_skills}
+    )
     if not selected_skills:
-        raise BundleError("select at least one --skill or use --all-skills")
+        raise BundleError("select at least one --skill or --category, or use --all-skills")
 
     source_files: list[Path] = [
         profile_instructions,
-        root / "skills" / "skill-router" / "SKILL.md",
+        skill_dir(root, ROUTER_ROUTE) / ENTRYPOINT,
     ]
     if not source_files[1].is_file():
         raise BundleError("authoritative Skill Router is missing")
 
     for route in selected_skills:
-        entrypoint = root / "skills" / route / "SKILL.md"
+        entrypoint = skill_dir(root, route) / ENTRYPOINT
         if not entrypoint.is_file():
             raise BundleError(f"Skill does not exist: {route}")
         source_files.append(entrypoint)
 
     selected_references: list[str] = []
+    for directory in category_skills:
+        for path in sorted((directory / "references").glob("*.md")):
+            source_files.append(path)
+            selected_references.append(f"{route_of(directory)}:{path.name}")
     for raw in references:
         owner, name = parse_reference(raw)
         if owner not in selected_skills:
             raise BundleError(
                 f"reference owner '{owner}' is not selected; add --skill {owner}"
             )
-        path = root / "skills" / owner / "references" / name
+        path = skill_dir(root, owner) / "references" / name
         if not path.is_file():
             raise BundleError(f"reference does not exist: {owner}:{name}")
         source_files.append(path)
         selected_references.append(f"{owner}:{name}")
 
+    router_source = source_files[1].resolve()
     unique_sources = sorted({path.resolve() for path in source_files}, key=lambda path: path.relative_to(root).as_posix())
     for path in unique_sources:
-        relative = path.relative_to(root).as_posix()
-        if "/maintenance/" in f"/{relative}/":
-            raise BundleError(f"maintenance content cannot enter runtime bundles: {relative}")
+        relative = path.relative_to(root)
+        if relative.parts[0] == MAINTENANCE_DIR:
+            raise BundleError(f"maintenance content cannot enter runtime bundles: {relative.as_posix()}")
 
     if output is None:
         output_path = root / "dist" / profile_dir.name
@@ -185,6 +238,8 @@ def build_bundle(
             destination = temp_path / relative
             destination.parent.mkdir(parents=True, exist_ok=True)
             data = source.read_bytes()
+            if source == router_source:
+                data = trim_router_catalog(data.decode("utf-8"), selected_skills).encode("utf-8")
             destination.write_bytes(data)
             size = len(data)
             total_bytes += size
@@ -202,6 +257,7 @@ def build_bundle(
             "format": BUNDLE_FORMAT,
             "profile": profile_dir.relative_to(root).as_posix(),
             "source_commit": commit,
+            "categories": selected_categories,
             "skills": selected_skills,
             "references": sorted(set(selected_references)),
             "files": manifest_files,
@@ -234,18 +290,24 @@ def build_bundle(
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", type=Path, default=DEFAULT_ROOT)
-    parser.add_argument("--profile", required=True, help="Profile directory, for example gpts/kukutx")
-    parser.add_argument("--skill", action="append", default=[], help="Skill name, for example resume-writing; repeat as needed")
+    parser.add_argument("--profile", required=True, help="Profile directory, for example gpts/default")
+    parser.add_argument("--skill", action="append", default=[], help="Skill route category/skill; repeat as needed")
+    parser.add_argument(
+        "--category",
+        action="append",
+        default=[],
+        help="Whole category with every Skill and reference in it; repeat as needed",
+    )
     parser.add_argument(
         "--reference",
         action="append",
         default=[],
-        help="Focused reference skill-name:reference-name; repeat as needed",
+        help="Focused reference category/skill:reference-name; repeat as needed",
     )
     parser.add_argument(
         "--all-skills",
         action="store_true",
-        help="Include every Skill and runtime reference, for a single always-available knowledge set",
+        help="Every category with every Skill and reference, for a single always-available knowledge set",
     )
     parser.add_argument("--output", type=Path, help="Output directory; default dist/<profile-name>")
     return parser
@@ -259,6 +321,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             profile=args.profile,
             skills=args.skill,
             references=args.reference,
+            category_names=args.category,
             output=args.output,
             all_skills=args.all_skills,
         )

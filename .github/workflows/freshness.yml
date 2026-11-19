@@ -1,0 +1,61 @@
+name: Source freshness
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 6 1 * *"
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: source-freshness
+  cancel-in-progress: true
+
+jobs:
+  check:
+    if: github.repository == 'Kukutx/superskills'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GITHUB_TOKEN: ${{ github.token }}
+      ISSUE_TITLE: Skill sources due for review
+
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7
+        with:
+          python-version: "3.14"
+
+      - name: Check registered sources
+        id: sources
+        run: |
+          python tools/check_sources.py --online \
+            --report dist/source-freshness.md \
+            --github-output "$GITHUB_OUTPUT"
+          cat dist/source-freshness.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Create or refresh maintenance issue
+        if: steps.sources.outputs.findings == 'true'
+        run: |
+          number="$(gh issue list --repo "$GITHUB_REPOSITORY" --state open --limit 100 \
+            --json number,title --jq ".[] | select(.title == \"$ISSUE_TITLE\") | .number" | head -n 1)"
+          if [[ -n "$number" ]]; then
+            gh issue edit "$number" --repo "$GITHUB_REPOSITORY" --body-file dist/source-freshness.md
+          else
+            gh issue create --repo "$GITHUB_REPOSITORY" --title "$ISSUE_TITLE" --body-file dist/source-freshness.md
+          fi
+
+      - name: Close resolved maintenance issue
+        if: steps.sources.outputs.findings != 'true'
+        run: |
+          number="$(gh issue list --repo "$GITHUB_REPOSITORY" --state open --limit 100 \
+            --json number,title --jq ".[] | select(.title == \"$ISSUE_TITLE\") | .number" | head -n 1)"
+          if [[ -n "$number" ]]; then
+            gh issue close "$number" --repo "$GITHUB_REPOSITORY" --reason completed \
+              --comment "All registered sources are reviewed and reachable again."
+          fi

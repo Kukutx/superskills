@@ -1,0 +1,11 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "superskills-product",
+  "version": "1.1.0",
+  "description": "PRDs and MVP scope, roadmap prioritization, pricing and paywalls, onboarding and retention.",
+  "author": {
+    "name": "Kukutx"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/Kukutx/superskills"
+}
