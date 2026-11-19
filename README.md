@@ -127,6 +127,7 @@ Primary 属于 `research` 分类的 `route` 用例另带 `web` tag 和联网工�
 python tools/build_bundle.py \
   --profile gpts/default \
   --skill writing/resume-writing \
+  --skill development/godot-project-systems \
   --reference development/godot-project-systems:ui-ux
 ```
 
