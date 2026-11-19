@@ -40,7 +40,7 @@ superskills/
 │   └── evals/<case>/                # 手写的 claude plugin eval 用例：prompt.md + graders/
 ├── .claude-plugin/marketplace.json  # 生成：Claude Code
 ├── .agents/plugins/marketplace.json # 生成：Codex / ChatGPT
-├── gpts/kukutx/                     # ChatGPT Project / GPT 的指令与打包入口
+├── gpts/default/                    # ChatGPT Project / GPT 的指令与打包入口
 ├── docs/authoring-guide.md
 ├── templates/skill-template.md
 ├── tools/
@@ -125,7 +125,7 @@ Primary 属于 `research` 分类的 `route` 用例另带 `web` tag 和联网工�
 
 ```bash
 python tools/build_bundle.py \
-  --profile gpts/kukutx \
+  --profile gpts/default \
   --skill writing/resume-writing \
   --reference development/godot-project-systems:ui-ux
 ```

@@ -290,7 +290,7 @@ def build_bundle(
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", type=Path, default=DEFAULT_ROOT)
-    parser.add_argument("--profile", required=True, help="Profile directory, for example gpts/kukutx")
+    parser.add_argument("--profile", required=True, help="Profile directory, for example gpts/default")
     parser.add_argument("--skill", action="append", default=[], help="Skill route category/skill; repeat as needed")
     parser.add_argument(
         "--category",

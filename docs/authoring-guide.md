@@ -67,7 +67,7 @@ claude.ai 网页端和桌面端可以在 Customize > Plugins 把本仓库加为 
 
 ## Agentic baseline
 
-新的高能力 Agent 不需要每个 Skill 都重复教它“先计划、先询问、先确认、再执行”。这类通用行为由 `gpts/kukutx/project-instructions.md` 统一拥有。
+新的高能力 Agent 不需要每个 Skill 都重复教它“先计划、先询问、先确认、再执行”。这类通用行为由 `gpts/default/project-instructions.md` 统一拥有。
 
 Skill 应优先保存：
 
@@ -135,7 +135,7 @@ Catalog 只维护在 Router 的 `## Catalog` 表格中。新增、删除或重�
 
 ## Autonomy and escalation ownership
 
-全局的自治、询问、批准和 scope 规则由 `gpts/kukutx/project-instructions.md` 持有。普通 Skill 不要复制一套通用的“信息不足就询问”或“执行前先确认”长文。
+全局的自治、询问、批准和 scope 规则由 `gpts/default/project-instructions.md` 持有。普通 Skill 不要复制一套通用的“信息不足就询问”或“执行前先确认”长文。
 
 领域 Skill 只补充该领域真正会改变结果的输入和阻塞条件，例如：
 
@@ -390,7 +390,7 @@ Validator 负责：
 
 ```bash
 python tools/build_bundle.py \
-  --profile gpts/kukutx \
+  --profile gpts/default \
   --skill development/godot-project-systems \
   --reference development/godot-project-systems:ui-ux \
   --reference development/godot-project-systems:input-controls-accessibility

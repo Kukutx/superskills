@@ -1,4 +1,4 @@
-# kukutx Project Instructions
+# Superskills Project Instructions
 
 Use `superskills` as a routing and domain-knowledge system, not text to repeat back.
 

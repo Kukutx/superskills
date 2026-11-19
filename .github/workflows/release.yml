@@ -65,7 +65,7 @@ jobs:
       - name: Build release bundle
         run: |
           python tools/build_bundle.py \
-            --profile gpts/kukutx \
+            --profile gpts/default \
             --all-skills \
             --output dist/superskills-gpt-bundle
           python - <<'PY'

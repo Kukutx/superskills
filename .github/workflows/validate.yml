@@ -34,7 +34,7 @@ jobs:
       - name: Smoke-test runtime bundle
         run: |
           python tools/build_bundle.py \
-            --profile gpts/kukutx \
+            --profile gpts/default \
             --skill writing/resume-writing \
             --output /tmp/superskills-bundle
           test -f /tmp/superskills-bundle/manifest.json

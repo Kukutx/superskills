@@ -9,7 +9,7 @@ When modifying this repository:
 5. Prefer improving, renaming, splitting or merging an existing owner before creating a new Skill.
 6. Default to one `SKILL.md`. Add one-level `references/` only for real task-dependent runtime depth.
 7. A `description` is the only thing most hosts see before triggering: capability first, then when to use it, then the nearest task it must not take; 200 characters at most, plain text without `: `.
-8. Skill bodies must stand on their own. `gpts/kukutx/project-instructions.md` holds the global autonomy, escalation and scope policy for ChatGPT only; hosts with a native Skill registry never load it, so domain Skills add domain-specific decision inputs, blockers and validation rules without depending on it.
+8. Skill bodies must stand on their own. `gpts/default/project-instructions.md` holds the global autonomy, escalation and scope policy for ChatGPT only; hosts with a native Skill registry never load it, so domain Skills add domain-specific decision inputs, blockers and validation rules without depending on it.
 9. Move ownership when splitting content; do not maintain the same rule in multiple references.
 10. Do not create prompt-template, generic examples, changelog or compatibility files unless a current decision genuinely requires a separate artifact.
 11. If a routing, ownership, autonomy or blocker boundary changes, update the smallest relevant `behavioral-evals.md` case set under `maintenance/`. A rule that exists because a plain model gets the behavior wrong gets an authored case at `maintenance/<category>/<skill>/evals/<case>/` (`prompt.md` plus `graders/`).

@@ -56,7 +56,7 @@ State what was actually checked. Distinguish static confidence from runtime, vis
 <!--
 Place this file at plugins/<category>/skills/<skill>/SKILL.md; the name must equal the folder name.
 Description: capability first, then when to use it, then the nearest task it must not take; at most 200 characters, no ": ".
-The body must stand on its own: hosts with a native Skill registry never load gpts/kukutx/project-instructions.md.
+The body must stand on its own: hosts with a native Skill registry never load gpts/default/project-instructions.md.
 Add one-level references/ only when domain depth is genuinely task-dependent.
 If a real ownership/routing/blocker boundary needs regression coverage, add maintenance/<category>/<skill>/behavioral-evals.md.
 Use sources.md there only for substantial source inventories; use decisions.md rarely.
