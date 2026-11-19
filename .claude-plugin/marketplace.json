@@ -28,7 +28,7 @@
     },
     {
       "name": "superskills-development",
-      "description": "Bug diagnosis, code review, technical design, implementation planning, technical debt triage, Godot 4.x (shared, 2D, 3D) and sprite animation pipelines.",
+      "description": "Bug diagnosis, code review, technical design, implementation planning, technical debt triage, Drupal and WordPress sites, Godot 4.x (shared, 2D, 3D) and sprite animation pipelines.",
       "source": "./plugins/development",
       "strict": false
     },
