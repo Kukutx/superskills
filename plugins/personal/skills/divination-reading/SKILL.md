@@ -30,7 +30,8 @@ Do not begin by asking the user to choose among many schools, spreads or technic
 
 - User explicitly names a system -> use it.
 - “算命 / 命盘 / 看一生” in a Chinese context + birth data -> default to 八字 unless the user prefers another tradition.
-- One concrete question with no preferred system -> use a focused question method rather than a full natal stack. A small Tarot reading is a practical default when an honest simulated/tool draw is available.
+- One concrete question with no preferred system -> use a focused question method rather than a full natal stack. A small Tarot reading is a practical default.
+- User asks you to draw cards or cast for them -> do it in the same reply: use a randomization tool if one is available, otherwise make a simulated draw yourself and label it as simulated. Do not stop to ask for a tool or make the user generate the randomness.
 - Strategy/direction/electional timing -> use 奇门 or Jyotiṣa muhūrta only when the required chart can actually be calculated; otherwise use a simpler reflective method rather than inventing precision.
 - Jyotiṣa or Western astrology -> normally use only when explicitly requested or clearly preferred.
 - Advanced systems such as 大六壬/太乙 -> use on request or when a reliable implementation is available, not because they sound more sophisticated.

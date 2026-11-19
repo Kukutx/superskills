@@ -10,7 +10,7 @@
   "plugins": [
     {
       "name": "superskills-creative",
-      "description": "Image-generation direction, promo video planning and xTool F1 engraving design.",
+      "description": "Image-generation direction, promo video planning, narrated knowledge videos and xTool F1 engraving design.",
       "source": "./plugins/creative",
       "strict": false
     },
@@ -22,7 +22,7 @@
     },
     {
       "name": "superskills-design",
-      "description": "App Store / Play Store visual assets, UI design review and review of existing images.",
+      "description": "App Store / Play Store visual assets, landing page design, UI design review and review of existing images.",
       "source": "./plugins/design",
       "strict": false
     },
@@ -118,7 +118,7 @@
     },
     {
       "name": "superskills-writing",
-      "description": "Business email, store listing copy, marketing copy, brand voice guides, social content, interface microcopy and truthful resumes.",
+      "description": "Business email, store listing copy, marketing copy, brand voice guides, social content, interface microcopy, multilingual documents and truthful resumes.",
       "source": "./plugins/writing",
       "strict": false
     }

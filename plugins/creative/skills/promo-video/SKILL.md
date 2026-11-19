@@ -9,7 +9,7 @@ description: Plan a promo, trailer or demo video for an app, game or product wit
 
 Use when a video has to be planned before anything is recorded or generated: a product demo, an app or game trailer, an explainer, a launch clip, a batch of templated videos, or a video that should follow the editing style of a reference.
 
-Prompts for still images belong to `creative/image-prompt-director`. The format rules for an app store's preview video belong to `design/app-store-assets`, which checks the store's current specification. The wording of a short social clip and its caption belongs to `writing/social-content`.
+Prompts for still images belong to `creative/image-prompt-director`. The format rules for an app store's preview video belong to `design/app-store-assets`, which checks the store's current specification. The wording of a short social clip and its caption belongs to `writing/social-content`. A narrated short that teaches one knowledge point rather than promoting a product belongs to `creative/knowledge-video`.
 
 ## Domain inputs and blockers
 

@@ -21,6 +21,8 @@ maintenance/<category>/<skill>/                 # 不随任何安装包分发
 
 入口文件名固定为大写 `SKILL.md`，`name` 必须等于目录名，并且在整个仓库唯一：宿主按裸名注册 Skill，分类只是安装单位，不是命名空间。frontmatter 只用 `name` 和 `description`。
 
+Skill 目录遵循 [Agent Skills 规范](https://agentskills.io/specification)，同一份 Skill 可被 Claude Code、claude.ai、Codex 和其他兼容宿主直接加载。会让 Skill 无法加载的硬约束由 Validator 强制：`name` 是小写 kebab-case、不超过 64 字符、不含保留词 `anthropic` 或 `claude`；`description` 不含 XML 标签。入口超过 500 行时给出 advisory。
+
 ## Description
 
 多数宿主在触发前只看到 `description`，它决定 Skill 会不会被用到。写法固定为三段，按重要性排序：
@@ -45,7 +47,7 @@ maintenance/<category>/<skill>/                 # 不随任何安装包分发
 
 `.claude-plugin/marketplace.json`（Claude Code）和 `.agents/plugins/marketplace.json`（Codex / ChatGPT）由 `python tools/build_manifests.py` 生成，不手改；新增、删除分类或改了 `plugin.json` 后重新生成，Validator 会拒绝过期的清单。发布前用 `python tools/build_manifests.py --version <x.y.z>` 统一提升版本。
 
-claude.ai 网页端用 `python tools/package_web_skills.py` 为每个 Skill 生成一个上传用 ZIP。ChatGPT Project / GPT 没有原生注册表，继续用 runtime bundle 加 Router。
+claude.ai 网页端和桌面端可以在 Customize > Plugins 把本仓库加为 marketplace，按分类安装插件；也可以用 `python tools/package_web_skills.py` 为每个 Skill 生成一个上传用 ZIP。ChatGPT Project / GPT 没有原生注册表，继续用 runtime bundle 加 Router；要全部 Skill 随时可用时构建 `--all-skills` 完整包。
 
 有原生 Skill 注册表的宿主不会加载 Router 或 `gpts/` 下的 Project Instructions，网页端上传的也只有 Skill 自己的目录。因此 Skill 正文必须自足：不能写“按全局规则处理”，也不能依赖同一分类里的另一个 Skill 一定已安装。
 
@@ -194,6 +196,7 @@ Runtime 不加载 `maintenance/`。它与 `plugins/` 平级，按 `maintenance/<
 behavioral-evals.md   # routing/ownership/autonomy review fixtures
 sources.md            # substantial upstream/source inventory
 decisions.md          # only when current rationale cannot be inferred
+evals/<case>/         # authored claude plugin eval cases: prompt.md + graders/
 ```
 
 Git history 已经是 changelog；不要维护版本流水账。
@@ -216,7 +219,7 @@ canonical URL
 
 当新增或修改 ownership、autonomy 或 blocker boundary 时，加**最少量**能防真实回归的例子。测试应证明“为什么这个边界存在”，而不是给每个关键词写一个例子。
 
-唯一格式：
+表格是路由、ownership 和自治边界用例的唯一格式：
 
 ```markdown
 | ID | Prompt | Primary | Secondary | Must avoid |
@@ -252,6 +255,24 @@ negative   Primary 写 none
 ```
 
 想让一条边界能被真实回放，就按这个形状写，并让原话自带任务所需的材料：`“帮我优化这段 prompt。”` 在回放里没有 prompt 可优化，模型只会反问，测不到路由。需要描述上下文才成立的行（已上传的文件、之前的决定）保持原样，只做人工审阅。
+
+**手写用例。** 一条规则存在的理由是“普通模型会做错”时，用手写用例证明它：表格行只能给出 `Must avoid`，手写用例才能写多行提示、具体的通过/失败标准和运行次数，并且用有/无 Skill 两组对照。
+
+```text
+maintenance/<category>/<skill>/evals/<case>/
+├── prompt.md          # frontmatter（description、runs、max_turns、allowed_tools）+ 用户原话
+└── graders/
+    ├── skill-fired.md # type: tool_used，tool: Skill，input_match 指向本 Skill
+    └── <rubric>.md    # type: llm，写明 PASS 和 FAIL 的具体条件
+```
+
+近邻反例把 `skill-fired.md` 换成 `min: 0`、`max: 0` 的同类 grader，断言该 Skill 没有被调用。用例目录名就是 ID，与表格 ID 共用一个命名空间。`python tools/build_live_evals.py` 把它们原样复制进 `dist/live-evals/evals/`；回放时用默认的有/无 Skill 对照：
+
+```bash
+claude plugin eval dist/live-evals --judge-model sonnet --case "<case>"
+```
+
+两组分差 Δ 长期为 0，说明当前模型已经这样做，对应规则是精简的候选；只跑两次的结果不足以删规则，claude.ai 上的基础行为也可能不同。每次记录的基线写进 `maintenance/meta/skill-builder/decisions.md`。
 
 写用例和判定结果时注意：
 
@@ -348,7 +369,7 @@ python tools/export_behavioral_evals.py --check
 Validator 负责：
 
 - 扫描所有 `SKILL.md`，并拒绝错误层级或错误大小写的入口；
-- frontmatter 只有 `name` 和 `description`，`description` 不超过 200 字符且是合法 YAML 纯文本；
+- frontmatter 只有 `name` 和 `description`，`name` 不含保留词，`description` 不超过 200 字符、是合法 YAML 纯文本且不含 XML 标签；
 - folder naming，Skill 名称全仓唯一；
 - 插件与 Skill 目录形状：插件目录只有 `plugin.json` 和 `skills/`，Skill 目录只有 `SKILL.md` 和 `references/`；
 - `plugin.json` 的名称、描述和统一版本，以及两份 marketplace 是否过期；
@@ -358,7 +379,8 @@ Validator 负责：
 - behavioral eval 必须使用唯一 canonical 表格格式；
 - behavioral eval 中显式 Skill route 与本地 reference 仍存在；
 - 标准 Markdown 链接及 code path 无 dead link 或仓库逃逸；
-- 对异常大的 runtime entrypoint/reference 给出非阻塞 advisory。
+- 手写评测用例有 `prompt.md` 和至少一个 grader，grader 的 `input_match` 指向现存 Skill，用例 ID 不与表格 ID 重复；
+- 对异常大的 runtime entrypoint/reference 和超过 500 行的入口给出非阻塞 advisory。
 
 结构规则能自动检查时优先写进 Validator，并同时增加 Validator 自身的回归测试。
 
@@ -374,7 +396,7 @@ python tools/build_bundle.py \
   --reference development/godot-project-systems:input-controls-accessibility
 ```
 
-Bundle 自动包含 Project Instructions、Router、选中的 Skill 和 reference，并拒绝 `maintenance/`。`manifest.json` 记录源提交、文件哈希、字节数和粗略 Token 预算。
+整类用 `--category <category>`；全部 Skill 和 reference 用 `--all-skills`，Release 附带的就是这个完整包。Bundle 自动包含 Project Instructions、Router、选中的 Skill 和 reference，并拒绝 `maintenance/`。`manifest.json` 记录源提交、文件哈希、字节数和粗略 Token 预算。
 
 ## Review test
 

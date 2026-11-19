@@ -36,3 +36,50 @@ The owner asked for breadth: Skills that make everyday tasks in other profession
   - Code, templates and pipelines inside upstream Skills (document and slide generators, chart templates, training scripts, download helpers): boilerplate a model writes unaided, or runnable only on the user's machine. Thresholds found inside the scripts were lifted into the Skills.
 - **Late additions in the same round.** `finance/selling-a-business`, `finance/portfolio-reporting`, `finance/company-tear-sheet`, `finance/rates-fx-vol-analysis`, `planning/idea-evaluation`, `writing/brand-voice-guide` and the three `science` Skills came from the closing batches. `rates-fx-vol-analysis` and the `science` Skills are narrow and were kept because the round's aim is breadth; they are the first candidates to drop if they never trigger.
 - **Reading coverage of the three industry repositories** is recorded in `sources.md` with what was not read and why.
+
+## Behavior baseline (2026-10-11)
+
+Recorded on `master` before the per-category layout was merged. The cases now live under each Skill's `evals/` folder. Claude Code 2.1.296, judge `sonnet`, one case per Skill that existed then plus two near-miss trigger cases. 2 runs per arm; cases changed or added later were run with 3. Passing runs with the Skill installed and without it:
+
+| Case | Skill | With plugin | Without | Note |
+| --- | --- | --- | --- | --- |
+| bug-diagnosis-evidence-first | `development/bug-diagnosis` | 2/2 | 2/2 | Skill did not fire; base model already passes |
+| code-review-no-manufactured-findings | `development/code-review` | 2/2 | 2/2 | Skill did not fire; base model already passes |
+| design-no-new-infra | `development/technical-design` | 2/2 | 2/2 | Skill did not fire; base model already passes |
+| discovery-no-invented-links | `research/web-discovery` | 2/2 | 2/2 | Δ 0 |
+| email-no-concession | `writing/business-email` | 2/2 | 0/2 | Was 3/3 vs 3/3 on 2026-10-10; baseline is noisy |
+| generation-no-personality-verdict | `personal/generational-context-analysis` | 3/3 | 0/3 | Relationship rule tightened after a run prescribed partner traits from cohort |
+| godot-save-stable-ids | `development/godot-project-systems` | 2/2 | 2/2 | Skill did not fire; base model already passes |
+| godot2d-hit-once-per-attack | `development/godot-2d-game-development` | 2/2 | 2/2 | Skill did not fire; base model already passes |
+| godot3d-no-trimesh-on-mover | `development/godot-3d-game-development` | 2/2 | 2/2 | Δ 0 |
+| image-prompt-no-baked-copy | `creative/image-prompt-director` | 2/2 | 2/2 | Δ 0 |
+| image-review-description-only | `design/image-review-refiner` | 2/2 | 2/2 | Δ 0 |
+| knowledge-video-sourced-script | `creative/knowledge-video` | 3/3 | 0/3 | Added 2026-10-30; closing-question and hook rules moved into SKILL.md after 1/3 |
+| impl-plan-no-invented-paths | `development/implementation-plan` | 2/2 | 2/2 | Δ 0 |
+| landing-no-fake-proof | `design/landing-page-design` | 3/3 | 2/3 | Added 2026-10-30; upstream rule to invent realistic testimonials replaced by labelled placeholders |
+| no-trigger-divination | `personal/divination-reading` | 2/2 | 2/2 | Near-miss: Skill must not fire |
+| no-trigger-prompt-optimizer | `meta/prompt-optimizer` | 2/2 | 2/2 | Near-miss: Skill must not fire |
+| positioning-no-fabricated-proof | `marketing/product-positioning` | 2/2 | 2/2 | Δ 0 |
+| prd-no-invented-research | `product/prd-builder` | 2/2 | 2/2 | Δ 0 |
+| prompt-copy-ready | `meta/prompt-optimizer` | 2/2 | 2/2 | Δ 0 (also Δ 0 on 2026-10-10) |
+| psych-no-attachment-label | `personal/psychology-reflection` | 3/3 | 1/3 | Rule tightened: no type for an absent third party, even hedged |
+| release-ci-not-proof | `operations/release-checklist` | 2/2 | 2/2 | Skill did not fire; base model already passes |
+| research-no-invented-sources | `research/research-brief` | 3/3 | 3/3 | Rubric clarified: naming pages to check is not citing them |
+| resume-no-invented-metrics | `writing/resume-writing` | 2/2 | 0/2 | Without the Skill, invented figures appear as fact or inside placeholders |
+| roadmap-no-invented-dates | `planning/project-planner` | 2/2 | 1/2 | |
+| shopify-native-first | `ecommerce/shopify-dev` | 2/2 | 2/2 | Δ 0 |
+| sop-one-time-not-sop | `operations/sop-builder` | 2/2 | 2/2 | Skill did not fire; base model already passes |
+| sprite-no-giant-sheet | `development/sprite-animation-pipeline` | 2/2 | 0/2 | Without the Skill, one giant all-actions sheet prompt |
+| store-copy-no-invented-claims | `writing/app-store-copy` | 1/3 | 0/3 | Known gap: copy still adds unstated mechanics; self-check step added |
+| store-screenshots-no-fake-proof | `design/app-store-assets` | 2/2 | 0/2 | Without the Skill, invented ratings or user counts |
+| tarot-honest-draw | `personal/divination-reading` | 2/2 | 2/2 | Δ 0 |
+| xtool-no-invented-settings | `creative/xtool-f1-engraving` | 2/2 | 0/2 | Without the Skill, one fixed power/speed set for the real job |
+
+Reading this table:
+
+- **Clear gains** (with > without): resume, email, generation, psych, roadmap, sprite, store screenshots, xtool, store copy.
+- **Δ 0 with the Skill firing**: current models already behave this way on these prompts. With only 2 runs these rules stay; trim one only if it keeps Δ 0 over several runs and on claude.ai, where base behavior can differ.
+- **Skill did not fire** in Claude Code for 7 coding/process cases: the model answered directly, and the base answer already passed. No trigger tuning is needed while the base answer is correct.
+- `store-copy-no-invented-claims` is deliberately strict and remains a known gap.
+
+Limits of this baseline. It was measured with only the Skills that existed on `master` at the time installed. With every category installed, the `skill-fired` graders also test routing against the Skills added in the professional-domain round (for example `writing/marketing-copy` next to `design/landing-page-design`, or `creative/promo-video` and `writing/social-content` next to `creative/knowledge-video`), and that has not been replayed. The professional-domain Skills and `writing/multilingual-docs` have no authored case yet.

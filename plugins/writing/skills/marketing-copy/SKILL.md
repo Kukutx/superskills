@@ -9,7 +9,7 @@ description: Write or edit landing page, ad, blog, newsletter or press release c
 
 Use to write or edit public marketing text: home, landing, pricing, feature and about pages, ad headlines and descriptions, blog posts, newsletters, press releases and case studies. Also use when existing copy "reads like AI", is flabby, or needs a check for brand voice and risky claims before it is published.
 
-App Store and Google Play fields belong to `writing/app-store-copy`. An email to one person belongs to `writing/business-email`; an automated series belongs to `marketing/email-sequences`. Social posts and threads belong to `writing/social-content`. Text inside the product belongs to `writing/ux-copy`. If nobody can say who the page is for or why the product is different, that is `marketing/product-positioning`.
+App Store and Google Play fields belong to `writing/app-store-copy`. An email to one person belongs to `writing/business-email`; an automated series belongs to `marketing/email-sequences`. Social posts and threads belong to `writing/social-content`. Text inside the product belongs to `writing/ux-copy`. Designing and building a whole landing page, with its structure and visual system, belongs to `design/landing-page-design`; this Skill owns the words when they are the deliverable. If nobody can say who the page is for or why the product is different, that is `marketing/product-positioning`.
 
 ## Domain inputs and blockers
 

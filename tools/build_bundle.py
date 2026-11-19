@@ -155,6 +155,7 @@ def build_bundle(
     references: Sequence[str] = (),
     category_names: Sequence[str] = (),
     output: Path | str | None = None,
+    all_skills: bool = False,
 ) -> BundleSummary:
     root = Path(root).resolve()
     profile_dir = ensure_relative_directory(root, profile, "profile")
@@ -162,7 +163,10 @@ def build_bundle(
     if not profile_instructions.is_file():
         raise BundleError(f"profile is missing project-instructions.md: {profile}")
 
-    # A category brings every Skill it holds together with all of their references.
+    # A category brings every Skill it holds together with all of their references;
+    # --all-skills is every category, for a single always-available knowledge set.
+    if all_skills:
+        category_names = categories(root)
     selected_categories = sorted({name.strip().strip("/") for name in category_names})
     unknown = sorted(set(selected_categories) - set(categories(root)))
     if unknown:
@@ -175,7 +179,7 @@ def build_bundle(
         {normalize_skill_route(route) for route in skills} | {route_of(path) for path in category_skills}
     )
     if not selected_skills:
-        raise BundleError("select at least one --skill or --category")
+        raise BundleError("select at least one --skill or --category, or use --all-skills")
 
     source_files: list[Path] = [
         profile_instructions,
@@ -300,6 +304,11 @@ def build_parser() -> argparse.ArgumentParser:
         default=[],
         help="Focused reference category/skill:reference-name; repeat as needed",
     )
+    parser.add_argument(
+        "--all-skills",
+        action="store_true",
+        help="Every category with every Skill and reference, for a single always-available knowledge set",
+    )
     parser.add_argument("--output", type=Path, help="Output directory; default dist/<profile-name>")
     return parser
 
@@ -314,6 +323,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             references=args.reference,
             category_names=args.category,
             output=args.output,
+            all_skills=args.all_skills,
         )
     except BundleError as exc:
         print(f"bundle build failed: {exc}", file=sys.stderr)

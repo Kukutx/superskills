@@ -12,7 +12,7 @@ When modifying this repository:
 8. Skill bodies must stand on their own. `gpts/kukutx/project-instructions.md` holds the global autonomy, escalation and scope policy for ChatGPT only; hosts with a native Skill registry never load it, so domain Skills add domain-specific decision inputs, blockers and validation rules without depending on it.
 9. Move ownership when splitting content; do not maintain the same rule in multiple references.
 10. Do not create prompt-template, generic examples, changelog or compatibility files unless a current decision genuinely requires a separate artifact.
-11. If a routing, ownership, autonomy or blocker boundary changes, update the smallest relevant `behavioral-evals.md` case set under `maintenance/`.
+11. If a routing, ownership, autonomy or blocker boundary changes, update the smallest relevant `behavioral-evals.md` case set under `maintenance/`. A rule that exists because a plain model gets the behavior wrong gets an authored case at `maintenance/<category>/<skill>/evals/<case>/` (`prompt.md` plus `graders/`).
 12. When tuning for a newer model, remove duplicated generic process instructions before adding new ones. Domain Skills should encode durable decisions, not generic plan/ask/confirm loops.
 13. Preserve existing project conventions and avoid unrelated rewrites.
 14. Before completion run:
@@ -25,4 +25,4 @@ python tools/export_behavioral_evals.py --check
 
 Fix errors. Treat size advisories as review prompts, not automatic reasons to split files.
 
-These checks are structural. When a `description`, route or reference boundary changes, replay only the affected cases with `python tools/build_live_evals.py` and `claude plugin eval dist/live-evals --ablation none --runs 1 --case <glob>`. Each case is a real model session billed to whoever runs it, so never replay the whole suite as a routine check; without a replay, report the behavior as unverified.
+These checks are structural. When a `description`, route or reference boundary changes, replay only the affected cases with `python tools/build_live_evals.py` and `claude plugin eval dist/live-evals --ablation none --runs 1 --case <glob>`; when a Skill rule changes, replay its authored cases with the default with/without-Skill ablation. Each case is a real model session billed to whoever runs it, so never replay the whole suite as a routine check; without a replay, report the behavior as unverified.

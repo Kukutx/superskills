@@ -3,6 +3,7 @@
 plugins/<category>/plugin.json                 installable unit (one plugin per category)
 plugins/<category>/skills/<skill>/SKILL.md     runtime entrypoint, plus one-level references/
 maintenance/<category>/<skill>/                evals, sources and decisions; never shipped
+maintenance/<category>/<skill>/evals/<case>/   authored `claude plugin eval` case: prompt.md + graders/
 """
 
 from __future__ import annotations
@@ -16,6 +17,9 @@ ENTRYPOINT = "SKILL.md"
 PLUGIN_MANIFEST = "plugin.json"
 PLUGIN_PREFIX = "superskills-"
 ROUTER_ROUTE = "meta/skill-router"
+EVALS_DIR = "evals"
+EVAL_PROMPT = "prompt.md"
+EVAL_GRADERS = "graders"
 
 
 def categories(root: Path) -> list[str]:
@@ -41,3 +45,9 @@ def skill_dirs(root: Path) -> list[Path]:
     """Every directory that really contains an exactly-named SKILL.md."""
     found = (root / PLUGINS_DIR).glob(f"*/{SKILLS_DIR}/*")
     return sorted(path for path in found if path.is_dir() and ENTRYPOINT in {entry.name for entry in path.iterdir()})
+
+
+def authored_eval_dirs(root: Path) -> list[Path]:
+    """Every maintenance/<category>/<skill>/evals/<case> directory."""
+    found = (root / MAINTENANCE_DIR).glob(f"*/*/{EVALS_DIR}/*")
+    return sorted(path for path in found if path.is_dir())

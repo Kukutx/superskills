@@ -10,6 +10,12 @@ python tools/build_bundle.py \
   --skill writing/resume-writing
 ```
 
+综合使用（所有 Skill 都要随时可用）时构建完整包，每个 Release 也附带它：
+
+```bash
+python tools/build_bundle.py --profile gpts/kukutx --all-skills
+```
+
 复杂 Skill 只追加当前任务需要的 reference：
 
 ```bash

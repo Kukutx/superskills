@@ -11,12 +11,16 @@ if __package__:
     from .build_manifests import VERSION_RE, ManifestError, read_plugins, stale_manifests
     from .layout import (
         ENTRYPOINT,
+        EVAL_GRADERS,
+        EVAL_PROMPT,
+        EVALS_DIR,
         MAINTENANCE_DIR,
         PLUGIN_MANIFEST,
         PLUGIN_PREFIX,
         PLUGINS_DIR,
         ROUTER_ROUTE,
         SKILLS_DIR,
+        authored_eval_dirs,
         maintenance_dir,
         route_of,
         skill_dir,
@@ -37,12 +41,16 @@ else:
     from build_manifests import VERSION_RE, ManifestError, read_plugins, stale_manifests
     from layout import (
         ENTRYPOINT,
+        EVAL_GRADERS,
+        EVAL_PROMPT,
+        EVALS_DIR,
         MAINTENANCE_DIR,
         PLUGIN_MANIFEST,
         PLUGIN_PREFIX,
         PLUGINS_DIR,
         ROUTER_ROUTE,
         SKILLS_DIR,
+        authored_eval_dirs,
         maintenance_dir,
         route_of,
         skill_dir,
@@ -68,12 +76,18 @@ ALLOWED_MAINTENANCE_FILES = {"behavioral-evals.md", "sources.md", "decisions.md"
 MAINTENANCE_HEADINGS = ("## Source synthesis", "## Upstream inspiration")
 ENTRYPOINT_ADVISORY_BYTES = 6500
 REFERENCE_ADVISORY_BYTES = 8000
-# Agent Skills specification limit; claude.ai uploads apply the stricter description limit.
+# Agent Skills specification (https://agentskills.io/specification) limits; claude.ai uploads
+# apply the stricter description limit.
 NAME_MAX_CHARS = 64
+RESERVED_NAME_WORDS = ("anthropic", "claude")
 DESCRIPTION_MAX_CHARS = 200
+ENTRYPOINT_ADVISORY_LINES = 500
+XML_TAG_RE = re.compile(r"<[A-Za-z/][^>]*>")
 SLUG_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 # Hosts parse frontmatter as real YAML; these make an unquoted value invalid or change its meaning.
 YAML_UNSAFE_RE = re.compile(r": | #|^[\[\]{}>|*&!%@`'\"]")
+# The Skill a `tool_used: Skill` grader matches is the last name in its input_match pattern.
+GRADER_SKILL_RE = re.compile(r"([a-z0-9]+(?:-[a-z0-9]+)*)\"'?$")
 
 
 @dataclass
@@ -235,7 +249,10 @@ def _validate_maintenance_files(
     for path in sorted(maintenance.iterdir()):
         relative = path.relative_to(root).as_posix()
         if path.is_dir():
-            errors.append(f"{relative}: nested maintenance directories are not supported")
+            if path.name != EVALS_DIR:
+                errors.append(
+                    f"{relative}: nested maintenance directories are not supported except {EVALS_DIR}/"
+                )
         elif path.name not in ALLOWED_MAINTENANCE_FILES:
             errors.append(
                 f"{relative}: unsupported maintenance file; allowed: {sorted(ALLOWED_MAINTENANCE_FILES)}"
@@ -272,6 +289,64 @@ def _validate_maintenance_files(
             for found in ROUTE_FIND_RE.findall(cell):
                 if found.split("/", 1)[0] in skill_categories and found not in skill_paths:
                     errors.append(f"{label}:{case.line}: references missing local Skill {found}")
+
+
+def _validate_authored_evals(root: Path, skill_names: set[str], errors: list[str]) -> list[str]:
+    """Check each maintenance/<category>/<skill>/evals/<case>/ against the `claude plugin eval` case shape."""
+    case_ids: list[str] = []
+    for case in authored_eval_dirs(root):
+        label = case.relative_to(root).as_posix()
+        case_ids.append(case.name)
+        if not SLUG_RE.fullmatch(case.name):
+            errors.append(f"{label}: eval case folders must use lowercase kebab-case")
+        unexpected = _names(case) - {EVAL_PROMPT, EVAL_GRADERS}
+        if unexpected:
+            errors.append(
+                f"{label}: unexpected entries {sorted(unexpected)}; allowed: {EVAL_PROMPT}, {EVAL_GRADERS}/"
+            )
+        prompt = case / EVAL_PROMPT
+        if not prompt.is_file():
+            errors.append(f"{label}: eval case is missing {EVAL_PROMPT}")
+        else:
+            text = prompt.read_text(encoding="utf-8")
+            _, prompt_errors = frontmatter(text)
+            errors.extend(f"{label}/{EVAL_PROMPT}: {error}" for error in prompt_errors)
+            if not prompt_errors and not text.split("\n---\n", 1)[1].strip():
+                errors.append(f"{label}/{EVAL_PROMPT}: the prompt body is empty")
+        graders = case / EVAL_GRADERS
+        files = sorted(graders.iterdir()) if graders.is_dir() else []
+        if not files:
+            errors.append(f"{label}: eval case needs at least one grader in {EVAL_GRADERS}/")
+        for grader in files:
+            grader_label = grader.relative_to(root).as_posix()
+            if grader.is_dir() or grader.suffix != ".md":
+                errors.append(f"{grader_label}: a grader must be a Markdown file")
+                continue
+            metadata, grader_errors = frontmatter(grader.read_text(encoding="utf-8"))
+            errors.extend(f"{grader_label}: {error}" for error in grader_errors)
+            if not grader_errors and not metadata.get("type"):
+                errors.append(f"{grader_label}: grader frontmatter needs a type")
+            if metadata.get("tool") == "Skill":
+                match = GRADER_SKILL_RE.search(metadata.get("input_match", ""))
+                if not match or match.group(1) not in skill_names:
+                    errors.append(f"{grader_label}: input_match does not name an existing Skill")
+    return case_ids
+
+
+def _validate_eval_ids(root: Path, authored_ids: list[str], errors: list[str]) -> None:
+    """Authored and table cases share one ID space, because both become dist/live-evals/evals/<id>."""
+    table_ids = {
+        case.case_id
+        for path in sorted((root / MAINTENANCE_DIR).glob("*/*/behavioral-evals.md"))
+        for case in routing_cases_from_text(path.read_text(encoding="utf-8"))
+        if case.case_id
+    }
+    duplicates = sorted(case_id for case_id, count in Counter(authored_ids).items() if count > 1)
+    if duplicates:
+        errors.append(f"duplicate authored eval case IDs: {duplicates}")
+    clashes = sorted(set(authored_ids) & table_ids)
+    if clashes:
+        errors.append(f"authored eval case IDs also used by behavioral eval tables: {clashes}")
 
 
 def _validate_runtime_links(files: list[Path], root: Path, errors: list[str]) -> None:
@@ -324,6 +399,8 @@ def validate_repository(root: Path | str = DEFAULT_ROOT) -> ValidationResult:
                 errors.append(f"{relative}: frontmatter name '{name}' != folder '{skill_file.parent.name}'")
             if len(name) > NAME_MAX_CHARS:
                 errors.append(f"{relative}: frontmatter name exceeds {NAME_MAX_CHARS} characters")
+            if any(word in name.split("-") for word in RESERVED_NAME_WORDS):
+                errors.append(f"{relative}: frontmatter name uses a reserved word {RESERVED_NAME_WORDS}")
         description = metadata.get("description")
         if not description:
             errors.append(f"{relative}: missing frontmatter description")
@@ -337,11 +414,18 @@ def validate_repository(root: Path | str = DEFAULT_ROOT) -> ValidationResult:
                 f"{relative}: frontmatter description must be a plain YAML scalar "
                 "(no ': ', ' #' or leading quote/bracket)"
             )
+        elif XML_TAG_RE.search(description):
+            errors.append(f"{relative}: frontmatter description must not contain XML tags")
 
         unexpected = _names(skill_file.parent) - ALLOWED_SKILL_ENTRIES
         if unexpected:
             errors.append(
                 f"{skill_file.parent.relative_to(root).as_posix()}: unexpected entries {sorted(unexpected)}"
+            )
+        if text.count("\n") > ENTRYPOINT_ADVISORY_LINES:
+            warnings.append(
+                f"{relative}: entrypoint exceeds {ENTRYPOINT_ADVISORY_LINES} lines; "
+                "move task-dependent depth into references/"
             )
         if len(text.encode("utf-8")) > ENTRYPOINT_ADVISORY_BYTES:
             warnings.append(
@@ -357,6 +441,8 @@ def validate_repository(root: Path | str = DEFAULT_ROOT) -> ValidationResult:
             errors.append(f"duplicate frontmatter skill name '{name}': {paths}")
 
     _validate_maintenance(root, skill_paths, skill_categories, references_by_route, errors)
+    authored_ids = _validate_authored_evals(root, {route.split("/", 1)[1] for route in skill_paths}, errors)
+    _validate_eval_ids(root, authored_ids, errors)
 
     router = skill_dir(root, ROUTER_ROUTE) / ENTRYPOINT
     if not router.is_file():

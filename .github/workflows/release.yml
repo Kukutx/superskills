@@ -66,21 +66,21 @@ jobs:
         run: |
           python tools/build_bundle.py \
             --profile gpts/kukutx \
-            --skill writing/resume-writing \
-            --output dist/superskills-resume-bundle
+            --all-skills \
+            --output dist/superskills-gpt-bundle
           python - <<'PY'
           import shutil
 
           archive = shutil.make_archive(
-              "dist/superskills-resume-bundle",
+              "dist/superskills-gpt-bundle",
               "zip",
               root_dir="dist",
-              base_dir="superskills-resume-bundle",
+              base_dir="superskills-gpt-bundle",
           )
           print(archive)
           PY
           python tools/package_web_skills.py
-          (cd dist && sha256sum superskills-resume-bundle.zip claude-web/*.zip > SHA256SUMS.txt)
+          (cd dist && sha256sum superskills-gpt-bundle.zip claude-web/*.zip > SHA256SUMS.txt)
 
       - name: Write release notes
         run: |
@@ -92,7 +92,7 @@ jobs:
           - autonomy-first execution with escalation at true blockers and consequential boundaries;
           - truthful ATS-safe resume/CV writing;
           - one installable plugin per category for Claude Code and Codex;
-          - one uploadable ZIP per Skill for claude.ai (Customize > Skills);
+          - the same per-category plugins for claude.ai (Customize > Plugins), or one uploadable ZIP per Skill (Customize > Skills);
           - one-primary-Skill routing and progressive disclosure;
           - calibrated verification with strict repository regression checks;
           - machine-readable behavioral eval export;
@@ -100,13 +100,13 @@ jobs:
           - Python 3.14 tooling and CI;
           - MIT licensing.
 
-          Included assets, bound to commit ${GITHUB_SHA}: every Skill as a claude.ai upload ZIP, and a ready-to-upload writing/resume-writing ChatGPT runtime bundle.
+          Included assets, bound to commit ${GITHUB_SHA}: every Skill as a claude.ai upload ZIP, and a ChatGPT Project/GPT runtime bundle with every Skill and runtime reference.
           EOF
 
       - name: Create release
         run: |
           gh release create "$VERSION" \
-            dist/superskills-resume-bundle.zip \
+            dist/superskills-gpt-bundle.zip \
             dist/claude-web/*.zip \
             dist/SHA256SUMS.txt \
             --target "$GITHUB_SHA" \

@@ -19,6 +19,7 @@ If target audience, core problem or differentiated value is still unresolved, us
 4. Lead with concrete user benefit; use features as evidence.
 5. Verify current platform field limits/policies when exact compliance matters rather than hard-coding remembered limits.
 6. Adapt terminology and tone to the target language/market.
+7. Before returning, reread each sentence against the supplied feature list. Remove or move to "to confirm" any sentence that says how a feature works beyond what was supplied (when it plays, what it shows, what it replaces).
 
 ## Output
 
@@ -37,6 +38,7 @@ Do not emit every field for a request that only asks for one.
 ## Constraints
 
 - Do not invent features, ratings, awards, user numbers, reviews or performance claims.
+- Describe each supplied feature only as far as the user described it. Do not add behavior they did not state (for example a widget that shows progress or starts a session, features that trigger each other) or experience claims such as "界面简洁" or "打开就能开始". If such a detail would help, list it as something to confirm.
 - Avoid generic hype and keyword stuffing.
 - Do not use competitor trademarks casually.
 - Do not quietly invent positioning to compensate for an unresolved product strategy.

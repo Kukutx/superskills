@@ -37,6 +37,7 @@ superskills/
 │       ├── SKILL.md
 │       └── references/              # optional runtime depth
 ├── maintenance/<category>/<skill>/  # optional evals/sources/decisions，不进任何安装包
+│   └── evals/<case>/                # 手写的 claude plugin eval 用例：prompt.md + graders/
 ├── .claude-plugin/marketplace.json  # 生成：Claude Code
 ├── .agents/plugins/marketplace.json # 生成：Codex / ChatGPT
 ├── gpts/kukutx/                     # ChatGPT Project / GPT 的指令与打包入口
@@ -60,10 +61,10 @@ superskills/
 | Claude Code | `claude plugin marketplace add Kukutx/superskills`，再 `claude plugin install superskills-<category>@superskills` |
 | Codex（CLI / App / IDE） | `codex plugin marketplace add Kukutx/superskills`，再 `codex plugin add superskills-<category>@superskills` |
 | Cursor、Gemini CLI、Copilot 等 | `npx skills add Kukutx/superskills --skill <skill>`（[`skills`](https://github.com/vercel-labs/skills) 安装器，按 Skill 名称选择） |
-| claude.ai 网页 / 桌面 | `python tools/package_web_skills.py` 生成 `dist/claude-web/<skill>.zip`，在 Customize > Skills 逐个上传；每个 Release 也附带这些 ZIP |
+| claude.ai 网页 / 桌面 | 在 Customize > Plugins 选择 Add marketplace，填入 `https://github.com/Kukutx/superskills`，再安装需要的 `superskills-<category>`，无需下载；或用 `python tools/package_web_skills.py` 生成 `dist/claude-web/<skill>.zip`，在 Customize > Skills 逐个上传，每个 Release 也附带这些 ZIP |
 | ChatGPT Project / GPT | 没有原生 Skill 注册表，使用下面的 runtime bundle 和 Router |
 
-有原生注册表的宿主只按 `description` 触发 Skill，不加载 Router 和 `gpts/` 下的 Project Instructions。OpenAI 文档说明打包在插件里的 Skill 也能在 ChatGPT 的 Chat 和 Work 中使用；本仓库只验证过 Codex 侧的安装，ChatGPT 网页端的启用流程以官方当前说明为准。
+有原生注册表的宿主只按 `description` 触发 Skill，不加载 Router 和 `gpts/` 下的 Project Instructions。OpenAI 文档说明打包在插件里的 Skill 也能在 ChatGPT 的 Chat 和 Work 中使用；本仓库只验证过 Codex 侧的安装，ChatGPT 网页端的启用流程以官方当前说明为准。claude.ai 的插件市场安装只在拆分前的单插件布局上用过，按分类的插件还没有在 claude.ai 上实际安装验证。
 
 更新：Claude Code 先 `claude plugin marketplace update superskills`，再卸载并重新安装对应插件（本地文件夹源实测 `claude plugin update` 会切到旧快照）；Codex 用 `codex plugin marketplace upgrade`，本地源同样移除后重新添加；`skills` 安装器用 `npx skills update`。Codex 按 `plugin.json` 的 `version` 缓存，发布新内容前先提升版本。
 
@@ -77,7 +78,7 @@ python tools/validate_repo.py
 python tools/export_behavioral_evals.py --check
 ```
 
-Validator 检查目录形状、入口文件名、frontmatter（只允许 `name` 和 `description`；`description` 不超过 200 字符且是合法的 YAML 纯文本）、Skill 名称全仓唯一、插件清单与版本一致、两份 marketplace 是否过期、Router Catalog 完整性、真实 Markdown 引用、runtime 不引用 maintenance，以及 behavioral eval 路径完整性。
+Validator 检查目录形状、入口文件名、frontmatter（只允许 `name` 和 `description`；`name` 不含保留词 `anthropic`、`claude`；`description` 不超过 200 字符、是合法的 YAML 纯文本且不含 XML 标签）、Skill 名称全仓唯一、插件清单与版本一致、两份 marketplace 是否过期、Router Catalog 完整性、真实 Markdown 引用、runtime 不引用 maintenance、behavioral eval 路径完整性，以及手写评测用例的形状（`prompt.md`、至少一个 grader、grader 指向的 Skill 存在、用例 ID 不与表格重复）。入口超过 500 行只给 advisory。
 
 新增或删除分类、修改 `plugin.json` 后重新生成 marketplace：
 
@@ -102,6 +103,14 @@ claude plugin eval dist/live-evals --ablation none --runs 1 --max-cost-usd 2 --n
 | `behavior` | Primary 就是该表格所属 Skill 的行 | 提示里点名 Skill，由评审模型按 `Must avoid` 判定回答 |
 | `reference` | Primary 是 reference 文件的行 | 提示里点名 Skill，预期 reference 被读取 |
 
+`maintenance/<category>/<skill>/evals/<case>/` 下的手写用例原样复制进套件。它们检查一条规则是否真的改变了回答：自带多行提示、具体的评分标准和运行次数，回放时用默认的有/无 Skill 对照，看两组的分差 Δ：
+
+```bash
+claude plugin eval dist/live-evals --judge-model sonnet --max-cost-usd 2 --no-publish --case "<case>"
+```
+
+Δ 长期为 0 说明当前模型不需要这条规则，可以精简；只为普通模型容易做错、Skill 规则能纠正的行为写手写用例。最近一次记录的基线在 `maintenance/meta/skill-builder/decisions.md`。
+
 Primary 属于 `research` 分类的 `route` 用例另带 `web` tag 和联网工具：没有搜索能力的会话不会把“找东西”路由给调研类 Skill，所以回放它们时要加 `--allow-tools WebSearch WebFetch`，否则结果只能记为未验证。
 
 每个用例是一次真实模型会话，消耗运行者自己的 Claude 用量（订阅额度或 API 费用）。只回放受改动影响的用例（`--case` 只接受一个 glob，`--tag` 可重复），不要把全量回放当作日常检查。结果按模型和宿主分别记录，一次已观测到的失败不因为重跑通过而抹掉。
@@ -121,7 +130,7 @@ python tools/build_bundle.py \
   --reference development/godot-project-systems:ui-ux
 ```
 
-整类一起带用 `--category <category>`，可重复。包里的 Router 只保留已选 Skill 的 Catalog 行，并注明其余 Skill 未加载，避免把任务路由到没有上传的文件。
+整类一起带用 `--category <category>`，可重复；所有 Skill 都要随时可用时用 `--all-skills`，它包含每个分类的全部 Skill 和 reference，文件很多，上传前先确认目标 Project 允许的文件数量。包里的 Router 只保留已选 Skill 的 Catalog 行，并注明其余 Skill 未加载，避免把任务路由到没有上传的文件。
 
 输出的 `manifest.json` 记录源提交、文件哈希、字节数和粗略 Token 预算，并保证不包含 `maintenance/`。
 
@@ -133,7 +142,7 @@ python tools/build_bundle.py \
 python tools/build_manifests.py --version 1.2.0
 ```
 
-`.github/workflows/release.yml` 手动输入的版本标签必须与该版本一致（`v1.2.0`）。它先运行测试、Validator 和 eval export，再构建 claude.ai 上传用的 Skill ZIP 和一个 ChatGPT Runtime Bundle，连同 SHA-256 校验文件一起发布。已存在的版本不会被覆盖。
+`.github/workflows/release.yml` 手动输入的版本标签必须与该版本一致（`v1.2.0`）。它先运行测试、Validator 和 eval export，再构建 claude.ai 上传用的 Skill ZIP 和一个包含全部 Skill 的 ChatGPT Runtime Bundle（`--all-skills`），连同 SHA-256 校验文件一起发布。已存在的版本不会被覆盖。
 
 同仓库 PR 合并后，`.github/workflows/delete-merged-branch.yml` 会自动删除已合并的 head branch。
 

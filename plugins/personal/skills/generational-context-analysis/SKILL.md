@@ -92,7 +92,7 @@ Recommend **work environments, skills and opportunity directions**, not destiny 
 
 ### Relationships
 
-Cohort evidence may describe dating norms or marriage timing. It cannot infer attachment style, fidelity or compatibility without individual history.
+Cohort evidence may describe dating norms or marriage timing. It cannot infer attachment style, fidelity or compatibility without individual history. If the user asks what kind of partner suits them, do not derive partner traits from cohort hypotheses; name the individual history that would decide it and offer questions or a small self-observation instead.
 
 ### Money
 

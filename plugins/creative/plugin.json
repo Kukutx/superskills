@@ -2,7 +2,7 @@
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "superskills-creative",
   "version": "1.1.0",
-  "description": "Image-generation direction, promo video planning and xTool F1 engraving design.",
+  "description": "Image-generation direction, promo video planning, narrated knowledge videos and xTool F1 engraving design.",
   "author": {
     "name": "Kukutx"
   },

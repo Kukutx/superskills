@@ -125,6 +125,23 @@ class BuildLiveEvalsTestCase(unittest.TestCase):
         with self.assertRaisesRegex(LiveEvalError, "foo-003"):
             build(self.root, only=["foo-003"])
 
+    def test_authored_cases_are_copied_as_written_and_selectable(self) -> None:
+        case = "maintenance/development/foo/evals/foo-honest"
+        self.write(f"{case}/prompt.md", "---\nruns: 2\n---\n\nTwo lines\nof prompt.\n")
+        self.write(f"{case}/graders/honest.md", "---\ntype: llm\n---\n\nPASS if honest.\n")
+        kinds = {case.case_id: case.kind for case in build(self.root)}
+        self.assertEqual("authored", kinds["foo-honest"])
+        self.assertEqual("---\nruns: 2\n---\n\nTwo lines\nof prompt.\n", self.read("evals/foo-honest/prompt.md"))
+        self.assertIn("PASS if honest.", self.read("evals/foo-honest/graders/honest.md"))
+
+        self.assertEqual(["foo-honest"], [case.case_id for case in build(self.root, only=["foo-honest"])])
+        self.assertEqual(["foo-honest"], [path.name for path in (self.root / "dist/live-evals/evals").iterdir()])
+
+    def test_authored_case_cannot_reuse_a_table_id(self) -> None:
+        self.write("maintenance/development/foo/evals/foo-001/prompt.md", "---\nruns: 1\n---\n\nPrompt.\n")
+        with self.assertRaisesRegex(LiveEvalError, "foo-001"):
+            build(self.root)
+
     def test_output_must_be_a_generated_directory_under_dist(self) -> None:
         for output in (self.root.parent, self.root / "plugins", self.root / "dist"):
             with self.assertRaises(LiveEvalError):

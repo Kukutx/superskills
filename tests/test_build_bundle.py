@@ -63,6 +63,18 @@ class BundleBuilderTestCase(unittest.TestCase):
         self.assertFalse((output / "plugins/writing").exists())
         self.assertFalse((output / "maintenance").exists())
 
+    def test_all_skills_brings_every_category_skill_and_reference(self) -> None:
+        self.write("plugins/writing/skills/baz/SKILL.md", "# Baz\n")
+        output = self.root / "out"
+        build_bundle(root=self.root, profile="gpts/test", all_skills=True, output=output)
+
+        manifest = json.loads((output / "manifest.json").read_text(encoding="utf-8"))
+        self.assertEqual(["development", "meta", "writing"], manifest["categories"])
+        self.assertEqual(["development/foo", "meta/skill-router", "writing/baz"], manifest["skills"])
+        self.assertEqual(["development/foo:details.md"], manifest["references"])
+        self.assertTrue((output / "plugins/writing/skills/baz/SKILL.md").is_file())
+        self.assertFalse((output / "maintenance").exists())
+
     def test_category_and_single_skills_combine(self) -> None:
         self.write("plugins/writing/skills/baz/SKILL.md", "# Baz\n")
         output = self.root / "out"

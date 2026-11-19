@@ -178,6 +178,60 @@ class ValidatorTestCase(unittest.TestCase):
         self.assertIn("missing opening frontmatter delimiter", text)
         self.assertIn("missing frontmatter name", text)
 
+    def test_reserved_word_in_name_fails(self) -> None:
+        self.add_skill("development/claude-helper")
+        self.write_router(["development/foo", "development/claude-helper"])
+        self.assertIn("reserved word", self.error_text())
+
+    def test_description_with_xml_tag_fails(self) -> None:
+        self.add_skill("development/foo", description="Use <example> tags.")
+        self.assertIn("must not contain XML tags", self.error_text())
+
+    def test_long_entrypoint_is_an_advisory_not_an_error(self) -> None:
+        self.add_skill("development/foo", "line\n" * 501)
+        result = validate_repository(self.root)
+        self.assertTrue(result.ok, result.errors)
+        self.assertTrue(any("exceeds 500 lines" in warning for warning in result.warnings))
+
+    def write_authored_eval(self, case: str = "foo-honest", skill: str = "foo") -> None:
+        base = f"maintenance/development/foo/evals/{case}"
+        self.write(f"{base}/prompt.md", "---\ndescription: foo stays honest\nruns: 2\n---\n\nDo the task.\n")
+        self.write(
+            f"{base}/graders/skill-fired.md",
+            f"---\ntype: tool_used\ntool: Skill\ninput_match: '\"skill\"\\s*:\\s*\"(?:[\\w-]+:)?{skill}\"'\n---\n",
+        )
+        self.write(f"{base}/graders/honest.md", "---\ntype: llm\n---\n\nPASS if honest.\n")
+
+    def test_authored_eval_case_passes(self) -> None:
+        self.write_authored_eval()
+        result = validate_repository(self.root)
+        self.assertTrue(result.ok, result.errors)
+
+    def test_authored_eval_case_needs_prompt_and_graders(self) -> None:
+        self.write("maintenance/development/foo/evals/empty-case/notes.md", "# Notes\n")
+        text = self.error_text()
+        self.assertIn("unexpected entries ['notes.md']", text)
+        self.assertIn("eval case is missing prompt.md", text)
+        self.assertIn("needs at least one grader", text)
+
+    def test_authored_eval_grader_must_name_an_existing_skill(self) -> None:
+        self.write_authored_eval(skill="retired-skill")
+        self.assertIn("input_match does not name an existing Skill", self.error_text())
+
+    def test_authored_eval_id_cannot_reuse_a_table_id(self) -> None:
+        self.write_authored_eval(case="foo-001")
+        self.write(
+            "maintenance/development/foo/behavioral-evals.md",
+            "# Evals\n\n| ID | Prompt | Primary | Secondary | Must avoid |\n"
+            "| --- | --- | --- | --- | --- |\n"
+            "| foo-001 | test | `development/foo` | none | none |\n",
+        )
+        self.assertIn("also used by behavioral eval tables: ['foo-001']", self.error_text())
+
+    def test_other_nested_maintenance_directory_fails(self) -> None:
+        self.write("maintenance/development/foo/drafts/notes.md", "# Notes\n")
+        self.assertIn("nested maintenance directories are not supported", self.error_text())
+
 
 if __name__ == "__main__":
     unittest.main()

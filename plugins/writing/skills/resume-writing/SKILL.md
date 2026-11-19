@@ -72,3 +72,4 @@ When core facts are too sparse for a truthful useful draft, ask the smallest gro
 - Do not force a one-page limit when the user's experience or market convention justifies more.
 - Do not rewrite technical content into vague corporate language that removes evidence.
 - Separate verified content, recommendations and placeholders visibly.
+- Keep placeholders empty, such as `[X%]`; never seed them, or "for example" advice, with plausible figures or outcomes (such as `[50万+]` or "零停机") the user has not confirmed.

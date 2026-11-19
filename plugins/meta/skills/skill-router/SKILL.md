@@ -59,7 +59,9 @@ A Skill guides decisions; it does not create a new permission gate. On hosts tha
 | first-run activation, cancel flows and failed-payment recovery | `product/onboarding-and-retention` |
 | inventory and rank technical debt, choose what to refactor | `development/tech-debt-triage` |
 | plan a promo, trailer or demo video | `creative/promo-video` |
+| narrated short video that explains one knowledge point, with sourced script, storyboard and publish pack | `creative/knowledge-video` |
 | critique a UI screen for usability and accessibility | `design/design-review` |
+| plan, write and build a whole landing or marketing page, from structure to visual system | `design/landing-page-design` |
 | stock reorder quantities, dead stock and purchase orders | `ecommerce/inventory-reorder` |
 | marketing campaign or growth plan with channels, budget and KPIs | `marketing/marketing-plan` |
 | launch plan, directory submissions and press pitches | `marketing/product-launch` |
@@ -78,6 +80,7 @@ A Skill guides decisions; it does not create a new permission gate. On hosts tha
 | derive, write or enforce a brand voice or tone-of-voice guide | `writing/brand-voice-guide` |
 | social posts, short-video scripts and posting calendar | `writing/social-content` |
 | in-app microcopy such as buttons, errors and empty states | `writing/ux-copy` |
+| keep docs, articles or site copy in several languages in step with one source, at native quality | `writing/multilingual-docs` |
 | production incident triage, status updates and postmortem | `operations/incident-response` |
 | public crisis statement, apology and who hears first | `operations/crisis-communications` |
 | change request, risk register, rollback and process optimization | `operations/change-management` |
@@ -213,6 +216,7 @@ who it is for and why it is different -> product-positioning
 plan, channels and budget -> marketing-plan; a launch -> product-launch
 what to publish -> content-strategy
 the words -> marketing-copy (pages, ads) / social-content / app-store-copy / ux-copy
+a whole landing page designed and built, not only its words -> landing-page-design
 found in search -> seo-audit (website) / app-store-optimization (store listing)
 a page that does not convert -> conversion-review; which version wins -> ab-testing
 paid campaigns -> paid-ads; rivals -> competitor-analysis

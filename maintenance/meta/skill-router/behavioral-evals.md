@@ -20,6 +20,7 @@ Maintenance-only. Test task ownership, scope fidelity and autonomy/escalation be
 | router-012 | “这一次发布前做 go/no-go 检查。” | `operations/release-checklist` | domain release owner when available | turning one release into an SOP |
 | router-013 | “根据我的真实经历写一份后端工程师简历。” | `writing/resume-writing` | research only for a distinct current market fact | inventing employers, metrics or technologies |
 | router-014 | “我有 5 年 Go 后端经验，应聘一家公司的高级后端岗位，根据这份背景写一封给招聘经理的邮件。” | `writing/business-email` | resume-writing only if the resume itself also changes | returning another resume |
+| router-015 | “这 12 篇文章以中文为准，同步更新英文和意大利语版本，要母语水平。” | `writing/multilingual-docs` | none by default | translating word for word or leaving one language out of the change |
 
 ## Autonomy and escalation cases
 

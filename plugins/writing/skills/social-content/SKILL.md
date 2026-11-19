@@ -9,7 +9,7 @@ description: Write social posts, threads, carousels and short-video scripts, rep
 
 Use when the deliverable is the content itself or its schedule: a post, a thread, a carousel, a caption, a short-video script, one long piece turned into many small ones, or a posting calendar for the coming weeks.
 
-Deciding which topics and pillars to cover belongs to `marketing/content-strategy`. Paid ad copy and landing pages belong to `writing/marketing-copy`. Planning how a promo video is produced belongs to `creative/promo-video`; the words of a short clip stay here. Store listing text belongs to `writing/app-store-copy`.
+Deciding which topics and pillars to cover belongs to `marketing/content-strategy`. Paid ad copy and landing pages belong to `writing/marketing-copy`. Planning how a promo video is produced belongs to `creative/promo-video`; the words of a short clip stay here. A narrated explainer of one knowledge point, with its sourced script and storyboard, belongs to `creative/knowledge-video`. Store listing text belongs to `writing/app-store-copy`.
 
 ## Domain inputs and blockers
 

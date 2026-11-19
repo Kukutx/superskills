@@ -13,6 +13,10 @@ reference  Primary is a reference file: the Skill is named in the prompt and the
            reference must be read.
 negative   Primary is `none`: the bare utterance must not make the host invoke any
            Skill named in Must avoid.
+
+Authored cases under maintenance/<category>/<skill>/evals/<case>/ (prompt.md plus
+graders/) are copied as they are, for behavior that needs its own rubric, a
+multi-line prompt or a with/without-Skill baseline.
 """
 
 from __future__ import annotations
@@ -28,10 +32,10 @@ from typing import Sequence
 
 if __package__:
     from .export_behavioral_evals import EvalExportError, export_cases
-    from .layout import ROUTER_ROUTE, skill_dirs
+    from .layout import ROUTER_ROUTE, authored_eval_dirs, skill_dirs
 else:
     from export_behavioral_evals import EvalExportError, export_cases
-    from layout import ROUTER_ROUTE, skill_dirs
+    from layout import ROUTER_ROUTE, authored_eval_dirs, skill_dirs
 
 DEFAULT_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_OUTPUT = Path("dist/live-evals")
@@ -146,12 +150,17 @@ def build(
 
     sources = skill_dirs(root)
     cases = live_cases(export_cases(root), [path.name for path in sources])
+    authored = authored_eval_dirs(root)
+    clashes = sorted({case.case_id for case in cases} & {path.name for path in authored})
+    if clashes:
+        raise LiveEvalError(f"authored eval cases reuse behavioral eval table IDs: {clashes}")
     if only:
-        unknown = sorted(set(only) - {case.case_id for case in cases})
+        unknown = sorted(set(only) - {case.case_id for case in cases} - {path.name for path in authored})
         if unknown:
             raise LiveEvalError(f"not replayable or unknown case IDs: {unknown}")
         cases = [case for case in cases if case.case_id in set(only)]
-    if not cases:
+        authored = [path for path in authored if path.name in set(only)]
+    if not cases and not authored:
         raise LiveEvalError("no replayable behavioral eval cases found")
 
     # Replace the generated suite but keep evals/results, where earlier run reports live.
@@ -185,6 +194,9 @@ def build(
         )
         for name, content in case.graders.items():
             (case_dir / "graders" / f"{name}.md").write_text(content, encoding="utf-8")
+    for path in authored:
+        shutil.copytree(path, output_path / "evals" / path.name)
+        cases.append(LiveCase(path.name, "authored", "", {}))
     return cases
 
 
@@ -203,7 +215,8 @@ def main(argv: Sequence[str] | None = None) -> int:
     except (LiveEvalError, EvalExportError) as exc:
         print(f"live eval build failed: {exc}", file=sys.stderr)
         return 1
-    counts = {kind: sum(case.kind == kind for case in cases) for kind in ("route", "behavior", "reference", "negative")}
+    kinds = ("route", "behavior", "reference", "negative", "authored")
+    counts = {kind: sum(case.kind == kind for case in cases) for kind in kinds}
     summary = ", ".join(f"{count} {kind}" for kind, count in counts.items())
     print(f"live evals built: {summary} cases -> {args.output.as_posix()}")
     return 0
