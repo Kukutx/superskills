@@ -38,6 +38,8 @@ A Skill guides decisions; it does not create a new permission gate. On hosts tha
 | Godot 2D or pixel runtime behavior | `development/godot-2d-game-development` |
 | Godot 3D or spatial runtime behavior | `development/godot-3d-game-development` |
 | generate, slice or package sprite animation assets | `development/sprite-animation-pipeline` |
+| Drupal modules, theming, config, caching, upgrades, or Italian PA sites on Bootstrap Italia | `development/drupal-development` |
+| WordPress themes, plugins, Elementor, WooCommerce, or WP-CLI site migrations | `development/wordpress-development` |
 | explicit divination, astrology or symbolic fortune reading | `personal/divination-reading` |
 | evidence-led birth-cohort or historical life context | `personal/generational-context-analysis` |
 | non-diagnostic reflection on personal thoughts and behavior | `personal/psychology-reflection` |

@@ -49,6 +49,8 @@ Maintenance-only. Test task ownership, scope fidelity and autonomy/escalation be
 | domain-008 | “我重要工作总拖到最后，想理解并改变这个循环。” | `personal/psychology-reflection` | research only for a separate evidence question | casual diagnosis or invented childhood causes |
 | domain-009 | “1992 年生，按八字看事业。” | `personal/divination-reading` | none by default | presenting symbolic interpretation as empirical evidence |
 | domain-010 | “1992 年生，结合经济和互联网环境分析成长背景。” | `personal/generational-context-analysis` | research for distinct evidence synthesis | divination merely because a birth date appears |
+| domain-011 | “我们有一个 Drupal 9.5 的市政府网站，用 bootstrap_italia 子主题，下个月要升到 Drupal 11，先做哪些事？” | `development/drupal-development` | none | `development/implementation-plan` as a generic file plan, or `development/wordpress-development` |
+| domain-012 | “WooCommerce 店铺结账页要加一个 SDI 编码字段，店是 2025 年新开的，用默认结账。” | `development/wordpress-development` | none | `ecommerce/shopify-dev`, or `development/drupal-development` |
 
 ## Professional-domain routing cases
 
