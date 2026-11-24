@@ -1,0 +1,7 @@
+name: skill-builder
+title: Skill Builder
+description: Create, audit, simplify or restructure Agent Skills in the superskills repository, including ownership, descriptions, references and evals. Not for one-off answers.
+category: meta
+include_in_prompt: false
+triggers:
+- skill builder
