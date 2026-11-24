@@ -91,8 +91,9 @@ jobs:
 
           - autonomy-first execution with escalation at true blockers and consequential boundaries;
           - truthful ATS-safe resume/CV writing;
-          - one installable plugin per category for Claude Code and Codex;
-          - the same per-category plugins for claude.ai (Customize > Plugins), or one uploadable ZIP per Skill (Customize > Skills);
+          - one installable plugin per category for Claude Code and Codex (verified installs);
+          - the same per-category plugins for claude.ai (Customize > Plugins), or one uploadable ZIP per Skill (Customize > Skills) -- per-category install on claude.ai is UNVERIFIED, only the pre-split single-plugin layout was ever installed there;
+          - a ChatGPT Project/GPT runtime bundle (UNVERIFIED: the ChatGPT web enablement flow has not been tested end-to-end);
           - one-primary-Skill routing and progressive disclosure;
           - calibrated verification with strict repository regression checks;
           - machine-readable behavioral eval export;
