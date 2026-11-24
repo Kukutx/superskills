@@ -1,6 +1,6 @@
 ---
 name: divination-reading
-description: Divination and fortune-telling readings with 八字, 紫微, 六爻, 塔罗 Tarot, Jyotisha or Western astrology. Use when the user explicitly asks for 算命, 占卜 or a symbolic reading. Never invents chart data.
+description: Divination and fortune-telling readings — 八字, 紫微, 六爻, 塔罗 Tarot, Jyotisha, Western astrology. Use when the user explicitly asks for 算命, 占卜 or a symbolic reading. Never invents chart data.
 ---
 
 # Divination Reading

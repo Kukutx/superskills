@@ -1,6 +1,6 @@
 name: tech-debt-triage
 title: Tech Debt Triage
-description: Inventory and rank technical debt by impact, risk and effort, decide what to refactor first and which tests to add, and plan remediation alongside feature work. Not for reviewing a single diff.
+description: Inventory and rank technical debt by impact, risk and effort, decide what to refactor first and which tests to add, and plan remediation with feature work. Not for reviewing a single diff.
 category: development
 include_in_prompt: false
 triggers:

@@ -1,6 +1,6 @@
 ---
 name: event-marketing
-description: Decide whether to sponsor, exhibit at, speak at or host an event, webinar or dinner, plan it and measure it by cost per qualified meeting. Use for conferences and webinars, not a product launch.
+description: Decide whether to sponsor, exhibit at, speak at or host an event, webinar or dinner, plan it and measure it by cost per qualified meeting. Use for conferences and webinars, not launches.
 ---
 
 # Event Marketing

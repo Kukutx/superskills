@@ -1,8 +1,8 @@
 name: psychology-reflection
 title: Psychology Reflection
-description: Non-diagnostic reflection on real thoughts, emotions, habits, decisions and relationship patterns, with small practical experiments. Use for procrastination, rumination, conflict or a stuck decision.
+description: Non-diagnostic reflection on real thoughts, emotions, habits, decisions and relationship patterns, with small practical experiments. Use for procrastination, rumination or stuck decisions.
 category: personal
 include_in_prompt: false
 triggers:
 - psychology reflection
-- conflict or a stuck decision
+- rumination or stuck decisions

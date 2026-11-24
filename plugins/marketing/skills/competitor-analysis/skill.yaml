@@ -1,6 +1,6 @@
 name: competitor-analysis
 title: Competitor Analysis
-description: Profile competitors and build comparison tables, battlecards or honest comparison pages with every claim labelled as observed, inferred or unverified and dated. Not for positioning your own product.
+description: Profile competitors and build comparison tables, battlecards or honest comparison pages, every claim labelled observed, inferred or unverified and dated. Not for positioning your product.
 category: marketing
 include_in_prompt: false
 triggers:

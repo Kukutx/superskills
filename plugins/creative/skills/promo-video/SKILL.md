@@ -1,6 +1,6 @@
 ---
 name: promo-video
-description: Plan a promo, trailer or demo video for an app, game or product with screen capture, footage or AI shots, a script, shot list and captions. Use for video planning, not still images or social posts.
+description: Plan a promo, trailer or demo video for an app, game or product — capture, footage or AI shots, script, shot list and captions. Use for video planning, not still images or social posts.
 ---
 
 # Promo Video

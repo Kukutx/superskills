@@ -1,0 +1,8 @@
+name: art-animation
+title: Art Animation
+description: Animate art with code using 35 art styles, nine narration-animation grammars, shot lists and framing checks. Use for explainer and art-history video, not for script-only video.
+category: creative
+include_in_prompt: false
+triggers:
+- art animation
+- art-history video

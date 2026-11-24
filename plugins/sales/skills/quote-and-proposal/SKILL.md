@@ -1,6 +1,6 @@
 ---
 name: quote-and-proposal
-description: Turn job notes, a call transcript, photos, drawings or a client brief into a priced quote, estimate, proposal or statement of work with scope and exclusions. Not for grants or contract review.
+description: Turn job notes, a call transcript, photos, drawings or a client brief into a priced quote, estimate, proposal or statement of work with scope and exclusions. Not for grants or contracts.
 ---
 
 # Quote and Proposal

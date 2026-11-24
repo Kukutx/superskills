@@ -1,6 +1,6 @@
 ---
 name: multilingual-docs
-description: Keep docs, articles or site copy in several languages in step with one source language at native quality, with parity checks and native review. Not for one-off chat translations or microcopy.
+description: Keep docs, articles or site copy in several languages in step with one source language at native quality, with parity checks and native review. Not for one-off translations or microcopy.
 ---
 
 # Multilingual Docs

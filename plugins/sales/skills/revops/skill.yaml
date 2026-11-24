@@ -1,0 +1,8 @@
+name: revops
+title: RevOps
+description: Design revenue operations with lifecycle stages, MQL/SQL definitions, lead scoring, handoff, routing and CRM automation. Use when sales and marketing disagree on leads, not for outreach.
+category: sales
+include_in_prompt: false
+triggers:
+- revops
+- marketing disagree on leads

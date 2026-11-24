@@ -39,6 +39,8 @@ When the user shares an interesting prompt, Skill or workflow to collect:
 
 Before merging or shipping a Skill change, measure it with [references/skill-evaluation.md](references/skill-evaluation.md): routing, boundary, output shape, evidence and cost, improved one change at a time against regression cases, with tuning cases kept separate from acceptance cases.
 
+When the change comes out of real work sessions rather than a review, distil it with [references/skill-distillation.md](references/skill-distillation.md): class-level lessons only, patch before creating, reconcile contradictions repo-wide, and verbatim evidence per lesson.
+
 ## Default shape
 
 ```text

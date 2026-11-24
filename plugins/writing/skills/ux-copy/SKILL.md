@@ -1,6 +1,6 @@
 ---
 name: ux-copy
-description: Write or review interface microcopy such as button labels, error messages, empty states, confirmation dialogs, tooltips and onboarding text. Use for in-app wording, not store listings or emails.
+description: Write or review interface microcopy (button labels, error messages, empty states, confirmation dialogs, tooltips, onboarding text). Use for in-app wording, not store listings or emails.
 ---
 
 # UX Copy

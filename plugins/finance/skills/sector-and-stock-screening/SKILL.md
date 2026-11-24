@@ -1,6 +1,6 @@
 ---
 name: sector-and-stock-screening
-description: Map an industry or theme and screen for stock ideas with value, growth, quality and red-flag criteria, value-chain mapping and crowding checks. Use for 行业分析 or 选股, not for one company's results.
+description: Map an industry or theme and screen for stock ideas with value, growth, quality and red-flag criteria, value-chain mapping and crowding checks. Use for 行业分析 or 选股, not one company's results.
 ---
 
 # Sector and Stock Screening

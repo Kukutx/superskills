@@ -9,6 +9,7 @@ from pathlib import Path
 
 if __package__:
     from .build_manifests import VERSION_RE, ManifestError, read_plugins, stale_manifests
+    from .generate_skill_yaml import skill_title
     from .layout import (
         ENTRYPOINT,
         EVAL_GRADERS,
@@ -39,6 +40,7 @@ if __package__:
     )
 else:
     from build_manifests import VERSION_RE, ManifestError, read_plugins, stale_manifests
+    from generate_skill_yaml import skill_title
     from layout import (
         ENTRYPOINT,
         EVAL_GRADERS,
@@ -81,6 +83,7 @@ REFERENCE_ADVISORY_BYTES = 8000
 NAME_MAX_CHARS = 64
 RESERVED_NAME_WORDS = ("anthropic", "claude")
 DESCRIPTION_MAX_CHARS = 200
+DESCRIPTION_ADVISORY_CHARS = 190
 ENTRYPOINT_ADVISORY_LINES = 500
 XML_TAG_RE = re.compile(r"<[A-Za-z/][^>]*>")
 SLUG_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
@@ -178,6 +181,33 @@ def _validate_skill_yaml(
         isinstance(trigger, str) and trigger.strip() for trigger in triggers
     ):
         errors.append(f"{relative}: triggers must be a non-empty list of phrases")
+
+
+def _validate_openai_yaml(
+    skill_file: Path,
+    name: str | None,
+    description: str | None,
+    title: str,
+    root: Path,
+    errors: list[str],
+) -> None:
+    """openai.yaml is generated from SKILL.md; it must exist and agree with it."""
+    category = skill_file.parent.parent.parent.name
+    openai_yaml = root / "agents" / category / (name or skill_file.parent.name) / "openai.yaml"
+    relative = openai_yaml.relative_to(root).as_posix()
+    if not openai_yaml.is_file():
+        errors.append(
+            f"{relative}: missing openai.yaml; run python tools/generate_openai_yaml.py"
+        )
+        return
+    data, parse_errors = _parse_skill_yaml(openai_yaml.read_text(encoding="utf-8"))
+    errors.extend(f"{relative}: {error}" for error in parse_errors)
+    if parse_errors:
+        return
+    if data.get("display_name") != title:
+        errors.append(f"{relative}: display_name '{data.get('display_name')}' != SKILL.md title '{title}'")
+    if data.get("short_description") != description:
+        errors.append(f"{relative}: short_description drifted from SKILL.md; regenerate it")
 
 
 def _validate_plugin_tree(root: Path, errors: list[str]) -> list[Path]:
@@ -483,12 +513,17 @@ def validate_repository(root: Path | str = DEFAULT_ROOT) -> ValidationResult:
                 f"{relative}: frontmatter description is {len(description)} characters; "
                 f"the limit is {DESCRIPTION_MAX_CHARS}"
             )
-        elif YAML_UNSAFE_RE.search(description):
+        elif len(description) > DESCRIPTION_ADVISORY_CHARS:
+            warnings.append(
+                f"{relative}: frontmatter description is {len(description)} characters; "
+                f"the authoring ceiling is {DESCRIPTION_ADVISORY_CHARS}"
+            )
+        if description and YAML_UNSAFE_RE.search(description):
             errors.append(
                 f"{relative}: frontmatter description must be a plain YAML scalar "
                 "(no ': ', ' #' or leading quote/bracket)"
             )
-        elif XML_TAG_RE.search(description):
+        elif description and XML_TAG_RE.search(description):
             errors.append(f"{relative}: frontmatter description must not contain XML tags")
 
         unexpected = _names(skill_file.parent) - ALLOWED_SKILL_ENTRIES
@@ -497,6 +532,14 @@ def validate_repository(root: Path | str = DEFAULT_ROOT) -> ValidationResult:
                 f"{skill_file.parent.relative_to(root).as_posix()}: unexpected entries {sorted(unexpected)}"
             )
         _validate_skill_yaml(skill_file, name, description, root, errors)
+        _validate_openai_yaml(
+            skill_file,
+            name,
+            description,
+            skill_title(text, name or skill_file.parent.name),
+            root,
+            errors,
+        )
         if text.count("\n") > ENTRYPOINT_ADVISORY_LINES:
             warnings.append(
                 f"{relative}: entrypoint exceeds {ENTRYPOINT_ADVISORY_LINES} lines; "

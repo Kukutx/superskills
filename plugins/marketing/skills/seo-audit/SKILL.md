@@ -1,6 +1,6 @@
 ---
 name: seo-audit
-description: Audit a website or store for SEO and AI-search readability, covering indexing, technical issues, on-page, structured data and keywords, with a ranked fix list. Not for app store keywords or ads.
+description: Audit a website or store for SEO and AI-search readability — indexing, technical issues, on-page, structured data and keywords, with a ranked fix list. Not for app store keywords or ads.
 ---
 
 # SEO Audit
@@ -27,7 +27,7 @@ Work in this order, because a later layer cannot help a page the earlier layer h
 2. **Technical.** Core Web Vitals "good" thresholds, per web.dev (page dated October 2024): LCP within 2.5 s, INP 200 ms or less, CLS 0.1 or less, each at the 75th percentile of page loads, mobile and desktop separately. INP took the place of FID in 2024, so a report that still cites FID is out of date. Also mobile usability, HTTPS and mixed content, broken links.
 3. **On-page.** A unique title and one H1 per page that name the page's topic; heading levels not skipped; the main keyword early in the text without stuffing; one main keyword per page so pages do not compete with each other; alt text that describes the image; descriptive anchor text. Working defaults of roughly 50–60 characters for a title and 150–160 for a meta description keep them from being cut off; Google documents no length limit, truncates to the device width, and does not always show the description.
 4. **Content.** Topics competitors cover and the site does not; pages untouched for 12 months or more; missing formats (guides, comparison pages, glossary, tools, templates); near-duplicates such as ten location pages that differ only in the town name. There is no word-count target: an informational page under about 300 words is a prompt to look, and thin content is a symptom, not a finding in itself. A location page is justified only by real local content.
-5. **Authority and links**, when backlink data was supplied.
+5. **Authority and links**, when backlink data was supplied. Building pages at scale from a template and dataset is in [references/programmatic-seo.md](references/programmatic-seo.md); earning links and mentions, including the paid-link rules, is in [references/link-building.md](references/link-building.md).
 
 Typical problems by site type: a store has thin category pages, repeated product descriptions, filter combinations that create duplicate URLs, no plan for out-of-stock pages and missing Product markup; a SaaS site has thin product pages and no comparison or alternative pages; a local business has a name, address or phone number that differs between the site and its listings.
 

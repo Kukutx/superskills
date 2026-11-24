@@ -1,6 +1,6 @@
 ---
 name: books-close-and-reconciliation
-description: Prepare journal entries and accruals, reconcile bank, ledger and payment-processor records, and run a month-end close with a plain P&L summary. Use for bookkeeping and close, not tax or forecasting.
+description: Prepare journal entries and accruals, reconcile bank, ledger and payment records, and run a month-end close with a plain P&L summary. Use for bookkeeping and close, not tax or forecasts.
 ---
 
 # Books Close and Reconciliation

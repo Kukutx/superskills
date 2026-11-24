@@ -1,6 +1,6 @@
 ---
 name: pricing-and-paywall
-description: Set prices, tiers, free versus paid limits, paywall and upgrade moments, discounts and price increases for an app, SaaS or store. Use for monetization decisions, not unit economics or cancel flows.
+description: Set prices, tiers, free versus paid limits, paywall and upgrade moments, discounts and price increases for an app, SaaS or store. Use for monetization, not unit economics or cancel flows.
 ---
 
 # Pricing and Paywall

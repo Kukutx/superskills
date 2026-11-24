@@ -15,14 +15,20 @@ When modifying this repository:
 11. If a routing, ownership, autonomy or blocker boundary changes, update the smallest relevant `behavioral-evals.md` case set under `maintenance/`. A rule that exists because a plain model gets the behavior wrong gets an authored case at `maintenance/<category>/<skill>/evals/<case>/` (`prompt.md` plus `graders/`).
 12. When tuning for a newer model, remove duplicated generic process instructions before adding new ones. Domain Skills should encode durable decisions, not generic plan/ask/confirm loops.
 13. Preserve existing project conventions and avoid unrelated rewrites.
+
 14. Before completion run:
 
 ```bash
+python tools/sync_adapters.py --check
 python -m unittest discover -s tests -v
 python tools/validate_repo.py
 python tools/export_behavioral_evals.py --check
 ```
 
+`python tools/sync_adapters.py` is the one command after any `SKILL.md` or `plugin.json` change: it regenerates `skill.yaml`, `openai.yaml` and the marketplace manifests. `--check` only reports staleness.
+
 Fix errors. Treat size advisories as review prompts, not automatic reasons to split files.
 
 These checks are structural. When a `description`, route or reference boundary changes, replay only the affected cases with `python tools/build_live_evals.py` and `claude plugin eval dist/live-evals --ablation none --runs 1 --case <glob>`; when a Skill rule changes, replay its authored cases with the default with/without-Skill ablation. Each case is a real model session billed to whoever runs it, so never replay the whole suite as a routine check; without a replay, report the behavior as unverified.
+
+15. Clone/reverse skills: see `docs/clone-reverse-policy.md` — defensive subset only (detecting clones of the user's own work, authorized review of their own code); no Skill that clones or reverse-engineers third-party apps.

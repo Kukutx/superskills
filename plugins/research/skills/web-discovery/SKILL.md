@@ -1,6 +1,6 @@
 ---
 name: web-discovery
-description: Find, shortlist and rank actual web resources such as videos, images, examples, pages, job postings, accounts or tools that best match a request. Use for finding things, not deciding what is true.
+description: Find, shortlist and rank actual web resources (videos, images, examples, pages, job postings, accounts, tools) that best match a request. Use for finding things, not deciding what is true.
 ---
 
 # Web Discovery

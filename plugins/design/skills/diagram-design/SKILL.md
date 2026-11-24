@@ -1,6 +1,6 @@
 ---
 name: diagram-design
-description: Design an editorial diagram as a self-contained HTML and SVG figure, with one focal accent inside a complexity budget. Use when a reader learns more from a visual than prose, not for a table.
+description: Design an editorial diagram as a self-contained HTML and SVG figure, one focal accent inside a complexity budget. Use when a reader learns more from a visual than prose, not for a table.
 ---
 
 # Diagram Design

@@ -1,6 +1,6 @@
 ---
 name: brand-voice-guide
-description: Build a brand voice guide from pasted documents, past posts, emails or call transcripts, and check copy against it. Use for brand voice, tone of voice or style guide work, not for writing new copy.
+description: Build a brand voice guide from pasted documents, past posts, emails or call transcripts, and check copy against it. Use for brand voice, tone or style guide work, not writing new copy.
 ---
 
 # Brand Voice Guide

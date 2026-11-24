@@ -1,0 +1,8 @@
+name: marketing-attribution
+title: Marketing Attribution
+description: Judge which marketing drove revenue with attribution models, MMM, incrementality tests and self-reported attribution. Use when channels disagree on credit, not for paid-ads reconciliation.
+category: marketing
+include_in_prompt: false
+triggers:
+- marketing attribution
+- channels disagree on credit

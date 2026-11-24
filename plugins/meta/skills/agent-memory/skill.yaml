@@ -1,0 +1,8 @@
+name: agent-memory
+title: Agent Memory
+description: Keep cross-session memory in plain files — capture, consolidate, retrieve, forget on request. Use for decisions and context that must survive between sessions.
+category: meta
+include_in_prompt: false
+triggers:
+- agent memory
+- context that must survive between sessions

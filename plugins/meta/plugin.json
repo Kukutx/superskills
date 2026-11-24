@@ -2,7 +2,7 @@
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "superskills-meta",
   "version": "1.1.0",
-  "description": "Prompt optimization, Skill authoring and the Superskills router.",
+  "description": "Prompt optimization, Skill authoring, cross-session memory and the Superskills router.",
   "author": {
     "name": "Kukutx"
   },

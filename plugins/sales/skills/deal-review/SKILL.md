@@ -1,6 +1,6 @@
 ---
 name: deal-review
-description: Review one B2B deal or customer account for health, qualification gaps, stakeholders, what blocks the next stage and renewal or churn risk. Use to judge will this deal close, not a whole pipeline.
+description: Review one B2B deal or customer account for health, qualification gaps, stakeholders, what blocks the next stage and renewal or churn risk. Use to judge will this deal close, not pipelines.
 ---
 
 # Deal Review

@@ -25,6 +25,7 @@ A Skill guides decisions; it does not create a new permission gate. On hosts tha
 | --- | --- |
 | prompt or reusable AI instruction is the deliverable | `meta/prompt-optimizer` |
 | create, audit, simplify or restructure a Skill | `meta/skill-builder` |
+| remember decisions, preferences and open threads across sessions | `meta/agent-memory` |
 | broad roadmap across multiple workstreams | `planning/project-planner` |
 | whether a project, product or research idea is worth doing, its riskiest assumptions and pivots | `planning/idea-evaluation` |
 | find or rank web resources, media, examples, pages or accounts | `research/web-discovery` |
@@ -35,6 +36,7 @@ A Skill guides decisions; it does not create a new permission gate. On hosts tha
 | explicit security audit or penetration test of a codebase, with verified findings and severity | `development/security-audit` |
 | decide unresolved software architecture, ownership or interfaces | `development/technical-design` |
 | turn decided architecture into file-level tasks and tests | `development/implementation-plan` |
+| write a project constitution and a clarified spec before planning | `development/spec-driven-development` |
 | Godot dimension-neutral project systems | `development/godot-project-systems` |
 | Godot 2D or pixel runtime behavior | `development/godot-2d-game-development` |
 | Godot 3D or spatial runtime behavior | `development/godot-3d-game-development` |
@@ -68,6 +70,7 @@ A Skill guides decisions; it does not create a new permission gate. On hosts tha
 | inventory and rank technical debt, choose what to refactor | `development/tech-debt-triage` |
 | plan a promo, trailer or demo video | `creative/promo-video` |
 | narrated short video that explains one knowledge point, with sourced script, storyboard and publish pack | `creative/knowledge-video` |
+| animate art with code, in an art style, from a shot list | `creative/art-animation` |
 | critique a UI screen for usability and accessibility | `design/design-review` |
 | plan, write and build a whole landing or marketing page, from structure to visual system | `design/landing-page-design` |
 | stock reorder quantities, dead stock and purchase orders | `ecommerce/inventory-reorder` |
@@ -77,11 +80,14 @@ A Skill guides decisions; it does not create a new permission gate. On hosts tha
 | what to publish, topic priorities and community building | `marketing/content-strategy` |
 | automated email sequence with timing, branching and copy | `marketing/email-sequences` |
 | SMS or WhatsApp marketing with consent and compliance checks | `marketing/sms-marketing` |
+| send finished content to one, several or all social platforms | `marketing/social-publish` |
+| reply to fan comments and DMs, triage the social inbox | `marketing/social-engagement` |
 | website SEO, structured data and AI-search readability audit | `marketing/seo-audit` |
 | App Store or Google Play listing audit for visibility and conversion | `marketing/app-store-optimization` |
 | design an A/B test and decide from its result | `marketing/ab-testing` |
 | page, signup flow, popup or lead offer that does not convert | `marketing/conversion-review` |
 | plan or review paid ad campaigns and attribution | `marketing/paid-ads` |
+| judge which marketing drove revenue, across conflicting channel claims | `marketing/marketing-attribution` |
 | competitor profiles, comparison tables and battlecards | `marketing/competitor-analysis` |
 | creator, influencer, affiliate or co-marketing deals | `marketing/creator-partnerships` |
 | landing page, ad, blog, newsletter or press release copy | `writing/marketing-copy` |
@@ -108,6 +114,7 @@ A Skill guides decisions; it does not create a new permission gate. On hosts tha
 | prospect list, cold or follow-up sales email, objection handling | `sales/sales-outreach` |
 | health, gaps and next step of one sales deal or account | `sales/deal-review` |
 | pipeline review, forecast, win-loss or a spreadsheet CRM | `sales/sales-pipeline-review` |
+| revenue operations, lifecycle stages, MQL/SQL definitions, scoring and handoff | `sales/revops` |
 | priced quote, estimate, proposal or statement of work | `sales/quote-and-proposal` |
 | grant, RFP or tender go/no-go, compliance matrix and response | `sales/grant-and-rfp-bidding` |
 | job post, resume screening, interview guide and offer | `people/hiring` |
@@ -214,6 +221,7 @@ Resume facts, structure, bullets and role tailoring belong to resume-writing. Jo
 ```text
 a customer wrote in with a problem, inquiry or refund request -> customer-support-replies
 a public review, or a customer who went quiet -> review-replies-and-winback
+a fan comment or DM on a social account -> social-engagement
 selling to a prospect, or answering an objection -> sales-outreach
 before or after a sales call -> sales-call-prep-and-recap
 an automated series -> email-sequences (email) / sms-marketing (text)
@@ -241,6 +249,7 @@ who it is for and why it is different -> product-positioning
 plan, channels and budget -> marketing-plan; a launch -> product-launch
 what to publish -> content-strategy
 the words -> marketing-copy (pages, ads) / social-content / app-store-copy / ux-copy
+send finished content out -> social-publish; replies, DMs and inbox -> social-engagement
 a whole landing page designed and built, not only its words -> landing-page-design
 found in search -> seo-audit (website) / app-store-optimization (store listing)
 a page that does not convert -> conversion-review; which version wins -> ab-testing

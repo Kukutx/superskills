@@ -1,0 +1,8 @@
+name: spec-driven-development
+title: Spec-Driven Development
+description: Start a feature from a written constitution and clarified spec, with a principles file and a specify then clarify gate. Use when direction is open, not for breaking decided work into tasks.
+category: development
+include_in_prompt: false
+triggers:
+- spec driven development
+- direction is open

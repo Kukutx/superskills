@@ -45,6 +45,12 @@ class ValidatorTestCase(unittest.TestCase):
             "include_in_prompt: false\ntriggers:\n"
             f"- {name.replace('-', ' ')}\n",
         )
+        self.write(
+            f"agents/{category}/{name}/openai.yaml",
+            f"display_name: {name.replace('-', ' ').title()}\n"
+            f"short_description: {description or f'Test {name}.'}\n"
+            "policy:\n  allow_implicit_invocation: true\ndependencies: []\n",
+        )
         return path
 
     def write_router(self, routes: list[str], suffix: str = "") -> None:
@@ -59,6 +65,11 @@ class ValidatorTestCase(unittest.TestCase):
             "plugins/meta/skills/skill-router/skill.yaml",
             "name: skill-router\ntitle: Router\ndescription: Route tests.\n"
             "category: meta\ninclude_in_prompt: false\ntriggers:\n- skill router\n",
+        )
+        self.write(
+            "agents/meta/skill-router/openai.yaml",
+            "display_name: Router\nshort_description: Route tests.\n"
+            "policy:\n  allow_implicit_invocation: true\ndependencies: []\n",
         )
 
     def error_text(self) -> str:
@@ -252,6 +263,34 @@ class ValidatorTestCase(unittest.TestCase):
             "category: development\ninclude_in_prompt: false\ntriggers:\n- foo\n",
         )
         self.assertIn("description drifted from SKILL.md", self.error_text())
+
+    def test_missing_openai_yaml_fails(self) -> None:
+        (self.root / "agents/development/foo/openai.yaml").unlink()
+        self.assertIn("missing openai.yaml", self.error_text())
+
+    def test_drifted_openai_yaml_fails(self) -> None:
+        self.write(
+            "agents/development/foo/openai.yaml",
+            "display_name: Foo\nshort_description: Something else.\n"
+            "policy:\n  allow_implicit_invocation: true\ndependencies: []\n",
+        )
+        self.assertIn("short_description drifted from SKILL.md", self.error_text())
+
+    def test_openai_yaml_display_name_must_match_skill_title(self) -> None:
+        self.write(
+            "agents/development/foo/openai.yaml",
+            "display_name: Wrong Title\nshort_description: Test foo.\n"
+            "policy:\n  allow_implicit_invocation: true\ndependencies: []\n",
+        )
+        self.assertIn("display_name 'Wrong Title' != SKILL.md title 'Foo'", self.error_text())
+
+    def test_description_over_authoring_ceiling_is_an_advisory_not_an_error(self) -> None:
+        self.add_skill("development/foo", description="x" * 195)
+        result = validate_repository(self.root)
+        self.assertTrue(result.ok, result.errors)
+        self.assertTrue(
+            any("authoring ceiling is 190" in warning for warning in result.warnings)
+        )
 
     def test_other_nested_maintenance_directory_fails(self) -> None:
         self.write("maintenance/development/foo/drafts/notes.md", "# Notes\n")

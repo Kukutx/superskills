@@ -1,0 +1,9 @@
+name: social-engagement
+title: Social Engagement
+description: Reply to fan comments and DMs and triage the inbox across social accounts, draft-first, never auto-reply, auto-follow or auto-unfollow. Use for fan replies and DM checks, not publishing.
+category: marketing
+include_in_prompt: false
+triggers:
+- social engagement
+- fan replies
+- DM checks

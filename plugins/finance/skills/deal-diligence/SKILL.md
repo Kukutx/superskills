@@ -1,6 +1,6 @@
 ---
 name: deal-diligence
-description: Screen, diligence and decide on buying a business or backing a startup, with a diligence checklist, red flags, interview questions, IRR and MOIC maths and a decision memo. Not for stock picking.
+description: Screen, diligence and decide on buying a business or backing a startup — diligence checklist, red flags, interview questions, IRR and MOIC maths, decision memo. Not for stock picking.
 ---
 
 # Deal Diligence

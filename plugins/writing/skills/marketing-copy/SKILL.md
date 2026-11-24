@@ -1,6 +1,6 @@
 ---
 name: marketing-copy
-description: Write or edit landing page, ad, blog, newsletter or press release copy with headline options, proof for every claim and no AI-sounding phrasing. Not for store listings, work emails or social posts.
+description: Write or edit landing page, ad, blog, newsletter or press release copy with headline options, proof for every claim and no AI-sounding phrasing. Not for store listings, emails or social.
 ---
 
 # Marketing Copy

@@ -1,6 +1,6 @@
 ---
 name: unit-economics
-description: Work out LTV, CAC, payback, churn, net and gross retention, cohorts and an ARR bridge for a subscription app, SaaS or recurring-revenue business. Use to judge revenue quality, not to set prices.
+description: Work out LTV, CAC, payback, churn, retention, cohorts and an ARR bridge for a subscription app, SaaS or recurring-revenue business. Use to judge revenue quality, not to set prices.
 ---
 
 # Unit Economics

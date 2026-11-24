@@ -1,6 +1,6 @@
 name: vendor-evaluation
 title: Vendor Evaluation
-description: Evaluate or compare vendors, SaaS tools or suppliers on total cost of ownership, risk and fit, and decide whether to buy, renew, negotiate or walk away. Not for reviewing the contract wording.
+description: Evaluate or compare vendors, SaaS tools or suppliers on total cost of ownership, risk and fit, and decide whether to buy, renew, negotiate or walk away. Not for reviewing contract wording.
 category: operations
 include_in_prompt: false
 triggers:

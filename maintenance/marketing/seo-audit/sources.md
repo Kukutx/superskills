@@ -21,3 +21,4 @@ Maintenance-only. Do not load for normal tasks.
 | Google Search Central, locale-adaptive pages | https://developers.google.com/search/docs/specialty/international/locale-adaptive-pages | why content must not be negotiated by IP or Accept-Language | 2026-10 |
 | Google Search Central, common crawlers | https://developers.google.com/search/docs/crawling-indexing/google-common-crawlers | Google-Extended controls model training and does not affect Search | 2026-10 |
 | Google Search Central, spam policies | https://developers.google.com/search/docs/essentials/spam-policies | scaled content abuse, cloaking, hidden text, keyword stuffing, doorway pages | 2026-10 |
+| coreyhaines31/marketingskills programmatic-seo, link-building | https://github.com/coreyhaines31/marketingskills | references: programmatic SEO playbooks and quality checks, link-building tactics and paid-link compliance | 2026-11 |

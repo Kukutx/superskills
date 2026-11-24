@@ -1,6 +1,6 @@
 ---
 name: social-content
-description: Write social posts, threads, carousels and short-video scripts, repurpose one asset across channels and keep a posting calendar. Use for LinkedIn, X, Instagram or TikTok, not ads or topic strategy.
+description: Write social posts, threads, carousels and short-video scripts, repurpose one asset across channels and keep a posting calendar. Use for LinkedIn, X, Instagram or TikTok, not ads or topics.
 ---
 
 # Social Content
@@ -61,6 +61,8 @@ A LinkedIn post that reads like an Instagram caption is the sign of copy and pas
 - Story and sketch structures, founder and creator formats, the choice of sound and what to change when videos underperform are in [references/short-video.md](references/short-video.md).
 
 ## Calendar
+
+This Skill executes against the calendar `marketing/content-strategy` sets: strategy decides the pillars, the topics and the mix; this Skill writes the pieces to the dates and keeps the schedule. When no strategy calendar exists, the calendar here is a working schedule, not a strategy decision, and it says so.
 
 - **A calendar is extended, not rebuilt.** When one exists, first report three things: how many posts went out since last time, how many are still scheduled, and the date from which it is empty. Rebuilding loses or duplicates dates that were already approved.
 - **Pick a pace the owner can keep.** Working defaults: working alone, two posts a week and one email a month; with one helper, three or four posts a week and an email every two weeks; with a dedicated marketer, five posts a week and a weekly email. Plan 30 days; go to 60 or 90 only for a dated reason such as a season, a launch or a fair. Three good posts a week beat fourteen filler posts followed by silence.

@@ -1,6 +1,6 @@
 name: rates-fx-vol-analysis
 title: Rates, FX and Volatility Analysis
-description: Read pasted market data on bond spreads, yield and swap curves, real rates, currency carry and option implied versus realized volatility. Use for rates, FX or volatility questions, not stock research.
+description: Read pasted market data on bond spreads, yield and swap curves, real rates, currency carry and implied vs realized volatility. Use for rates, FX or volatility questions, not stock research.
 category: finance
 include_in_prompt: false
 triggers:

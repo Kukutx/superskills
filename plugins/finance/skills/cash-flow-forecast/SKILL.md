@@ -1,6 +1,6 @@
 ---
 name: cash-flow-forecast
-description: Forecast cash for the next 30, 60 and 90 days from receivables, payables, payroll and fixed costs, with a low and high case and runway risks. Use for can I make payroll, not bookkeeping or tax.
+description: Forecast cash for the next 30, 60 and 90 days from receivables, payables, payroll and fixed costs, with low and high cases and runway risks. Use for making payroll, not bookkeeping or tax.
 ---
 
 # Cash Flow Forecast

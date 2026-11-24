@@ -1,6 +1,6 @@
 ---
 name: customer-support-replies
-description: Triage a customer ticket, inquiry or complaint, draft the reply within policy, and write an escalation for engineering or a manager. Use for support, refund or outage replies, not general emails.
+description: Triage a customer ticket, inquiry or complaint, draft the reply within policy, and write an escalation for engineering or a manager. Use for support, refund or outage replies, not email.
 ---
 
 # Customer Support Replies

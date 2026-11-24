@@ -1,6 +1,6 @@
 ---
 name: app-store-optimization
-description: ASO audit of an App Store or Google Play listing, scoring metadata, screenshots, ratings and updates for search visibility and conversion with ranked fixes. Not for writing copy or designing assets.
+description: ASO audit of an App Store or Google Play listing, scoring metadata, screenshots, ratings and updates for search visibility and conversion, with ranked fixes. Not for copy or design.
 ---
 
 # App Store Optimization

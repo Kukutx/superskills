@@ -1,6 +1,6 @@
 name: bills-and-payables
 title: Bills and Payables
-description: Process supplier bills and invoices, catching duplicates, coding them to accounts, matching against orders and proposing which to pay this week against cash. Not for chasing money owed to you.
+description: Process supplier bills and invoices — catch duplicates, code them to accounts, match against orders and propose which to pay this week against cash. Not for chasing money owed to you.
 category: finance
 include_in_prompt: false
 triggers:

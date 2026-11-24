@@ -1,6 +1,6 @@
 ---
 name: conversion-review
-description: Review a landing page, signup or checkout flow, popup or lead form for conversion problems, with ranked fixes and test ideas. Use when a page or flow does not convert, not for SEO, ads or UI critique.
+description: Review a landing page, signup or checkout flow, popup or lead form for conversion problems, with ranked fixes and tests. Use when a page does not convert, not for SEO, ads or UI critique.
 ---
 
 # Conversion Review

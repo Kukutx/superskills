@@ -1,6 +1,6 @@
 name: hiring
 title: Hiring
-description: Hire for a role with a job post, a resume screening rubric with fair scoring, a structured interview guide with scorecards, candidate replies and an offer letter draft. Not for your own resume.
+description: Hire for a role — job post, resume screening rubric with fair scoring, structured interview guide with scorecards, candidate replies, offer letter draft. Not for your own resume.
 category: people
 include_in_prompt: false
 triggers:

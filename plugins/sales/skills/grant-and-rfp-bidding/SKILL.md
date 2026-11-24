@@ -1,6 +1,6 @@
 ---
 name: grant-and-rfp-bidding
-description: Decide whether to bid on a grant, RFP or tender with a go/no-go screen, build the compliance matrix and draft the response without invented facts. Use for formal solicitations, not ordinary quotes.
+description: Decide whether to bid on a grant, RFP or tender — go/no-go screen, compliance matrix, draft response without invented facts. Use for formal solicitations, not ordinary quotes.
 ---
 
 # Grant and RFP Bidding

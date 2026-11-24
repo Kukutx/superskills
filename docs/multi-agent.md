@@ -62,6 +62,9 @@ Needs Review / Blocked）；或按分类打包 portable 插件 ZIP（根 `plugin
 进入插件路线。**先确认用户的 ChatGPT 套餐**：自建 Skill 只列在 Business /
 Enterprise / Healthcare / Edu 套餐下，Free / Go / Plus / Pro 未列入。
 
+Core profile：完整包太大时用 `gpts/core/skills.txt`（34 个最常用 Skill）构建精简包，
+见 `gpts/core/README.md`；CI 对它执行 100 文件 / 120,000 token 的自定预算。
+
 ## Muse
 
 没有官方安装流程、商店或版本管理。`~/workspace/custom-skills/` 是构建输出，

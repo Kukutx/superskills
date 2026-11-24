@@ -1,6 +1,6 @@
 ---
 name: design-review
-description: Critique a UI screen, mockup or screenshot for usability, visual hierarchy, consistency and WCAG accessibility, with severity-ranked fixes. Use for interface reviews, not for generated artwork.
+description: Critique a UI screen, mockup or screenshot for usability, hierarchy, consistency and WCAG accessibility, with severity-ranked fixes. Use for interface reviews, not for generated artwork.
 ---
 
 # Design Review
@@ -26,6 +26,10 @@ A generated or illustrated image judged against its purpose belongs to `design/i
 5. **Accessibility**: the checks below.
 
 Each finding is specific ("the secondary button competes with the primary one" rather than "the layout is cluttered"), gives the reason in terms of the user's task, and proposes a change. Say what already works, so it is not lost in the redesign.
+
+## Craft references
+
+When a finding needs the build-side rule behind it, load the matching reference: colour ramps and tokens in [references/colors.md](references/colors.md), type scale and measure in [references/typography.md](references/typography.md), grouping and responsive structure in [references/layout.md](references/layout.md), motion values in [references/motion.md](references/motion.md), build-side accessibility detail in [references/accessibility.md](references/accessibility.md), system audit and documentation in [references/design-system.md](references/design-system.md), and handoff specs in [references/design-handoff.md](references/design-handoff.md).
 
 ## Accessibility checks
 

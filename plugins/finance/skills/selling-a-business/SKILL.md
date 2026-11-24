@@ -1,6 +1,6 @@
 ---
 name: selling-a-business
-description: Prepare the sale of a business, app, site or stake with an anonymous teaser, an information memorandum, a tiered buyer list and offer requests. Use for the seller's side, not buying or valuing one.
+description: Prepare the sale of a business, app, site or stake — anonymous teaser, information memorandum, tiered buyer list, offer requests. Use for the seller's side, not buying or valuing one.
 ---
 
 # Selling a Business

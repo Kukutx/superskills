@@ -1,6 +1,6 @@
 ---
 name: user-research
-description: Plan user research and turn interviews, surveys, usability tests, reviews or support tickets into themes, segments and ranked recommendations. Use for research about users, not facts or the market.
+description: Plan user research and turn interviews, surveys, usability tests, reviews or support tickets into themes, segments and ranked recommendations. Use for research about users, not facts.
 ---
 
 # User Research

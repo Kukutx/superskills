@@ -1,6 +1,6 @@
 ---
 name: hiring
-description: Hire for a role with a job post, a resume screening rubric with fair scoring, a structured interview guide with scorecards, candidate replies and an offer letter draft. Not for your own resume.
+description: Hire for a role — job post, resume screening rubric with fair scoring, structured interview guide with scorecards, candidate replies, offer letter draft. Not for your own resume.
 ---
 
 # Hiring
@@ -49,8 +49,8 @@ Market pay data is not supplied by this Skill. Without a source the user provide
 
 - Every applicant gets an answer: an invitation with time options, a hold with a date that is then kept, or a decline that is kind, prompt and honest. Two weeks of silence costs more than a clear no.
 - A decline gives a factual reason only when it is true and useful, and never touches the list in point 4. Before sending in bulk, list every recipient by name per group.
-- The offer shows total first-year pay, not only base: base, bonus target, equity with amount and vesting, signing bonus. It states start date, reporting line, location, employment type, the conditions it depends on and how long it stays open. Notes for the hiring manager on negotiation room go outside the letter.
-- First weeks: accounts and equipment confirmed working the day before, a first day about setup and people rather than deep work, a buddy who is not the manager, and check-ins after one week, two weeks and a month against the rubric used to hire.
+- The offer shows total first-year pay, not only base: base, bonus target, equity with amount and vesting, signing bonus. It states start date, reporting line, location, employment type, the conditions it depends on and how long it stays open. Notes for the hiring manager on negotiation room go outside the letter. What the offer should be worth is in [references/comp-analysis.md](references/comp-analysis.md).
+- First weeks: accounts and equipment confirmed working the day before, a first day about setup and people rather than deep work, a buddy who is not the manager, and check-ins after one week, two weeks and a month against the rubric used to hire. The full pre-start, Day 1, Week 1 and 30/60/90 plan is in [references/employee-onboarding.md](references/employee-onboarding.md).
 
 ## Constraints
 

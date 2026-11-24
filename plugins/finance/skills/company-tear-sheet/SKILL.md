@@ -1,6 +1,6 @@
 ---
 name: company-tear-sheet
-description: Write a one or two page company profile tailored to its reader (investor, deal team, acquirer or salesperson) from supplied financials, with arithmetic checks. Use for 公司一页纸, not a stock thesis.
+description: Write a one or two page company profile for its reader (investor, deal team, acquirer or salesperson) from supplied financials, with arithmetic checks. Use for 公司一页纸, not a stock thesis.
 ---
 
 # Company Tear Sheet

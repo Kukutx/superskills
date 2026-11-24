@@ -1,6 +1,6 @@
 ---
 name: sql-query-writing
-description: Write, fix or speed up SQL for Postgres, MySQL, BigQuery, Snowflake, Redshift or Databricks, including CTEs, window functions, cohorts and funnels. Use for the query itself, not for reading results.
+description: Write, fix or speed up SQL for Postgres, MySQL, BigQuery, Snowflake, Redshift or Databricks — CTEs, window functions, cohorts, funnels. Use for the query itself, not for reading results.
 ---
 
 # SQL Query Writing

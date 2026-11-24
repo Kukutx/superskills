@@ -1,6 +1,6 @@
 ---
 name: drupal-development
-description: Drupal 10/11 modules, hooks, config, Composer, Twig, Views, Migrate, caching, security, tests and 9-to-12 upgrades, plus Italian PA sites on Bootstrap Italia. Use for Drupal work, not WordPress.
+description: Drupal 10/11 modules, hooks, config, Composer, Twig, Views, Migrate, caching, security, tests and 9-to-12 upgrades, plus Italian PA sites on Bootstrap Italia. Use for Drupal, not WordPress.
 ---
 
 # Drupal Development

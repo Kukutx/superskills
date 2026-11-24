@@ -1,6 +1,6 @@
 name: user-research
 title: User Research
-description: Plan user research and turn interviews, surveys, usability tests, reviews or support tickets into themes, segments and ranked recommendations. Use for research about users, not facts or the market.
+description: Plan user research and turn interviews, surveys, usability tests, reviews or support tickets into themes, segments and ranked recommendations. Use for research about users, not facts.
 category: research
 include_in_prompt: false
 triggers:

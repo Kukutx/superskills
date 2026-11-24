@@ -1,0 +1,8 @@
+name: social-publish
+title: Social Publish
+description: Publish content to one, several or all social platforms on the user's explicit instruction, with preflight, verification and a ledger. Use when content is ready, not for writing it.
+category: marketing
+include_in_prompt: false
+triggers:
+- social publish
+- content is ready

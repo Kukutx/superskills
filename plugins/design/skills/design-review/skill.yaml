@@ -1,6 +1,6 @@
 name: design-review
 title: Design Review
-description: Critique a UI screen, mockup or screenshot for usability, visual hierarchy, consistency and WCAG accessibility, with severity-ranked fixes. Use for interface reviews, not for generated artwork.
+description: Critique a UI screen, mockup or screenshot for usability, hierarchy, consistency and WCAG accessibility, with severity-ranked fixes. Use for interface reviews, not for generated artwork.
 category: design
 include_in_prompt: false
 triggers:

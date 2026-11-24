@@ -1,8 +1,8 @@
 name: business-email
 title: Business Email
-description: Draft or edit a professional email that keeps the user's intent, tone and negotiating position and adds no unsupported facts or commitments. Use for work, application, outreach or dispute emails.
+description: Draft or edit a professional email that keeps the user's intent, tone and negotiating position and adds no unsupported facts or commitments. Use for work, application, outreach or disputes.
 category: writing
 include_in_prompt: false
 triggers:
 - business email
-- outreach or dispute emails
+- outreach or disputes

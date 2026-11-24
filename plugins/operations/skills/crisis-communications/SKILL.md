@@ -1,6 +1,6 @@
 ---
 name: crisis-communications
-description: Handle a public crisis such as a data breach, outage backlash, billing error or viral complaint by tiering it, deciding who hears first and writing the holding statement. Not for the technical fix.
+description: Handle a public crisis (data breach, outage backlash, billing error, viral complaint) by tiering it, deciding who hears first and writing the holding statement. Not for the technical fix.
 ---
 
 # Crisis Communications

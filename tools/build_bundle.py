@@ -147,6 +147,29 @@ def safe_replace_directory(output: Path) -> None:
     shutil.rmtree(output)
 
 
+def read_profile_file(root: Path, raw: str) -> list[str]:
+    """Skill routes listed in a profile file, one per line.
+
+    Blank lines and lines starting with ``#`` are ignored. A route must be
+    ``category/skill``; anything else is a BundleError, so a typo in the
+    profile fails the build instead of silently building a smaller bundle.
+    """
+    path = (root / raw).resolve()
+    try:
+        path.relative_to(root.resolve())
+    except ValueError as exc:
+        raise BundleError(f"profile file escapes the repository: {raw}") from exc
+    if not path.is_file():
+        raise BundleError(f"profile file does not exist: {raw}")
+    routes: list[str] = []
+    for line in path.read_text(encoding="utf-8").splitlines():
+        stripped = line.strip()
+        if not stripped or stripped.startswith("#"):
+            continue
+        routes.append(normalize_skill_route(stripped))
+    return routes
+
+
 def build_bundle(
     *,
     root: Path | str,
@@ -154,6 +177,7 @@ def build_bundle(
     skills: Sequence[str] = (),
     references: Sequence[str] = (),
     category_names: Sequence[str] = (),
+    profile_files: Sequence[str] = (),
     output: Path | str | None = None,
     all_skills: bool = False,
 ) -> BundleSummary:
@@ -174,9 +198,14 @@ def build_bundle(
     category_skills = [
         path for path in skill_dirs(root) if route_of(path).split("/", 1)[0] in selected_categories
     ]
+    profile_skills = [
+        route for raw in profile_files for route in read_profile_file(root, raw)
+    ]
 
     selected_skills = sorted(
-        {normalize_skill_route(route) for route in skills} | {route_of(path) for path in category_skills}
+        {normalize_skill_route(route) for route in skills}
+        | {route_of(path) for path in category_skills}
+        | set(profile_skills)
     )
     if not selected_skills:
         raise BundleError("select at least one --skill or --category, or use --all-skills")
@@ -305,6 +334,12 @@ def build_parser() -> argparse.ArgumentParser:
         help="Focused reference category/skill:reference-name; repeat as needed",
     )
     parser.add_argument(
+        "--profile-file",
+        action="append",
+        default=[],
+        help="File listing Skill routes (category/skill, one per line), for example gpts/core/skills.txt; repeat as needed",
+    )
+    parser.add_argument(
         "--all-skills",
         action="store_true",
         help="Every category with every Skill and reference, for a single always-available knowledge set",
@@ -322,6 +357,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             skills=args.skill,
             references=args.reference,
             category_names=args.category,
+            profile_files=args.profile_file,
             output=args.output,
             all_skills=args.all_skills,
         )

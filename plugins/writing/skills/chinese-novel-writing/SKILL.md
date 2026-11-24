@@ -1,6 +1,6 @@
 ---
 name: chinese-novel-writing
-description: Write a Chinese novel of 10 to 50 chapters with outline, character and foreshadowing memory, suspense hooks and self-checks. Use when the user asks for a Chinese novel, not for business copy.
+description: Write a Chinese novel of 10 to 50 chapters with outline, character and foreshadowing memory, suspense hooks and self-checks. Use when the user asks for a Chinese novel, not business copy.
 ---
 
 # Chinese Novel Writing

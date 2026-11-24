@@ -1,6 +1,6 @@
 ---
 name: threejs-game-development
-description: Build a Three.js browser game end to end, from core loop and gameplay systems to graphics, UI, audio and release QA. Use when building a web game with Three.js, not for a Godot or native game.
+description: Build a Three.js browser game end to end, from core loop and gameplay to graphics, UI, audio and release QA. Use when building a web game with Three.js, not for a Godot or native game.
 ---
 
 # Three.js Game Development

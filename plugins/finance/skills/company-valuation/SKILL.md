@@ -1,6 +1,6 @@
 ---
 name: company-valuation
-description: Value a company or stock with a DCF, WACC, terminal value, comparable multiples, scenarios and sensitivity tables, and sanity-check the result. Use for what a business is worth, not trade timing.
+description: Value a company or stock with DCF, WACC, terminal value, comparables, scenarios and sensitivity tables, and sanity-check the result. Use for what a business is worth, not trade timing.
 ---
 
 # Company Valuation

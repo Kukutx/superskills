@@ -46,3 +46,4 @@ Maintenance-only. These sources back the repository's structure, `description` s
 | Marketing Skills | https://github.com/coreyhaines31/marketingskills | marketing, growth, pricing, retention and store optimisation rules | 2026-10 |
 | SkillsMP | https://skillsmp.com/zh/skills | ecosystem discovery only; not a quality or safety review | 2026-10 |
 | Claude Marketplaces | https://claudemarketplaces.com/skills | adoption signals for candidate Skills; not a quality or safety review | 2026-10 |
+| tigerless-labs/autoharness skills/learn | https://github.com/tigerless-labs/autoharness | skill-distillation reference: class-level lessons, patch-don't-duplicate, repo-wide contradiction reconciliation, verbatim evidence per lesson | 2026-11 |

@@ -1,6 +1,6 @@
 ---
 name: godot-2d-game-development
-description: Godot 4.x 2D runtime work covering CharacterBody2D movement, Camera2D, TileMapLayer worlds, 2D combat, animation, VFX, navigation and performance. Use when 2D semantics change the implementation.
+description: Godot 4.x 2D runtime work — CharacterBody2D movement, Camera2D, TileMapLayer worlds, 2D combat, animation, VFX, navigation and performance. Use when 2D semantics change the implementation.
 ---
 
 # Godot 2D Game Development

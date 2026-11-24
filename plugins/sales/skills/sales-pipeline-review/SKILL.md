@@ -1,6 +1,6 @@
 ---
 name: sales-pipeline-review
-description: Review a sales pipeline or CRM export for stale, stuck and slipping deals, coverage against a target, a commit forecast and win-loss patterns, or set up a spreadsheet CRM. Not for one deal's health.
+description: Review a sales pipeline or CRM export for stale, stuck and slipping deals, coverage against a target, a commit forecast and win-loss patterns, or set up a spreadsheet CRM. Not for one deal.
 ---
 
 # Sales Pipeline Review

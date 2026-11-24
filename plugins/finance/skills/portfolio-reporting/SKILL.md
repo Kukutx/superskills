@@ -1,6 +1,6 @@
 ---
 name: portfolio-reporting
-description: Write a periodic portfolio or investment report with returns after fees against an agreed benchmark, attribution, allocation drift and commentary. Use for family or client reports, not stock research.
+description: Write a periodic portfolio report with returns after fees against an agreed benchmark, attribution, allocation drift and commentary. Use for family or client reports, not stock research.
 ---
 
 # Portfolio Reporting

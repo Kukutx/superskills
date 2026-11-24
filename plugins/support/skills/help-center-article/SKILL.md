@@ -1,6 +1,6 @@
 ---
 name: help-center-article
-description: Write a help-center, knowledge-base or FAQ article such as a how-to, troubleshooting guide or known-issue notice customers can find by search. Use for support docs, not store copy or internal SOPs.
+description: Write a help-center, knowledge-base or FAQ article (how-to, troubleshooting guide, known-issue notice) customers can find by search. Use for support docs, not store copy or internal SOPs.
 ---
 
 # Help Center Article

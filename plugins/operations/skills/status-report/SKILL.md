@@ -1,6 +1,6 @@
 ---
 name: status-report
-description: Write a weekly or monthly status report, stakeholder update or release announcement with honest status, risks and decisions needed, for executives, the team or customers. Not for KPI analysis.
+description: Write a weekly or monthly status report, stakeholder update or release announcement with honest status, risks and decisions needed, for executives, team or customers. Not for KPI analysis.
 ---
 
 # Status Report

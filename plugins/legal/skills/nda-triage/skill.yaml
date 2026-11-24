@@ -1,6 +1,6 @@
 name: nda-triage
 title: NDA Triage
-description: Screen an incoming NDA or confidentiality agreement as safe to sign, needs changes or do not sign, checking carve-outs, term, residuals and hidden non-compete clauses. Not for full contracts.
+description: Screen an incoming NDA or confidentiality agreement as safe to sign, needs changes or do not sign — carve-outs, term, residuals, hidden non-compete clauses. Not for full contracts.
 category: legal
 include_in_prompt: false
 triggers:

@@ -1,6 +1,6 @@
 name: godot-3d-game-development
 title: Godot 3D Game Development
-description: Godot 4.x 3D runtime work covering transforms, CharacterBody3D physics, Camera3D rigs, 3D collision, rendering, rigged asset import and navigation. Use when 3D semantics change the implementation.
+description: Godot 4.x 3D runtime work — transforms, CharacterBody3D physics, Camera3D rigs, 3D collision, rendering, rigged asset import and navigation. Use when 3D semantics change the implementation.
 category: development
 include_in_prompt: false
 triggers:

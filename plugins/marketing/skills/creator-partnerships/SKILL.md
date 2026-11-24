@@ -1,6 +1,6 @@
 ---
 name: creator-partnerships
-description: Find and vet creators or partners, set deal terms, write the creator brief, handle ad disclosure and measure the result. Use for influencer, UGC, affiliate or co-marketing deals, not press pitches.
+description: Find and vet creators or partners, set deal terms, write the creator brief, handle ad disclosure and measure the result. Use for influencer, UGC, affiliate or co-marketing deals, not press.
 ---
 
 # Creator Partnerships
@@ -50,30 +50,11 @@ With a large account, do not accept the quoted flat fee as given: propose a hybr
 
 ## Creator programmes at volume
 
-When the asset is the number of pieces tested rather than one creator's audience, run a programme instead of single deals: several creators posting daily produce far more tests than a brand account can, and distribution follows the content, not the follower count.
-
-- **Write the playbook before recruiting**: use the product and note where its value becomes visible; study the user's own best content, direct competitors, products with a similar user journey and what the audience already watches; collect what failed too. Each concept names the audience, the pain, the hook, the format, the points to make and the product moment to show.
-- **Hire on a paid trial, not a portfolio.** Give real concepts, score hook, delivery, framing and editing, send written feedback and ask for a revision. The first video shows ability; the revision shows whether the person can be worked with.
-- **Review every piece before it goes out**, against the playbook, with feedback specific enough to act on ("cut the first sentence, hold the phone closer"); "more natural" cannot be executed.
-- **Judge by product questions, saves, shares and installs, not views.** Rework what shows promise at once, changing one main variable at a time (new hook, same creator; same hook, new creator; same idea, new format). The goal is a format that works more than once. Give it at least four weeks.
-- **One named owner.** Around ten creators is a full-time job of briefing, reviewing and tracking.
-- **The compliance line.** Every post by a paid creator is an ad and is disclosed as one, including from a new account made not to look like the brand. Paying people to comment as unconnected users is an undisclosed endorsement; replies come from programme accounts or from the brand openly. Creators have really used the product. A network of undisclosed accounts also risks the platform's rules on inauthentic behaviour.
-
-An **ambassador programme** is the long-term form: light requirements, benefits that rise with contribution, people recruited one by one from those who already recommend the product, a code and link each, and resources moved to the ones who perform.
+Running a programme of several creators posting daily, judged on product questions, saves, shares and installs rather than views, is in [references/volume-programmes.md](references/volume-programmes.md).
 
 ## Disclosure
 
-Checked against the US Federal Trade Commission's own guidance (Disclosures 101 for Social Media Influencers, and the Endorsement Guides questions and answers). The Guides are the FTC's reading of Section 5 of the FTC Act; they do not themselves have the force of law, but practices that go against them can lead to enforcement. Other countries have their own rules, which are confirmed separately for each market.
-
-- **When**: whenever there is a financial, employment, personal or family relationship with the brand. Free or discounted product counts, not only payment.
-- **Where**: with the endorsement itself and hard to miss. Not only on a profile page, not at the end of a post or video, not behind a "more" link.
-- **Video**: in the video, not just the description; a claim that is spoken is disclosed aloud, and one made both visually and aloud is disclosed both ways. Earlier is better than at the end.
-- **Stories**: superimposed on the image, long enough to read. **Live streams**: repeated periodically.
-- **Wording**: plain terms such as "ad", "advertisement", "sponsored", "#ad", "#sponsored", or the brand name with "Partner" or "Ambassador". Vague terms such as "sp", "spon", "collab", or a bare "thanks" or "ambassador" are not enough.
-- **Platform tools**: the platform's paid-partnership label is used in addition to the creator's own disclosure, not instead of it.
-- **Affiliate links**: say that purchases through the link earn a commission. The words "affiliate link" alone may not be understood.
-- **The brand's part**: the advertiser is ultimately responsible for what is done on its behalf. It tells creators what they may and may not claim and how to disclose, checks what they post, and acts when a post is wrong.
-- US law applies to a post made from abroad when it is reasonably foreseeable that it will affect US consumers, and other countries' laws may apply as well.
+Disclosure rules, checked against the US Federal Trade Commission's own guidance, are in [references/disclosure.md](references/disclosure.md). Every post by a paid creator is an ad and is disclosed as one.
 
 ## Measuring
 

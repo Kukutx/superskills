@@ -1,6 +1,6 @@
 ---
 name: content-strategy
-description: Plan what to publish with content pillars, topic clusters, a scored topic list, a content calendar and community building. Use for what to write or post about and where, not for writing the pieces.
+description: Plan what to publish with content pillars, topic clusters, a scored topic list, a calendar and community building. Use for what to write or post about and where, not writing the pieces.
 ---
 
 # Content Strategy
@@ -82,9 +82,7 @@ The brief has six short parts: summary, push hard (two or three products with a 
 
 ## AI search
 
-- Write for people and organise for clarity; do not produce a separate version "for AI".
-- An AI assistant's answer varies from run to run. To measure visibility, take 10 to 20 questions that matter commercially, ask each three to five times on each assistant, and record a ratio such as "cited in 3 of 5"; one run is an anecdote.
-- Whether to admit AI crawlers is decided separately for search and discovery, retrieval triggered by a user, and model training, because blocking training is not the same as blocking citation. Take the current crawler names from each vendor's documentation.
+AI-search visibility (how assistants crawl, understand and cite the site, and how to measure it) belongs to `marketing/seo-audit`, which owns the readability rules and the measurement method. This Skill only decides what to publish, not how it is read by assistants.
 
 ## Output
 

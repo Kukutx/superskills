@@ -1,6 +1,6 @@
 ---
 name: inbox-and-task-digest
-description: Triage pasted emails, chats or meeting notes into what needs you, drafted replies and handled, extract action items and keep a task list. Use for inbox catch-up and to-dos, not a project roadmap.
+description: Triage pasted emails, chats or meeting notes into what needs you, drafted replies and handled, extract action items and keep a task list. Use for inbox catch-up and to-dos, not roadmaps.
 ---
 
 # Inbox and Task Digest

@@ -1,6 +1,6 @@
 ---
 name: product-launch
-description: Plan a product, app, game or store launch with readiness gates, phased rollout, Product Hunt and directory submissions and press pitches. Use for a launch or announcement, not ongoing marketing.
+description: Plan a product, app, game or store launch with readiness gates, phased rollout, Product Hunt and directory submissions and press pitches. Use for launches, not ongoing marketing.
 ---
 
 # Product Launch

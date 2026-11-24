@@ -1,6 +1,6 @@
 name: sales-outreach
 title: Sales Outreach
-description: Build a prospect list, research a lead, write cold or follow-up sales emails and sequences, and answer objections such as too expensive or a competitor in the deal. Not for general email wording.
+description: Build a prospect list, research a lead, write cold or follow-up sales emails and sequences, and answer objections such as too expensive or a competitor in the deal. Not for general email.
 category: sales
 include_in_prompt: false
 triggers:

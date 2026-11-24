@@ -75,7 +75,7 @@ superskills/
 
 ## Validation
 
-工具统一使用 Python 3.14。
+工具统一使用 Python 3.12 及以上（已在 3.12 测试，CI 运行 3.14）。
 
 ```bash
 python -m unittest discover -s tests -v

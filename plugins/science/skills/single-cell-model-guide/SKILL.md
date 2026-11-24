@@ -1,6 +1,6 @@
 ---
 name: single-cell-model-guide
-description: Choose and sanity-check scvi-tools models such as scVI, scANVI or totalVI and read their training logs, integration metrics and errors. Use for single-cell integration, not general data analysis.
+description: Choose and sanity-check scvi-tools models such as scVI, scANVI or totalVI and read their training logs, integration metrics and errors. Use for single-cell integration, not general analysis.
 ---
 
 # Single-Cell Model Guide

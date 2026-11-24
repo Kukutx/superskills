@@ -38,6 +38,16 @@ python tools/generate_openai_yaml.py   # ChatGPT + Codex：agents/<category>/<sk
 Use for" 从句拆出的短语）。Validator 检查它存在、可解析、且 `name` / `description` /
 `category` 与 `SKILL.md` 一致；改了 `SKILL.md` 就重新生成，不要手改两边。
 
+改了 `SKILL.md` 或 `plugin.json` 之后只跑一个命令：
+
+```bash
+python tools/sync_adapters.py            # 重新生成 skill.yaml、openai.yaml 和两份 marketplace 清单
+python tools/sync_adapters.py --check    # 只检查是否过期，不写文件
+```
+
+`openai.yaml` 同样由 Validator 检查：`display_name` / `short_description` 必须与
+`SKILL.md` 的 H1 / `description` 一致，缺失或漂移都是错误。
+
 `openai.yaml`（ChatGPT + Codex 共用）：`display_name`、`short_description`（原文照抄）、
 `policy.allow_implicit_invocation: true`、`dependencies: []`（目前无 Skill 需要 MCP 依赖，
 不编造）。各宿主的安装、触发与限制见 [docs/multi-agent.md](multi-agent.md)。
@@ -50,7 +60,7 @@ Use for" 从句拆出的短语）。Validator 检查它存在、可解析、且 
 <能力，把用户会说的关键词放在最前面>. Use when <真正需要它的任务>, not for <最容易误触发的相邻任务>.
 ```
 
-- 不超过 200 字符：这是 claude.ai 上传自定义 Skill 的上限，也是所有宿主里最严的一个。
+- 不超过 200 字符：这是 claude.ai 上传自定义 Skill 的上限，也是所有宿主里最严的一个。190 字符是写作上限（Validator 对超过 190 字符的 description 给出非阻塞 advisory）；200 是硬上限。
 - 关键词前置：Codex 在 Skill 列表超出预算时会先截短描述，被截掉的应当是排除条件而不是能力本身。
 - 只写纯文本，不出现 `: ` 和 ` #`：宿主用真正的 YAML 解析 frontmatter，这两种写法会让整个 Skill 加载失败。
 - 写触发边界，不写正文里的工作方式；不堆同义词，也不写“任何相关任务都必须使用”。
@@ -377,9 +387,10 @@ existing project pattern
 
 ## Validation
 
-仓库工具统一使用 Python 3.14。修改后运行：
+仓库工具统一使用 Python 3.12 及以上（已在 3.12 测试，CI 运行 3.14）。修改后运行：
 
 ```bash
+python tools/sync_adapters.py --check
 python -m unittest discover -s tests -v
 python tools/validate_repo.py
 python tools/export_behavioral_evals.py --check
@@ -401,6 +412,8 @@ Validator 负责：
 - 手写评测用例有 `prompt.md` 和至少一个 grader，grader 的 `input_match` 指向现存 Skill，用例 ID 不与表格 ID 重复；
 - 对异常大的 runtime entrypoint/reference 和超过 6,500 字节（或 500 行）的入口给出非阻塞 advisory。
 - 每个 Skill 的 `skill.yaml` 存在、可解析，且 `name` / `description` / `category` 与 `SKILL.md` 一致，`include_in_prompt` 为 false，`triggers` 非空。
+- 每个 Skill 的 `openai.yaml` 存在、可解析，且 `display_name` / `short_description` 与 `SKILL.md` 的 H1 / `description` 一致。
+- `description` 超过 190 字符时给出非阻塞 advisory（写作上限 190，硬上限 200）。
 
 结构规则能自动检查时优先写进 Validator，并同时增加 Validator 自身的回归测试。
 

@@ -1,6 +1,6 @@
 ---
 name: roadmap-prioritization
-description: Prioritize features and initiatives with RICE or value versus effort, build a Now/Next/Later roadmap and reshuffle it when capacity changes. Use for what to build next, not a project schedule.
+description: Prioritize features and initiatives with RICE or value versus effort, build a Now/Next/Later roadmap and reshuffle it when capacity changes. Use for what to build next, not schedules.
 ---
 
 # Roadmap Prioritization

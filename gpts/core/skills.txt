@@ -1,0 +1,37 @@
+# Core profile: the most-used skills, one per line (category/skill).
+# Build with: python tools/build_bundle.py --profile gpts/default --profile-file gpts/core/skills.txt --output dist/core
+# Lines starting with # are comments. Every route must exist, or the build fails.
+development/bug-diagnosis
+development/code-review
+development/technical-design
+development/implementation-plan
+development/security-audit
+development/godot-project-systems
+development/spec-driven-development
+meta/prompt-optimizer
+meta/skill-builder
+writing/resume-writing
+writing/marketing-copy
+writing/business-email
+writing/social-content
+writing/ux-copy
+writing/multilingual-docs
+marketing/marketing-plan
+marketing/content-strategy
+marketing/seo-audit
+marketing/paid-ads
+marketing/conversion-review
+marketing/email-sequences
+marketing/marketing-attribution
+marketing/product-positioning
+design/design-review
+design/landing-page-design
+design/diagram-design
+marketing/product-launch
+product/prd-builder
+product/roadmap-prioritization
+product/pricing-and-paywall
+planning/project-planner
+planning/idea-evaluation
+research/research-brief
+research/web-discovery

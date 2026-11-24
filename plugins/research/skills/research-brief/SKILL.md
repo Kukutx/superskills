@@ -1,6 +1,6 @@
 ---
 name: research-brief
-description: Source-backed brief that establishes current facts or compares external evidence, with uncertainty stated. Use when the answer depends on what is true or current, not for finding media or pages.
+description: Source-backed brief that establishes current facts or compares external evidence, with uncertainty stated. Use when the answer depends on what is true or current, not finding media or pages.
 ---
 
 # Research Brief

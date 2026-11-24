@@ -1,6 +1,6 @@
 name: contract-review
 title: Contract Review
-description: Review a contract, agreement or terms clause by clause, flag risky terms, and propose redlines with fallbacks before signing. Use for vendor, client, SaaS or freelance contracts, not for an NDA alone.
+description: Review a contract or terms clause by clause, flag risky terms, propose redlines with fallbacks before signing. Use for vendor, client, SaaS or freelance contracts, not for an NDA alone.
 category: legal
 include_in_prompt: false
 triggers:

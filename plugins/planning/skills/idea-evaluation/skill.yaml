@@ -1,6 +1,6 @@
 name: idea-evaluation
 title: Idea Evaluation
-description: Judge whether a project, product or research idea is worth doing by listing its assumptions, scoring risk and payoff, testing the riskiest first and planning pivots. Not for roadmaps or fact research.
+description: Judge whether a project, product or research idea is worth doing — list assumptions, score risk and payoff, test the riskiest first, plan pivots. Not for roadmaps or fact research.
 category: planning
 include_in_prompt: false
 triggers:

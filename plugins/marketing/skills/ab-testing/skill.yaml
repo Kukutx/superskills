@@ -1,6 +1,6 @@
 name: ab-testing
 title: A/B Testing
-description: Design an A/B test with hypothesis, sample size, primary and guardrail metrics, and read the result without peeking errors. Use for experiments and which version wins, not for auditing a page.
+description: Design an A/B test with hypothesis, sample size, primary and guardrail metrics, and read the result without peeking errors. Use for experiments and which version wins, not auditing a page.
 category: marketing
 include_in_prompt: false
 triggers:

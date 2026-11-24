@@ -1,6 +1,6 @@
 name: seo-audit
 title: SEO Audit
-description: Audit a website or store for SEO and AI-search readability, covering indexing, technical issues, on-page, structured data and keywords, with a ranked fix list. Not for app store keywords or ads.
+description: Audit a website or store for SEO and AI-search readability — indexing, technical issues, on-page, structured data and keywords, with a ranked fix list. Not for app store keywords or ads.
 category: marketing
 include_in_prompt: false
 triggers:

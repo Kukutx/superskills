@@ -1,6 +1,6 @@
 ---
 name: onboarding-and-retention
-description: Design onboarding and activation, cancel flows with save offers, failed-payment recovery and churn warning signs for an app or subscription. Use for activation and churn, not pricing or signup forms.
+description: Design onboarding and activation, cancel flows with save offers, failed-payment recovery and churn warning signs for an app or subscription. Use for activation and churn, not pricing.
 ---
 
 # Onboarding and Retention

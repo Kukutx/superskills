@@ -67,3 +67,4 @@ Never present invented testimonials, customer logos, user counts or metrics as r
 | --- | --- |
 | typography, spacing, radius, color, hero, icons, motion, tagline section | `references/visual-system.md` |
 | sample content, interaction states, ship requirements, final checklist | `references/content-and-ship.md` |
+| interface craft rules: colour, typography, layout, motion, accessibility, design system, handoff | [design-review craft references](../design-review/references/colors.md) (start here; the other six sit beside it) |
