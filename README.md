@@ -35,7 +35,9 @@ superskills/
 │   ├── plugin.json                  # 该分类的名称、版本、描述（唯一手写处）
 │   └── skills/<skill>/
 │       ├── SKILL.md
+│       ├── skill.yaml               # 生成：Muse 导入（tools/generate_skill_yaml.py）
 │       └── references/              # optional runtime depth
+├── agents/<category>/<skill>/openai.yaml  # 生成：ChatGPT + Codex 适配（tools/generate_openai_yaml.py）
 ├── maintenance/<category>/<skill>/  # optional evals/sources/decisions，不进任何安装包
 │   └── evals/<case>/                # 手写的 claude plugin eval 用例：prompt.md + graders/
 ├── .claude-plugin/marketplace.json  # 生成：Claude Code
@@ -61,10 +63,13 @@ superskills/
 | Claude Code | `claude plugin marketplace add Kukutx/superskills`，再 `claude plugin install superskills-<category>@superskills` |
 | Codex（CLI / App / IDE） | `codex plugin marketplace add Kukutx/superskills`，再 `codex plugin add superskills-<category>@superskills` |
 | Cursor、Gemini CLI、Copilot 等 | `npx skills add Kukutx/superskills --skill <skill>`（[`skills`](https://github.com/vercel-labs/skills) 安装器，按 Skill 名称选择） |
-| claude.ai 网页 / 桌面 | 在 Customize > Plugins 选择 Add marketplace，填入 `https://github.com/Kukutx/superskills`，再安装需要的 `superskills-<category>`，无需下载；或用 `python tools/package_web_skills.py` 生成 `dist/claude-web/<skill>.zip`，在 Customize > Skills 逐个上传，每个 Release 也附带这些 ZIP |
-| ChatGPT Project / GPT | 没有原生 Skill 注册表，使用下面的 runtime bundle 和 Router |
+| Muse | 把 `plugins/<category>/skills/<skill>/`（含 `SKILL.md` + 生成的 `skill.yaml`）复制到 `~/workspace/custom-skills/<skill>/`；见 [docs/multi-agent.md](docs/multi-agent.md)。development + personal + meta 三类（17 个）已导入，其余分类的批量导入未验证 |
+| Antigravity (Gemini) | 把 Skill 镜像到工作区 `.agents/skills/`，或试 `agy plugin import claude`；见 [docs/multi-agent.md](docs/multi-agent.md)。未验证 |
+| Grok | 未验证，低优先级：据称可直接读 Claude Code marketplace，尚未用 `grok inspect` 核实；见 [docs/multi-agent.md](docs/multi-agent.md) |
+| claude.ai 网页 / 桌面 | 在 Customize > Plugins 选择 Add marketplace，填入 `https://github.com/Kukutx/superskills`，再安装需要的 `superskills-<category>`，无需下载；或用 `python tools/package_web_skills.py` 生成 `dist/claude-web/<skill>.zip`，在 Customize > Skills 逐个上传，每个 Release 也附带这些 ZIP。**未验证**：按分类的插件安装尚未在 claude.ai 上实际验证过（见下） |
+| ChatGPT Project / GPT | 没有原生 Skill 注册表，使用下面的 runtime bundle 和 Router。**未验证**：ChatGPT 网页端的启用流程尚未实际验证，以官方当前说明为准 |
 
-有原生注册表的宿主只按 `description` 触发 Skill，不加载 Router 和 `gpts/` 下的 Project Instructions。OpenAI 文档说明打包在插件里的 Skill 也能在 ChatGPT 的 Chat 和 Work 中使用；本仓库只验证过 Codex 侧的安装，ChatGPT 网页端的启用流程以官方当前说明为准。claude.ai 的插件市场安装只在拆分前的单插件布局上用过，按分类的插件还没有在 claude.ai 上实际安装验证。
+有原生注册表的宿主只按 `description` 触发 Skill，不加载 Router 和 `gpts/` 下的 Project Instructions。OpenAI 文档说明打包在插件里的 Skill 也能在 ChatGPT 的 Chat 和 Work 中使用；本仓库只验证过 Codex 侧的安装，ChatGPT 网页端的启用流程**未验证**，以官方当前说明为准。claude.ai 的插件市场安装只在拆分前的单插件布局上用过，按分类的插件还没有在 claude.ai 上实际安装验证（**未验证**）。已验证的安装路径只有 Claude Code 和 Codex CLI 的 marketplace 安装；其余宿主见 [docs/multi-agent.md](docs/multi-agent.md) 的逐宿主状态表。
 
 更新：Claude Code 先 `claude plugin marketplace update superskills`，再卸载并重新安装对应插件（本地文件夹源实测 `claude plugin update` 会切到旧快照）；Codex 用 `codex plugin marketplace upgrade`，本地源同样移除后重新添加；`skills` 安装器用 `npx skills update`。Codex 按 `plugin.json` 的 `version` 缓存，发布新内容前先提升版本。
 
@@ -78,7 +83,7 @@ python tools/validate_repo.py
 python tools/export_behavioral_evals.py --check
 ```
 
-Validator 检查目录形状、入口文件名、frontmatter（只允许 `name` 和 `description`；`name` 不含保留词 `anthropic`、`claude`；`description` 不超过 200 字符、是合法的 YAML 纯文本且不含 XML 标签）、Skill 名称全仓唯一、插件清单与版本一致、两份 marketplace 是否过期、Router Catalog 完整性、真实 Markdown 引用、runtime 不引用 maintenance、behavioral eval 路径完整性，以及手写评测用例的形状（`prompt.md`、至少一个 grader、grader 指向的 Skill 存在、用例 ID 不与表格重复）。入口超过 500 行只给 advisory。
+Validator 检查目录形状、入口文件名、frontmatter（只允许 `name` 和 `description`；`name` 不含保留词 `anthropic`、`claude`；`description` 不超过 200 字符、是合法的 YAML 纯文本且不含 XML 标签）、Skill 名称全仓唯一、每个 Skill 的 `skill.yaml` 存在且与 SKILL.md 一致（见 [docs/authoring-guide.md](docs/authoring-guide.md)）、插件清单与版本一致、两份 marketplace 是否过期、Router Catalog 完整性、真实 Markdown 引用、runtime 不引用 maintenance、behavioral eval 路径完整性，以及手写评测用例的形状（`prompt.md`、至少一个 grader、grader 指向的 Skill 存在、用例 ID 不与表格重复）。入口超过 6,500 字节（或 500 行）只给 advisory。
 
 新增或删除分类、修改 `plugin.json` 后重新生成 marketplace：
 
