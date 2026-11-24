@@ -22,13 +22,13 @@
     },
     {
       "name": "superskills-design",
-      "description": "App Store / Play Store visual assets, landing page design, UI design review and review of existing images.",
+      "description": "App Store / Play Store visual assets, landing page design, UI design review, review of existing images, and editorial diagram design.",
       "source": "./plugins/design",
       "strict": false
     },
     {
       "name": "superskills-development",
-      "description": "Bug diagnosis, code review, technical design, implementation planning, technical debt triage, Drupal and WordPress sites, Godot 4.x (shared, 2D, 3D) and sprite animation pipelines.",
+      "description": "Bug diagnosis, code review, technical design, implementation planning, technical debt triage, Drupal and WordPress sites, Godot 4.x (shared, 2D, 3D) and sprite animation pipelines, plus security audits, Expo apps, GSAP web animation and Three.js browser games.",
       "source": "./plugins/development",
       "strict": false
     },
@@ -118,7 +118,7 @@
     },
     {
       "name": "superskills-writing",
-      "description": "Business email, store listing copy, marketing copy, brand voice guides, social content, interface microcopy, multilingual documents and truthful resumes.",
+      "description": "Business email, store listing copy, marketing copy, brand voice guides, social content, interface microcopy, multilingual documents, truthful resumes, and Chinese novel writing.",
       "source": "./plugins/writing",
       "strict": false
     }
