@@ -1,0 +1,7 @@
+name: prompt-optimizer
+title: Prompt Optimizer
+description: Write or improve a prompt, system prompt or reusable AI instruction as the deliverable. Use only when the user asks for a prompt itself, never as preprocessing for a task they want done.
+category: meta
+include_in_prompt: false
+triggers:
+- prompt optimizer

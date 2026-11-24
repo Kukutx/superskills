@@ -1,0 +1,7 @@
+name: email-sequences
+title: Email Sequences
+description: Design automated email sequences such as welcome, onboarding, nurture, re-engagement, win-back and launch flows with timing, branching, exit rules and full copy. Not for one-off emails or SMS.
+category: marketing
+include_in_prompt: false
+triggers:
+- email sequences

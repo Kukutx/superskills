@@ -1,0 +1,7 @@
+name: paid-ads
+title: Paid Ads
+description: Plan and review paid ad campaigns on Google, Meta or TikTok, judge spend, cost per result and ROAS, and reconcile conflicting attribution numbers. Not for writing ad copy or organic content.
+category: marketing
+include_in_prompt: false
+triggers:
+- paid ads

@@ -1,0 +1,7 @@
+name: release-checklist
+title: Release Checklist
+description: Build a go/no-go release gate with blocking checks, a targeted smoke path, rollback and post-release monitoring. Use for a release that has no project or domain release workflow.
+category: operations
+include_in_prompt: false
+triggers:
+- release checklist

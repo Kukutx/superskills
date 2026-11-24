@@ -1,0 +1,7 @@
+name: skill-router
+title: Skill Router
+description: Catalog of Superskills routes for hosts without a native Skill registry, such as ChatGPT Projects. Use only when ownership between Superskills is ambiguous and Skills do not auto-trigger.
+category: meta
+include_in_prompt: false
+triggers:
+- skill router

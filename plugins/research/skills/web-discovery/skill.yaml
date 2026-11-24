@@ -1,0 +1,8 @@
+name: web-discovery
+title: Web Discovery
+description: Find, shortlist and rank actual web resources such as videos, images, examples, pages, job postings, accounts or tools that best match a request. Use for finding things, not deciding what is true.
+category: research
+include_in_prompt: false
+triggers:
+- web discovery
+- finding things

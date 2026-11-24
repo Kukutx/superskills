@@ -1,0 +1,8 @@
+name: knowledge-video
+title: Knowledge Video
+description: Narrated, source-backed 知识短片 or 科普短视频 package for one knowledge point, with hook, script, fact list, storyboard and publish copy. Use for explainer shorts, not product promos.
+category: creative
+include_in_prompt: false
+triggers:
+- knowledge video
+- explainer shorts

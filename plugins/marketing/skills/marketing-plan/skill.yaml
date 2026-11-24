@@ -1,0 +1,8 @@
+name: marketing-plan
+title: Marketing Plan
+description: Plan a marketing campaign or growth plan with objective, audience, channel mix, calendar, budget split and KPIs. Use for campaigns or stuck growth, not for positioning, launch staging or the copy.
+category: marketing
+include_in_prompt: false
+triggers:
+- marketing plan
+- campaigns or stuck growth

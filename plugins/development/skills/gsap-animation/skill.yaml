@@ -1,0 +1,8 @@
+name: gsap-animation
+title: GSAP Animation
+description: Build web animation with GSAP, from tweens and timelines to ScrollTrigger, React integration and performance rules. Use when animating DOM or SVG on the web, not for CSS-only transitions.
+category: development
+include_in_prompt: false
+triggers:
+- gsap animation
+- animating DOM or SVG on the web

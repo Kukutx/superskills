@@ -1,0 +1,8 @@
+name: performance-review
+title: Performance Review
+description: Write a self-assessment, a manager's performance review or calibration notes with specific evidence, behaviour-based feedback and a development plan. Use for review cycles, not for hiring.
+category: people
+include_in_prompt: false
+triggers:
+- performance review
+- review cycles

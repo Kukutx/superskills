@@ -1,0 +1,8 @@
+name: grant-and-rfp-bidding
+title: Grant and RFP Bidding
+description: Decide whether to bid on a grant, RFP or tender with a go/no-go screen, build the compliance matrix and draft the response without invented facts. Use for formal solicitations, not ordinary quotes.
+category: sales
+include_in_prompt: false
+triggers:
+- grant and rfp bidding
+- formal solicitations

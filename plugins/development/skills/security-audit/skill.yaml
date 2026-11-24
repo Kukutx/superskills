@@ -1,0 +1,7 @@
+name: security-audit
+title: Security Audit
+description: Audit a codebase for security vulnerabilities, with verified findings, severity and smallest fixes. Use when an explicit security audit or pen test is requested, not for general code review.
+category: development
+include_in_prompt: false
+triggers:
+- security audit

@@ -1,0 +1,7 @@
+name: review-replies-and-winback
+title: Review Replies and Win-back
+description: Reply to public reviews, turn reviews and order history into themes, and rank and message customers who have gone quiet. Use for reputation and win-back, not for answering a support ticket.
+category: support
+include_in_prompt: false
+triggers:
+- review replies and winback

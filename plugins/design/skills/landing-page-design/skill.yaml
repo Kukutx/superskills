@@ -1,0 +1,8 @@
+name: landing-page-design
+title: Landing Page Design
+description: Plan, write and build a single-goal landing or marketing page with section structure, conversion copy, SEO and a default visual system. Use for a new or restyled page, not copy-only edits.
+category: design
+include_in_prompt: false
+triggers:
+- landing page design
+- a new or restyled page

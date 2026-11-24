@@ -1,0 +1,8 @@
+name: expo-development
+title: Expo Development
+description: Build, run and ship an Expo and React Native app, from project structure to EAS builds, updates and store submission. Use when the project uses Expo or EAS, not for plain React Native without Expo.
+category: development
+include_in_prompt: false
+triggers:
+- expo development
+- the project uses Expo or EAS

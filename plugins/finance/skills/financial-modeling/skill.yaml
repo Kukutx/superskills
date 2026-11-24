@@ -1,0 +1,7 @@
+name: financial-modeling
+title: Financial Modeling
+description: Build or audit a spreadsheet financial model such as a three-statement projection, revenue build or budget, and find why a balance sheet will not balance. Not for valuation judgement.
+category: finance
+include_in_prompt: false
+triggers:
+- financial modeling

@@ -1,0 +1,7 @@
+name: bug-diagnosis
+title: Bug Diagnosis
+description: Diagnose a software bug, error, crash or failing behavior from symptoms, logs, code and recent changes, even when evidence is thin. Not for reviewing code that has no observed failure.
+category: development
+include_in_prompt: false
+triggers:
+- bug diagnosis

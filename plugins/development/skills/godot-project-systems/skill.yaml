@@ -1,0 +1,7 @@
+name: godot-project-systems
+title: Godot Project Systems
+description: Godot 4.x systems that work the same in 2D and 3D, namely architecture, InputMap, Control UI, audio, save/load, inventory, dialogue, localization, testing and export/CI.
+category: development
+include_in_prompt: false
+triggers:
+- godot project systems

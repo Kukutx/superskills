@@ -1,0 +1,7 @@
+name: payroll-run-check
+title: Payroll Run Check
+description: Prepare a payroll run from timesheets, turning hours into a per-person sheet and flagging missed punches, unusual overtime, rate changes and gaps before pay is released. Not for tax filing.
+category: finance
+include_in_prompt: false
+triggers:
+- payroll run check

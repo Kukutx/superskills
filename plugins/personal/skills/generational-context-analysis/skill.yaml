@@ -1,0 +1,8 @@
+name: generational-context-analysis
+title: Generational Context Analysis
+description: Evidence-led analysis of how birth cohort, place and historical conditions shaped childhood, worldview, career, relationships and money. Use for generation or era questions, not astrology.
+category: personal
+include_in_prompt: false
+triggers:
+- generational context analysis
+- generation or era questions

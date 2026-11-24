@@ -53,6 +53,7 @@ Preserve project conventions unless they are the source of the problem.
 | branching dialogue, conditions/effects and localization | `references/dialogue-localization.md` |
 | reproduce/debug/test/runtime evidence and verification boundaries | `references/verification-testing.md` |
 | export presets, clean CI, toolchain pinning and artifact checks | `references/release-export-ci.md` |
+| game skills beyond Godot and Three.js, by engine, discipline, genre and workflow | [gamedev-skills/awesome-gamedev-agent-skills](https://github.com/gamedev-skills/awesome-gamedev-agent-skills) (external catalog, Apache-2.0, not imported; its Godot list covers godot-2d-movement, godot-3d-essentials, godot-animation, godot-audio, godot-export, godot-multiplayer, godot-physics, godot-shaders, godot-ui-control and the shared disciplines) |
 
 Normally load one reference first. Add a 2D/3D Skill only when the task crosses into dimensional runtime behavior.
 

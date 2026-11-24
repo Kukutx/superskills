@@ -1,0 +1,8 @@
+name: shopify-dev
+title: Shopify Development
+description: Shopify theme, Liquid, admin configuration, app integration and store implementation with native-first, minimal, reversible changes. Use for any Shopify store or theme task.
+category: ecommerce
+include_in_prompt: false
+triggers:
+- shopify dev
+- any Shopify store or theme task

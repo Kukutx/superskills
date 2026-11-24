@@ -28,7 +28,7 @@ Not this Skill:
 | **Script package** (default) | any host, including claude.ai web | facts list, narration by beat, storyboard, style card, publish copy; optionally a one-file HTML animatic of the cold open |
 | **Rendered film** | the user runs Claude Code with the upstream render pipeline installed | the package above, then voice, code-rendered 1080p60 film and QA; see `references/rendering.md` |
 
-Do not claim a rendered video exists unless a render actually ran. Do not ask the user to install the pipeline when a script package answers the request.
+Do not claim a rendered video exists unless a render actually ran. Do not ask the user to install the pipeline when a script package answers the request. On hosts without the Claude Code render pipeline (Codex, ChatGPT, Gemini, Muse), deliver the script package only and say the film needs Claude Code with the pipeline installed — the Skill degrades to script package, never to a claimed film.
 
 ## Workflow
 

@@ -1,0 +1,8 @@
+name: app-store-assets
+title: App Store Assets
+description: App Store and Google Play visual assets such as screenshot sequences, feature graphics and promo imagery built from real UI. Use for store visuals, not listing wording.
+category: design
+include_in_prompt: false
+triggers:
+- app store assets
+- store visuals

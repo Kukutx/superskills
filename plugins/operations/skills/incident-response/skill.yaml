@@ -1,0 +1,8 @@
+name: incident-response
+title: Incident Response
+description: Run a production incident from severity triage through status updates to a blameless postmortem with timeline, root cause and action items. Use for an outage or its write-up, not one bug.
+category: operations
+include_in_prompt: false
+triggers:
+- incident response
+- an outage or its write-up

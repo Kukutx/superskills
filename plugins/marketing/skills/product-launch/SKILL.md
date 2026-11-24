@@ -44,6 +44,10 @@ Past that line, two delays look like diligence and are not: polishing in private
 
 Soft blockers: a template or resource library, and a group of early users willing to write reviews. For a business review site the reviews are a hard condition: a listing with none is worth little, so claim the page, collect reviews from users who have really used the product (a personal email each, a direct link, one reminder), and submit properly once around ten are within reach. Whether the site allows an incentive for a review is checked in its own rules.
 
+### Technical go-live checklist
+
+For a product that is an app, the technical half of going live — hosting, database, domain/DNS, email, auth, payments — is in [references/go-live-checklist.md](references/go-live-checklist.md). A handoff there is closed only by a passing check, and no provider write happens until the user approves the plan.
+
 ## Phases and channels
 
 | Phase | What happens |

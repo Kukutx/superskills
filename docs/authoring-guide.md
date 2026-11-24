@@ -21,7 +21,26 @@ maintenance/<category>/<skill>/                 # 不随任何安装包分发
 
 入口文件名固定为大写 `SKILL.md`，`name` 必须等于目录名，并且在整个仓库唯一：宿主按裸名注册 Skill，分类只是安装单位，不是命名空间。frontmatter 只用 `name` 和 `description`。
 
-Skill 目录遵循 [Agent Skills 规范](https://agentskills.io/specification)，同一份 Skill 可被 Claude Code、claude.ai、Codex 和其他兼容宿主直接加载。会让 Skill 无法加载的硬约束由 Validator 强制：`name` 是小写 kebab-case、不超过 64 字符、不含保留词 `anthropic` 或 `claude`；`description` 不含 XML 标签。入口超过 500 行时给出 advisory。
+Skill 目录遵循 [Agent Skills 规范](https://agentskills.io/specification)，同一份 Skill 可被 Claude Code、claude.ai、Codex 和其他兼容宿主直接加载。会让 Skill 无法加载的硬约束由 Validator 强制：`name` 是小写 kebab-case、不超过 64 字符、不含保留词 `anthropic` 或 `claude`；`description` 不含 XML 标签。入口超过 6,500 字节（或 500 行）时给出 advisory。
+
+## Host adapters（sidecar，不进 SKILL.md）
+
+`SKILL.md` frontmatter 只用 `name` 和 `description`，不加任何厂商字段。每个宿主的
+特殊配置由生成器从 `SKILL.md` 派生，`SKILL.md` 是唯一事实来源：
+
+```bash
+python tools/generate_skill_yaml.py    # Muse：plugins/<category>/skills/<skill>/skill.yaml
+python tools/generate_openai_yaml.py   # ChatGPT + Codex：agents/<category>/<skill>/openai.yaml
+```
+
+`skill.yaml`（Muse 导入用）：`name`、`title`（SKILL.md 的 H1）、`description`（原文照抄）、
+`category`、`include_in_prompt: false`、`triggers:`（Skill 名 + description 的 "Use when /
+Use for" 从句拆出的短语）。Validator 检查它存在、可解析、且 `name` / `description` /
+`category` 与 `SKILL.md` 一致；改了 `SKILL.md` 就重新生成，不要手改两边。
+
+`openai.yaml`（ChatGPT + Codex 共用）：`display_name`、`short_description`（原文照抄）、
+`policy.allow_implicit_invocation: true`、`dependencies: []`（目前无 Skill 需要 MCP 依赖，
+不编造）。各宿主的安装、触发与限制见 [docs/multi-agent.md](multi-agent.md)。
 
 ## Description
 
@@ -47,7 +66,7 @@ Skill 目录遵循 [Agent Skills 规范](https://agentskills.io/specification)�
 
 `.claude-plugin/marketplace.json`（Claude Code）和 `.agents/plugins/marketplace.json`（Codex / ChatGPT）由 `python tools/build_manifests.py` 生成，不手改；新增、删除分类或改了 `plugin.json` 后重新生成，Validator 会拒绝过期的清单。发布前用 `python tools/build_manifests.py --version <x.y.z>` 统一提升版本。
 
-claude.ai 网页端和桌面端可以在 Customize > Plugins 把本仓库加为 marketplace，按分类安装插件；也可以用 `python tools/package_web_skills.py` 为每个 Skill 生成一个上传用 ZIP。ChatGPT Project / GPT 没有原生注册表，继续用 runtime bundle 加 Router；要全部 Skill 随时可用时构建 `--all-skills` 完整包。
+claude.ai 网页端和桌面端可以在 Customize > Plugins 把本仓库加为 marketplace，按分类安装插件（按分类安装未验证，见 README）；也可以用 `python tools/package_web_skills.py` 为每个 Skill 生成一个上传用 ZIP。ChatGPT Project / GPT 没有原生注册表，继续用 runtime bundle 加 Router；ChatGPT 网页端启用流程未验证。
 
 有原生 Skill 注册表的宿主不会加载 Router 或 `gpts/` 下的 Project Instructions，网页端上传的也只有 Skill 自己的目录。因此 Skill 正文必须自足：不能写“按全局规则处理”，也不能依赖同一分类里的另一个 Skill 一定已安装。
 
@@ -380,7 +399,8 @@ Validator 负责：
 - behavioral eval 中显式 Skill route 与本地 reference 仍存在；
 - 标准 Markdown 链接及 code path 无 dead link 或仓库逃逸；
 - 手写评测用例有 `prompt.md` 和至少一个 grader，grader 的 `input_match` 指向现存 Skill，用例 ID 不与表格 ID 重复；
-- 对异常大的 runtime entrypoint/reference 和超过 500 行的入口给出非阻塞 advisory。
+- 对异常大的 runtime entrypoint/reference 和超过 6,500 字节（或 500 行）的入口给出非阻塞 advisory。
+- 每个 Skill 的 `skill.yaml` 存在、可解析，且 `name` / `description` / `category` 与 `SKILL.md` 一致，`include_in_prompt` 为 false，`triggers` 非空。
 
 结构规则能自动检查时优先写进 Validator，并同时增加 Validator 自身的回归测试。
 

@@ -1,0 +1,7 @@
+name: technical-design
+title: Technical Design
+description: Decide unresolved software architecture including ownership, data model, interfaces, consistency, failure and migration behavior. Use before implementation planning, while direction is open.
+category: development
+include_in_prompt: false
+triggers:
+- technical design

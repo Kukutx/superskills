@@ -35,6 +35,10 @@ When the user shares an interesting prompt, Skill or workflow to collect:
 11. Update the global Router only when task selection changes.
 12. Run `python tools/validate_repo.py` and fix structural, orphan or stale-route failures.
 
+## Evaluating a Skill
+
+Before merging or shipping a Skill change, measure it with [references/skill-evaluation.md](references/skill-evaluation.md): routing, boundary, output shape, evidence and cost, improved one change at a time against regression cases, with tuning cases kept separate from acceptance cases.
+
 ## Default shape
 
 ```text

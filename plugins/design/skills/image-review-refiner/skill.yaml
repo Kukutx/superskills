@@ -1,0 +1,7 @@
+name: image-review-refiner
+title: Image Review Refiner
+description: Review an existing generated or designed image against its purpose, keep what works, prioritize visible defects and give precise edit instructions. Not for planning a new image.
+category: design
+include_in_prompt: false
+triggers:
+- image review refiner

@@ -1,0 +1,8 @@
+name: sms-marketing
+title: SMS Marketing
+description: Plan SMS or WhatsApp marketing such as cart recovery and promo texts with consent, opt-out, quiet hours and message-length checks. Use for text-message marketing, not for email sequences.
+category: marketing
+include_in_prompt: false
+triggers:
+- sms marketing
+- text-message marketing

@@ -1,0 +1,7 @@
+name: invoice-collections
+title: Invoice Collections
+description: Chase overdue invoices by ranking who owes what, checking for recent payments first, and drafting reminders matched to each customer's payment history. Not for bills you owe.
+category: finance
+include_in_prompt: false
+triggers:
+- invoice collections

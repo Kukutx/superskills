@@ -45,3 +45,9 @@ Default:
 - Avoid vague tasks such as “implement backend” or “add tests”.
 - Prefer incremental, reversible changes.
 - Domain-specific implementation should follow the relevant domain Skill rather than generic patterns.
+
+## References
+
+| Need | Load |
+| --- | --- |
+| write the test first and watch it fail before implementing | [references/test-driven-development.md](references/test-driven-development.md) |

@@ -1,0 +1,7 @@
+name: code-review
+title: Code Review
+description: Review code, a diff or a pull request for concrete correctness, security, data, performance and integration risks. Not for explaining an observed failure, which is bug diagnosis.
+category: development
+include_in_prompt: false
+triggers:
+- code review

@@ -1,0 +1,7 @@
+name: image-prompt-director
+title: Image Prompt Director
+description: Image-generation prompts and art direction for illustrations, product visuals, characters and marketing imagery. Use to plan or prompt a new image, not to critique an existing one.
+category: creative
+include_in_prompt: false
+triggers:
+- image prompt director

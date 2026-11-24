@@ -34,10 +34,18 @@ class ValidatorTestCase(unittest.TestCase):
 
     def add_skill(self, route: str, body: str = "# Foo\n", description: str | None = None) -> Path:
         category, name = route.split("/", 1)
-        return self.write(
+        path = self.write(
             f"plugins/{category}/skills/{name}/SKILL.md",
             f"---\nname: {name}\ndescription: {description or f'Test {name}.'}\n---\n\n{body}",
         )
+        self.write(
+            f"plugins/{category}/skills/{name}/skill.yaml",
+            f"name: {name}\ntitle: {name.replace('-', ' ').title()}\n"
+            f"description: {description or f'Test {name}.'}\ncategory: {category}\n"
+            "include_in_prompt: false\ntriggers:\n"
+            f"- {name.replace('-', ' ')}\n",
+        )
+        return path
 
     def write_router(self, routes: list[str], suffix: str = "") -> None:
         rows = "\n".join(f"| test | `{route}` |" for route in routes)
@@ -46,6 +54,11 @@ class ValidatorTestCase(unittest.TestCase):
             "---\nname: skill-router\ndescription: Route tests.\n---\n\n"
             "# Router\n\n## Catalog\n\n| Intent | Skill |\n| --- | --- |\n"
             f"{rows}\n\n## Boundaries\n\n{suffix}\n",
+        )
+        self.write(
+            "plugins/meta/skills/skill-router/skill.yaml",
+            "name: skill-router\ntitle: Router\ndescription: Route tests.\n"
+            "category: meta\ninclude_in_prompt: false\ntriggers:\n- skill router\n",
         )
 
     def error_text(self) -> str:
@@ -227,6 +240,18 @@ class ValidatorTestCase(unittest.TestCase):
             "| foo-001 | test | `development/foo` | none | none |\n",
         )
         self.assertIn("also used by behavioral eval tables: ['foo-001']", self.error_text())
+
+    def test_missing_skill_yaml_fails(self) -> None:
+        (self.root / "plugins/development/skills/foo/skill.yaml").unlink()
+        self.assertIn("missing skill.yaml", self.error_text())
+
+    def test_drifted_skill_yaml_fails(self) -> None:
+        self.write(
+            "plugins/development/skills/foo/skill.yaml",
+            "name: foo\ntitle: Foo\ndescription: Something else.\n"
+            "category: development\ninclude_in_prompt: false\ntriggers:\n- foo\n",
+        )
+        self.assertIn("description drifted from SKILL.md", self.error_text())
 
     def test_other_nested_maintenance_directory_fails(self) -> None:
         self.write("maintenance/development/foo/drafts/notes.md", "# Notes\n")

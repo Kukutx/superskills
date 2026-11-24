@@ -70,7 +70,7 @@ else:
 
 DEFAULT_ROOT = Path(__file__).resolve().parents[1]
 ALLOWED_PLUGIN_ENTRIES = {PLUGIN_MANIFEST, SKILLS_DIR}
-ALLOWED_SKILL_ENTRIES = {ENTRYPOINT, "references"}
+ALLOWED_SKILL_ENTRIES = {ENTRYPOINT, "references", "skill.yaml"}
 ALLOWED_FRONTMATTER = {"name", "description"}
 ALLOWED_MAINTENANCE_FILES = {"behavioral-evals.md", "sources.md", "decisions.md"}
 MAINTENANCE_HEADINGS = ("## Source synthesis", "## Upstream inspiration")
@@ -104,6 +104,80 @@ class ValidationResult:
 def _names(directory: Path) -> set[str]:
     # Real names, so a case-insensitive filesystem cannot hide skill.md behind SKILL.md.
     return {entry.name for entry in directory.iterdir()}
+
+
+def _parse_skill_yaml(text: str) -> tuple[dict[str, object], list[str]]:
+    """Parse the small YAML subset the skill.yaml generator writes.
+
+    Uses PyYAML when installed; otherwise a minimal parser for flat
+    ``key: value`` lines and ``key:`` followed by ``- item`` lines.
+    """
+    try:
+        import yaml  # type: ignore[import-not-found]
+
+        data = yaml.safe_load(text)
+    except ImportError:
+        data, errors = {}, []
+        current: str | None = None
+        for raw in text.splitlines():
+            line = raw.strip()
+            if not line or line.startswith("#"):
+                continue
+            if line.startswith("- ") and current:
+                value = data.setdefault(current, [])
+                if isinstance(value, list):
+                    value.append(line[2:].strip())
+                continue
+            if ":" not in line:
+                errors.append(f"skill.yaml line is not key: value: {raw!r}")
+                continue
+            key, value = (part.strip() for part in line.split(":", 1))
+            if value:
+                data[key] = value
+            else:
+                data[key] = []
+                current = key
+        return data, errors
+    except Exception as error:  # yaml.YAMLError and friends
+        return {}, [f"skill.yaml is not valid YAML ({error})"]
+    if not isinstance(data, dict):
+        return {}, ["skill.yaml must be a mapping"]
+    return data, []
+
+
+def _validate_skill_yaml(
+    skill_file: Path,
+    name: str | None,
+    description: str | None,
+    root: Path,
+    errors: list[str],
+) -> None:
+    """skill.yaml is generated from SKILL.md; it must exist and agree with it."""
+    skill_yaml = skill_file.parent / "skill.yaml"
+    relative = skill_yaml.relative_to(root).as_posix()
+    if not skill_yaml.is_file():
+        errors.append(
+            f"{relative}: missing skill.yaml; run python tools/generate_skill_yaml.py"
+        )
+        return
+    data, parse_errors = _parse_skill_yaml(skill_yaml.read_text(encoding="utf-8"))
+    errors.extend(f"{relative}: {error}" for error in parse_errors)
+    if parse_errors:
+        return
+    category = skill_file.parent.parent.parent.name
+    if data.get("name") != name:
+        errors.append(f"{relative}: name '{data.get('name')}' != SKILL.md name '{name}'")
+    if data.get("description") != description:
+        errors.append(f"{relative}: description drifted from SKILL.md; regenerate it")
+    if data.get("category") != category:
+        errors.append(f"{relative}: category '{data.get('category')}' != plugin '{category}'")
+    if data.get("include_in_prompt") is not False:
+        errors.append(f"{relative}: include_in_prompt must be false")
+    triggers = data.get("triggers")
+    if not isinstance(triggers, list) or not triggers or not all(
+        isinstance(trigger, str) and trigger.strip() for trigger in triggers
+    ):
+        errors.append(f"{relative}: triggers must be a non-empty list of phrases")
 
 
 def _validate_plugin_tree(root: Path, errors: list[str]) -> list[Path]:
@@ -422,6 +496,7 @@ def validate_repository(root: Path | str = DEFAULT_ROOT) -> ValidationResult:
             errors.append(
                 f"{skill_file.parent.relative_to(root).as_posix()}: unexpected entries {sorted(unexpected)}"
             )
+        _validate_skill_yaml(skill_file, name, description, root, errors)
         if text.count("\n") > ENTRYPOINT_ADVISORY_LINES:
             warnings.append(
                 f"{relative}: entrypoint exceeds {ENTRYPOINT_ADVISORY_LINES} lines; "

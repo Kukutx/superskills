@@ -1,0 +1,7 @@
+name: variance-analysis
+title: Variance Analysis
+description: Explain budget versus actual or period-over-period differences by splitting them into price, volume and mix drivers, with commentary and a bridge that ties out. Not for building the budget.
+category: finance
+include_in_prompt: false
+triggers:
+- variance analysis

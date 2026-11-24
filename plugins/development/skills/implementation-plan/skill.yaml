@@ -1,0 +1,7 @@
+name: implementation-plan
+title: Implementation Plan
+description: Turn a settled technical direction into file-level changes, ordered tasks, tests and rollout steps. Use only when a plan is the requested output and the architecture is already decided.
+category: development
+include_in_prompt: false
+triggers:
+- implementation plan

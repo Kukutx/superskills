@@ -1,0 +1,9 @@
+name: data-visualization
+title: Data Visualization
+description: Choose the right chart and build clear, honest, accessible charts or a one-page KPI dashboard from data. Use for a chart, plot, graph or dashboard, not for deciding what the numbers mean.
+category: data
+include_in_prompt: false
+triggers:
+- data visualization
+- a chart
+- graph or dashboard

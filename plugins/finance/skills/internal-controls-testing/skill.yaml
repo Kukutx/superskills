@@ -1,0 +1,8 @@
+name: internal-controls-testing
+title: Internal Controls Testing
+description: Plan and document internal control testing for SOX 404 or an audit, with control matrices, sample selection, workpapers and deficiency classification. Use for controls and audit prep, not bookkeeping.
+category: finance
+include_in_prompt: false
+triggers:
+- internal controls testing
+- audit prep

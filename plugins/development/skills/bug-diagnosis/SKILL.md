@@ -53,3 +53,9 @@ List alternative causes only when they are plausible enough to change the debug 
 - When the same error appears for every valid input, suspect an account, environment or configuration gate before changing the payload. "Not found" and "not allowed" can be the same response, so confirm the identity and scope in use first.
 - A successful parse or build is not proof that runtime behavior is fixed. A check proves only its own layer: one piece valid, the combination valid, or the behavior in effect at runtime. Say which layer each check covered.
 - Replace secrets with a placeholder in every command, log and captured artifact that is shown, and ask for redacted versions when requesting logs, HAR files or dumps.
+
+## References
+
+| Need | Load |
+| --- | --- |
+| several independent failures to investigate in parallel | [references/parallel-division.md](references/parallel-division.md) |

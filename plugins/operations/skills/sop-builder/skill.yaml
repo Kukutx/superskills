@@ -1,0 +1,7 @@
+name: sop-builder
+title: SOP Builder
+description: Turn a genuinely repeated process into a short executable SOP with trigger, inputs, decision points, quality checks and definition of done. Not for one-time work or roadmaps.
+category: operations
+include_in_prompt: false
+triggers:
+- sop builder

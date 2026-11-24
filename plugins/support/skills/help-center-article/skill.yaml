@@ -1,0 +1,8 @@
+name: help-center-article
+title: Help Center Article
+description: Write a help-center, knowledge-base or FAQ article such as a how-to, troubleshooting guide or known-issue notice customers can find by search. Use for support docs, not store copy or internal SOPs.
+category: support
+include_in_prompt: false
+triggers:
+- help center article
+- support docs

@@ -1,0 +1,8 @@
+name: stock-research
+title: Stock Research
+description: Research one listed company, covering business and moat, earnings results and previews against consensus, guidance and a falsifiable thesis. Use for 财报分析 or a stock thesis, not screening.
+category: finance
+include_in_prompt: false
+triggers:
+- stock research
+- 财报分析 or a stock thesis

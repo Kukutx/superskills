@@ -1,0 +1,8 @@
+name: single-cell-qc-review
+title: Single-Cell QC Review
+description: Review single-cell RNA-seq quality control from pasted metrics, plots or code, including MAD cutoffs and mitochondrial percent. Use for judging cell filtering, not clustering or model choice.
+category: science
+include_in_prompt: false
+triggers:
+- single cell qc review
+- judging cell filtering

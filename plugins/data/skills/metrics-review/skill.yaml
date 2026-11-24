@@ -1,0 +1,8 @@
+name: metrics-review
+title: Metrics Review
+description: Turn business, product or marketing metrics into a KPI report or health check with a scorecard, trends and next actions. Use for weekly or monthly reviews, not for exploring a raw dataset.
+category: data
+include_in_prompt: false
+triggers:
+- metrics review
+- weekly or monthly reviews

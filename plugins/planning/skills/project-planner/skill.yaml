@@ -1,0 +1,7 @@
+name: project-planner
+title: Project Planner
+description: Turn a broad multi-workstream goal into a roadmap with deliverables, dependencies, risks and next actions. Use only when a roadmap is the requested output, not for file-level software plans.
+category: planning
+include_in_prompt: false
+triggers:
+- project planner

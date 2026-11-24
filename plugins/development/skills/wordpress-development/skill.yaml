@@ -1,0 +1,8 @@
+name: wordpress-development
+title: WordPress Development
+description: WordPress themes, child and block themes, Elementor, custom plugins, WooCommerce, REST, WP-CLI, caching, security and migrations. Use for WordPress sites, not Drupal or Shopify stores.
+category: development
+include_in_prompt: false
+triggers:
+- wordpress development
+- WordPress sites

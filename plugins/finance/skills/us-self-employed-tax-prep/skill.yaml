@@ -1,0 +1,8 @@
+name: us-self-employed-tax-prep
+title: US Self-Employed Tax Prep
+description: Prepare US federal quarterly estimated tax maths and a 1099-NEC contractor list as notes for an accountant. Use for US self-employment tax, 1099s and W-9s, not for filing or non-US tax.
+category: finance
+include_in_prompt: false
+triggers:
+- us self employed tax prep
+- US self-employment tax

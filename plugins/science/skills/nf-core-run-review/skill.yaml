@@ -1,0 +1,8 @@
+name: nf-core-run-review
+title: nf-core Run Review
+description: Review an nf-core pipeline run from pasted samplesheets, logs and QC tables for rnaseq, sarek or atacseq, covering sheet errors, exit codes and metrics. Use for checking a run, not for running one.
+category: science
+include_in_prompt: false
+triggers:
+- nf core run review
+- checking a run

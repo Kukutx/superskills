@@ -1,0 +1,7 @@
+name: inventory-reorder
+title: Inventory Reorder
+description: Decide what stock to reorder and how much from sales and inventory data, with days of cover, lead time, dead-stock flags and a draft purchase order. Not for storefront or theme development.
+category: ecommerce
+include_in_prompt: false
+triggers:
+- inventory reorder

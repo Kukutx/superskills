@@ -32,6 +32,7 @@ A Skill guides decisions; it does not create a new permission gate. On hosts tha
 | PRD, MVP scope or product behavior | `product/prd-builder` |
 | diagnose an observed software failure | `development/bug-diagnosis` |
 | review code, a diff or pull request for concrete risks | `development/code-review` |
+| explicit security audit or penetration test of a codebase, with verified findings and severity | `development/security-audit` |
 | decide unresolved software architecture, ownership or interfaces | `development/technical-design` |
 | turn decided architecture into file-level tasks and tests | `development/implementation-plan` |
 | Godot dimension-neutral project systems | `development/godot-project-systems` |
@@ -40,6 +41,9 @@ A Skill guides decisions; it does not create a new permission gate. On hosts tha
 | generate, slice or package sprite animation assets | `development/sprite-animation-pipeline` |
 | Drupal modules, theming, config, caching, upgrades, or Italian PA sites on Bootstrap Italia | `development/drupal-development` |
 | WordPress themes, plugins, Elementor, WooCommerce, or WP-CLI site migrations | `development/wordpress-development` |
+| Expo or React Native app with Expo or EAS, from structure to store submission | `development/expo-development` |
+| web animation with GSAP, tweens, timelines, ScrollTrigger or React integration | `development/gsap-animation` |
+| Three.js browser game, from core loop to graphics, UI, audio and release QA | `development/threejs-game-development` |
 | explicit divination, astrology or symbolic fortune reading | `personal/divination-reading` |
 | evidence-led birth-cohort or historical life context | `personal/generational-context-analysis` |
 | non-diagnostic reflection on personal thoughts and behavior | `personal/psychology-reflection` |
@@ -47,11 +51,13 @@ A Skill guides decisions; it does not create a new permission gate. On hosts tha
 | xTool F1 engraving-ready design and production guidance | `creative/xtool-f1-engraving` |
 | App Store or Play Store visual assets | `design/app-store-assets` |
 | review and refine an existing image | `design/image-review-refiner` |
+| editorial diagram as a self-contained HTML and SVG figure | `design/diagram-design` |
 | Shopify implementation, Liquid, theme or store integration | `ecommerce/shopify-dev` |
 | audience, value proposition and product messaging | `marketing/product-positioning` |
 | professional business email | `writing/business-email` |
 | App Store or Play Store listing copy | `writing/app-store-copy` |
 | create, tailor, rewrite or audit a resume/CV | `writing/resume-writing` |
+| complete Chinese novel of 10 to 50 chapters, with outline, continuity memory and hooks | `writing/chinese-novel-writing` |
 | generic release readiness and go/no-go gate | `operations/release-checklist` |
 | repeated process or SOP | `operations/sop-builder` |
 | extract action items from messages or notes, inbox triage, personal task list | `planning/inbox-and-task-digest` |
@@ -150,14 +156,31 @@ decide what is true or current -> research-brief
 
 A discovery task may verify one material fact without becoming a full research brief. Use both only when evidence synthesis is a distinct deliverable.
 
-### Bug diagnosis vs code review
+### Bug diagnosis vs code review vs security audit
 
 ```text
 observed failure and root cause -> bug-diagnosis
 inspect visible code/change for defects -> code-review
+explicit security audit or pen test, verified findings and severity -> security-audit
 ```
 
 A failing runtime path needs reproduction evidence, not a generic review checklist.
+A general review stays with code-review; security-audit runs only when the user
+explicitly asks for an audit, and it never modifies target source.
+
+### Game engines
+
+```text
+Godot 2D / 3D or shared project systems -> matching Godot owner
+Three.js browser game -> threejs-game-development
+sprite frames, slicing and packing -> sprite-animation-pipeline
+```
+
+For game work beyond Godot and Three.js, the external catalog
+`gamedev-skills/awesome-gamedev-agent-skills` (Apache-2.0) lists 79 skills by
+engine, discipline, genre and workflow; it is a routing reference only, not
+imported into this repository. Its Godot discipline list is linked from
+`development/godot-project-systems` references.
 
 ### Godot shared vs dimensional owners
 

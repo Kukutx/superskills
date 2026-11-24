@@ -48,3 +48,9 @@ If there are no meaningful findings, say so. Do not manufacture style/security/p
 - After fixes, re-check the fixed findings only; do not loop a broad review until it comes back clean.
 - Do not convert an observed runtime bug into a generic code review when a focused reproduction path is more useful.
 - For version-sensitive APIs/framework behavior, verify current primary documentation when needed.
+
+## References
+
+| Need | Load |
+| --- | --- |
+| completion gate: no claim without fresh verification evidence | [references/verification-before-completion.md](references/verification-before-completion.md) |

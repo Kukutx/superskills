@@ -1,0 +1,8 @@
+name: content-strategy
+title: Content Strategy
+description: Plan what to publish with content pillars, topic clusters, a scored topic list, a content calendar and community building. Use for what to write or post about and where, not for writing the pieces.
+category: marketing
+include_in_prompt: false
+triggers:
+- content strategy
+- what to write or post about

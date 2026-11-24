@@ -1,0 +1,7 @@
+name: sprite-animation-pipeline
+title: Sprite Animation Pipeline
+description: Produce game-ready 2D or pixel sprite animation assets by planning strips, slicing, normalizing, packing and adding timing metadata for engine import. Not for engine-side gameplay logic.
+category: development
+include_in_prompt: false
+triggers:
+- sprite animation pipeline

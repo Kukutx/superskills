@@ -1,0 +1,7 @@
+name: data-analysis
+title: Data Analysis
+description: Analyze a dataset, CSV, metric trend or A/B result and check the numbers before they are shared. Use to explore data, explain a change or review an analysis, not to write SQL or design a chart.
+category: data
+include_in_prompt: false
+triggers:
+- data analysis

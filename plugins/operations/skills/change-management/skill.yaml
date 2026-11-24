@@ -1,0 +1,7 @@
+name: change-management
+title: Change Management
+description: Write a change request or rollout plan with impact analysis, a risk register, communication plan and rollback triggers, or optimize a slow process. Not for a release go/no-go check.
+category: operations
+include_in_prompt: false
+triggers:
+- change management

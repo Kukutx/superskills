@@ -1,0 +1,8 @@
+name: app-store-copy
+title: App Store Copy
+description: App Store and Google Play listing copy including title, subtitle, descriptions, screenshot captions, release notes and keywords from real features. Use for store wording, not store visuals.
+category: writing
+include_in_prompt: false
+triggers:
+- app store copy
+- store wording

@@ -1,0 +1,8 @@
+name: xtool-f1-engraving
+title: xTool F1 Engraving
+description: xTool F1 laser engraving design with engraving-ready artwork, material-aware detail, vector vs raster choice and test guidance. Use for any xTool or laser engraving task.
+category: creative
+include_in_prompt: false
+triggers:
+- xtool f1 engraving
+- any xTool or laser engraving task
