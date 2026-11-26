@@ -54,9 +54,7 @@ State the sample size first. Code each deal with one primary reason (product fit
 
 For each proposed correction show current value → proposed value with its evidence (the email or note and its date), and let the user approve item by item. Stage and amount are only ever suggested: "we are moving forward" is not a won deal. Contradictory notes are resolved by adding a new note, not by editing history. Nothing is deleted. Cleaning once is half the job; propose the prevention as well: required fields per stage, fixed choices instead of free text (including a short fixed list of loss reasons), a rule for merging duplicates, and a regular audit, starting with whichever problem distorts the numbers most.
 
-## Lightweight CRM
-
-With no CRM, a spreadsheet with four tabs is enough: Contacts, Deals, Activity and a follow-up Queue. Deals use four stages — new, quoted, won, lost — and the next-step column is the one that matters. Activity is append-only: three to five lines per entry with the decision, the numbers and the next step, dated when the event happened. Suggest a real CRM once, when open deals pass roughly 150 or several people edit at the same time.
+Setting up a lightweight CRM is in [references/lightweight-crm.md](references/lightweight-crm.md).
 
 ## Output
 

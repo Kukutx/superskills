@@ -30,7 +30,7 @@ Skill 目录遵循 [Agent Skills 规范](https://agentskills.io/specification)�
 
 ```bash
 python tools/generate_skill_yaml.py    # Muse：plugins/<category>/skills/<skill>/skill.yaml
-python tools/generate_openai_yaml.py   # ChatGPT + Codex：agents/<category>/<skill>/openai.yaml
+python tools/generate_openai_yaml.py   # OpenAI（ChatGPT Skills/插件 + Codex）：agents/<category>/<skill>/openai.yaml
 ```
 
 `skill.yaml`（Muse 导入用）：`name`、`title`（SKILL.md 的 H1）、`description`（原文照抄）、
@@ -48,7 +48,7 @@ python tools/sync_adapters.py --check    # 只检查是否过期，不写文件
 `openai.yaml` 同样由 Validator 检查：`display_name` / `short_description` 必须与
 `SKILL.md` 的 H1 / `description` 一致，缺失或漂移都是错误。
 
-`openai.yaml`（ChatGPT + Codex 共用）：`display_name`、`short_description`（原文照抄）、
+`openai.yaml`（ChatGPT Skills/插件 + Codex 共用）：`display_name`、`short_description`（原文照抄）、
 `policy.allow_implicit_invocation: true`、`dependencies: []`（目前无 Skill 需要 MCP 依赖，
 不编造）。各宿主的安装、触发与限制见 [docs/multi-agent.md](multi-agent.md)。
 
@@ -76,9 +76,9 @@ python tools/sync_adapters.py --check    # 只检查是否过期，不写文件
 
 `.claude-plugin/marketplace.json`（Claude Code）和 `.agents/plugins/marketplace.json`（Codex / ChatGPT）由 `python tools/build_manifests.py` 生成，不手改；新增、删除分类或改了 `plugin.json` 后重新生成，Validator 会拒绝过期的清单。发布前用 `python tools/build_manifests.py --version <x.y.z>` 统一提升版本。
 
-claude.ai 网页端和桌面端可以在 Customize > Plugins 把本仓库加为 marketplace，按分类安装插件（按分类安装未验证，见 README）；也可以用 `python tools/package_web_skills.py` 为每个 Skill 生成一个上传用 ZIP。ChatGPT Project / GPT 没有原生注册表，继续用 runtime bundle 加 Router；ChatGPT 网页端启用流程未验证。
+claude.ai 网页端和桌面端可以在 Customize > Plugins 把本仓库加为 marketplace，按分类安装插件（按分类安装未验证，见 README）；也可以用 `python tools/package_web_skills.py` 为每个 Skill 生成一个上传用 ZIP。ChatGPT Project 没有原生注册表，手动上传需要的 `SKILL.md` 和 Router；Custom GPTs 已于 2026-12-11 退役，旧的 GPT runtime bundle（`tools/build_bundle.py`、`gpts/`）已随之删除。ChatGPT 网页端启用流程未验证。
 
-有原生 Skill 注册表的宿主不会加载 Router 或 `gpts/` 下的 Project Instructions，网页端上传的也只有 Skill 自己的目录。因此 Skill 正文必须自足：不能写“按全局规则处理”，也不能依赖同一分类里的另一个 Skill 一定已安装。
+有原生 Skill 注册表的宿主不会加载 Router，网页端上传的也只有 Skill 自己的目录。因此 Skill 正文必须自足：不能写“按全局规则处理”，也不能依赖同一分类里的另一个 Skill 一定已安装。
 
 ## Minimal `SKILL.md`
 
@@ -96,7 +96,7 @@ claude.ai 网页端和桌面端可以在 Customize > Plugins 把本仓库加为 
 
 ## Agentic baseline
 
-新的高能力 Agent 不需要每个 Skill 都重复教它“先计划、先询问、先确认、再执行”。这类通用行为由 `gpts/default/project-instructions.md` 统一拥有。
+新的高能力 Agent 不需要每个 Skill 都重复教它“先计划、先询问、先确认、再执行”。这类通用行为由本指南的 Autonomy and escalation ownership 一节统一拥有（原 `gpts/default/project-instructions.md` 已随 Custom GPTs 退役删除，全文见 Git 历史）。
 
 Skill 应优先保存：
 
@@ -149,7 +149,7 @@ step-by-step prose that a capable agent can infer
 plugins/meta/skills/skill-router/SKILL.md
 ```
 
-Router 服务于没有原生注册表的宿主（ChatGPT Project / GPT）。有注册表的宿主靠每个 Skill 的 `description` 自行触发，所以路由边界必须同时体现在相关 Skill 的 `description` 里，而不只写在 Router。
+Router 服务于没有原生注册表的宿主（ChatGPT Project）。有注册表的宿主靠每个 Skill 的 `description` 自行触发，所以路由边界必须同时体现在相关 Skill 的 `description` 里，而不只写在 Router。
 
 原则：
 
@@ -164,7 +164,7 @@ Catalog 只维护在 Router 的 `## Catalog` 表格中。新增、删除或重�
 
 ## Autonomy and escalation ownership
 
-全局的自治、询问、批准和 scope 规则由 `gpts/default/project-instructions.md` 持有。普通 Skill 不要复制一套通用的“信息不足就询问”或“执行前先确认”长文。
+全局的自治、询问、批准和 scope 规则由本节持有，不再有单独的全局指令文件（原 `gpts/default/project-instructions.md` 已随 Custom GPTs 退役删除，全文见 Git 历史）。普通 Skill 不要复制一套通用的“信息不足就询问”或“执行前先确认”长文。
 
 领域 Skill 只补充该领域真正会改变结果的输入和阻塞条件，例如：
 
@@ -217,7 +217,7 @@ Reference 至少应满足一项：
 
 ## Maintenance standard
 
-Runtime 不加载 `maintenance/`。它与 `plugins/` 平级，按 `maintenance/<category>/<skill>/` 对应到 Skill，所以不会进入插件缓存、网页端 ZIP 或 runtime bundle；runtime 文件也不得链接到它。
+Runtime 不加载 `maintenance/`。它与 `plugins/` 平级，按 `maintenance/<category>/<skill>/` 对应到 Skill，所以不会进入插件缓存或网页端 ZIP；runtime 文件也不得链接到它。
 
 只使用：
 
@@ -419,17 +419,7 @@ Validator 负责：
 
 ## Runtime bundle
 
-不要手工复制整仓库到 GPT Knowledge。使用可重复构建：
-
-```bash
-python tools/build_bundle.py \
-  --profile gpts/default \
-  --skill development/godot-project-systems \
-  --reference development/godot-project-systems:ui-ux \
-  --reference development/godot-project-systems:input-controls-accessibility
-```
-
-整类用 `--category <category>`；全部 Skill 和 reference 用 `--all-skills`，Release 附带的就是这个完整包。Bundle 自动包含 Project Instructions、Router、选中的 Skill 和 reference，并拒绝 `maintenance/`。`manifest.json` 记录源提交、文件哈希、字节数和粗略 Token 预算。
+没有可重复构建的 runtime bundle：`tools/build_bundle.py` 和 `gpts/` 已随 Custom GPTs 退役（2026-12-11）删除。ChatGPT Project 没有原生注册表时，手动上传需要的 `SKILL.md`、相关 `references/` 和 Router；不要上传整个仓库，也不要上传 `maintenance/`。ChatGPT Skills/插件路线用单个 `SKILL.md` 文件夹或按分类的 portable 插件，见 [docs/multi-agent.md](multi-agent.md)。
 
 ## Review test
 

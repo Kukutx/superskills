@@ -17,7 +17,7 @@ Choose one primary Skill. Add a secondary Skill only for a separable subtask wit
 
 A task being long, multi-step or tool-heavy does **not** make planning the requested deliverable. When the user asks to perform work, route to the domain owner or direct execution and plan internally. Use `project-planner` only when a roadmap or cross-workstream plan is itself the requested output.
 
-A Skill guides decisions; it does not create a new permission gate. On hosts that load `gpts/default/project-instructions.md`, global autonomy and escalation behavior comes from there.
+A Skill guides decisions; it does not create a new permission gate. There is no separate global instructions file: autonomy and escalation behavior is defined per Skill and in the authoring guide.
 
 ## Catalog
 

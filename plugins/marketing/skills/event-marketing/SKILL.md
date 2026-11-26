@@ -36,16 +36,9 @@ A first appearance is judged with a discount: a promising event that loses money
 - At the booth: a thirty-second qualifying question, and a context note on each conversation instead of a bare scan. Whoever had the conversation writes the follow-up.
 - Events are judged one by one, not as a channel. A few usually produce most of the attributed pipeline; find them, put more into those (a talk, a larger side event, better-suited staff), cut the long tail, and re-rank yearly. Large conferences dilute the audience; regional events of one or two hundred people often return more.
 
-## Webinars
+Webinars are in [references/webinars.md](references/webinars.md).
 
-- A problem-led topic, not a product topic; the title is the advertisement. Decide the single next step (trial, demo, audit, purchase) before writing the content. One theme, one promise, one action.
-- Structure: say at the start that an offer comes at the end, three points each with evidence, a scripted one-minute transition, one offer, and a few seeded questions.
-- Reminders: on registration with a calendar file, a day before with something useful, an hour before, and five minutes before with the link.
-- Diagnose by stage: low registration is the topic, title or promise, or the traffic; low attendance is the gap between registration and the event or a missing calendar add; people leaving early means the content was not front-loaded or did not match the promise, so find the minute they left; staying but not converting is the transition or the offer.
-
-## Speaking
-
-A proposal is about what the audience takes away, not about the company: the problem, two or three concrete takeaways and why the speaker is qualified, in about 150 words. Before writing the talk fix four things: who it is for, what they can do on Monday, what the speaker wants from it, and a point of view with evidence for each block. The recording is the lasting asset: confirm the right to republish it, publish it with a text version, and reply to everyone who asked a question within a day or two.
+Speaking is in [references/speaking.md](references/speaking.md).
 
 ## Follow-up and measurement
 

@@ -38,7 +38,7 @@ Rank candidate hooks by recency, then by how specific they are to this person, t
 - Subject of two to four plain words as a default, written the way a colleague would title an internal note: it refers to the hook or the problem, not the product, and carries no name, number, urgency word or sales term.
 - No "hope this finds you well", no "I wanted to reach out", no paragraph about the sender's company.
 - Do not name a competitor first.
-- In a sequence, each touch adds something new and is a little more direct; the last one makes it easy to say no. A reply of any kind stops the sequence. The cadence, the phrases to avoid, the closing email, how to find the first customers of a new product, answers by kind of objection and the shape of sales materials are in [references/sequences-and-objections.md](references/sequences-and-objections.md).
+- In a sequence, each touch adds something new and is a little more direct; the last one makes it easy to say no. A reply of any kind stops the sequence. The cadence, the phrases to avoid, the closing email, answers by kind of objection and the shape of sales materials are in [references/sequences-and-objections.md](references/sequences-and-objections.md). How to find the first customers of a new product is in [references/first-customers.md](references/first-customers.md).
 - Write the way the user writes. With no sample of their voice, write neutrally and say so. A message that reads as a template with the company name inserted is rewritten.
 
 ## Objections

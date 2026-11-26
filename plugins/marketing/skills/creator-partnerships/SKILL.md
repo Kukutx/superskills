@@ -60,16 +60,7 @@ Disclosure rules, checked against the US Federal Trade Commission's own guidance
 
 Set up before the first post, because none of it can be added afterwards: a code per creator, a tagged link per creator and per placement, a landing page for the campaign, and a "how did you hear about us" question after purchase. Report cost per qualified result. Earned-media-value figures are not evidence of anything.
 
-## Co-marketing partners
-
-- **A good partner** sells to the same buyers, solves a different problem, sits next to the product in the buyer's workflow and is at a similar stage.
-- **Where to look**: tools the user's customers already use, sponsors of the newsletters and podcasts they follow, exhibitors at the same events, companies active in the same communities, the integrations customers ask for most.
-- **Five kinds of partnership, chosen by the problem**: an integration (products connect; helps retention and expansion) when customers leave or stall; affiliates (paid per referral; fast and performance-based) or resellers (they sell and service it; slow and heavy, and they care about their service margin) when distribution is wanted without more staff; co-marketing (joint content or events) when there is content but no reach; a marketplace or app store listing when one platform owns the buyer's daily workflow, in which case commit to that one platform and count its commission as the cost of acquisition. The kinds feed each other: integrations bring marketplace presence, which attracts resellers and affiliates, whose results become case studies.
-- **Score each candidate from 1 to 5** on audience fit, audience size, brand match, engagement quality, what each side can give the other, and ease of execution. Weight by the goal: reach and fit for acquisition, brand match and engagement for a relationship. With several candidates and little time, start with one low-effort content swap to test the relationship before a large joint project.
-- **Pick the format by effort and by who keeps the leads**: a newsletter swap or a podcast guest slot costs little and each side keeps its own leads; a joint report or study is gated and the leads are shared. Co-marketing is one kind of partnership among five; do not default to joint content.
-- **Arrive with two or three concrete ideas**, the user's own audience figures and a clear statement of what each side would get.
-- **Agreed before starting**: who owns the leads, what each side commits to promote, who makes the materials and who approves them, who pays for what, how each brand may be used, the timeline, how success is measured, and what happens afterwards.
-- **Leads from a joint event** are split in one of three ways, chosen in advance and written down: each side keeps its own registrations (cleanest, no cross-acquisition), everything is shared (widest reach, needs a clear hand-over and the consent to share), or by the audience each lead came from. Judge the result by lead quality and attributed revenue per partner, not by count, and review it together before planning a second one.
+Co-marketing partners are in [references/co-marketing-partners.md](references/co-marketing-partners.md).
 
 ## Output
 

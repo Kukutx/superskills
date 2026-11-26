@@ -73,7 +73,7 @@ A `SKILL.md` carries no syntax that only one host interprets, such as a command-
 
 ## Agentic quality bar
 
-A capable agent already knows how to inspect context, plan internally, use tools, make routine reversible choices and report results. Those generic behaviors belong in `gpts/default/project-instructions.md`, not in every Skill.
+A capable agent already knows how to inspect context, plan internally, use tools, make routine reversible choices and report results. Those generic behaviors belong in the authoring guide's autonomy section, not in every Skill.
 
 A domain Skill should not force the agent to pause merely because information is imperfect. Add a pause or confirmation rule only when the domain has a real user-only fact, truth boundary, irreversible action or high-impact choice that cannot be resolved from available context.
 

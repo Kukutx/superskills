@@ -42,7 +42,6 @@ superskills/
 │   └── evals/<case>/                # 手写的 claude plugin eval 用例：prompt.md + graders/
 ├── .claude-plugin/marketplace.json  # 生成：Claude Code
 ├── .agents/plugins/marketplace.json # 生成：Codex / ChatGPT
-├── gpts/default/                    # ChatGPT Project / GPT 的指令与打包入口
 ├── docs/authoring-guide.md
 ├── templates/skill-template.md
 ├── tools/
@@ -67,9 +66,9 @@ superskills/
 | Antigravity (Gemini) | 把 Skill 镜像到工作区 `.agents/skills/`，或试 `agy plugin import claude`；见 [docs/multi-agent.md](docs/multi-agent.md)。未验证 |
 | Grok | 未验证，低优先级：据称可直接读 Claude Code marketplace，尚未用 `grok inspect` 核实；见 [docs/multi-agent.md](docs/multi-agent.md) |
 | claude.ai 网页 / 桌面 | 在 Customize > Plugins 选择 Add marketplace，填入 `https://github.com/Kukutx/superskills`，再安装需要的 `superskills-<category>`，无需下载；或用 `python tools/package_web_skills.py` 生成 `dist/claude-web/<skill>.zip`，在 Customize > Skills 逐个上传，每个 Release 也附带这些 ZIP。**未验证**：按分类的插件安装尚未在 claude.ai 上实际验证过（见下） |
-| ChatGPT Project / GPT | 没有原生 Skill 注册表，使用下面的 runtime bundle 和 Router。**未验证**：ChatGPT 网页端的启用流程尚未实际验证，以官方当前说明为准 |
+| ChatGPT | 通过 Plugins > Skills 安装单个 Skill，或提交公开插件目录（见 [docs/multi-agent.md](docs/multi-agent.md)）；ChatGPT Project 没有原生 Skill 注册表，手动上传需要的 `SKILL.md` 和 Router。Custom GPTs 已于 2026-12-11 退役，旧的 GPT runtime bundle 已随之删除 |
 
-有原生注册表的宿主只按 `description` 触发 Skill，不加载 Router 和 `gpts/` 下的 Project Instructions。OpenAI 文档说明打包在插件里的 Skill 也能在 ChatGPT 的 Chat 和 Work 中使用；本仓库只验证过 Codex 侧的安装，ChatGPT 网页端的启用流程**未验证**，以官方当前说明为准。claude.ai 的插件市场安装只在拆分前的单插件布局上用过，按分类的插件还没有在 claude.ai 上实际安装验证（**未验证**）。已验证的安装路径只有 Claude Code 和 Codex CLI 的 marketplace 安装；其余宿主见 [docs/multi-agent.md](docs/multi-agent.md) 的逐宿主状态表。
+有原生注册表的宿主只按 `description` 触发 Skill，不加载 Router。OpenAI 文档说明打包在插件里的 Skill 也能在 ChatGPT 的 Chat 和 Work 中使用；本仓库只验证过 Codex 侧的安装，ChatGPT 网页端的启用流程**未验证**，以官方当前说明为准。claude.ai 的插件市场安装只在拆分前的单插件布局上用过，按分类的插件还没有在 claude.ai 上实际安装验证（**未验证**）。已验证的安装路径只有 Claude Code 和 Codex CLI 的 marketplace 安装；其余宿主见 [docs/multi-agent.md](docs/multi-agent.md) 的逐宿主状态表。
 
 更新：Claude Code 先 `claude plugin marketplace update superskills`，再卸载并重新安装对应插件（本地文件夹源实测 `claude plugin update` 会切到旧快照）；Codex 用 `codex plugin marketplace upgrade`，本地源同样移除后重新添加；`skills` 安装器用 `npx skills update`。Codex 按 `plugin.json` 的 `version` 缓存，发布新内容前先提升版本。
 
@@ -124,22 +123,6 @@ Primary 属于 `research` 分类的 `route` 用例另带 `web` tag 和联网工�
 
 `python tools/check_sources.py --online` 读取所有 `maintenance/**/sources.md`，报告超过复查期限、页面已不存在或仓库已归档的来源。`.github/workflows/freshness.yml` 每月运行一次，有结果时创建或更新一条维护 issue，全部处理后自动关闭；它只提醒复查，不自动改写任何 Skill。
 
-## Build a ChatGPT runtime bundle
-
-不要默认上传整个仓库。构建只包含 Project Instructions、Router、选中的 Skill 与 reference 的最小包：
-
-```bash
-python tools/build_bundle.py \
-  --profile gpts/default \
-  --skill writing/resume-writing \
-  --skill development/godot-project-systems \
-  --reference development/godot-project-systems:ui-ux
-```
-
-整类一起带用 `--category <category>`，可重复；所有 Skill 都要随时可用时用 `--all-skills`，它包含每个分类的全部 Skill 和 reference，文件很多，上传前先确认目标 Project 允许的文件数量。包里的 Router 只保留已选 Skill 的 Catalog 行，并注明其余 Skill 未加载，避免把任务路由到没有上传的文件。
-
-输出的 `manifest.json` 记录源提交、文件哈希、字节数和粗略 Token 预算，并保证不包含 `maintenance/`。
-
 ## Releases
 
 发布前把所有插件提升到同一个新版本并重新生成 marketplace：
@@ -148,7 +131,7 @@ python tools/build_bundle.py \
 python tools/build_manifests.py --version 1.2.0
 ```
 
-`.github/workflows/release.yml` 手动输入的版本标签必须与该版本一致（`v1.2.0`）。它先运行测试、Validator 和 eval export，再构建 claude.ai 上传用的 Skill ZIP 和一个包含全部 Skill 的 ChatGPT Runtime Bundle（`--all-skills`），连同 SHA-256 校验文件一起发布。已存在的版本不会被覆盖。
+`.github/workflows/release.yml` 手动输入的版本标签必须与该版本一致（`v1.2.0`）。它先运行测试、Validator 和 eval export，再构建 claude.ai 上传用的 Skill ZIP，连同 SHA-256 校验文件一起发布。已存在的版本不会被覆盖。
 
 同仓库 PR 合并后，`.github/workflows/delete-merged-branch.yml` 会自动删除已合并的 head branch。
 

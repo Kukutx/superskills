@@ -48,18 +48,7 @@ Typical problems by site type: a store has thin category pages, repeated product
 - **Structure**: four to seven items in the header with the call to action last; add a level when a dropdown passes about 20 items; breadcrumbs mirror the URL path; topic pages link to all their sub-pages and those link back. Depth as a starting point: one to two levels for a small business site, two to three for SaaS or content, three to four for a store or documentation.
 - **URLs**: lowercase, hyphens, readable, reflecting the hierarchy; no dates in blog URLs, no IDs, no content carried in query parameters, one trailing-slash policy. Any changed URL gets a 301. A redesign starts with the list of existing URLs that must keep working.
 
-## AI-search readability
-
-The achievable goal is that assistants can crawl the site, understand it and repeat its facts correctly. Being cited is not being recommended: a recommendation follows from what the rest of the web says about the business, and no site change delivers it; say so when asked. How to report visibility by level, how to measure it and what to do off the site are in [references/ai-visibility.md](references/ai-visibility.md).
-
-- Google states that AI Overviews and AI Mode have no extra requirements: no special file or markup, only a page that is indexed and eligible for a snippet. Write for people and organize clearly; do not produce a second version of the content "for AI".
-- **Crawler access.** Check robots.txt for rules that block AI crawlers, and separate them by purpose: search retrieval, fetching on a user's request, and model training. Take each vendor's current user-agent names from its documentation. Google-Extended governs use for training Gemini models and for grounding their answers and, per Google, has no effect on inclusion or ranking in Search. Blocks are often an accident of a security plugin or template, yet some owners block on purpose, so explain the trade-off and let the user decide. robots.txt is a request, not a wall.
-- **Renderability.** If the main text is not in the raw HTML (single-page apps, widgets, text inside images) many crawlers see an empty shell.
-- **Clear, consistent facts.** Named towns instead of "the tri-state area", one set of opening hours, prices at least as a range, real credentials. Contradictions between pages, or between the site and its listings, do the most damage because a machine cannot choose.
-- **Answer first.** The first two sentences of a page answer its question in complete, checkable sentences, then the specifics (price, duration, what is included, where); FAQ questions come from real customer emails and reviews.
-- An llms.txt file is a young convention, not a standard, and Google says its AI features need no AI text file; if the user wants one it contains only facts they have confirmed.
-- **Assistant test.** Ask several assistants the customers' real questions in a few phrasings, three to five runs each, and record verbatim whether the business appears, who else does and what is cited. Answers vary between runs, so this is a snapshot, not a score; repeat monthly. A specific wrong fact that can be fixed is worth more than "not mentioned".
-- Decline, with a one-line reason: hidden text, cloaking, keyword stuffing, fake or incentivised reviews, invented credentials, and text instructing AI systems what to say.
+AI-search readability is in [references/ai-search-readability.md](references/ai-search-readability.md); how to report and measure AI visibility is in [references/ai-visibility.md](references/ai-visibility.md).
 
 ## Keywords and competitors
 

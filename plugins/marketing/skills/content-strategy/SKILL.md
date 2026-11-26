@@ -67,18 +67,7 @@ For a shop asking what to promote this month:
 
 The brief has six short parts: summary, push hard (two or three products with a content angle each), hold steady, reposition or pause (discount, bundle, stop), seasonal opportunities, recommended offers.
 
-## Community
-
-- Build the community around **an identity the members share**, not around the product, and write that identity down in one sentence.
-- **Starting from zero**: invite 20 to 50 founding members personally and stay private until there is baseline activity; seed 5 to 10 example posts before opening; answer every post in the early weeks; define the one action members should take each week.
-- **Growing**: first find the step where members drop out (join and never post, post once and vanish). Then fix the newcomer path (pinned welcome, introductions, a "start here"), show member results publicly, and keep fixed rituals such as a weekly topic or a monthly question session.
-- **Ambassadors** are recruited from people who already recommend the product unprompted, invited one by one, given something worth having and materials to use, and tracked by the traffic and sign-ups they bring.
-- **Platform** follows the members and the goal: a chat platform built around communities for developers, players and creators who want real-time talk; a workplace chat tool for business audiences, at the price of feeling like work; a forum for discussion that should stay searchable. Ask who the ideal member is before choosing, and take each platform's current limits from its own pages.
-- **Model by goal**: support-led (many repeated questions, peers answer faster than staff; the goal is fewer tickets), product-led (opinionated technical users whose feedback shapes the roadmap), education-led (a learning curve decides activation and retention), founder-led (early stage, the founder's voice is the brand). Most start founder-led and move to one of the others as they grow.
-- **The organizer's role changes with size**: at first an architect who knows every member by name and sets the culture; then a manager who builds rituals, moderation and the newcomer path so activity no longer depends on touching every post; then an enabler of ambassadors and sub-groups. Running a large community like a small one, or the reverse, is the common failure.
-- A support-led community turns frequent questions into a searchable knowledge base, recognizes members who help, and says publicly when feedback changed the product. Peer help is valued as help, not used as the company's way out of supporting customers.
-- A health check ends in an honest verdict: revive with a few rituals, restart around a different identity, or let it go.
-- **Health** is read from the share of members active in a month who are active on a given day (about 20% is a working threshold for healthy), the share of newcomers who post within seven days, the reply rate, and the share of posts written by non-staff. Warning signs: most posts come from the team, questions sit unanswered for a day, the same five people write most of the content, newcomers go silent after introducing themselves.
+Community building is in [references/community.md](references/community.md).
 
 ## AI search
 

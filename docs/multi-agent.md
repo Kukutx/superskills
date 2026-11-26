@@ -10,8 +10,8 @@ sidecar 永远不手改。
 | 宿主 | 优先级 | 安装 | 触发 | Adapter | 状态 |
 | --- | --- | --- | --- | --- | --- |
 | Claude Code | 高 | `claude plugin marketplace add Kukutx/superskills`，再 `claude plugin install superskills-<category>@superskills`；或复制到 `~/.claude/skills/` | description 自动触发，`/<skill>`，插件内 `/superskills-<category>:<skill>` | 几乎无；仓库本身就是按 Claude 插件结构建的 | ✅ 已验证安装 |
-| Codex | 高 | `codex plugin marketplace add Kukutx/superskills`，再 `codex plugin add superskills-<category>@superskills`；或 `.agents/skills/` | description 自动触发，`/skills` 选择器，`$<skill>` | `agents/<category>/<skill>/openai.yaml`（与 ChatGPT 共用） | ✅ CLI 已验证；全量 105 个描述约 20,000 字符，超过约 8,000 字符的目录预算，按分类安装 |
-| ChatGPT | 高 | Plugins > Skills 上传单个 Skill，或提交公开插件目录（ZIP + 审核）；无本地文件夹 | description 自动触发，`@<skill>` | 同上 `agents/.../openai.yaml`；按分类的 portable `plugin.json`（`"skills": "./skills/"`） | ◐/❌ **未验证**：网页端启用流程从未实测；个人版（Plus/Pro）能否自建 Skill 取决于套餐，需先确认用户套餐 |
+| Codex | 高 | `codex plugin marketplace add Kukutx/superskills`，再 `codex plugin add superskills-<category>@superskills`；或 `.agents/skills/` | description 自动触发，`/skills` 选择器，`$<skill>` | `agents/<category>/<skill>/openai.yaml`（与 ChatGPT Skills/插件共用） | ✅ CLI 已验证；全量 105 个描述约 20,000 字符，超过约 8,000 字符的目录预算，按分类安装 |
+| ChatGPT | 高 | Plugins > Skills 上传单个 Skill，或提交公开插件目录（ZIP + 审核）；无本地文件夹 | description 自动触发，`@<skill>` | 同上 `agents/.../openai.yaml`；按分类的 portable `plugin.json`（`"skills": "./skills/"`） | ◐/❌ **未验证**：网页端启用流程从未实测；自建 Skill 只列在 Business / Enterprise / Healthcare / Edu 套餐下，需先确认用户套餐 |
 | Muse | 高 | 无官方安装流程；本地把 `plugins/<category>/skills/<skill>/`（`SKILL.md` + `skill.yaml`）复制到 `~/workspace/custom-skills/<skill>/` | 对话中按 description + `triggers:` 匹配；无斜杠命令 | `tools/generate_skill_yaml.py` 生成 `skill.yaml`（name/title/description/category/include_in_prompt/triggers） | ◐ 已导入 development + personal + meta（17 个）；其余 88 个批量导入未验证 |
 | Antigravity (Gemini) | 偶尔 | 工作区 `<root>/.agents/skills/`（向上查到仓库根）；全局 `~/.gemini/config/skills/`；或 `agy plugin import claude` | description 自动触发，`/<skill>` | 镜像/软链 `plugins/*/skills/*` → `.agents/skills/`；先试 `agy plugin import claude`，可能不需要镜像 | ◐ 官方文档已读，`agy plugin import claude` 行为未验证；CLI 与 IDE 的全局路径可能不同 |
 | Grok (Grok Build) | 低 | `.grok/skills/`、`~/.grok/skills/`、`~/.agents/skills/`；据称可直接读 Claude Code marketplace | `/<skill>`，默认自动触发 | 可能不需要；先用 `grok inspect` 核实 passthrough 是否属实 | ❌ **未验证**：无官方文档核对，`grok` CLI 未安装；最低优先级 |
@@ -22,7 +22,7 @@ sidecar 永远不手改。
 
 ```bash
 python tools/generate_skill_yaml.py    # Muse：每个 Skill 一个 skill.yaml
-python tools/generate_openai_yaml.py   # ChatGPT + Codex：agents/<category>/<skill>/openai.yaml
+python tools/generate_openai_yaml.py   # OpenAI（ChatGPT Skills/插件 + Codex）：agents/<category>/<skill>/openai.yaml
 python tools/generate_skill_yaml.py --check   # 检查是否过期（Validator 也会查）
 ```
 
@@ -45,25 +45,25 @@ python tools/generate_skill_yaml.py --check   # 检查是否过期（Validator �
 
 ## Codex
 
-与 ChatGPT 共用 `agents/openai.yaml`。描述目录预算约 2% 上下文或 8,000 字符
-（窗口未知时），105 个 Skill 的描述合计约 20,000 字符，全装大概率会被静默丢弃
-一部分；按分类安装，不要一次装全部。`codex plugin marketplace upgrade` 刷新
-Git 快照；是否必须先升 `plugin.json` 的版本才能让更新生效，未验证。
+与 ChatGPT Skills/插件共用 `agents/openai.yaml`。OpenAI 官方 Skills 文档确认：Skill 就是一个含 `SKILL.md` 的文件夹，`agents/openai.yaml` 是可选的展示、策略与依赖 sidecar；Codex 从 `.agents/skills/`（项目/用户级）等位置扫描 Skill，`$<skill>` 显式调用或按 description 自动触发。描述目录预算约 2% 上下文或 8,000 字符（窗口未知时），105 个 Skill 的描述合计约 20,000 字符，全装大概率会被静默丢弃一部分；按分类安装，不要一次装全部。`codex plugin marketplace upgrade` 刷新 Git 快照；是否必须先升 `plugin.json` 的版本才能让更新生效，未验证。
 
 ## ChatGPT
 
 两个路线：单个 Skill 在 Plugins > Skills 上传（会被扫描，风险 Skill 可能被标
 Needs Review / Blocked）；或按分类打包 portable 插件 ZIP（根 `plugin.json` 声明
 `"skills": "./skills/"`）提交公开插件目录，需验证过的开发者身份 + 审核。
-旧的 `gpts/default/` Custom GPT bundle 路线可能随 Custom GPTs 退役（传 2026-12-11，
-未对官方页面核实），只作 legacy fallback。ChatGPT 没有本地文件系统和 shell，
-`scripts/` 无法本地执行——目前 105 个 Skill 都没有 `scripts/`，这个问题暂时不存在。
-`gpts/default/project-instructions.md` 是 ChatGPT 专用的全局策略，不会跟随 Skill
-进入插件路线。**先确认用户的 ChatGPT 套餐**：自建 Skill 只列在 Business /
+Custom GPTs 已于 2026-12-11 退役（OpenAI Help Center“GPTs in ChatGPT”，2026-09-11
+公布；FedRAMP 及获批延期的 Enterprise 工作区延至 2027-02-28），替代品是插件：
+GPT 的指令变成一个 Skill，知识文件变成 reference 文件。旧的 `gpts/default/`
+bundle、`tools/build_bundle.py` 和 `gpts/core/` 精简包已随之删除；`gpts/default/project-instructions.md`
+的全局策略不再由任何宿主加载，其内容见 authoring-guide 的 Autonomy and escalation
+ownership 一节，全文见 Git 历史。ChatGPT 没有本地文件系统和 shell，
+`scripts/` 无法本地执行——目前 124 个 Skill 都没有 `scripts/`，这个问题暂时不存在。
+**先确认用户的 ChatGPT 套餐**：自建 Skill 只列在 Business /
 Enterprise / Healthcare / Edu 套餐下，Free / Go / Plus / Pro 未列入。
 
-Core profile：完整包太大时用 `gpts/core/skills.txt`（34 个最常用 Skill）构建精简包，
-见 `gpts/core/README.md`；CI 对它执行 100 文件 / 120,000 token 的自定预算。
+ChatGPT Project 没有原生 Skill 注册表：手动上传需要的 `SKILL.md`、相关
+`references/` 和 Router，不要上传整个仓库或 `maintenance/`。
 
 ## Muse
 
@@ -102,7 +102,7 @@ Antigravity 的镜像方式做 `.grok/skills/`（或共用的 `~/.agents/skills/
   适配器改了调用拼写就要同步更新 Router 的说明。
 - **版本**：只有 `plugins/<category>/plugin.json` 带版本。某宿主是否要求升版本
   才拾取更新，各宿主都未验证；安全做法是每次改 Skill 都统一升版本。
-- **未验证清单（不要当事实讲）**：ChatGPT Custom GPT 退役日期；个人套餐能否装
+- **未验证清单（不要当事实讲）**：个人套餐能否装
   目录插件；Codex 8,000 字符预算与 portable/compat `plugin.json` 接受度；
   Claude 1% 列表预算与 claude.ai 多余字段硬失败；Muse 的 `skill.yaml` schema
   与全量注册预算；Antigravity 各界面全局路径与 `references/` 加载；
