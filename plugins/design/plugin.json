@@ -2,7 +2,7 @@
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "superskills-design",
   "version": "1.1.0",
-  "description": "App Store / Play Store visual assets, landing page design, UI design review, review of existing images, and editorial diagram design.",
+  "description": "App Store / Play Store visual assets, project media, landing page design, UI design review, review of existing images, and editorial diagram design.",
   "author": {
     "name": "Kukutx"
   },

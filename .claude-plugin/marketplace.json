@@ -22,7 +22,7 @@
     },
     {
       "name": "superskills-design",
-      "description": "App Store / Play Store visual assets, landing page design, UI design review, review of existing images, and editorial diagram design.",
+      "description": "App Store / Play Store visual assets, project media, landing page design, UI design review, review of existing images, and editorial diagram design.",
       "source": "./plugins/design",
       "strict": false
     },
@@ -58,19 +58,19 @@
     },
     {
       "name": "superskills-meta",
-      "description": "Prompt optimization, Skill authoring, cross-session memory and the Superskills router.",
+      "description": "Prompt optimization, Skill authoring, cross-session memory, AI tool accounts and the Superskills router.",
       "source": "./plugins/meta",
       "strict": false
     },
     {
       "name": "superskills-operations",
-      "description": "Release gates, SOPs, incident response, crisis communications, change management, vendor evaluation and status reports.",
+      "description": "Release gates, site release pipelines, SOPs, incident response, crisis communications, change management, vendor evaluation and status reports.",
       "source": "./plugins/operations",
       "strict": false
     },
     {
       "name": "superskills-people",
-      "description": "Hiring, interviews and offers, and performance reviews.",
+      "description": "Hiring, interviews and offers, performance reviews, and keeping career surfaces consistent.",
       "source": "./plugins/people",
       "strict": false
     },
@@ -82,7 +82,7 @@
     },
     {
       "name": "superskills-planning",
-      "description": "Idea evaluation, cross-workstream project roadmaps, and inbox and task digests.",
+      "description": "Idea evaluation, cross-workstream project roadmaps, inbox and task digests, and the scheduled daily brief.",
       "source": "./plugins/planning",
       "strict": false
     },
@@ -118,7 +118,7 @@
     },
     {
       "name": "superskills-writing",
-      "description": "Business email, store listing copy, marketing copy, brand voice guides, social content, interface microcopy, multilingual documents, truthful resumes, and Chinese novel writing.",
+      "description": "Business email, store listing copy, marketing copy, brand voice guides, personal voice, social content, interface microcopy, multilingual documents, truthful resumes, and Chinese novel writing.",
       "source": "./plugins/writing",
       "strict": false
     }

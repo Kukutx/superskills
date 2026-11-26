@@ -1,6 +1,6 @@
 ---
 name: resume-writing
-description: Create, tailor, rewrite or audit a resume or CV for a target role with evidence-based bullets and ATS-safe structure, never inventing experience, dates or metrics. Not for job search.
+description: Create, tailor, rewrite or audit a resume or CV for a role with evidence-based, ATS-safe bullets, never inventing experience, dates or metrics. Not for job search or surface consistency.
 ---
 
 # Resume Writing

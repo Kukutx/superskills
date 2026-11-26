@@ -10,6 +10,7 @@ Maintenance-only. Protect truthful resume ownership, evidence quality and the au
 | resume-004 | “我是 3 年经验的前端工程师，想找远程岗位，帮我找最适合的职位并投递。” | `research/web-discovery` | `writing/resume-writing` only when a resume version is separately requested | treating job discovery as resume writing |
 | resume-005 | “根据我的简历写一封给招聘经理的邮件。” | `writing/business-email` | `writing/resume-writing` only if the resume itself also changes | returning another resume instead of the requested email |
 | resume-006 | “先按这份半成品简历做能做的部分，缺失事实标出来，不要等我补完。” | `writing/resume-writing` | none | refusing progress, repeatedly asking non-blocking questions or converting placeholders into claims |
+| resume-007 | “我换了新工作，把简历、LinkedIn 和网站上的职位都改成一致的。” | `people/career-surfaces` | none | rewriting only the resume and leaving the other surfaces stale |
 
 ## Completion cases
 

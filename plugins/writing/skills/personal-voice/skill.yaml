@@ -1,0 +1,7 @@
+name: personal-voice
+title: Personal Voice
+description: Write in one person's own voice from their voice guide, quoting their words verbatim and marking what is uncertain. Not for a brand voice guide or a business email.
+category: writing
+include_in_prompt: false
+triggers:
+- personal voice

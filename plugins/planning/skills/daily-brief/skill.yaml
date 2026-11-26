@@ -1,0 +1,7 @@
+name: daily-brief
+title: Daily Brief
+description: Scheduled unattended multi-source digest that syncs the hub, backs up memory, collects what needs the owner and writes a short structured brief. Not for triaging pasted messages.
+category: planning
+include_in_prompt: false
+triggers:
+- daily brief

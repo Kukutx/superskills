@@ -1,0 +1,7 @@
+name: career-surfaces
+title: Career Surfaces
+description: Keep facts consistent across a resume, LinkedIn, GitHub profile and personal website, each with its own audience and source of truth. Not for writing a resume alone.
+category: people
+include_in_prompt: false
+triggers:
+- career surfaces

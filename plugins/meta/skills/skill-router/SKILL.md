@@ -26,6 +26,7 @@ A Skill guides decisions; it does not create a new permission gate. On hosts tha
 | prompt or reusable AI instruction is the deliverable | `meta/prompt-optimizer` |
 | create, audit, simplify or restructure a Skill | `meta/skill-builder` |
 | remember decisions, preferences and open threads across sessions | `meta/agent-memory` |
+| several AI CLI tool accounts, quota limits and free-quota helper tasks | `meta/agent-accounts` |
 | broad roadmap across multiple workstreams | `planning/project-planner` |
 | whether a project, product or research idea is worth doing, its riskiest assumptions and pivots | `planning/idea-evaluation` |
 | find or rank web resources, media, examples, pages or accounts | `research/web-discovery` |
@@ -52,16 +53,20 @@ A Skill guides decisions; it does not create a new permission gate. On hosts tha
 | direct image-generation direction or prompt | `creative/image-prompt-director` |
 | xTool F1 engraving-ready design and production guidance | `creative/xtool-f1-engraving` |
 | App Store or Play Store visual assets | `design/app-store-assets` |
+| make or refresh a project's images from originals, captures or photos | `design/project-media` |
 | review and refine an existing image | `design/image-review-refiner` |
 | editorial diagram as a self-contained HTML and SVG figure | `design/diagram-design` |
 | Shopify implementation, Liquid, theme or store integration | `ecommerce/shopify-dev` |
 | audience, value proposition and product messaging | `marketing/product-positioning` |
 | professional business email | `writing/business-email` |
+| write or edit text in one specific person's own voice | `writing/personal-voice` |
 | App Store or Play Store listing copy | `writing/app-store-copy` |
 | create, tailor, rewrite or audit a resume/CV | `writing/resume-writing` |
 | complete Chinese novel of 10 to 50 chapters, with outline, continuity memory and hooks | `writing/chinese-novel-writing` |
 | generic release readiness and go/no-go gate | `operations/release-checklist` |
+| ship a site change end to end through branches, checks, preview, CI and live verification | `operations/site-release` |
 | repeated process or SOP | `operations/sop-builder` |
+| scheduled daily brief across mail, repos, calendar and job sources | `planning/daily-brief` |
 | extract action items from messages or notes, inbox triage, personal task list | `planning/inbox-and-task-digest` |
 | plan user research or synthesize interviews, surveys and reviews | `research/user-research` |
 | rank product initiatives, Now/Next/Later roadmap | `product/roadmap-prioritization` |
@@ -118,6 +123,7 @@ A Skill guides decisions; it does not create a new permission gate. On hosts tha
 | priced quote, estimate, proposal or statement of work | `sales/quote-and-proposal` |
 | grant, RFP or tender go/no-go, compliance matrix and response | `sales/grant-and-rfp-bidding` |
 | job post, resume screening, interview guide and offer | `people/hiring` |
+| keep resume, LinkedIn, GitHub profile and website facts consistent | `people/career-surfaces` |
 | self-assessment, performance review or calibration notes | `people/performance-review` |
 | journal entries, reconciliation and month-end close | `finance/books-close-and-reconciliation` |
 | explain budget versus actual or period-over-period variances | `finance/variance-analysis` |
@@ -214,7 +220,7 @@ Keep symbolic divination, historical cohort evidence and observed psychology pat
 
 ### Resume vs adjacent job tasks
 
-Resume facts, structure, bullets and role tailoring belong to resume-writing. Job discovery is a research/discovery task; application or outreach email belongs to business-email. Do not invent experience or metrics to make a resume sound stronger.
+Resume facts, structure, bullets and role tailoring belong to resume-writing. Job discovery is a research/discovery task; application or outreach email belongs to business-email. Do not invent experience or metrics to make a resume sound stronger. Keeping the same fact consistent across resume, LinkedIn, GitHub and the website belongs to career-surfaces; writing the resume alone belongs to resume-writing.
 
 ### Messages to customers and prospects
 

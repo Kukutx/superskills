@@ -43,6 +43,10 @@ Periodically, fold dated notes into the curated file: promote what still matters
 - When acting on a memory, name its source (the date or the conversation) so the user can correct it.
 - When a memory and the current request conflict, the current request wins; record the change as a new memory instead of arguing with the user.
 
+## Working with other sessions
+
+When several agent sessions work for the same user at once, or one long-running job hands off to the next session, session ownership and handoff state follow [references/multi-session-coordination.md](references/multi-session-coordination.md): leave other sessions' work alone, send outbound actions only with explicit OK, put owner-only steps in the single hand-off place, and carry long jobs forward in per-handoff state files plus an append-only log.
+
 ## Forget
 
 On request, remove the item from the curated file, the dated notes and any index, then confirm what was removed. Forgetting is complete only when no copy remains in the agent's files; a line left in a dated note is not forgotten. Never bring back a forgotten fact from another copy.

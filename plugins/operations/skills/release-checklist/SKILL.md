@@ -1,6 +1,6 @@
 ---
 name: release-checklist
-description: Build a go/no-go release gate with blocking checks, a targeted smoke path, rollback and post-release monitoring. Use for a release that has no project or domain release workflow.
+description: Build a go/no-go release gate with blocking checks, a smoke path, rollback and post-release monitoring. Use when a release has no project or domain workflow, not for shipping a site change.
 ---
 
 # Release Checklist

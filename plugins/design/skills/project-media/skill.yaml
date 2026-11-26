@@ -1,0 +1,7 @@
+name: project-media
+title: Project Media
+description: Make or refresh a project's images from originals, own-page captures or own photos, with capture specs, processing and store-badge rules. Not for store listing assets.
+category: design
+include_in_prompt: false
+triggers:
+- project media

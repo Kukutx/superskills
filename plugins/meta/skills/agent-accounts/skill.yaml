@@ -1,0 +1,8 @@
+name: agent-accounts
+title: Agent Accounts
+description: Manage accounts per AI CLI tool, recognise quota limits, ask once before switching and offload helper tasks to a free-quota agent. Use when a tool hits its limit, not for choosing models.
+category: meta
+include_in_prompt: false
+triggers:
+- agent accounts
+- a tool hits its limit

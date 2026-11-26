@@ -1,0 +1,7 @@
+name: site-release
+title: Site Release
+description: Ship a site change end to end through shared and personal branches, checks by change kind, local preview, CI gates and live verification. Not for a generic go or no-go gate.
+category: operations
+include_in_prompt: false
+triggers:
+- site release
