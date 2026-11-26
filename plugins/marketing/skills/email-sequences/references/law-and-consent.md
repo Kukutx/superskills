@@ -1,0 +1,5 @@
+# Law and consent
+
+For commercial email to recipients in the United States, the FTC's CAN-SPAM compliance guide (read October 2026) requires: accurate "From", "To" and routing information; a subject line that is not deceptive; identification of the message as an advertisement; a valid physical postal address; a clear way to opt out that works for at least 30 days after sending; opt-outs honoured within 10 business days, with no fee and no information demanded beyond the email address; and responsibility for anything a third party sends on the sender's behalf. It makes no exception for business-to-business email. Transactional and relationship messages are exempt from most of it. Penalties are counted per email; take the current amount from the FTC guide.
+
+Other countries have their own rules, including on whether prior consent is needed; they were not verified here. Before a sequence goes live, the user checks the law where the recipients are. Every draft carries an unsubscribe line and a postal-address placeholder.

@@ -55,20 +55,9 @@ Score each topic from 1 to 10 on four criteria and sort by the weighted sum. The
 
 A starting mix for the calendar is about 60% searchable, 30% shareable and 10% experiments; adjust it after the first results. Per piece, budget for several headline options and editing passes before counting how many pieces fit the period.
 
-## Planning from sales data
-
-For a shop asking what to promote this month:
-
-1. **Ask how "top performer" is measured before ranking**: revenue, margin, speed of sale or a mix. Revenue alone hides a high-margin, low-volume product; compute profit per unit from the user's own margins and compare the computed figures.
-2. Use the last 90 days. Sort products into top three to five, bottom three to five, rising over the last 30 days and falling.
-3. **Seasonal or one-off?** A good month can be the season, not the marketing. Decide which before recommending more of the same. The owner's own knowledge of their seasons outranks any industry pattern; state the assumed seasonality and ask whether it matches.
-4. **Check stock before recommending a push.** A product down to its last handful of units stays off the push list.
-5. A product with flat one-off sales and a growing subscriber base is promoted as a subscription, not as a single purchase.
-
-The brief has six short parts: summary, push hard (two or three products with a content angle each), hold steady, reposition or pause (discount, bundle, stop), seasonal opportunities, recommended offers.
+Planning from sales data is in [references/planning-from-sales-data.md](references/planning-from-sales-data.md).
 
 Community building is in [references/community.md](references/community.md).
-
 ## AI search
 
 AI-search visibility (how assistants crawl, understand and cite the site, and how to measure it) belongs to `marketing/seo-audit`, which owns the readability rules and the measurement method. This Skill only decides what to publish, not how it is read by assistants.
@@ -76,7 +65,7 @@ AI-search visibility (how assistants crawl, understand and cite the site, and ho
 ## Output
 
 - **Content plan**: the pillars with their reasons and subtopic clusters; a prioritised topic list (working title, searchable or shareable, format, target query and buyer stage, score, and the evidence it came from); the calendar mix for the period sized to the stated capacity; what was not measured.
-- **Shop brief**: the six parts above in 200 to 400 words, with the metric used for ranking stated at the top.
+- **Shop brief**: the six parts in [references/planning-from-sales-data.md](references/planning-from-sales-data.md), in 200 to 400 words, with the metric used for ranking stated at the top.
 - **Community plan**: platform and why, the shared identity, the weekly core action, the newcomer path, rituals, the first 90 days, and the health figures to watch.
 
 ## Constraints

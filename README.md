@@ -61,10 +61,10 @@ superskills/
 | --- | --- |
 | Claude Code | `claude plugin marketplace add Kukutx/superskills`，再 `claude plugin install superskills-<category>@superskills` |
 | Codex（CLI / App / IDE） | `codex plugin marketplace add Kukutx/superskills`，再 `codex plugin add superskills-<category>@superskills` |
-| Cursor、Gemini CLI、Copilot 等 | `npx skills add Kukutx/superskills --skill <skill>`（[`skills`](https://github.com/vercel-labs/skills) 安装器，按 Skill 名称选择） |
-| Muse | 把 `plugins/<category>/skills/<skill>/`（含 `SKILL.md` + 生成的 `skill.yaml`）复制到 `~/workspace/custom-skills/<skill>/`；见 [docs/multi-agent.md](docs/multi-agent.md)。development + personal + meta 三类（17 个）已导入，其余分类的批量导入未验证 |
+| Cursor、Antigravity CLI、Copilot 等 | `npx skills add Kukutx/superskills --skill <skill>`（[`skills`](https://github.com/vercel-labs/skills) 安装器，按 Skill 名称选择；Antigravity 用 `-a antigravity`，写到 `.agents/skills/`。Gemini CLI 个人用户已于 2026-06-18 停服，改用 Antigravity CLI） |
+| Muse | 把 `plugins/<category>/skills/<skill>/`（含 `SKILL.md` + 生成的 `skill.yaml`）复制到 `~/workspace/custom-skills/<skill>/`；见 [docs/multi-agent.md](docs/multi-agent.md)。124 个已于 2026-11-26 全部导入，122 个与仓库一致，social-publish/social-engagement 保留本地定制版 |
 | Antigravity (Gemini) | 把 Skill 镜像到工作区 `.agents/skills/`，或试 `agy plugin import claude`；见 [docs/multi-agent.md](docs/multi-agent.md)。未验证 |
-| Grok | 未验证，低优先级：据称可直接读 Claude Code marketplace，尚未用 `grok inspect` 核实；见 [docs/multi-agent.md](docs/multi-agent.md) |
+| Grok | 未验证，低优先级：路径有据可查（`.grok/skills/`、`~/.agents/skills/`，也读 Claude Code 的 Skill 文件夹），但本仓库未实测；“直接读 Claude Code marketplace”无依据，尚未用 `grok inspect` 核实；见 [docs/multi-agent.md](docs/multi-agent.md) |
 | claude.ai 网页 / 桌面 | 在 Customize > Plugins 选择 Add marketplace，填入 `https://github.com/Kukutx/superskills`，再安装需要的 `superskills-<category>`，无需下载；或用 `python tools/package_web_skills.py` 生成 `dist/claude-web/<skill>.zip`，在 Customize > Skills 逐个上传，每个 Release 也附带这些 ZIP。**未验证**：按分类的插件安装尚未在 claude.ai 上实际验证过（见下） |
 | ChatGPT | 通过 Plugins > Skills 安装单个 Skill，或提交公开插件目录（见 [docs/multi-agent.md](docs/multi-agent.md)）；ChatGPT Project 没有原生 Skill 注册表，手动上传需要的 `SKILL.md` 和 Router。Custom GPTs 已于 2026-12-11 退役，旧的 GPT runtime bundle 已随之删除 |
 
