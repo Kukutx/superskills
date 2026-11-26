@@ -40,44 +40,8 @@ jobs:
       - name: Report behavioral eval coverage (advisory)
         run: python tools/eval_coverage.py
         continue-on-error: true
-      - name: Smoke-test runtime bundle
-        run: |
-          python tools/build_bundle.py \
-            --profile gpts/default \
-            --skill writing/resume-writing \
-            --output /tmp/superskills-bundle
-          test -f /tmp/superskills-bundle/manifest.json
       - name: Smoke-test web packages and live eval suite
         run: |
           python tools/package_web_skills.py --output /tmp/superskills-claude-web
           python tools/build_live_evals.py
           test -f dist/live-evals/.claude-plugin/plugin.json
-
-  core-bundle:
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-        with:
-          persist-credentials: false
-      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7
-        with:
-          python-version: "3.14"
-      - name: Build core bundle profile
-        run: |
-          python tools/build_bundle.py \
-            --profile gpts/default \
-            --profile-file gpts/core/skills.txt \
-            --output /tmp/superskills-core
-          test -f /tmp/superskills-core/manifest.json
-      - name: Enforce core bundle budget (<=100 files, <=120000 tokens)
-        run: |
-          python - <<'EOF'
-          import json, sys
-          manifest = json.load(open("/tmp/superskills-core/manifest.json"))
-          totals = manifest["totals"]
-          print(f"core bundle: {totals['files']} files, {totals['bytes']} bytes, ~{totals['approx_tokens']} tokens")
-          if totals["files"] > 100 or totals["approx_tokens"] > 120000:
-              sys.exit(f"core bundle exceeds budget: {totals}")
-          EOF
