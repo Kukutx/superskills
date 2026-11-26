@@ -62,25 +62,10 @@ jobs:
             exit 1
           fi
 
-      - name: Build release bundle
+      - name: Build release packages
         run: |
-          python tools/build_bundle.py \
-            --profile gpts/default \
-            --all-skills \
-            --output dist/superskills-gpt-bundle
-          python - <<'PY'
-          import shutil
-
-          archive = shutil.make_archive(
-              "dist/superskills-gpt-bundle",
-              "zip",
-              root_dir="dist",
-              base_dir="superskills-gpt-bundle",
-          )
-          print(archive)
-          PY
           python tools/package_web_skills.py
-          (cd dist && sha256sum superskills-gpt-bundle.zip claude-web/*.zip > SHA256SUMS.txt)
+          (cd dist && sha256sum claude-web/*.zip > SHA256SUMS.txt)
 
       - name: Write release notes
         run: |
@@ -93,21 +78,18 @@ jobs:
           - truthful ATS-safe resume/CV writing;
           - one installable plugin per category for Claude Code and Codex (verified installs);
           - the same per-category plugins for claude.ai (Customize > Plugins), or one uploadable ZIP per Skill (Customize > Skills) -- per-category install on claude.ai is UNVERIFIED, only the pre-split single-plugin layout was ever installed there;
-          - a ChatGPT Project/GPT runtime bundle (UNVERIFIED: the ChatGPT web enablement flow has not been tested end-to-end);
           - one-primary-Skill routing and progressive disclosure;
           - calibrated verification with strict repository regression checks;
           - machine-readable behavioral eval export;
-          - reproducible runtime bundles;
           - Python 3.14 tooling and CI;
           - MIT licensing.
 
-          Included assets, bound to commit ${GITHUB_SHA}: every Skill as a claude.ai upload ZIP, and a ChatGPT Project/GPT runtime bundle with every Skill and runtime reference.
+          Included assets, bound to commit ${GITHUB_SHA}: every Skill as a claude.ai upload ZIP.
           EOF
 
       - name: Create release
         run: |
           gh release create "$VERSION" \
-            dist/superskills-gpt-bundle.zip \
             dist/claude-web/*.zip \
             dist/SHA256SUMS.txt \
             --target "$GITHUB_SHA" \
